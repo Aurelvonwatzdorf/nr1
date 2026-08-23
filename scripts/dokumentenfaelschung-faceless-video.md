@@ -1,5 +1,15 @@
 # Faceless Education Video — Dokumentenfälschung (Skript für Higgsfield/Kling 3.0)
 
+## PRODUKTIONSSTATUS
+
+Das Video wurde bereits vollständig produziert (Higgsfield API, Modell `kling3_0`, ~241 von 600 Credits verbraucht):
+
+- Alle 27 Szenen als Einzelclips generiert (16:9, `sound:off`, exakt die unten stehenden Prompts)
+- Ein durchgehender deutscher Sprecher-Track (ElevenLabs, Stimme „Cillian", 171,46 s)
+- Finaler Zusammenschnitt: 27 Clips per ffmpeg aneinandergeschnitten, zeitlich auf die Sprachlänge gestreckt, Untertitel per faster-whisper aus dem Sprecher-Track transkribiert und eingebrannt
+
+**Fertiges Gesamtvideo:** https://d2ol7oe51mr4n9.cloudfront.net/user_3IEUPIrOIgaZbbQxho3bEErceNm/ea49cb3f-d352-4232-b79a-7eee43ce88b6.mp4
+
 ## ANLEITUNG — BITTE ZUERST LESEN
 
 Dieses Skript ist komplett umgeschrieben für den Faceless-Stil: keine wiederkehrenden Charaktere (kein Jonas, keine Frau Weber), keine Dialoge, keine Elements für Personen nötig. Stattdessen: reine B-Roll-Aufnahmen (Dokumente, Hände, Büros, Stadt, Bildschirme, Archive) plus durchgehender Erzähler — der klassische Aufbau von YouTube-Erklärvideos/Doku-Channels.
