@@ -1,7 +1,8 @@
 # Spiegelrealitäten (Arbeitstitel)
 
-Third-Person-Action-RPG in Godot 4. Eine dystopische Welt, in der Konzerne
-Menschen in Illusionswelten sperren, die **Spiegelrealitäten**. Das komplette
+Open-World-Action-RPG in Godot 4 im Cartoon-Look (japanisch, mongolisch,
+Cyberpunk). Drei Ebenen: die normale Welt, die **Geisterwelt** und die
+**Spiegelrealitäten**, Illusionswelten, in die Konzerne Menschen sperren. Das komplette
 Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.md).
 
 > Der Ordner `scripts/` im Hauptverzeichnis enthält Video-Skripte und gehört
@@ -69,6 +70,8 @@ godot --headless --path game res://tests/smoke_test.tscn
 ```
 
 ## Roadmap
+
+> Wird gerade für Open World überarbeitet (Vorschlag in `CLAUDE.md`).
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen
 - ⬜ **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Tod/Respawn, Erinnerungen zurückholen

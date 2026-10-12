@@ -100,9 +100,10 @@ tests/       Headless-Rauchtests
 
 ---
 
-## 2. Genre & Gefühl
+## 2. Genre, Stil & Gefühl
 
-Third-Person-Action-RPG, inspiriert von Soulslikes (nur Inspiration):
+**Open-World**-Third-Person-Action-RPG: frei herumlaufen, Missionen machen, leveln.
+Kampf inspiriert von Soulslikes (nur Inspiration):
 - Ausdauerbasierter Kampf: leichter/schwerer Angriff, Ausweichrolle mit
   Unverwundbarkeitsfenstern (I-Frames), Blocken/Parieren, Lock-on,
   Treffer-Feedback (Hitstop, Kamerawackeln, Rückstoß).
@@ -112,7 +113,13 @@ Third-Person-Action-RPG, inspiriert von Soulslikes (nur Inspiration):
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
   Todesstelle zurückholen. Stirbt man vorher erneut, sind sie weg.
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
-- Düster und rätselhaft, harte, aber faire Gegner, Bosse mit mehreren Phasen.
+- Harte, aber faire Gegner, Bosse mit mehreren Phasen.
+
+**Stil:** Mischung aus **japanischem**, **mongolischem** und **Cyberpunk**-Stil, als
+**Cartoon-Look** (stilisiert, nicht realistisch: Toon-Shader, klare Formen,
+kräftige Farben). **Vegetation:** mystische Pflanzen, Bäume und Ranken, die in
+Symbiose mit der futuristischen Welt leben. (Verhältnis zu „düster und
+rätselhaft“ siehe Offene Entscheidungen.)
 
 ## 3. Welt & Story
 
@@ -124,10 +131,30 @@ Eine Gruppe von Freunden will nach oben und gerät selbst in die Spiegelrealitä
 In der gespielten Hauptfigur steckt der **Begleiter**, eine Helfer-Illusion, die
 Hinweise gibt und lehrt, hinter die Realität zu sehen.
 
-**Die Geisterwelt** ist eine ganz eigene Welt, getrennt von den
-Spiegelrealitäten, voller Geister und anderer Wesen. Man kann sie nicht einfach
-betreten: **Entweder Geister laden einen ein, oder man führt bestimmte, schwer
-durchführbare Rituale durch.** Hier lebt Rafa.
+### Drei Ebenen
+1. **Die normale Welt**: die Open World mit Karte, Städten, NPCs und Missionen.
+2. **Die Geisterwelt**: eine ganz eigene Welt voller Geister und anderer Wesen,
+   getrennt von den Spiegelrealitäten. Hier lebt Rafa. Man kommt nur auf zwei
+   Wegen hinein:
+   - **Einladung**: Geister erscheinen in der normalen Welt und **lassen die Zeit
+     stehen**. Nimmt man die Einladung an, holen sie einen ohne Probleme hinüber.
+   - **Ritual**: in bestimmten **Bergtempeln**. Der Weg dorthin ist immer sehr
+     schwer, und man braucht bestimmte Gegenstände, die man im Lauf des Spiels
+     gesammelt haben muss.
+3. **Die Spiegelrealitäten**: die Illusionswelten der Konzerne (siehe unten und
+   Abschnitt 6).
+
+### Karte, Regionen und Epochen
+- Eine **Weltkarte** mit verschiedenen **Ländern und Regionen**, in denen
+  **unterschiedliche Zeiten** herrschen, z. B. Mittelalter, Zukunft, Gegenwart,
+  Altes Ägypten.
+- Eine **Hauptstadt** im **Cyberpunk-Stil**.
+- **NPCs** laufen herum. Es gibt auch Wesen, denen man Schaden zufügen kann.
+
+### Spiritueller Druck
+Spirituelle Wesen strahlen **spirituellen Druck** aus. Man hält ihn nur aus, wenn
+man seine **Spiritualität** hoch genug gelevelt hat. Rafa hat den stärksten Druck
+von allen. Menschen mit schlechter spiritueller Kompatibilität halten ihn nicht aus.
 
 **Kernregel:** Eine Realität verlässt man nur, wenn man ihr Ziel erfüllt ODER die
 Illusion durchschaut und bricht. Jede Realität hat eigene Regeln, Optik und
@@ -166,15 +193,32 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
     man sich verhalten hat. Er urteilt nach der **Moral des Christentums**. Dann
     stellt er **drei Fragen**, die man nur wahrheitsgemäß beantworten kann.
     Daraus ergibt sich, ob man bestanden hat.
-  - **Nicht bestanden → Kampf gegen Rafa.**
+    - Die Fragen **beziehen sich auf das, was man mit der gespielten Figur
+      getan hat**, und passen sich der Figur an (Aurel und Tahirou bekommen
+      andere Fragen).
+    - Weil Rafa alles gesehen hat, weiß er, was stimmt. **Unwahre Antworten
+      sind ausgegraut.**
+  - **Nicht bestanden → Kampf gegen Rafa.** Mit körperlicher Kraft ist er
+    **nicht zu besiegen**. Die **einzige** Möglichkeit: den Kampf so lange
+    aushalten, bis man ihn **manipuliert** hat. Wer verliert, wird am **letzten
+    Checkpoint** wiederbelebt.
   - **Nach dem Kampf** hört er sich die Bitte an und entscheidet, ob er hilft.
     Er hilft **nur, wenn die Bitte seiner Moral entspricht**. Er ist also kein
     Verbündeter, den man beliebig einsetzen kann.
+  - **Wie er hilft**: Er setzt seine **Geisterkräfte** ein, allen voran seinen
+    spirituellen Druck. Beispiel: In Kriegsgebieten rufen ihn manche. Er tötet
+    die Angreifer sofort, bleibt danach aber eine Weile, bevor er verschwinden
+    kann, und richtet großen Schaden an. Seine Hilfe hat also Folgen.
+  - **Daniel** ist der Einzige, der ihn beruhigen kann.
 - **Adam**: Araber, Muslim, trägt eine Galabiya. Schlitzohr und Genie. Bewegt sich
   mühelos durch Spiegelrealitäten und kann selbst Realitäten erschaffen. Gibt
   Hinweise, öffnet Abkürzungen, erschafft im Finale die Illusion für den
   Konzernboss. Nie ganz durchschaubar, aber am Ende auf der Seite der Gruppe.
   Später herbeirufbar.
+
+- **Daniel**: Rafas Bruder. Kann **Holz bändigen** (Bäume, Wurzeln und Ranken
+  wachsen lassen und formen). Eher eine **Hintergrundfigur**, aber der
+  **Einzige, der Rafa beruhigen kann**.
 
 ### Weitere Figuren
 - **Der Begleiter**: Helfer-Illusion im Kopf der gewählten Figur, kurze Textzeilen.
@@ -182,6 +226,10 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
   Kopiert im Finale das Gesicht des Bosses für Adams Illusion.
 - **Die Konzernhelden**: kontrollierte Vollstrecker, Mini-Bosse.
 - **Der Konzernboss**: Endgegner, Meister der Illusionen.
+- **Caspar**: verleiht Geld (Kredite). Man kann sich bei ihm verschulden.
+  Zahlt man nicht zurück, schickt er immer wieder **Assassinen**, und je länger
+  die Schulden offen sind, desto stärker werden sie. (Aussehen und Hintergrund
+  noch offen, siehe Offene Entscheidungen.)
 
 ## 5. Kernmechaniken
 1. **Realitätsblick** (Q): kostet Fokus und zeigt kurz die wahre Welt: versteckte
@@ -204,10 +252,25 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
    Verhalten + drei Fragen, nur wahre Antworten möglich) → bestanden: Bitte
    vortragen / nicht bestanden: Kampf, danach Bitte vortragen → Rafa entscheidet
    nach seiner Moral, ob er hilft.
-7. **Moral-Gedächtnis**: Das Spiel schreibt von Anfang an mit, wie man sich
-   verhält. Grundlage für Rafas Prüfung.
+7. **Moral-Gedächtnis**: Das Spiel misst von Anfang an, wie gut oder schlecht man
+   als Mensch war. Gute Taten steigern den Wert, z. B. **einer Oma über die Straße
+   helfen** oder **Kranken Heilung geben**. Bewertet nach christlichen Werten:
+   Nächstenliebe, Barmherzigkeit, Ehrlichkeit, Vergebung, Demut, Schwache
+   schützen. Gegenteil: Grausamkeit, Gier, Rache an Wehrlosen. Für den Spieler
+   unsichtbar. Grundlage für Rafas Prüfung.
+8. **Stats & Leveln**: verschiedene Werte, die man einzeln levelt, u. a.
+   - **Spiritualität**: levelt man durch **Beten** in Tempeln und Kirchen und
+     durch bestimmte Missionen. Nötig, um spirituellen Druck auszuhalten.
+   - **Physische Stärke** mit Unterwerten wie **Schnelligkeit** usw.
+9. **Artefakte**: verbessern eine bestimmte Fähigkeit, ähnlich wie ein Heiltrank.
+10. **Missionen**: Haupt- und Nebenmissionen in der Open World, auch kleine
+    Hilfe-Missionen für die Moral.
+11. **Schulden bei Caspar**: Kredit aufnehmen, Schulden wachsen, Assassinen jagen
+    einen, solange man nicht zurückzahlt (sie werden mit der Zeit stärker).
 
-## 6. Realitäten (Level)
+## 6. Spiegelrealitäten (Story-Level)
+Die Spiegelrealitäten sind die dritte Ebene. Man betritt sie von der Open World
+aus. (Wie genau, siehe Offene Entscheidungen.)
 1. **Der Konzernturm** (Tutorial): sterile Bürowelt, Kampf lernen. Am Ende ist der
    Turm selbst eine Illusion. Erste Begegnung mit Adam.
 2. **Das Gehege der Schweine**: grausame Welt mit monströsen Schweinewesen, die
@@ -239,6 +302,10 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
 
 ## 8. Roadmap
 Status: ⬜ offen · 🟨 in Arbeit · ✅ fertig
+
+> **Achtung:** Diese Roadmap stammt noch aus der Zeit vor Open World, drei Ebenen,
+> Stats und NPCs. Ein Vorschlag für eine neue Roadmap steht unter Offene
+> Entscheidungen, Punkt 5. Bis der Nutzer zustimmt, gilt die alte.
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen: Projekt, Input Map, Spielfigur
   mit Third-Person-Kamera, Bewegung relativ zur Kamera, Sprint, Ausweichrolle mit
@@ -277,28 +344,52 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - Tahirou: ruhig, abwartend, präzise. Ressource „Ruhe“. Äste: Klarheit
      (Illusionen/Schwachstellen sehen), Konter (Paraden, Gegenangriffe),
      Fluss (Bewegung, Ausweichen).
-3. **Rafa und die Geisterwelt**: Grundlagen **entschieden** (Abschnitte 3 bis 5).
-   Noch offen:
-   - **Was zählt für die Moral?** Vorschlag nach christlichen Werten:
-     Nächstenliebe (Fremden helfen, Gefangene retten), Barmherzigkeit (Besiegte
-     verschonen), Ehrlichkeit (nicht lügen/betrügen), Vergebung (Verrat nicht
-     rächen), Demut (Macht nicht missbrauchen), Schwache schützen. Gegenteil:
-     Grausamkeit, Gier, Rache an Wehrlosen. Unsichtbar für den Spieler.
-   - **Respekt-Regel (Vorschlag)**: Rafa beurteilt Taten, nicht den Glauben. Ein
-     muslimischer Tahirou wird nicht schlechter beurteilt als ein christlicher
-     Aurel. Rafa predigt nicht, er fragt und urteilt.
-   - **Die drei Fragen**: Feste Fragen oder passend zum eigenen Verhalten? Vorschlag:
-     Rafa wählt die drei Momente, die am meisten über einen aussagen. Antworten
-     bestehen aus Möglichkeiten, die nur die Wahrheit zulassen (unwahre Antworten
-     sind ausgegraut, oder die Figur kann sie nicht aussprechen).
-   - **Kampf gegen das mächtigste Wesen**: Kann man ihn überhaupt besiegen?
-     Vorschlag: Ziel ist nicht siegen, sondern bestehen (eine Zeit lang
-     standhalten oder ihn einmal würdig treffen). Was passiert bei einer
-     Niederlage: einfach Tod wie sonst, oder eigene Folgen?
-   - **Ritual und Einladung**: Welche Rituale (Gegenstände, Orte, Bedingungen)?
-     Wer lädt einen ein und warum?
-   - **Wie hilft Rafa konkret?** Einmaliger Auftritt (z. B. in einem Bosskampf),
-     ein Rat, ein Geschenk? Wie oft darf man ihn bitten?
-   - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6),
-     oder kommt dort jetzt etwas anderes hin?
+3. **Rafa und die Geisterwelt**: Moralwerte, Fragen, Kampf, Einladung, Ritual und
+   Hilfe sind **entschieden** (Abschnitte 3 bis 5). Noch offen:
+   - **Respekt-Regel (Vorschlag)**: Rafa beurteilt Taten, nicht den Glauben.
+     Ein muslimischer Tahirou wird nicht schlechter beurteilt als ein
+     christlicher Aurel. Rafa predigt nicht, er fragt und urteilt.
+   - **Wie „manipuliert“ man Rafa im Kampf?** Vorschlag: Während man standhält,
+     kann man ihn ansprechen. Die richtigen Worte (passend zu dem, was man über
+     Rafa und Daniel herausgefunden hat) bringen ihn ins Zögern. Nach genug
+     Zögern bricht er den Kampf ab.
+   - **Welche Gegenstände braucht das Ritual?** Und wo liegen die Bergtempel?
+   - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6)?
 4. **Spieltitel**: noch offen (Arbeitstitel „Spiegelrealitäten“).
+5. **Neue Roadmap (Vorschlag)**: Open World nicht auf einmal, sondern erst eine
+   Region komplett, dann erweitern.
+   - M1 ✅ Spieler & Kampf-Grundlagen
+   - M2 Gegner-KI, Lock-on, Treffer-Feedback, Tod/Respawn am Checkpoint, Erinnerungen
+   - M3 Stats & Level-Up (Körper + Spiritualität), Speichern/Laden, Checkpoints,
+     Heiltränke, Artefakte, Inventar
+   - M4 NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen)
+   - M5 Charakterauswahl, Fähigkeitenbäume
+   - M6 Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt), Karte,
+     Cartoon-Look/Toon-Shader
+   - M7 Spiegelrealitäten: Realitätsblick, Riss, Verankerung, „Konzernturm“, Adam
+   - M8 Geisterwelt: Einladung (Zeit steht still), Tempel und Gebet, spiritueller
+     Druck, Rituale
+   - M9 Rafa: Prüfung, Kampf, Bitte; Daniel
+   - M10 Caspar & Schulden-Assassinen, weitere Missionen
+   - M11+ weitere Regionen/Epochen, „Gehege der Schweine“, Spiegelstadt
+   - M12 Finale „Der Coup“, Hauptmenü, Sound, Feinschliff
+6. **Stimmung**: Cartoon-Look und die alte Vorgabe „düster und rätselhaft“
+   vertragen sich nur, wenn man es bewusst so macht (z. B. bunter Cartoon-Stil in
+   der normalen Welt, düsterer in Spiegelrealitäten und Geisterwelt). Was soll
+   gelten?
+7. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
+   eine Spiegelrealität? Wie hängt die Epochen-Karte mit Konzernen und
+   Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
+   Illusionen)?
+8. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
+   Schnelligkeit, Ausdauer, Widerstand) und Geist (Spiritualität, Fokus).
+   Wie levelt man Körperwerte: mit Erinnerungen wie bisher, oder durch Training?
+9. **Artefakte**: dauerhafte Verbesserung (einmal benutzt, für immer stärker) oder
+   zeitlich begrenzt wie ein Trank?
+10. **Gebetsorte**: Tempel und Kirchen. Vorschlag: auch Moscheen, weil Tahirou und
+    Adam Muslime sind.
+11. **Caspar**: Mechanik (Kredit, Schulden, Assassinen) ist entschieden. Aussehen
+    und Hintergrund **bewusst noch nicht eingetragen**: Die Kombination aus
+    jüdisch, große Nase und gieriger Geldverleiher ist ein bekanntes
+    antisemitisches Feindbild und widerspricht der Regel in Abschnitt 4. Der
+    Nutzer entscheidet zwischen Alternativen (siehe Chat).
