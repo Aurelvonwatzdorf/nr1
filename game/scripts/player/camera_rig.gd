@@ -12,6 +12,10 @@ extends Node3D
 @export_range(0.0, 89.0) var max_pitch_degrees: float = 35.0
 ## Wie schnell die Kamera beim Lock-on zum Ziel schwenkt.
 @export var lock_on_turn_speed: float = 8.0
+## Maximale Verschiebung beim Kamerawackeln (Meter).
+@export var max_shake_offset: float = 0.35
+## Wie schnell das Wackeln abklingt (pro Sekunde).
+@export var shake_decay: float = 2.5
 ## Augenhöhe über dem Fuß der Figur.
 @export var height_offset: float = 1.5
 @export var follow_speed: float = 14.0
@@ -28,6 +32,9 @@ var _target: Node3D
 var _lock_target: Node3D
 var _yaw: float = 0.0
 var _pitch: float = deg_to_rad(-20.0)
+## Aktuelle Wackelstärke 0 bis 1 („Trauma“).
+var _trauma: float = 0.0
+var _shake_time: float = 0.0
 
 
 func _ready() -> void:
@@ -40,6 +47,7 @@ func _ready() -> void:
 	_yaw = _target.global_rotation.y
 	global_position = _target.global_position + Vector3.UP * height_offset
 	set_capturing(true)
+	EventBus.camera_shake_requested.connect(shake)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -73,6 +81,22 @@ func _process(delta: float) -> void:
 
 	var target_position := _target.get_global_transform_interpolated().origin + Vector3.UP * height_offset
 	global_position = global_position.lerp(target_position, 1.0 - exp(-follow_speed * delta))
+	_update_shake(delta)
+
+
+## Kamera wackeln lassen. Mehrere Aufrufe addieren sich (max. 1).
+func shake(strength: float) -> void:
+	_trauma = minf(_trauma + strength, 1.0)
+
+
+func _update_shake(delta: float) -> void:
+	# Echte Zeit nutzen, damit das Wackeln auch während des Hitstops läuft.
+	var real_delta := delta / maxf(Engine.time_scale, 0.001)
+	_trauma = maxf(_trauma - shake_decay * real_delta, 0.0)
+	_shake_time += real_delta
+	var amount := _trauma * _trauma * max_shake_offset
+	camera.h_offset = sin(_shake_time * 47.0) * amount
+	camera.v_offset = cos(_shake_time * 39.0) * amount
 
 
 ## Drehung links/rechts als Basis, um Eingaben relativ zur Kamera umzurechnen.

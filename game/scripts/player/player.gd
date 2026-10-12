@@ -34,6 +34,7 @@ func _ready() -> void:
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
+	hitbox.hit_landed.connect(_on_hit_landed)
 	state_machine.start(self)
 	EventBus.player_spawned.emit(self)
 
@@ -138,7 +139,16 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	if health.is_dead or result != Hurtbox.Result.HIT:
 		return
 	last_hit = hit
+	EventBus.camera_shake_requested.emit(0.5)
+	HitStop.apply(0.08)
 	state_machine.transition_to(&"hurt")
+
+
+## Eigener Treffer: kurzer Hitstop und leichtes Wackeln, stärker bei viel Schaden.
+func _on_hit_landed(_target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> void:
+	var heavy := hit.damage >= 20.0
+	HitStop.apply(0.09 if heavy else 0.05)
+	EventBus.camera_shake_requested.emit(0.3 if heavy else 0.15)
 
 
 func _on_died() -> void:

@@ -11,6 +11,8 @@ signal player_spawned(player: Player)
 signal player_died(player: Player)
 ## Die Spielfigur wurde am Checkpoint wiederbelebt.
 signal player_respawned(player: Player)
+## Die Kamera soll wackeln (0.0 bis 1.0, 1 = sehr stark).
+signal camera_shake_requested(strength: float)
 ## Irgendein Ziel hat Schaden genommen (z. B. für Statistiken oder Tutorials).
 signal damage_dealt(target: Node, amount: float)
 ## Ein Gegner wurde besiegt.

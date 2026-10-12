@@ -11,6 +11,8 @@ var _failures: int = 0
 
 
 func _ready() -> void:
+	# Hitstop verlangsamt die Zeit, das würde die Frame-Zählung im Test verfälschen.
+	HitStop.enabled = false
 	_run.call_deferred()
 
 
@@ -113,6 +115,14 @@ func _run() -> void:
 	_check(guard.state_machine.get_current_state_name() in [&"idle", &"chase"] and guard.health.current == guard.health.max_value, "Gegner lässt sich zurücksetzen")
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(5)
+
+	# Hitstop: verlangsamt kurz und stellt die Zeit wieder her
+	HitStop.enabled = true
+	HitStop.apply(0.05)
+	_check(Engine.time_scale < 1.0, "Hitstop verlangsamt die Zeit")
+	await get_tree().create_timer(0.1, true, false, true).timeout
+	_check(is_equal_approx(Engine.time_scale, 1.0), "Nach dem Hitstop läuft die Zeit normal")
+	HitStop.enabled = false
 
 	# Lock-on: nächstes Ziel vor der Kamera, zweiter Druck löst
 	await _tap(&"lock_on")
