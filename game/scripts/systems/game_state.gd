@@ -13,6 +13,9 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 ## Gewählte Figur. `null` heißt: Die Spielfigur nimmt die im Inspector eingestellte.
 var selected_character: CharacterData = null
 
+## Stats der Spielfigur (Stärke, Schnelligkeit …).
+var stats: PlayerStats = PlayerStats.new()
+
 ## Wo die Spielfigur nach dem Tod wiederbelebt wird.
 var checkpoint_transform: Transform3D = Transform3D.IDENTITY
 var has_checkpoint: bool = false
@@ -31,6 +34,19 @@ func select_character(id: StringName) -> bool:
 		return false
 	selected_character = load(CHARACTER_PATHS[id]) as CharacterData
 	return selected_character != null
+
+
+## Gibt Erinnerungen aus, um einen Stat zu erhöhen. Gibt false zurück, wenn
+## es nicht geht (zu wenig Erinnerungen oder Stat nicht so levelbar).
+func try_level_up(stat: StringName) -> bool:
+	if not stat in PlayerStats.LEVELABLE:
+		return false
+	var cost := stats.get_level_up_cost()
+	if memories < cost:
+		return false
+	memories -= cost
+	stats.increase(stat)
+	return true
 
 
 func set_checkpoint(at: Transform3D) -> void:

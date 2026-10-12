@@ -210,6 +210,29 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Stats: Leveln mit Erinnerungen, abgeleitete Werte
+	var stats := GameState.stats
+	_check(stats.get_level() == 1 and stats.get_level_up_cost() == 100, "Start: Stufe 1, nächste Stufe kostet 100")
+	GameState.memories = 50
+	_check(not GameState.try_level_up(&"strength"), "Zu wenig Erinnerungen: kein Level-Up")
+	GameState.memories = 1000
+	_check(GameState.try_level_up(&"resistance") and GameState.memories == 900, "Level-Up kostet 100 Erinnerungen")
+	_check(is_equal_approx(player.health.max_value, 108.0), "Widerstand +1 gibt +8 Leben (max: %s)" % player.health.max_value)
+	_check(stats.get_level_up_cost() == 112, "Nächste Stufe ist teurer (112)")
+	_check(not GameState.try_level_up(&"spirituality"), "Spiritualität lässt sich nicht mit Erinnerungen leveln")
+	GameState.try_level_up(&"strength")
+	dummy.health.revive()
+	player.global_position = Vector3(0.0, 0.05, -2.5)
+	player.rotation = Vector3.ZERO
+	await _frames(10)
+	await _tap(&"attack_light")
+	await _frames(45)
+	_check(is_equal_approx(dummy.health.current, 200.0 - 12.6), "Stärke +1 gibt +5 %% Schaden (Puppe: %s)" % dummy.health.current)
+	GameState.stats.from_dict({})
+	GameState.memories = 0
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(3)
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()

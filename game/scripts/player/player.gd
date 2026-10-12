@@ -31,6 +31,7 @@ func _ready() -> void:
 	assert(character_data != null, "Player braucht eine CharacterData (Inspector).")
 	add_to_group(&"player")
 	_apply_character_data()
+	GameState.stats.changed.connect(_apply_stats)
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
@@ -107,13 +108,20 @@ func snap_towards(direction: Vector3) -> void:
 		rotation.y = atan2(-direction.x, -direction.z)
 
 
+## Schaden-Faktor aus den Stats (Stärke).
+func get_damage_multiplier() -> float:
+	return GameState.stats.get_damage_multiplier()
+
+
+## Tempo-Faktor aus den Stats (Schnelligkeit).
+func get_speed_multiplier() -> float:
+	return GameState.stats.get_speed_multiplier()
+
+
 func _apply_character_data() -> void:
 	var data := character_data
-	health.set_max_value(data.max_health)
-	stamina.set_max_value(data.max_stamina)
-	stamina.regen_per_second = data.stamina_regen_per_second
 	stamina.regen_delay = data.stamina_regen_delay
-	focus.set_max_value(data.max_focus)
+	_apply_stats(true)
 	if data.model_scene:
 		# Später: echtes Modell statt Kapsel einsetzen.
 		body_mesh.visible = false
@@ -151,6 +159,16 @@ func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
 	hit.damage -= absorbed
 	stamina.consume(absorbed * data.block_stamina_per_damage)
 	return Hurtbox.Result.BLOCKED
+
+
+## Rechnet Leben, Ausdauer und Fokus aus Grundwerten und Stats neu aus.
+func _apply_stats(refill: bool = false) -> void:
+	var data := character_data
+	var stats := GameState.stats
+	health.set_max_value(stats.get_max_health(data.max_health), refill)
+	stamina.set_max_value(stats.get_max_stamina(data.max_stamina), refill)
+	stamina.regen_per_second = stats.get_stamina_regen(data.stamina_regen_per_second)
+	focus.set_max_value(stats.get_max_focus(data.max_focus), refill)
 
 
 func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:

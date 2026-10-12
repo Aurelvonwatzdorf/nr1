@@ -59,7 +59,7 @@ func physics_update(delta: float) -> void:
 func _update_phase() -> void:
 	if _phase == Phase.STARTUP and _time >= _attack.startup_time:
 		_phase = Phase.ACTIVE
-		player.hitbox.activate(_attack.damage, _attack.knockback)
+		player.hitbox.activate(_attack.damage * player.get_damage_multiplier(), _attack.knockback)
 	if _phase == Phase.ACTIVE and _time >= _attack.startup_time + _attack.active_time:
 		_phase = Phase.RECOVERY
 		player.hitbox.deactivate()
