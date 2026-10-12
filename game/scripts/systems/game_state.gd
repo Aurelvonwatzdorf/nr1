@@ -13,6 +13,10 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 ## Gewählte Figur. `null` heißt: Die Spielfigur nimmt die im Inspector eingestellte.
 var selected_character: CharacterData = null
 
+## Wo die Spielfigur nach dem Tod wiederbelebt wird.
+var checkpoint_transform: Transform3D = Transform3D.IDENTITY
+var has_checkpoint: bool = false
+
 ## Währung „Erinnerungen“.
 var memories: int = 0:
 	set(value):
@@ -27,6 +31,11 @@ func select_character(id: StringName) -> bool:
 		return false
 	selected_character = load(CHARACTER_PATHS[id]) as CharacterData
 	return selected_character != null
+
+
+func set_checkpoint(at: Transform3D) -> void:
+	checkpoint_transform = at
+	has_checkpoint = true
 
 
 ## Speicherbare Daten als Dictionary (wird von SaveSystem genutzt).

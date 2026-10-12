@@ -169,6 +169,47 @@ func _run() -> void:
 	await _tap(&"lock_on")
 	_check(player.get_lock_target() == null, "Zweiter Druck löst den Lock-on")
 
+	# Tod: Erinnerungen bleiben liegen, Wiederbelebung am Checkpoint
+	var manager: RespawnManager = arena.get_node("RespawnManager")
+	manager.respawn_delay = 0.5
+	var start_checkpoint := GameState.checkpoint_transform
+	GameState.memories = 120
+	player.global_position = Vector3(5.0, 0.05, 0.0)
+	await _frames(5)
+	player.health.take_damage(1000.0)
+	await _frames(3)
+	_check(player.state_machine.get_current_state_name() == &"dead", "Figur stirbt")
+	var remnant := manager.get_remnant()
+	_check(remnant != null and remnant.amount == 120 and GameState.memories == 0, "120 Erinnerungen bleiben an der Todesstelle liegen")
+	await get_tree().create_timer(0.8).timeout
+	_check(not player.health.is_dead and player.state_machine.get_current_state_name() == &"idle", "Figur wird wiederbelebt")
+	_check(player.global_position.distance_to(start_checkpoint.origin) < 0.5, "Wiederbelebung am Checkpoint")
+	_check(guard.state_machine.get_current_state_name() == &"idle" and guard.global_position.distance_to(guard.home_transform.origin) < 0.5, "Gegner werden zurückgesetzt")
+
+	# Erinnerungen zurückholen
+	player.global_position = remnant.global_position - Vector3.UP * 0.6
+	await _frames(5)
+	_check(GameState.memories == 120 and manager.get_remnant() == null, "Erinnerungen an der Todesstelle zurückgeholt")
+
+	# Zweimal sterben: die alten Erinnerungen sind weg
+	GameState.memories = 30
+	player.global_position = Vector3(5.0, 0.05, 0.0)
+	await _frames(3)
+	player.health.take_damage(1000.0)
+	await get_tree().create_timer(0.8).timeout
+	player.health.take_damage(1000.0)
+	await _frames(3)
+	_check(manager.get_remnant() == null and GameState.memories == 0, "Erneuter Tod: alte Erinnerungen endgültig verloren")
+	await get_tree().create_timer(0.8).timeout
+
+	# Checkpoint aktivieren
+	var checkpoint: Checkpoint = arena.get_node("Checkpoints/CheckpointWest")
+	player.global_position = checkpoint.global_position + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	_check(checkpoint.is_active(), "Durchlaufen aktiviert den Checkpoint")
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(3)
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()

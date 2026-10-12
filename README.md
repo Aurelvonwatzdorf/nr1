@@ -30,8 +30,8 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Ausweichen | Leertaste | B |
 | Leichter Angriff | Linksklick | RB |
 | Schwerer Angriff | Shift + Linksklick | RT |
-| Blocken *(ab M2)* | Rechtsklick | LB |
-| Lock-on *(ab M2)* | Mittelklick / Tab | R3 |
+| Blocken (im richtigen Moment: Parieren) | Rechtsklick | LB |
+| Lock-on | Mittelklick / Tab | R3 |
 | Realitätsblick *(ab M5)* | Q | Y |
 | Interagieren *(ab M3)* | E | A |
 | Heiltrank *(ab M3)* | R | X |
@@ -72,7 +72,7 @@ godot --headless --path game res://tests/smoke_test.tscn
 ## Roadmap
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen
-- 🟨 **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Blocken, Tod/Respawn, Erinnerungen
+- ✅ **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Blocken, Tod/Respawn, Erinnerungen
 - ⬜ **M3**: Stats & Level-Up, Speichern/Laden, Checkpoints, Heiltränke, Artefakte, Inventar
 - ⬜ **M4**: NPCs, Missionen, Moral-Gedächtnis
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume

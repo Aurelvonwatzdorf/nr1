@@ -7,12 +7,51 @@ extends CanvasLayer
 @onready var stamina_bar: ProgressBar = %StaminaBar
 @onready var focus_bar: ProgressBar = %FocusBar
 @onready var pause_label: Label = %PauseLabel
+@onready var memories_label: Label = %MemoriesLabel
+@onready var death_label: Label = %DeathLabel
+@onready var message_label: Label = %MessageLabel
 
 var _player: Player
+var _message_tween: Tween
+
+
+func _ready() -> void:
+	death_label.modulate.a = 0.0
+	message_label.modulate.a = 0.0
+	_on_memories_changed(GameState.memories)
+	EventBus.memories_changed.connect(_on_memories_changed)
+	EventBus.player_died.connect(_on_player_died)
+	EventBus.player_respawned.connect(_on_player_respawned)
+	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Checkpoint aktiviert"))
+	EventBus.memories_recovered.connect(func(amount: int) -> void: show_message("%d Erinnerungen zurückgeholt" % amount))
+	EventBus.memories_lost.connect(func(amount: int) -> void: show_message("%d Erinnerungen für immer verloren" % amount))
 
 
 func _process(_delta: float) -> void:
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing
+
+
+## Kurze Meldung in der Bildschirmmitte, die von selbst verschwindet.
+func show_message(text: String) -> void:
+	message_label.text = text
+	if _message_tween and _message_tween.is_valid():
+		_message_tween.kill()
+	_message_tween = create_tween()
+	_message_tween.tween_property(message_label, "modulate:a", 1.0, 0.2)
+	_message_tween.tween_interval(2.0)
+	_message_tween.tween_property(message_label, "modulate:a", 0.0, 0.6)
+
+
+func _on_memories_changed(amount: int) -> void:
+	memories_label.text = "Erinnerungen: %d" % amount
+
+
+func _on_player_died(_dead: Player) -> void:
+	create_tween().tween_property(death_label, "modulate:a", 1.0, 1.2)
+
+
+func _on_player_respawned(_player_node: Player) -> void:
+	create_tween().tween_property(death_label, "modulate:a", 0.0, 0.5)
 
 
 ## Verbindet die Balken mit den Komponenten der Spielfigur.

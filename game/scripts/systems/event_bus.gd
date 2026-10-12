@@ -17,5 +17,11 @@ signal camera_shake_requested(strength: float)
 signal damage_dealt(target: Node, amount: float)
 ## Ein Gegner wurde besiegt.
 signal enemy_killed(enemy: Enemy)
+## Ein Checkpoint wurde aktiviert (neuer Wiederbelebungsort).
+signal checkpoint_activated(checkpoint: Node3D)
+## Die verlorenen Erinnerungen wurden an der Todesstelle zurückgeholt.
+signal memories_recovered(amount: int)
+## Die Erinnerungen der vorherigen Todesstelle sind endgültig verloren.
+signal memories_lost(amount: int)
 ## Die Währung „Erinnerungen“ hat sich geändert.
 signal memories_changed(amount: int)

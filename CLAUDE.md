@@ -51,11 +51,11 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 
 ### Ordnerstruktur (`game/`)
 ```
-scenes/      player/, enemies/, levels/, ui/          (.tscn)
+scenes/      player/, enemies/, levels/, ui/, world/  (.tscn)
 scripts/     player/ (+ states/), enemies/, combat/, components/, realms/,
              ui/, systems/, characters/, state_machine/
 assets/      models/, materials/, audio/
-resources/   characters/, attacks/ …                  (.tres-Daten)
+resources/   characters/, attacks/, enemies/ …       (.tres-Daten)
 tests/       Headless-Rauchtests
 ```
 
@@ -75,6 +75,14 @@ tests/       Headless-Rauchtests
   (Mixamo/Blender) mit `AnimationTree` da ist, nutzt er dessen State Machine
   (`parameters/playback`). Die Spiellogik muss dafür nicht geändert werden.
 - **Platzhalter:** Kapseln, Boxen und einfache Materialien, bis echte Modelle kommen.
+- **Hitbox/Hurtbox** haben ein `team` (&"player"/&"enemy"); gleiches Team trifft
+  sich nicht. `Hurtbox.receive_hit()` liefert ein `Result` (IGNORED, HIT, BLOCKED,
+  PARRIED); Blocken/Parieren entscheidet `hurtbox.hit_filter` des Besitzers.
+- **Anvisierbar** ist alles in der Gruppe `lock_on_targets` mit `is_targetable()`
+  und `get_lock_on_point()`. Gegner sind in der Gruppe `enemies` und haben
+  `reset_enemy()` (wird nach dem Tod der Spielfigur aufgerufen).
+- **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
+  `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
   wenn `player.is_input_enabled()` (Maus gefangen, kein Menü offen).
 
@@ -318,9 +326,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   mit Third-Person-Kamera, Bewegung relativ zur Kamera, Sprint, Ausweichrolle mit
   I-Frames, leichter und schwerer Angriff mit Hitbox, Ausdauer mit Regeneration,
   Figur als Daten-Resource, HUD (Leben/Ausdauer/Fokus), Testarena mit Trainingspuppe.
-- 🟨 **M2**: Gegner-KI mit State Machine, Lock-on, Treffer-Feedback (Hitstop,
-  Kamerawackeln, Rückstoß), Blocken, Tod & Respawn am Checkpoint, Erinnerungen
-  verlieren und zurückholen.
+- ✅ **M2**: Gegner-KI mit State Machine (Konzernwache: warten, verfolgen,
+  angekündigter Angriff, taumeln, zurückkehren, tot), Lock-on, Treffer-Feedback
+  (Hitstop, Kamerawackeln, Rückstoß), Blocken & Parieren, Tod & Respawn am
+  Checkpoint, Erinnerungen verlieren und zurückholen.
 - ⬜ **M3**: Stats & Level-Up (Körper + Spiritualität), Speichern/Laden,
   Checkpoints/Ankerspiegel, Heiltränke, Artefakte (verbrauchbar/dauerhaft), Inventar.
 - ⬜ **M4**: NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen).
