@@ -77,6 +77,6 @@ godot --headless --path game res://tests/smoke_test.tscn
 - ⬜ **M5**: Realitätsblick, Realitätsriss, Verankerung
 - ⬜ **M6**: Tutorial-Level „Konzernturm“, erster Boss, Adam
 - ⬜ **M7**: Tarnung/Verdacht, „Gehege der Schweine“, Boss „Mastmutter“
-- ⬜ **M8**: Verbündeten-System (Rafa & Adam), Dialogsystem
+- ⬜ **M8**: Verbündeten-System (Rafa & Adam), Dialogsystem, Rafas Prüfung
 - ⬜ **M9**: Spiegelstadt, Rafas Geschichte
 - ⬜ **M10**: Finale „Der Coup“, Hauptmenü, Sound, Feinschliff
