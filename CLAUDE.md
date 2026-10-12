@@ -116,8 +116,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   Unverwundbarkeitsfenstern (I-Frames), Blocken/Parieren, Lock-on,
   Treffer-Feedback (Hitstop, Kamerawackeln, Rückstoß).
 - Leben, Ausdauer, Fokus (Mana) als Balken.
-- **Ankerspiegel** (Rastpunkte): heilen, speichern, Heiltränke auffüllen, Gegner
-  respawnen, Level-Up, Verbündete wechseln.
+- **Ankerspiegel** (Rastpunkte): heilen, speichern, Gegner respawnen, Level-Up,
+  Verbündete wechseln. (Heiltränke werden dort **nicht** aufgefüllt.)
+- **Heiltränke** findet man in der Welt oder kauft sie.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
   Todesstelle zurückholen. Stirbt man vorher erneut, sind sie weg.
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
@@ -273,10 +274,14 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
    Nächstenliebe, Barmherzigkeit, Ehrlichkeit, Vergebung, Demut, Schwache
    schützen. Gegenteil: Grausamkeit, Gier, Rache an Wehrlosen. Für den Spieler
    unsichtbar. Grundlage für Rafas Prüfung.
-8. **Stats & Leveln**: verschiedene Werte, die man einzeln levelt, u. a.
-   - **Spiritualität**: levelt man durch **Beten** in Tempeln, Kirchen und
-     Moscheen und durch bestimmte Missionen. Nötig, um spirituellen Druck auszuhalten.
-   - **Physische Stärke** mit Unterwerten wie **Schnelligkeit** usw.
+8. **Stats & Leveln**: verschiedene Werte, die man einzeln levelt.
+   - **Körper** (vorläufig): **Stärke** (Schaden), **Schnelligkeit** (Tempo),
+     **Ausdauer** (Ausdauerbalken), **Widerstand** (Leben). Levelt man, indem
+     man **Erinnerungen am Ankerspiegel ausgibt**. Jede Stufe kostet mehr.
+   - **Geist** (vorläufig): **Fokus** (Fokusbalken, levelt wie Körper) und
+     **Spiritualität**. Spiritualität levelt man **nur** durch **Beten** in
+     Tempeln, Kirchen und Moscheen und durch bestimmte Missionen. Nötig, um
+     spirituellen Druck auszuhalten.
 9. **Artefakte**: verbessern eine bestimmte Fähigkeit. Zwei Arten:
    - **Verbrauchbar**: wirken einmal und sind dann weg, wie Tränke.
    - **Dauerhaft**: wirken für immer.
@@ -330,8 +335,9 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   angekündigter Angriff, taumeln, zurückkehren, tot), Lock-on, Treffer-Feedback
   (Hitstop, Kamerawackeln, Rückstoß), Blocken & Parieren, Tod & Respawn am
   Checkpoint, Erinnerungen verlieren und zurückholen.
-- ⬜ **M3**: Stats & Level-Up (Körper + Spiritualität), Speichern/Laden,
-  Checkpoints/Ankerspiegel, Heiltränke, Artefakte (verbrauchbar/dauerhaft), Inventar.
+- 🟨 **M3**: Stats & Level-Up (Erinnerungen am Ankerspiegel), Speichern/Laden,
+  Ankerspiegel, Pausenmenü, Heiltränke (finden), Artefakte (verbrauchbar/dauerhaft),
+  Inventar, Moral-Gedächtnis (Grundgerüst). Kaufen erst in M4 mit NPCs.
 - ⬜ **M4**: NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen).
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
@@ -377,6 +383,8 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    eine Spiegelrealität? Wie hängt die Epochen-Karte mit Konzernen und
    Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
    Illusionen)?
-6. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
-   Schnelligkeit, Ausdauer, Widerstand) und Geist (Spiritualität, Fokus).
-   Wie levelt man Körperwerte: mit Erinnerungen wie bisher, oder durch Training?
+6. **Stats**: Die Liste (Abschnitt 5, Punkt 8) ist vorläufig. Der Nutzer hat
+   nicht widersprochen, kann sie aber noch ändern.
+7. **Womit kauft man?** Mit Erinnerungen oder mit einer eigenen Währung (Geld)?
+   Caspar verleiht Geld, das spricht für eine eigene Währung. Kaufen kommt mit
+   den NPCs in M4.
