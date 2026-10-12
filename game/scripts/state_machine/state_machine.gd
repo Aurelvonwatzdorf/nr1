@@ -2,9 +2,10 @@ class_name StateMachine
 extends Node
 ## Endlicher Automat: genau ein Kind-Zustand ist aktiv.
 ##
-## Die Zustände sind Kind-Knoten (Typ State). Ihr Knotenname in Kleinbuchstaben ist
-## ihr Schlüssel, z. B. „Idle“ → &"idle". Der Besitzer ruft `physics_update()` selbst
-## auf, damit die Reihenfolge (Zustand → move_and_slide) eindeutig ist.
+## Die Zustände sind Kind-Knoten (Typ State). Ihr Knotenname in snake_case ist
+## ihr Schlüssel, z. B. „Idle“ → &"idle", „UseItem“ → &"use_item". Der Besitzer
+## ruft `physics_update()` selbst auf, damit die Reihenfolge (Zustand →
+## move_and_slide) eindeutig ist.
 
 signal state_changed(old_state: StringName, new_state: StringName)
 
@@ -20,7 +21,7 @@ func start(actor: Node) -> void:
 		if child is State:
 			var state := child as State
 			state.setup(actor, self)
-			_states[StringName(state.name.to_lower())] = state
+			_states[StringName(state.name.to_snake_case())] = state
 	current_state = initial_state
 	if current_state:
 		current_state.enter()
@@ -47,4 +48,4 @@ func transition_to(state_name: StringName, msg: Dictionary = {}) -> void:
 
 
 func get_current_state_name() -> StringName:
-	return StringName(current_state.name.to_lower()) if current_state else &""
+	return StringName(current_state.name.to_snake_case()) if current_state else &""

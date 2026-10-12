@@ -75,7 +75,7 @@ offset_right = 900.0
 offset_bottom = -24.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.6)
-text = "WASD bewegen · Maus Kamera · Shift sprinten · Leertaste ausweichen · Linksklick Angriff · Shift+Linksklick schwerer Angriff · Rechtsklick blocken · Tab Lock-on · E benutzen · Esc Menü"
+text = "WASD bewegen · Maus Kamera · Shift sprinten · Leertaste ausweichen · Linksklick Angriff · Shift+Linksklick schwerer Angriff · Rechtsklick blocken · Tab Lock-on · E benutzen · R Heiltrank · I Inventar · Esc Menü"
 
 [node name="PauseLabel" type="Label" parent="."]
 unique_name_in_owner = true
@@ -158,3 +158,16 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
+
+[node name="PotionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -104.0
+offset_right = 400.0
+offset_bottom = -72.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "Heiltränke: 0   [R]"

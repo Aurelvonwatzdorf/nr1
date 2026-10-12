@@ -24,6 +24,9 @@ extends CharacterBody3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
 var last_hit: HitData
+## Zeitlich begrenzter Schadens-Bonus (z. B. Kraftampulle).
+var damage_buff: float = 0.0
+var damage_buff_time_left: float = 0.0
 
 
 func _ready() -> void:
@@ -33,6 +36,7 @@ func _ready() -> void:
 	add_to_group(&"player")
 	_apply_character_data()
 	GameState.stats.changed.connect(_apply_stats)
+	GameState.inventory.changed.connect(_apply_stats)
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
@@ -47,6 +51,17 @@ func _physics_process(delta: float) -> void:
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
 	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
 		interaction_detector.current.interact(self)
+	if is_input_enabled() and Input.is_action_just_pressed(&"heal"):
+		var potion := GameState.inventory.find_healing_item()
+		if potion:
+			use_item(potion)
+		else:
+			EventBus.message_requested.emit("Keine Heiltränke")
+	if damage_buff_time_left > 0.0:
+		damage_buff_time_left -= delta
+		if damage_buff_time_left <= 0.0:
+			damage_buff = 0.0
+			EventBus.message_requested.emit("Die Wirkung lässt nach")
 	state_machine.physics_update(delta)
 	move_and_slide()
 
@@ -111,9 +126,34 @@ func snap_towards(direction: Vector3) -> void:
 		rotation.y = atan2(-direction.x, -direction.z)
 
 
-## Schaden-Faktor aus den Stats (Stärke).
+## Schaden-Faktor aus Stats (Stärke), dauerhaften Artefakten und Buffs.
 func get_damage_multiplier() -> float:
-	return GameState.stats.get_damage_multiplier()
+	return GameState.stats.get_damage_multiplier() \
+		+ GameState.inventory.get_permanent_bonus(&"bonus_damage") + damage_buff
+
+
+## Benutzt einen Gegenstand. Verbrauchbares wird erst getrunken (kurze Pause).
+## Gibt false zurück, wenn es gerade nicht geht.
+func use_item(item: ItemData) -> bool:
+	if not item.is_consumable() or not GameState.inventory.has(item.id):
+		return false
+	if not state_machine.get_current_state_name() in [&"idle", &"move"]:
+		return false
+	state_machine.transition_to(&"use_item", {"item": item})
+	return true
+
+
+## Wirkung eines verbrauchbaren Gegenstands anwenden und ihn abziehen.
+func apply_item_effect(item: ItemData) -> void:
+	if not GameState.inventory.remove(item.id):
+		return
+	health.heal(item.heal_amount)
+	focus.add(item.focus_amount)
+	stamina.add(item.stamina_amount)
+	if item.buff_damage_bonus > 0.0:
+		damage_buff = item.buff_damage_bonus
+		damage_buff_time_left = item.buff_duration
+		EventBus.message_requested.emit("+%d %% Schaden für %d s" % [roundi(item.buff_damage_bonus * 100.0), roundi(item.buff_duration)])
 
 
 ## Tempo-Faktor aus den Stats (Schnelligkeit).
@@ -152,6 +192,8 @@ func rest() -> void:
 func respawn(at: Transform3D) -> void:
 	global_transform = at
 	velocity = Vector3.ZERO
+	damage_buff = 0.0
+	damage_buff_time_left = 0.0
 	health.revive()
 	stamina.refill()
 	animator.reset_pose()
@@ -181,10 +223,11 @@ func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
 func _apply_stats(refill: bool = false) -> void:
 	var data := character_data
 	var stats := GameState.stats
-	health.set_max_value(stats.get_max_health(data.max_health), refill)
-	stamina.set_max_value(stats.get_max_stamina(data.max_stamina), refill)
+	var inventory := GameState.inventory
+	health.set_max_value(stats.get_max_health(data.max_health) + inventory.get_permanent_bonus(&"bonus_max_health"), refill)
+	stamina.set_max_value(stats.get_max_stamina(data.max_stamina) + inventory.get_permanent_bonus(&"bonus_max_stamina"), refill)
 	stamina.regen_per_second = stats.get_stamina_regen(data.stamina_regen_per_second)
-	focus.set_max_value(stats.get_max_focus(data.max_focus), refill)
+	focus.set_max_value(stats.get_max_focus(data.max_focus) + inventory.get_permanent_bonus(&"bonus_max_focus"), refill)
 
 
 func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:

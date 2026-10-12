@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/player/lock_on_component.gd" id="17_lock_on"]
 [ext_resource type="Script" path="res://scripts/player/states/block_state.gd" id="18_block"]
 [ext_resource type="Script" path="res://scripts/player/interaction_detector.gd" id="19_interaction"]
+[ext_resource type="Script" path="res://scripts/player/states/use_item_state.gd" id="20_use_item"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -171,6 +172,9 @@ script = ExtResource("13_attack")
 
 [node name="Block" type="Node" parent="StateMachine"]
 script = ExtResource("18_block")
+
+[node name="UseItem" type="Node" parent="StateMachine"]
+script = ExtResource("20_use_item")
 
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("15_hurt")

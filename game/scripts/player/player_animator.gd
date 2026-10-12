@@ -25,6 +25,8 @@ func play(animation_name: StringName, duration: float = 0.3) -> void:
 	match animation_name:
 		&"dodge":
 			_placeholder_tween(Vector3(1.15, 0.6, 1.15), duration)
+		&"use_item":
+			_placeholder_tween(Vector3(0.95, 0.9, 0.95), duration)
 		&"hurt":
 			_placeholder_tween(Vector3(0.85, 1.1, 0.85), duration)
 		&"death":

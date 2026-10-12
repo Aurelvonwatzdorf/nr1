@@ -26,6 +26,11 @@ var open_menu_count: int = 0:
 ## Stats der Spielfigur (Stärke, Schnelligkeit …).
 var stats: PlayerStats = PlayerStats.new()
 
+## Inventar (Tränke, Artefakte).
+var inventory: Inventory = Inventory.new()
+## IDs bereits aufgehobener Gegenstände in der Welt.
+var collected_pickups: Array[StringName] = []
+
 ## Wo die Spielfigur nach dem Tod wiederbelebt wird.
 var checkpoint_transform: Transform3D = Transform3D.IDENTITY
 var has_checkpoint: bool = false

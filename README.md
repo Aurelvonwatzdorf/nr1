@@ -34,7 +34,8 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Lock-on | Mittelklick / Tab | R3 |
 | Realitätsblick *(ab M5)* | Q | Y |
 | Interagieren (z. B. am Ankerspiegel rasten) | E | A |
-| Heiltrank *(ab M3)* | R | X |
+| Heiltrank trinken | R | X |
+| Inventar | I | Back/View |
 | Verbündeten rufen *(ab M8)* | F | Steuerkreuz hoch |
 | Pausenmenü | Esc | Start |
 

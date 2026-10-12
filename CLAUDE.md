@@ -52,10 +52,10 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 ### Ordnerstruktur (`game/`)
 ```
 scenes/      player/, enemies/, levels/, ui/, world/  (.tscn)
-scripts/     player/ (+ states/), enemies/, combat/, components/, realms/,
-             ui/, systems/, characters/, state_machine/
+scripts/     player/ (+ states/), enemies/ (+ states/), combat/, components/,
+             items/, realms/, ui/, systems/, characters/, state_machine/
 assets/      models/, materials/, audio/
-resources/   characters/, attacks/, enemies/ …       (.tres-Daten)
+resources/   characters/, attacks/, enemies/, items/ (.tres-Daten)
 tests/       Headless-Rauchtests
 ```
 
@@ -87,6 +87,13 @@ tests/       Headless-Rauchtests
 - **Menüs** erben von `GameMenu` (CanvasLayer, läuft auch pausiert). Öffnen erhöht
   `GameState.open_menu_count`: Das pausiert das Spiel und gibt die Maus frei.
   Esc öffnet das Pausenmenü; offene Menüs schließen sich selbst mit Esc.
+- **Gegenstände**: `ItemData` (.tres in `resources/items/`, Art CONSUMABLE oder
+  PERMANENT) und Eintrag in `ItemDatabase.PATHS`. Besitz in `GameState.inventory`.
+  Permanente Artefakte wirken, solange man sie besitzt. Fundorte (`ItemPickup`)
+  brauchen eine eindeutige `pickup_id`.
+- **State-Namen**: Knotenname in snake_case („UseItem“ → &"use_item").
+- **Menü-Tests**: Menüs hören auf `_unhandled_input`; im Rauchtest dafür
+  `_send_action()` statt `_tap()` benutzen.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,

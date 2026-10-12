@@ -252,6 +252,43 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Gegenstände: aufheben, Heiltrank trinken, Artefakte
+	var inventory := GameState.inventory
+	var potion_pickup: ItemPickup = arena.get_node("Pickups/PotionsNearStart")
+	player.global_position = potion_pickup.global_position + Vector3(0.0, 0.05, 0.8)
+	await _frames(10)
+	_check(player.interaction_detector.current == potion_pickup, "Heiltränke in Reichweite")
+	await _tap(&"interact")
+	await _frames(3)
+	_check(inventory.get_count(&"healing_potion") == 2, "2 Heiltränke aufgehoben")
+	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Fundort gilt als eingesammelt")
+	player.health.take_damage(60.0)
+	await _frames(25)
+	var hp_before_potion := player.health.current
+	await _tap(&"heal")
+	_check(player.state_machine.get_current_state_name() == &"use_item", "R: Figur trinkt")
+	await _frames(50)
+	_check(is_equal_approx(player.health.current, hp_before_potion + 50.0) and inventory.get_count(&"healing_potion") == 1, "Heiltrank heilt 50 und wird verbraucht")
+	var max_hp := player.health.max_value
+	inventory.add(&"heart_amulet")
+	_check(is_equal_approx(player.health.max_value, max_hp + 15.0), "Dauerhaftes Artefakt: +15 maximales Leben")
+	inventory.remove(&"heart_amulet")
+	var multiplier := player.get_damage_multiplier()
+	inventory.add(&"power_ampoule")
+	player.use_item(ItemDatabase.get_item(&"power_ampoule"))
+	await _frames(40)
+	_check(is_equal_approx(player.get_damage_multiplier(), multiplier + 0.25), "Kraftampulle: +25 % Schaden")
+	_check(not inventory.has(&"power_ampoule"), "Verbrauchbares Artefakt ist danach weg")
+	player.damage_buff_time_left = 0.01
+	await _frames(3)
+	_check(is_equal_approx(player.get_damage_multiplier(), multiplier), "Buff läuft ab")
+	var inventory_menu: InventoryMenu = arena.get_node("InventoryMenu")
+	await _send_action(&"inventory")
+	_check(inventory_menu.is_open, "I öffnet das Inventar")
+	inventory_menu.close()
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(3)
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()
@@ -271,6 +308,20 @@ func _tap(action: StringName) -> void:
 	Input.action_press(action)
 	await _frames(2)
 	Input.action_release(action)
+
+
+## Schickt eine echte Eingabe (für Menüs, die auf _unhandled_input hören).
+func _send_action(action: StringName) -> void:
+	var event := InputEventAction.new()
+	event.action = action
+	event.pressed = true
+	Input.parse_input_event(event)
+	await _frames(2)
+	event = InputEventAction.new()
+	event.action = action
+	event.pressed = false
+	Input.parse_input_event(event)
+	await _frames(1)
 
 
 func _frames(count: int) -> void:

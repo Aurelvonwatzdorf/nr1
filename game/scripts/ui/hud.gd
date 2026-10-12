@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var death_label: Label = %DeathLabel
 @onready var message_label: Label = %MessageLabel
 @onready var prompt_label: Label = %PromptLabel
+@onready var potion_label: Label = %PotionLabel
 
 var _player: Player
 var _message_tween: Tween
@@ -26,6 +27,8 @@ func _ready() -> void:
 	prompt_label.text = ""
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
+	GameState.inventory.changed.connect(_update_potions)
+	_update_potions()
 	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Ankerspiegel berührt"))
 	EventBus.memories_recovered.connect(func(amount: int) -> void: show_message("%d Erinnerungen zurückgeholt" % amount))
 	EventBus.memories_lost.connect(func(amount: int) -> void: show_message("%d Erinnerungen für immer verloren" % amount))
@@ -44,6 +47,10 @@ func show_message(text: String) -> void:
 	_message_tween.tween_property(message_label, "modulate:a", 1.0, 0.2)
 	_message_tween.tween_interval(2.0)
 	_message_tween.tween_property(message_label, "modulate:a", 0.0, 0.6)
+
+
+func _update_potions() -> void:
+	potion_label.text = "Heiltränke: %d   [R]" % GameState.inventory.get_count(&"healing_potion")
 
 
 func _on_memories_changed(amount: int) -> void:

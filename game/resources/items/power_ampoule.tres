@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"power_ampoule"
+display_name = "Kraftampulle"
+description = "Verbrauchbares Artefakt: +25 % Schaden für 30 Sekunden."
+color = Color(1, 0.6, 0.15, 1)
+buff_damage_bonus = 0.25
+buff_duration = 30.0
+use_time = 0.5
