@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_background"]
+bg_color = Color(0.05, 0.05, 0.07, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.3, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
+bg_color = Color(0.7, 0.12, 0.12, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamina"]
+bg_color = Color(0.2, 0.62, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+bg_color = Color(0.25, 0.4, 0.85, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Bars" type="VBoxContainer" parent="."]
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 432.0
+offset_bottom = 128.0
+theme_override_constants/separation = 6
+
+[node name="NameLabel" type="Label" parent="Bars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Name"
+
+[node name="HealthBar" type="ProgressBar" parent="Bars"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 16)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health")
+value = 100.0
+show_percentage = false
+
+[node name="StaminaBar" type="ProgressBar" parent="Bars"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_stamina")
+value = 100.0
+show_percentage = false
+
+[node name="FocusBar" type="ProgressBar" parent="Bars"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 12)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_focus")
+value = 100.0
+show_percentage = false
+
+[node name="ControlsLabel" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -60.0
+offset_right = 900.0
+offset_bottom = -24.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+text = "WASD bewegen · Maus Kamera · Shift sprinten · Leertaste ausweichen · Linksklick Angriff · Shift+Linksklick schwerer Angriff · Esc Maus freigeben"
+
+[node name="PauseLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -20.0
+offset_right = 250.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Maus freigegeben – klicken, um weiterzuspielen"
+horizontal_alignment = 1

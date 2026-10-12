@@ -1,0 +1,73 @@
+class_name PlayerAttackState
+extends PlayerState
+## Leichter oder schwerer Angriff in drei Phasen:
+## Ausholen → Trefferphase (Hitbox an) → Erholung.
+## In der Erholung kann man den nächsten Angriff puffern (Kombo) oder ausweichen.
+
+enum Phase { STARTUP, ACTIVE, RECOVERY }
+
+var _attack: AttackData
+var _phase: Phase = Phase.STARTUP
+var _time: float = 0.0
+## Gepufferter Folgeangriff: -1 = keiner, 0 = leicht, 1 = schwer.
+var _buffered: int = -1
+
+
+func enter(msg: Dictionary = {}) -> void:
+	var data := player.character_data
+	var heavy: bool = msg.get("heavy", false)
+	_attack = data.heavy_attack if heavy and data.heavy_attack else data.light_attack
+	_phase = Phase.STARTUP
+	_time = 0.0
+	_buffered = -1
+	player.stamina.consume(_attack.stamina_cost)
+	player.snap_towards(player.get_move_direction())
+	player.animator.play_attack(_attack)
+
+
+func exit() -> void:
+	player.hitbox.deactivate()
+
+
+func physics_update(delta: float) -> void:
+	_time += delta
+	player.apply_gravity(delta)
+	_update_phase()
+	_read_buffered_input()
+
+	if _phase == Phase.RECOVERY:
+		player.accelerate_to(Vector3.ZERO, delta)
+		# Abbrechen durch Ausweichen ist in der Erholung erlaubt.
+		if player.is_input_enabled() and player.stamina.can_act() and Input.is_action_just_pressed(&"dodge"):
+			state_machine.transition_to(&"dodge")
+			return
+	else:
+		# Kurzer Schub nach vorn beim Zuschlagen.
+		var lunge := player.get_facing_direction() * _attack.lunge_speed
+		player.velocity.x = lunge.x
+		player.velocity.z = lunge.z
+
+	if _time >= _attack.get_total_time():
+		if _buffered >= 0 and player.stamina.can_act():
+			state_machine.transition_to(&"attack", {"heavy": _buffered == 1})
+		else:
+			return_to_locomotion()
+
+
+func _update_phase() -> void:
+	if _phase == Phase.STARTUP and _time >= _attack.startup_time:
+		_phase = Phase.ACTIVE
+		player.hitbox.activate(_attack.damage, _attack.knockback)
+	if _phase == Phase.ACTIVE and _time >= _attack.startup_time + _attack.active_time:
+		_phase = Phase.RECOVERY
+		player.hitbox.deactivate()
+
+
+func _read_buffered_input() -> void:
+	# Eingaben ab der Trefferphase werden für den nächsten Schlag gemerkt.
+	if _phase == Phase.STARTUP or not player.is_input_enabled():
+		return
+	if is_heavy_attack_pressed():
+		_buffered = 1
+	elif Input.is_action_just_pressed(&"attack_light"):
+		_buffered = 0

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/character_data.gd" id="1_character"]
+[ext_resource type="Resource" path="res://resources/attacks/basic_light.tres" id="2_light"]
+[ext_resource type="Resource" path="res://resources/attacks/basic_heavy.tres" id="3_heavy"]
+
+[resource]
+script = ExtResource("1_character")
+id = &"aurel"
+display_name = "Aurel"
+description = "Ehrgeiziger kleiner Konzernangestellter, der nach oben will."
+light_attack = ExtResource("2_light")
+heavy_attack = ExtResource("3_heavy")
+placeholder_color = Color(0.75, 0.22, 0.2, 1)

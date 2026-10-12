@@ -1,0 +1,54 @@
+class_name Hitbox
+extends Area3D
+## Angriffsfläche: trifft Hurtboxes, solange sie aktiv ist.
+##
+## Jede Hurtbox wird pro Schlag höchstens einmal getroffen. Die eigene Hurtbox
+## (gleicher Szenen-Besitzer) wird ignoriert.
+
+signal hit_landed(hurtbox: Hurtbox, hit: HitData)
+
+var _active: bool = false
+var _damage: float = 0.0
+var _knockback: float = 0.0
+var _already_hit: Array[Hurtbox] = []
+
+
+func _ready() -> void:
+	collision_layer = PhysicsLayers.HITBOX
+	collision_mask = PhysicsLayers.HURTBOX
+	monitoring = true
+	monitorable = false
+
+
+func activate(damage: float, knockback: float) -> void:
+	_active = true
+	_damage = damage
+	_knockback = knockback
+	_already_hit.clear()
+
+
+func deactivate() -> void:
+	_active = false
+
+
+func is_active() -> bool:
+	return _active
+
+
+func _physics_process(_delta: float) -> void:
+	if not _active:
+		return
+	for area in get_overlapping_areas():
+		var hurtbox := area as Hurtbox
+		if hurtbox == null or hurtbox.owner == owner or _already_hit.has(hurtbox):
+			continue
+		_already_hit.append(hurtbox)
+		var hit := HitData.new()
+		hit.damage = _damage
+		hit.knockback = _knockback
+		hit.source = owner as Node3D
+		var to_target := hurtbox.global_position - global_position
+		to_target.y = 0.0
+		hit.direction = to_target.normalized()
+		if hurtbox.receive_hit(hit):
+			hit_landed.emit(hurtbox, hit)
