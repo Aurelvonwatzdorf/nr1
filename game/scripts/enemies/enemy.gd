@@ -1,0 +1,180 @@
+class_name Enemy
+extends CharacterBody3D
+## Ein Gegner mit eigener State Machine. Werte kommen aus EnemyData.
+##
+## Gegner gehören zur Gruppe „enemies“ (für Zurücksetzen nach dem Tod der
+## Spielfigur) und „lock_on_targets“ (anvisierbar).
+
+signal died(enemy: Enemy)
+
+@export var data: EnemyData
+
+@onready var health: HealthComponent = $HealthComponent
+@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var hitbox: Hitbox = $Model/AttackHitbox
+@onready var model: Node3D = $Model
+@onready var body_mesh: MeshInstance3D = $Model/Body
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var health_label: Label3D = $HealthLabel
+@onready var state_machine: StateMachine = $StateMachine
+
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+## Wohin der Gegner zurückkehrt und wo er nach einem Reset steht.
+var home_transform: Transform3D
+## Zeit bis zum nächsten erlaubten Angriff.
+var attack_cooldown_left: float = 0.0
+## Der zuletzt erlittene Treffer (für Rückstoß im Taumel-Zustand).
+var last_hit: HitData
+
+var _material: StandardMaterial3D
+var _pose_tween: Tween
+
+
+func _ready() -> void:
+	assert(data != null, "Enemy braucht EnemyData (Inspector).")
+	add_to_group(&"enemies")
+	add_to_group(&"lock_on_targets")
+	home_transform = global_transform
+	health.set_max_value(data.max_health)
+	_material = StandardMaterial3D.new()
+	_material.albedo_color = data.placeholder_color
+	body_mesh.material_override = _material
+	hurtbox.hit_received.connect(_on_hit_received)
+	hitbox.hit_landed.connect(_on_hit_landed)
+	health.died.connect(_on_died)
+	health.value_changed.connect(func(_c: float, _m: float) -> void: _update_health_label())
+	_update_health_label()
+	state_machine.start(self)
+
+
+func _physics_process(delta: float) -> void:
+	attack_cooldown_left = maxf(attack_cooldown_left - delta, 0.0)
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	state_machine.physics_update(delta)
+	move_and_slide()
+
+
+## Die Spielfigur, falls sie lebt und da ist.
+func get_player() -> Player:
+	var player := get_tree().get_first_node_in_group(&"player") as Player
+	if player == null or player.health.is_dead:
+		return null
+	return player
+
+
+func distance_to_node(node: Node3D) -> float:
+	var offset := node.global_position - global_position
+	offset.y = 0.0
+	return offset.length()
+
+
+func direction_to_node(node: Node3D) -> Vector3:
+	var offset := node.global_position - global_position
+	offset.y = 0.0
+	return offset.normalized()
+
+
+func accelerate_to(target_velocity: Vector3, delta: float) -> void:
+	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
+	horizontal = horizontal.move_toward(target_velocity, data.acceleration * delta)
+	velocity.x = horizontal.x
+	velocity.z = horizontal.z
+
+
+func turn_towards(direction: Vector3, delta: float) -> void:
+	if direction.length_squared() < 0.0001:
+		return
+	var target_angle := atan2(-direction.x, -direction.z)
+	rotation.y = lerp_angle(rotation.y, target_angle, 1.0 - exp(-data.turn_speed * delta))
+
+
+func get_facing_direction() -> Vector3:
+	return -global_basis.z
+
+
+## Für Lock-on: Kann man ihn gerade anvisieren?
+func is_targetable() -> bool:
+	return not health.is_dead
+
+
+## Für Lock-on: Punkt, auf den gezielt wird (Brusthöhe).
+func get_lock_on_point() -> Vector3:
+	return global_position + Vector3.UP * 1.2
+
+
+## Warnfarbe beim Ausholen, damit man den Angriff kommen sieht.
+func set_telegraph(active: bool) -> void:
+	_material.emission_enabled = active
+	_material.emission = Color(1.0, 0.25, 0.1)
+	_material.emission_energy_multiplier = 1.5
+
+
+## Kurzes Aufblitzen bei einem Treffer.
+func flash() -> void:
+	_material.albedo_color = Color.WHITE
+	create_tween().tween_property(_material, "albedo_color", data.placeholder_color, 0.15)
+
+
+## Platzhalter-Animation: Körper kippt um `lean_degrees` und richtet sich wieder auf.
+func play_lean(lean_degrees: float, recover_time: float) -> void:
+	_kill_pose_tween()
+	_pose_tween = create_tween()
+	_pose_tween.tween_property(model, "rotation:x", deg_to_rad(lean_degrees), 0.08)
+	_pose_tween.tween_property(model, "rotation:x", 0.0, recover_time)
+
+
+## Platzhalter-Animation: umfallen und nach kurzer Zeit verschwinden.
+func play_death() -> void:
+	_kill_pose_tween()
+	_pose_tween = create_tween()
+	_pose_tween.tween_property(model, "rotation:x", deg_to_rad(-90.0), 0.4)
+	_pose_tween.tween_interval(1.5)
+	_pose_tween.tween_callback(hide)
+
+
+## Zurück an den Startpunkt, volles Leben (nach dem Tod der Spielfigur).
+func reset_enemy() -> void:
+	global_transform = home_transform
+	velocity = Vector3.ZERO
+	attack_cooldown_left = 0.0
+	health.revive()
+	visible = true
+	collision_shape.set_deferred(&"disabled", false)
+	hurtbox.set_deferred(&"monitorable", true)
+	_kill_pose_tween()
+	model.rotation = Vector3.ZERO
+	set_telegraph(false)
+	state_machine.transition_to(&"idle")
+
+
+func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
+	if health.is_dead or result == Hurtbox.Result.IGNORED:
+		return
+	last_hit = hit
+	flash()
+	state_machine.transition_to(&"stagger", {"time": data.stagger_time})
+
+
+func _on_hit_landed(_hurtbox: Hurtbox, _hit: HitData, result: Hurtbox.Result) -> void:
+	if result == Hurtbox.Result.PARRIED and not health.is_dead:
+		state_machine.transition_to(&"stagger", {"time": data.parried_stun_time, "parried": true})
+
+
+func _on_died() -> void:
+	GameState.memories += data.memories_reward
+	state_machine.transition_to(&"dead")
+	died.emit(self)
+	EventBus.enemy_killed.emit(self)
+
+
+func _kill_pose_tween() -> void:
+	if _pose_tween and _pose_tween.is_valid():
+		_pose_tween.kill()
+
+
+func _update_health_label() -> void:
+	var ratio := health.get_ratio()
+	var filled := roundi(ratio * 10.0)
+	health_label.text = "%s\n%s" % [data.display_name, "■".repeat(filled) + "□".repeat(10 - filled)]
+	health_label.visible = not health.is_dead and ratio < 1.0

@@ -3,9 +3,13 @@ extends Area3D
 ## Angriffsfläche: trifft Hurtboxes, solange sie aktiv ist.
 ##
 ## Jede Hurtbox wird pro Schlag höchstens einmal getroffen. Die eigene Hurtbox
-## (gleicher Szenen-Besitzer) wird ignoriert.
+## (gleicher Szenen-Besitzer) und Hurtboxes des eigenen Teams werden ignoriert.
 
-signal hit_landed(hurtbox: Hurtbox, hit: HitData)
+## Ein Treffer kam an. `result` sagt, ob er geblockt oder pariert wurde.
+signal hit_landed(hurtbox: Hurtbox, hit: HitData, result: Hurtbox.Result)
+
+## Team des Angreifers (z. B. &"player", &"enemy").
+@export var team: StringName = &""
 
 var _active: bool = false
 var _damage: float = 0.0
@@ -42,6 +46,8 @@ func _physics_process(_delta: float) -> void:
 		var hurtbox := area as Hurtbox
 		if hurtbox == null or hurtbox.owner == owner or _already_hit.has(hurtbox):
 			continue
+		if team != &"" and hurtbox.team == team:
+			continue
 		_already_hit.append(hurtbox)
 		var hit := HitData.new()
 		hit.damage = _damage
@@ -50,5 +56,6 @@ func _physics_process(_delta: float) -> void:
 		var to_target := hurtbox.global_position - global_position
 		to_target.y = 0.0
 		hit.direction = to_target.normalized()
-		if hurtbox.receive_hit(hit):
-			hit_landed.emit(hurtbox, hit)
+		var result := hurtbox.receive_hit(hit)
+		if result != Hurtbox.Result.IGNORED:
+			hit_landed.emit(hurtbox, hit, result)

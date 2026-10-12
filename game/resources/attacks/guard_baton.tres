@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AttackData" format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/attack_data.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+display_name = "Schlagstock-Hieb"
+animation_name = &"attack"
+damage = 18.0
+stamina_cost = 0.0
+startup_time = 0.7
+active_time = 0.2
+recovery_time = 0.8
+lunge_speed = 3.0
+knockback = 3.0

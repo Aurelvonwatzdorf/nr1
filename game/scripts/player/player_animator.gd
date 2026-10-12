@@ -25,6 +25,12 @@ func play(animation_name: StringName, duration: float = 0.3) -> void:
 	match animation_name:
 		&"dodge":
 			_placeholder_tween(Vector3(1.15, 0.6, 1.15), duration)
+		&"hurt":
+			_placeholder_tween(Vector3(0.85, 1.1, 0.85), duration)
+		&"death":
+			_kill_tween()
+			_tween = create_tween()
+			_tween.tween_property(visual_root, "rotation:x", deg_to_rad(-90.0), 0.5)
 
 
 ## Spielt einen Angriff. Die Platzhalter-Waffe schwingt während der Trefferphase.
@@ -37,6 +43,14 @@ func play_attack(attack: AttackData) -> void:
 	_tween.tween_interval(attack.startup_time)
 	_tween.tween_property(weapon_pivot, "rotation:y", deg_to_rad(-70.0), attack.active_time)
 	_tween.tween_property(weapon_pivot, "rotation:y", 0.0, attack.recovery_time)
+
+
+## Grundhaltung wiederherstellen (z. B. nach dem Respawn).
+func reset_pose() -> void:
+	_kill_tween()
+	if visual_root:
+		visual_root.rotation = Vector3.ZERO
+	set_invulnerable_visual(false)
 
 
 ## Laufgeschwindigkeit 0 (stehen) bis 1 (sprinten) für den Blend-Space.

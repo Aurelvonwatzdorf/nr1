@@ -1,0 +1,121 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Resource" path="res://resources/enemies/corporate_guard.tres" id="2_data"]
+[ext_resource type="Script" path="res://scripts/combat/hitbox.gd" id="3_hitbox"]
+[ext_resource type="Script" path="res://scripts/combat/hurtbox.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="5_health"]
+[ext_resource type="Script" path="res://scripts/state_machine/state_machine.gd" id="6_machine"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_idle_state.gd" id="7_idle"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_chase_state.gd" id="8_chase"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_attack_state.gd" id="9_attack"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_stagger_state.gd" id="10_stagger"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_return_state.gd" id="11_return"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_dead_state.gd" id="12_dead"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.45
+height = 1.9
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.45
+height = 1.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eyes"]
+shading_mode = 0
+albedo_color = Color(1, 0.3, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eyes"]
+material = SubResource("StandardMaterial3D_eyes")
+size = Vector3(0.45, 0.08, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_baton"]
+size = Vector3(0.1, 0.1, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_attack"]
+size = Vector3(1.4, 1.2, 1.4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hurt"]
+radius = 0.5
+height = 1.9
+
+[node name="Enemy" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_enemy")
+data = ExtResource("2_data")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Eyes" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, -0.38)
+mesh = SubResource("BoxMesh_eyes")
+
+[node name="Baton" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.0, -0.5)
+mesh = SubResource("BoxMesh_baton")
+
+[node name="AttackHitbox" type="Area3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+collision_layer = 8
+collision_mask = 16
+monitorable = false
+script = ExtResource("3_hitbox")
+team = &"enemy"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/AttackHitbox"]
+shape = SubResource("BoxShape3D_attack")
+
+[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_hurtbox")
+health = NodePath("../HealthComponent")
+team = &"enemy"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("CapsuleShape3D_hurt")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("5_health")
+
+[node name="HealthLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+font_size = 36
+outline_size = 8
+text = "Konzernwache"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_machine")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("7_idle")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("8_chase")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("9_attack")
+
+[node name="Stagger" type="Node" parent="StateMachine"]
+script = ExtResource("10_stagger")
+
+[node name="Return" type="Node" parent="StateMachine"]
+script = ExtResource("11_return")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("12_dead")

@@ -20,14 +20,18 @@ extends CharacterBody3D
 @onready var camera_rig: CameraRig = $CameraRig
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
+var last_hit: HitData
 
 
 func _ready() -> void:
 	if GameState.selected_character:
 		character_data = GameState.selected_character
 	assert(character_data != null, "Player braucht eine CharacterData (Inspector).")
+	add_to_group(&"player")
 	_apply_character_data()
 	health.died.connect(_on_died)
+	hurtbox.hit_received.connect(_on_hit_received)
 	state_machine.start(self)
 	EventBus.player_spawned.emit(self)
 
@@ -100,7 +104,25 @@ func _apply_character_data() -> void:
 		body_mesh.material_override = material
 
 
-func _on_died() -> void:
-	# Tod und Respawn kommen in M2.
+## Wiederbeleben an einer Stelle (Checkpoint): volle Werte, Zustand Idle.
+func respawn(at: Transform3D) -> void:
+	global_transform = at
 	velocity = Vector3.ZERO
+	health.revive()
+	stamina.refill()
+	animator.reset_pose()
+	state_machine.transition_to(&"idle")
+	reset_physics_interpolation()
+	EventBus.player_respawned.emit(self)
+
+
+func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
+	if health.is_dead or result != Hurtbox.Result.HIT:
+		return
+	last_hit = hit
+	state_machine.transition_to(&"hurt")
+
+
+func _on_died() -> void:
+	state_machine.transition_to(&"dead")
 	EventBus.player_died.emit(self)

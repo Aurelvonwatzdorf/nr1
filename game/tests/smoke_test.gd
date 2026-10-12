@@ -60,14 +60,59 @@ func _run() -> void:
 	player.hurtbox.invulnerable = true
 	var hit := HitData.new()
 	hit.damage = 50.0
-	_check(not player.hurtbox.receive_hit(hit), "Treffer in I-Frames zählt nicht")
+	_check(player.hurtbox.receive_hit(hit) == Hurtbox.Result.IGNORED, "Treffer in I-Frames zählt nicht")
 	player.hurtbox.invulnerable = false
-	_check(player.hurtbox.receive_hit(hit) and is_equal_approx(player.health.current, 50.0), "Treffer ohne I-Frames macht Schaden")
+	var result := player.hurtbox.receive_hit(hit)
+	_check(result == Hurtbox.Result.HIT and is_equal_approx(player.health.current, 50.0), "Treffer ohne I-Frames macht Schaden")
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() == &"hurt", "Getroffene Figur taumelt")
 
 	# Ausdauer regeneriert
 	var low := player.stamina.current
 	await _frames(120)
 	_check(player.stamina.current > low, "Ausdauer regeneriert sich")
+
+	# Gegner bemerkt, verfolgt und greift an
+	var guard: Enemy = arena.get_node("Enemies/Guard1")
+	player.health.revive()
+	player.global_position = guard.global_position + Vector3(0.0, 0.05, 3.0)
+	player.rotation = Vector3.ZERO
+	await _frames(10)
+	_check(guard.state_machine.get_current_state_name() in [&"chase", &"attack"], "Gegner bemerkt die Spielfigur")
+	var hp_before := player.health.current
+	var saw_attack := false
+	for i in 300:
+		await get_tree().physics_frame
+		saw_attack = saw_attack or guard.state_machine.get_current_state_name() == &"attack"
+		if player.health.current < hp_before:
+			break
+	_check(saw_attack, "Gegner holt zum Angriff aus")
+	_check(player.health.current < hp_before, "Gegnerangriff macht Schaden (Leben: %s)" % player.health.current)
+
+	# Spielfigur trifft den Gegner, er taumelt
+	await _frames(30)
+	player.snap_towards(player.global_position.direction_to(guard.global_position))
+	var guard_hp := guard.health.current
+	await _tap(&"attack_light")
+	var saw_stagger := false
+	for i in 30:
+		await get_tree().physics_frame
+		saw_stagger = saw_stagger or guard.state_machine.get_current_state_name() == &"stagger"
+	_check(guard.health.current < guard_hp, "Spielfigur trifft den Gegner")
+	_check(saw_stagger, "Getroffener Gegner taumelt")
+
+	# Gegner besiegen: Erinnerungen, tot, nicht mehr anvisierbar
+	var memories_before := GameState.memories
+	guard.health.take_damage(1000.0)
+	await _frames(2)
+	_check(guard.state_machine.get_current_state_name() == &"dead", "Gegner stirbt")
+	_check(GameState.memories == memories_before + 50, "Sieg bringt 50 Erinnerungen")
+	_check(not guard.is_targetable(), "Toter Gegner ist nicht anvisierbar")
+	guard.reset_enemy()
+	await _frames(2)
+	_check(guard.state_machine.get_current_state_name() in [&"idle", &"chase"] and guard.health.current == guard.health.max_value, "Gegner lässt sich zurücksetzen")
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(5)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")

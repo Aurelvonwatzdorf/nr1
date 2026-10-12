@@ -3,14 +3,22 @@ extends Area3D
 ## Trefferfläche: Hier kann eine Figur getroffen werden.
 ##
 ## Gibt Schaden an die HealthComponent weiter, außer die Figur ist gerade
-## unverwundbar (z. B. I-Frames der Ausweichrolle).
+## unverwundbar (z. B. I-Frames der Ausweichrolle). Über `hit_filter` kann der
+## Besitzer Treffer abwandeln (Blocken, Parieren).
 
-signal hit_received(hit: HitData)
+## Was aus einem Treffer wurde.
+enum Result { IGNORED, HIT, BLOCKED, PARRIED }
+
+signal hit_received(hit: HitData, result: Result)
 
 @export var health: HealthComponent
+## Treffer vom eigenen Team werden ignoriert (z. B. &"player", &"enemy").
+@export var team: StringName = &""
 
 ## Solange true, prallen Treffer ab.
 var invulnerable: bool = false
+## Optional: func(hit: HitData) -> Result. Darf hit.damage verändern.
+var hit_filter: Callable
 
 
 func _ready() -> void:
@@ -20,14 +28,20 @@ func _ready() -> void:
 	monitorable = true
 
 
-## Wird von einer Hitbox aufgerufen. Gibt zurück, ob der Treffer zählte.
-func receive_hit(hit: HitData) -> bool:
-	if invulnerable:
-		return false
-	if health:
-		if health.is_dead:
-			return false
+## Wird von einer Hitbox aufgerufen. Gibt zurück, was aus dem Treffer wurde.
+func receive_hit(hit: HitData) -> Result:
+	if invulnerable or (health and health.is_dead):
+		return Result.IGNORED
+	var result := Result.HIT
+	if hit_filter.is_valid():
+		result = hit_filter.call(hit)
+		if result == Result.IGNORED:
+			return result
+	if result == Result.PARRIED:
+		hit.damage = 0.0
+	if health and hit.damage > 0.0:
 		health.take_damage(hit.damage)
-	hit_received.emit(hit)
-	EventBus.damage_dealt.emit(owner, hit.damage)
-	return true
+	hit_received.emit(hit, result)
+	if hit.damage > 0.0:
+		EventBus.damage_dealt.emit(owner, hit.damage)
+	return result

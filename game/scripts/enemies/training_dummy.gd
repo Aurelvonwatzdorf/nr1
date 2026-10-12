@@ -25,7 +25,7 @@ func _ready() -> void:
 	_update_label()
 
 
-func _on_hit_received(hit: HitData) -> void:
+func _on_hit_received(hit: HitData, _result: Hurtbox.Result) -> void:
 	_spawn_damage_number(hit.damage)
 	_flash()
 

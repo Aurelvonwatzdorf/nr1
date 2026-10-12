@@ -14,6 +14,8 @@
 [ext_resource type="Script" path="res://scripts/player/states/dodge_state.gd" id="12_dodge"]
 [ext_resource type="Script" path="res://scripts/player/states/attack_state.gd" id="13_attack"]
 [ext_resource type="Script" path="res://scripts/player/camera_rig.gd" id="14_camera"]
+[ext_resource type="Script" path="res://scripts/player/states/hurt_state.gd" id="15_hurt"]
+[ext_resource type="Script" path="res://scripts/player/states/dead_state.gd" id="16_dead"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -85,6 +87,7 @@ collision_layer = 8
 collision_mask = 16
 monitorable = false
 script = ExtResource("3_hitbox")
+team = &"player"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Model/WeaponHitbox"]
 shape = SubResource("BoxShape3D_weapon")
@@ -95,6 +98,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("4_hurtbox")
 health = NodePath("../HealthComponent")
+team = &"player"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -130,6 +134,12 @@ script = ExtResource("12_dodge")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("13_attack")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("15_hurt")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("16_dead")
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("14_camera")

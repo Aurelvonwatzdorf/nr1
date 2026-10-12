@@ -32,6 +32,10 @@ extends Resource
 @export var dodge_iframe_start: float = 0.05
 @export var dodge_iframe_end: float = 0.35
 
+@export_group("Treffer")
+## Wie lange die Figur nach einem Treffer taumelt.
+@export var hurt_stagger_time: float = 0.35
+
 @export_group("Angriffe")
 @export var light_attack: AttackData
 @export var heavy_attack: AttackData

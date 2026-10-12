@@ -7,9 +7,13 @@ extends Node
 
 ## Die Spielfigur ist in der Szene bereit.
 signal player_spawned(player: Player)
-## Die Spielfigur ist gestorben (M2: Erinnerungen fallen lassen).
+## Die Spielfigur ist gestorben.
 signal player_died(player: Player)
+## Die Spielfigur wurde am Checkpoint wiederbelebt.
+signal player_respawned(player: Player)
 ## Irgendein Ziel hat Schaden genommen (z. B. für Statistiken oder Tutorials).
 signal damage_dealt(target: Node, amount: float)
+## Ein Gegner wurde besiegt.
+signal enemy_killed(enemy: Enemy)
 ## Die Währung „Erinnerungen“ hat sich geändert.
 signal memories_changed(amount: int)
