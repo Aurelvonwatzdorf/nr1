@@ -33,10 +33,10 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Blocken (im richtigen Moment: Parieren) | Rechtsklick | LB |
 | Lock-on | Mittelklick / Tab | R3 |
 | Realitätsblick *(ab M5)* | Q | Y |
-| Interagieren *(ab M3)* | E | A |
+| Interagieren (z. B. am Ankerspiegel rasten) | E | A |
 | Heiltrank *(ab M3)* | R | X |
 | Verbündeten rufen *(ab M8)* | F | Steuerkreuz hoch |
-| Maus freigeben / Menü | Esc | Start |
+| Pausenmenü | Esc | Start |
 
 Alle Tasten lassen sich im Editor unter **Projekt → Projekteinstellungen →
 Eingabezuordnung** ändern.

@@ -19,6 +19,8 @@ signal damage_dealt(target: Node, amount: float)
 signal enemy_killed(enemy: Enemy)
 ## Text der Interaktion in Reichweite („Rasten“) oder "" für keine.
 signal interaction_prompt_changed(prompt: String)
+## Ein Menü wurde geöffnet (true) oder alle Menüs geschlossen (false).
+signal menu_state_changed(is_open: bool)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.

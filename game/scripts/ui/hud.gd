@@ -32,7 +32,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	pause_label.visible = _player != null and not _player.camera_rig.is_capturing
+	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
 
 
 ## Kurze Meldung in der Bildschirmmitte, die von selbst verschwindet.

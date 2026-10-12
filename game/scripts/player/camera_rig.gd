@@ -48,17 +48,15 @@ func _ready() -> void:
 	global_position = _target.global_position + Vector3.UP * height_offset
 	set_capturing(true)
 	EventBus.camera_shake_requested.connect(shake)
+	EventBus.menu_state_changed.connect(func(is_open: bool) -> void: set_capturing(not is_open))
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"menu"):
-		set_capturing(not is_capturing)
-		get_viewport().set_input_as_handled()
-	elif is_capturing and event is InputEventMouseMotion and _lock_target == null:
+	if is_capturing and event is InputEventMouseMotion and _lock_target == null:
 		var motion := event as InputEventMouseMotion
 		_yaw -= motion.relative.x * mouse_sensitivity
 		_pitch -= motion.relative.y * mouse_sensitivity
-	elif not is_capturing and event is InputEventMouseButton and event.is_pressed():
+	elif not is_capturing and not GameState.is_menu_open() and event is InputEventMouseButton and event.is_pressed():
 		set_capturing(true)
 		get_viewport().set_input_as_handled()
 

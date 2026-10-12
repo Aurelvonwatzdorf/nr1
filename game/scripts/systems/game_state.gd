@@ -13,6 +13,16 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 ## Gewählte Figur. `null` heißt: Die Spielfigur nimmt die im Inspector eingestellte.
 var selected_character: CharacterData = null
 
+## Wie viele Menüs gerade offen sind. > 0 = Spiel pausiert, Maus frei.
+var open_menu_count: int = 0:
+	set(value):
+		var was_open := open_menu_count > 0
+		open_menu_count = maxi(value, 0)
+		var is_open := open_menu_count > 0
+		if was_open != is_open:
+			get_tree().paused = is_open
+			EventBus.menu_state_changed.emit(is_open)
+
 ## Stats der Spielfigur (Stärke, Schnelligkeit …).
 var stats: PlayerStats = PlayerStats.new()
 
@@ -47,6 +57,10 @@ func try_level_up(stat: StringName) -> bool:
 	memories -= cost
 	stats.increase(stat)
 	return true
+
+
+func is_menu_open() -> bool:
+	return open_menu_count > 0
 
 
 func set_checkpoint(at: Transform3D) -> void:

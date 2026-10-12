@@ -53,7 +53,7 @@ func _physics_process(delta: float) -> void:
 
 ## Darf der Spieler gerade steuern? (Nein, solange das Menü offen ist.)
 func is_input_enabled() -> bool:
-	return camera_rig.is_capturing and not health.is_dead
+	return camera_rig.is_capturing and not health.is_dead and not GameState.is_menu_open()
 
 
 ## Eingaberichtung relativ zur Kamera, flach auf dem Boden (Länge 0 bis 1).

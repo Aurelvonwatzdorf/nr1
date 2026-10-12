@@ -84,6 +84,9 @@ tests/       Headless-Rauchtests
 - **Interaktion (E)**: Alles, womit man etwas tun kann, erbt von `Interactable`
   (Ebene 6) und überschreibt `interact(player)`. `InteractionDetector` am Spieler
   wählt das nächste. Ankerspiegel = `AnchorMirror` (Rasten, Wiederbelebungsort).
+- **Menüs** erben von `GameMenu` (CanvasLayer, läuft auch pausiert). Öffnen erhöht
+  `GameState.open_menu_count`: Das pausiert das Spiel und gibt die Maus frei.
+  Esc öffnet das Pausenmenü; offene Menüs schließen sich selbst mit Esc.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,

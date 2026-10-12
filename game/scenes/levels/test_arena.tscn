@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="6_mirror"]
 [ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="7_remnant"]
 [ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="8_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/rest_menu.tscn" id="10_rest"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.12, 0.13, 0.2, 1)
@@ -232,6 +234,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)
 
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="RestMenu" parent="." instance=ExtResource("10_rest")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
 
 [node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("8_respawn")
