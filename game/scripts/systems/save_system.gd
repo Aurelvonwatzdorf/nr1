@@ -1,32 +1,48 @@
 extends Node
 ## Speichern und Laden (Autoload „SaveSystem“).
 ##
-## Grundgerüst: schreibt den GameState als JSON nach `user://savegame.json`.
-## Ab M3 speichern Ankerspiegel hier zusätzlich Position, Inventar usw.
+## Schreibt den ganzen GameState als JSON nach `save_path`. Gespeichert wird beim
+## Rasten am Ankerspiegel und über das Pausenmenü. Geladen wird beim Start der
+## Spielszene (siehe test_arena.gd), bevor die Figur und die Welt bereit sind.
 
-const SAVE_PATH := "user://savegame.json"
+const SAVE_VERSION := 1
+
+var save_path: String = "user://savegame.json"
+## Beim Start automatisch laden? (Im Rauchtest aus.)
+var auto_load_enabled: bool = true
+
+
+func _ready() -> void:
+	EventBus.anchor_mirror_rested.connect(func(_m: Node3D, _p: Player) -> void: save_game())
 
 
 func save_game() -> bool:
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(save_path, FileAccess.WRITE)
 	if file == null:
 		push_error("Speichern fehlgeschlagen: %s" % error_string(FileAccess.get_open_error()))
 		return false
-	file.store_string(JSON.stringify(GameState.to_dict(), "\t"))
+	var data := GameState.to_dict()
+	data["version"] = SAVE_VERSION
+	file.store_string(JSON.stringify(data, "\t"))
+	EventBus.game_saved.emit()
 	return true
 
 
 func load_game() -> bool:
 	if not has_save():
 		return false
-	var text := FileAccess.get_file_as_string(SAVE_PATH)
-	var data: Variant = JSON.parse_string(text)
-	if data is Dictionary:
-		GameState.from_dict(data)
-		return true
-	push_error("Spielstand ist beschädigt.")
-	return false
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(save_path))
+	if not data is Dictionary:
+		push_error("Spielstand ist beschädigt.")
+		return false
+	GameState.from_dict(data)
+	return true
 
 
 func has_save() -> bool:
-	return FileAccess.file_exists(SAVE_PATH)
+	return FileAccess.file_exists(save_path)
+
+
+func delete_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))

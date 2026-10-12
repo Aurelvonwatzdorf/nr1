@@ -13,6 +13,11 @@ var _failures: int = 0
 func _ready() -> void:
 	# Hitstop verlangsamt die Zeit, das würde die Frame-Zählung im Test verfälschen.
 	HitStop.enabled = false
+	# Eigener Spielstand für den Test, nichts automatisch laden.
+	SaveSystem.auto_load_enabled = false
+	SaveSystem.save_path = "user://smoke_test_save.json"
+	SaveSystem.delete_save()
+	GameState.reset()
 	_run.call_deferred()
 
 
@@ -289,12 +294,58 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Moral-Gedächtnis
+	var moral := GameState.moral
+	_check(moral.record(&"test_helped_elder", &"charity", 2, "Einer alten Frau geholfen"), "Gute Tat wird gemerkt")
+	_check(not moral.record(&"test_helped_elder", &"charity", 2, "doppelt"), "Dieselbe Tat zählt nur einmal")
+	moral.record(&"test_cruelty", &"mercy", -3, "Wehrlosen verletzt")
+	_check(moral.get_score() == -1 and moral.get_virtue_score(&"charity") == 2, "Moral-Werte werden zusammengezählt")
+
+	# Speichern und Laden
+	_check(SaveSystem.has_save(), "Rasten am Ankerspiegel hat automatisch gespeichert")
+	GameState.memories = 77
+	GameState.stats.set_stat(&"strength", 3)
+	GameState.inventory.add(&"heart_amulet")
+	var saved_checkpoint := GameState.checkpoint_transform
+	_check(SaveSystem.save_game(), "Speichern klappt")
+	GameState.reset()
+	_check(GameState.memories == 0 and GameState.stats.strength == 1, "Zurücksetzen löscht alles")
+	_check(SaveSystem.load_game(), "Laden klappt")
+	_check(GameState.memories == 77 and GameState.stats.strength == 3, "Erinnerungen und Stats geladen")
+	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == 1, "Inventar geladen")
+	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Aufgehobene Gegenstände bleiben weg")
+	_check(GameState.has_checkpoint and GameState.checkpoint_transform.is_equal_approx(saved_checkpoint), "Ankerspiegel-Ort geladen")
+	_check(GameState.moral.get_score() == -1, "Moral-Gedächtnis geladen")
+	SaveSystem.delete_save()
+	GameState.reset()
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()
 	add_child(tahirou)
 	_check(tahirou.character_data.display_name == "Tahirou", "Spielfigur lädt Tahirous Daten")
 	GameState.selected_character = null
+
+	# Spielstart mit Spielstand: lädt vor dem Aufbau der Welt
+	var west_mirror: AnchorMirror = arena.get_node("AnchorMirrors/MirrorWest")
+	GameState.reset()
+	GameState.memories = 33
+	GameState.collected_pickups.append(&"arena_potions_start")
+	GameState.set_checkpoint(west_mirror.spawn_point.global_transform)
+	SaveSystem.save_game()
+	GameState.reset()
+	arena.queue_free()
+	tahirou.queue_free()
+	await _frames(3)
+	SaveSystem.auto_load_enabled = true
+	var loaded_arena := ARENA.instantiate()
+	add_child(loaded_arena)
+	await _frames(5)
+	var loaded_player: Player = loaded_arena.get_node("Player")
+	_check(GameState.memories == 33, "Start lädt den Spielstand")
+	_check(loaded_player.global_position.distance_to(GameState.checkpoint_transform.origin) < 0.5, "Start am gespeicherten Ankerspiegel")
+	_check(not loaded_arena.has_node("Pickups/PotionsNearStart"), "Aufgehobener Gegenstand liegt nicht mehr da")
+	SaveSystem.delete_save()
 
 	print("")
 	print("RAUCHTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))

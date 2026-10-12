@@ -52,6 +52,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Speichern"
 
+[node name="NewGameButton" type="Button" parent="Center/Panel/Margin/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Neues Spiel (Spielstand löschen)"
+
 [node name="QuitButton" type="Button" parent="Center/Panel/Margin/Items"]
 unique_name_in_owner = true
 layout_mode = 2

@@ -171,3 +171,20 @@ offset_bottom = -72.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 20
 text = "Heiltränke: 0   [R]"
+
+[node name="SavedLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -332.0
+offset_top = -100.0
+offset_right = -32.0
+offset_bottom = -72.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.9, 1, 1)
+text = "Gespeichert"
+horizontal_alignment = 2

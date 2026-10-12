@@ -31,6 +31,9 @@ var inventory: Inventory = Inventory.new()
 ## IDs bereits aufgehobener Gegenstände in der Welt.
 var collected_pickups: Array[StringName] = []
 
+## Moral-Gedächtnis (unsichtbar für den Spieler).
+var moral: MoralMemory = MoralMemory.new()
+
 ## Wo die Spielfigur nach dem Tod wiederbelebt wird.
 var checkpoint_transform: Transform3D = Transform3D.IDENTITY
 var has_checkpoint: bool = false
@@ -73,16 +76,44 @@ func set_checkpoint(at: Transform3D) -> void:
 	has_checkpoint = true
 
 
+## Alles zurück auf Anfang (neues Spiel).
+func reset() -> void:
+	selected_character = null
+	memories = 0
+	stats.from_dict({})
+	inventory.from_dict({})
+	moral.from_array([])
+	collected_pickups.clear()
+	checkpoint_transform = Transform3D.IDENTITY
+	has_checkpoint = false
+
+
 ## Speicherbare Daten als Dictionary (wird von SaveSystem genutzt).
 func to_dict() -> Dictionary:
 	return {
 		"character_id": String(selected_character.id) if selected_character else "",
 		"memories": memories,
+		"stats": stats.to_dict(),
+		"inventory": inventory.to_dict(),
+		"collected_pickups": collected_pickups.map(func(id: StringName) -> String: return String(id)),
+		"has_checkpoint": has_checkpoint,
+		"checkpoint": var_to_str(checkpoint_transform),
+		"moral": moral.to_array(),
 	}
 
 
 func from_dict(data: Dictionary) -> void:
+	reset()
 	var character_id := StringName(str(data.get("character_id", "")))
 	if character_id != &"":
 		select_character(character_id)
 	memories = int(data.get("memories", 0))
+	stats.from_dict(data.get("stats", {}))
+	inventory.from_dict(data.get("inventory", {}))
+	for id: Variant in data.get("collected_pickups", []):
+		collected_pickups.append(StringName(str(id)))
+	has_checkpoint = bool(data.get("has_checkpoint", false))
+	var transform: Variant = str_to_var(str(data.get("checkpoint", "")))
+	if transform is Transform3D:
+		checkpoint_transform = transform
+	moral.from_array(data.get("moral", []))

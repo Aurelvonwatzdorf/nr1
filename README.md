@@ -65,7 +65,7 @@ game/
 └── tests/                 Automatischer Rauchtest
 ```
 
-**Rauchtest** (prüft Angriff, Schaden, I-Frames, Figurenwahl ohne Bildschirm):
+**Rauchtest** (prüft Kampf, Gegner, Stats, Gegenstände, Speichern … ohne Bildschirm):
 ```bash
 godot --headless --path game res://tests/smoke_test.tscn
 ```
@@ -74,7 +74,7 @@ godot --headless --path game res://tests/smoke_test.tscn
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen
 - ✅ **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Blocken, Tod/Respawn, Erinnerungen
-- ⬜ **M3**: Stats & Level-Up, Speichern/Laden, Checkpoints, Heiltränke, Artefakte, Inventar
+- ✅ **M3**: Stats & Level-Up, Speichern/Laden, Checkpoints, Heiltränke, Artefakte, Inventar
 - ⬜ **M4**: NPCs, Missionen, Moral-Gedächtnis
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume
 - ⬜ **M6**: Erste Open-World-Region (Hauptstadt), Karte, Cel-Shading-Look

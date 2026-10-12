@@ -12,6 +12,7 @@ extends CanvasLayer
 @onready var message_label: Label = %MessageLabel
 @onready var prompt_label: Label = %PromptLabel
 @onready var potion_label: Label = %PotionLabel
+@onready var saved_label: Label = %SavedLabel
 
 var _player: Player
 var _message_tween: Tween
@@ -19,6 +20,7 @@ var _message_tween: Tween
 
 func _ready() -> void:
 	death_label.modulate.a = 0.0
+	saved_label.modulate.a = 0.0
 	message_label.modulate.a = 0.0
 	_on_memories_changed(GameState.memories)
 	EventBus.memories_changed.connect(_on_memories_changed)
@@ -27,6 +29,7 @@ func _ready() -> void:
 	prompt_label.text = ""
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
+	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
 	_update_potions()
 	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Ankerspiegel berührt"))
@@ -47,6 +50,12 @@ func show_message(text: String) -> void:
 	_message_tween.tween_property(message_label, "modulate:a", 1.0, 0.2)
 	_message_tween.tween_interval(2.0)
 	_message_tween.tween_property(message_label, "modulate:a", 0.0, 0.6)
+
+
+## Kleiner Hinweis unten rechts, dass gespeichert wurde.
+func saved_label_flash() -> void:
+	saved_label.modulate.a = 1.0
+	create_tween().tween_property(saved_label, "modulate:a", 0.0, 1.5).set_delay(1.0)
 
 
 func _update_potions() -> void:

@@ -94,6 +94,12 @@ tests/       Headless-Rauchtests
 - **State-Namen**: Knotenname in snake_case („UseItem“ → &"use_item").
 - **Menü-Tests**: Menüs hören auf `_unhandled_input`; im Rauchtest dafür
   `_send_action()` statt `_tap()` benutzen.
+- **Speichern**: Alles, was ein Neustart überleben soll, gehört in `GameState` und
+  in dessen `to_dict()`/`from_dict()`/`reset()`. Geladen wird in
+  `test_arena.gd::_enter_tree()`, also vor allen `_ready()`. Der Rauchtest nutzt
+  einen eigenen Spielstand (`user://smoke_test_save.json`).
+- **Moral**: `GameState.moral.record(id, tugend, wert, text)`; jede Tat-ID zählt
+  einmal. Tugenden siehe `MoralMemory.VIRTUES`.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -349,9 +355,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   angekündigter Angriff, taumeln, zurückkehren, tot), Lock-on, Treffer-Feedback
   (Hitstop, Kamerawackeln, Rückstoß), Blocken & Parieren, Tod & Respawn am
   Checkpoint, Erinnerungen verlieren und zurückholen.
-- 🟨 **M3**: Stats & Level-Up (Erinnerungen am Ankerspiegel), Speichern/Laden,
-  Ankerspiegel, Pausenmenü, Heiltränke (finden), Artefakte (verbrauchbar/dauerhaft),
-  Inventar, Moral-Gedächtnis (Grundgerüst). Kaufen erst in M4 mit NPCs.
+- ✅ **M3**: Stats & Level-Up (Erinnerungen am Ankerspiegel, Rast-Menü), Speichern/
+  Laden (automatisch beim Rasten, Pausenmenü, „Neues Spiel“), Ankerspiegel,
+  Interaktion (E), Pausenmenü, Heiltränke (finden, R), Artefakte (verbrauchbar/
+  dauerhaft), Inventar (I), Moral-Gedächtnis (Grundgerüst). Kaufen erst in M4.
 - ⬜ **M4**: NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen).
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
