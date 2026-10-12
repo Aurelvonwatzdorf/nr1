@@ -1,6 +1,6 @@
 # Spiegelrealitäten (Arbeitstitel)
 
-Open-World-Action-RPG in Godot 4 im Cartoon-Look (japanisch, mongolisch,
+Open-World-Action-RPG in Godot 4 im animierten Cel-Shading-Look (japanisch, mongolisch,
 Cyberpunk). Drei Ebenen: die normale Welt, die **Geisterwelt** und die
 **Spiegelrealitäten**, Illusionswelten, in die Konzerne Menschen sperren. Das komplette
 Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.md).

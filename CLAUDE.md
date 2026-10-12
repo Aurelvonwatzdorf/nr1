@@ -115,11 +115,12 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
 - Harte, aber faire Gegner, Bosse mit mehreren Phasen.
 
-**Stil:** Mischung aus **japanischem**, **mongolischem** und **Cyberpunk**-Stil, als
-**Cartoon-Look** (stilisiert, nicht realistisch: Toon-Shader, klare Formen,
-kräftige Farben). **Vegetation:** mystische Pflanzen, Bäume und Ranken, die in
-Symbiose mit der futuristischen Welt leben. (Verhältnis zu „düster und
-rätselhaft“ siehe Offene Entscheidungen.)
+**Stil:** Mischung aus **japanischem**, **mongolischem** und **Cyberpunk**-Stil in
+einem **ernsthaften, animierten Look**: stilisiert und gezeichnet wirkend
+(Cel-Shading, weiche Farbflächen, klare Silhouetten), wie moderne
+Fantasy-Abenteuerspiele. **Nicht albern oder witzig-cartoonig.** Die Stimmung
+darf trotzdem düster und rätselhaft sein. **Vegetation:** mystische Pflanzen,
+Bäume und Ranken, die in Symbiose mit der futuristischen Welt leben.
 
 ## 3. Welt & Story
 
@@ -226,10 +227,14 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
   Kopiert im Finale das Gesicht des Bosses für Adams Illusion.
 - **Die Konzernhelden**: kontrollierte Vollstrecker, Mini-Bosse.
 - **Der Konzernboss**: Endgegner, Meister der Illusionen.
-- **Caspar**: verleiht Geld (Kredite). Man kann sich bei ihm verschulden.
+- **Caspar**: Geldverleiher. Gibt Kredite, man kann sich bei ihm verschulden.
   Zahlt man nicht zurück, schickt er immer wieder **Assassinen**, und je länger
-  die Schulden offen sind, desto stärker werden sie. (Aussehen und Hintergrund
-  noch offen, siehe Offene Entscheidungen.)
+  die Schulden offen sind, desto stärker werden sie.
+  - **Aussehen**: mindestens ein **Goldzahn**, eine **große Nase**.
+  - **Charakter**: geschäftstüchtig, berechnend, freundlich, solange man zahlt,
+    gnadenlos, wenn nicht.
+  - **Religion**: keine bestimmte (nicht jüdisch, damit er kein antisemitisches
+    Klischee bedient).
 
 ## 5. Kernmechaniken
 1. **Realitätsblick** (Q): kostet Fokus und zeigt kurz die wahre Welt: versteckte
@@ -259,10 +264,12 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
    schützen. Gegenteil: Grausamkeit, Gier, Rache an Wehrlosen. Für den Spieler
    unsichtbar. Grundlage für Rafas Prüfung.
 8. **Stats & Leveln**: verschiedene Werte, die man einzeln levelt, u. a.
-   - **Spiritualität**: levelt man durch **Beten** in Tempeln und Kirchen und
-     durch bestimmte Missionen. Nötig, um spirituellen Druck auszuhalten.
+   - **Spiritualität**: levelt man durch **Beten** in Tempeln, Kirchen und
+     Moscheen und durch bestimmte Missionen. Nötig, um spirituellen Druck auszuhalten.
    - **Physische Stärke** mit Unterwerten wie **Schnelligkeit** usw.
-9. **Artefakte**: verbessern eine bestimmte Fähigkeit, ähnlich wie ein Heiltrank.
+9. **Artefakte**: verbessern eine bestimmte Fähigkeit. Zwei Arten:
+   - **Verbrauchbar**: wirken einmal und sind dann weg, wie Tränke.
+   - **Dauerhaft**: wirken für immer.
 10. **Missionen**: Haupt- und Nebenmissionen in der Open World, auch kleine
     Hilfe-Missionen für die Moral.
 11. **Schulden bei Caspar**: Kredit aufnehmen, Schulden wachsen, Assassinen jagen
@@ -365,7 +372,7 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - M4 NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen)
    - M5 Charakterauswahl, Fähigkeitenbäume
    - M6 Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt), Karte,
-     Cartoon-Look/Toon-Shader
+     animierter Look (Cel-Shading)
    - M7 Spiegelrealitäten: Realitätsblick, Riss, Verankerung, „Konzernturm“, Adam
    - M8 Geisterwelt: Einladung (Zeit steht still), Tempel und Gebet, spiritueller
      Druck, Rituale
@@ -373,23 +380,10 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - M10 Caspar & Schulden-Assassinen, weitere Missionen
    - M11+ weitere Regionen/Epochen, „Gehege der Schweine“, Spiegelstadt
    - M12 Finale „Der Coup“, Hauptmenü, Sound, Feinschliff
-6. **Stimmung**: Cartoon-Look und die alte Vorgabe „düster und rätselhaft“
-   vertragen sich nur, wenn man es bewusst so macht (z. B. bunter Cartoon-Stil in
-   der normalen Welt, düsterer in Spiegelrealitäten und Geisterwelt). Was soll
-   gelten?
-7. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
+6. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
    eine Spiegelrealität? Wie hängt die Epochen-Karte mit Konzernen und
    Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
    Illusionen)?
-8. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
+7. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
    Schnelligkeit, Ausdauer, Widerstand) und Geist (Spiritualität, Fokus).
    Wie levelt man Körperwerte: mit Erinnerungen wie bisher, oder durch Training?
-9. **Artefakte**: dauerhafte Verbesserung (einmal benutzt, für immer stärker) oder
-   zeitlich begrenzt wie ein Trank?
-10. **Gebetsorte**: Tempel und Kirchen. Vorschlag: auch Moscheen, weil Tahirou und
-    Adam Muslime sind.
-11. **Caspar**: Mechanik (Kredit, Schulden, Assassinen) ist entschieden. Aussehen
-    und Hintergrund **bewusst noch nicht eingetragen**: Die Kombination aus
-    jüdisch, große Nase und gieriger Geldverleiher ist ein bekanntes
-    antisemitisches Feindbild und widerspricht der Regel in Abschnitt 4. Der
-    Nutzer entscheidet zwischen Alternativen (siehe Chat).
