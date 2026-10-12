@@ -81,10 +81,12 @@ func _run() -> void:
 	get_tree().quit(0 if _failures == 0 else 1)
 
 
+## Drückt eine Taste kurz. Die Figur sieht den Druck im nächsten Physik-Frame,
+## deshalb zwei Frames halten, bevor losgelassen wird.
 func _tap(action: StringName) -> void:
 	await get_tree().physics_frame
 	Input.action_press(action)
-	await get_tree().physics_frame
+	await _frames(2)
 	Input.action_release(action)
 
 

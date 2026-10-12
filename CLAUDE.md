@@ -37,7 +37,7 @@ Das Repository enthält zwei Dinge:
 ```bash
 godot --headless --path game --import          # Assets/Klassen importieren
 godot --headless --path game --quit            # Projekt laden, Skriptfehler zeigen
-godot --headless --path game -s res://tests/smoke_test.gd   # Logik-Rauchtest
+godot --headless --path game res://tests/smoke_test.tscn  # Logik-Rauchtest (Exit 0 = ok)
 ```
 In der Cloud-Umgebung ist Godot nicht vorinstalliert und Release-Downloads sind
 gesperrt. Es wurde aus dem Quellcode gebaut (Tag `4.7.2-stable`, Klon unter
@@ -93,6 +93,10 @@ tests/       Headless-Rauchtests
 - Signale in Vergangenheitsform (`died`, `hit_received`, `value_changed`).
 - Keine geschützten Namen, Figuren oder Assets anderer Spiele übernehmen.
 - Commits klein, Nachricht beschreibt den funktionierenden Schritt.
+- `.uid`-Dateien, die Godot neben Skripten anlegt, **mit committen** (Godot nutzt
+  sie, um Dateien auch nach Umbenennen wiederzufinden). `.godot/` nie committen.
+- Neue Mechaniken bekommen nach Möglichkeit eine Prüfung im Rauchtest
+  (`game/tests/smoke_test.gd`). Simulierte Tasten 2 Physik-Frames halten.
 
 ---
 
