@@ -17,7 +17,13 @@ signal camera_shake_requested(strength: float)
 signal damage_dealt(target: Node, amount: float)
 ## Ein Gegner wurde besiegt.
 signal enemy_killed(enemy: Enemy)
-## Ein Checkpoint wurde aktiviert (neuer Wiederbelebungsort).
+## Text der Interaktion in Reichweite („Rasten“) oder "" für keine.
+signal interaction_prompt_changed(prompt: String)
+## Kurze Meldung für das HUD.
+signal message_requested(text: String)
+## Die Spielfigur hat an einem Ankerspiegel gerastet.
+signal anchor_mirror_rested(mirror: Node3D, player: Player)
+## Ein Ankerspiegel wurde zum ersten Mal benutzt (neuer Wiederbelebungsort).
 signal checkpoint_activated(checkpoint: Node3D)
 ## Die verlorenen Erinnerungen wurden an der Todesstelle zurückgeholt.
 signal memories_recovered(amount: int)

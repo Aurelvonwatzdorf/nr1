@@ -202,13 +202,19 @@ func _run() -> void:
 	_check(manager.get_remnant() == null and GameState.memories == 0, "Erneuter Tod: alte Erinnerungen endgültig verloren")
 	await get_tree().create_timer(0.8).timeout
 
-	# Checkpoint aktivieren
-	var checkpoint: Checkpoint = arena.get_node("Checkpoints/CheckpointWest")
-	player.global_position = checkpoint.global_position + Vector3(0.0, 0.05, 0.0)
-	await _frames(5)
-	_check(checkpoint.is_active(), "Durchlaufen aktiviert den Checkpoint")
+	# Ankerspiegel: E zeigt „Rasten“, Rasten heilt und setzt Wiederbelebungsort
+	var mirror: AnchorMirror = arena.get_node("AnchorMirrors/MirrorWest")
+	player.global_position = mirror.spawn_point.global_position
+	player.health.take_damage(30.0)
+	await _frames(30)
+	_check(player.interaction_detector.current == mirror, "Ankerspiegel ist in Reichweite")
+	await _tap(&"interact")
+	await _frames(2)
+	_check(mirror.is_active(), "Rasten macht den Spiegel zum Wiederbelebungsort")
+	_check(is_equal_approx(player.health.current, player.health.max_value), "Rasten heilt voll")
 	player.global_position = Vector3(0.0, 0.05, 2.0)
-	await _frames(3)
+	await _frames(10)
+	_check(player.interaction_detector.current == null, "Weit weg: keine Interaktion")
 
 	# Stats: Leveln mit Erinnerungen, abgeleitete Werte
 	var stats := GameState.stats

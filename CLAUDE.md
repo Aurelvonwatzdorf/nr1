@@ -81,6 +81,9 @@ tests/       Headless-Rauchtests
 - **Anvisierbar** ist alles in der Gruppe `lock_on_targets` mit `is_targetable()`
   und `get_lock_on_point()`. Gegner sind in der Gruppe `enemies` und haben
   `reset_enemy()` (wird nach dem Tod der Spielfigur aufgerufen).
+- **Interaktion (E)**: Alles, womit man etwas tun kann, erbt von `Interactable`
+  (Ebene 6) und überschreibt `interact(player)`. `InteractionDetector` am Spieler
+  wählt das nächste. Ankerspiegel = `AnchorMirror` (Rasten, Wiederbelebungsort).
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -94,6 +97,7 @@ tests/       Headless-Rauchtests
 | 3 | 4 | Gegner | Gegnerkörper, Trainingspuppe |
 | 4 | 8 | Hitbox | Angriffsflächen (suchen Hurtboxes) |
 | 5 | 16 | Hurtbox | Trefferflächen (werden gefunden) |
+| 6 | 32 | Interaktion | Interactables (Ankerspiegel, Gegenstände, NPCs) |
 
 ### Konventionen
 - Dateien und Ordner `snake_case`, Klassen `PascalCase` mit `class_name`.

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/training_dummy.tscn" id="3_dummy"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy.tscn" id="5_enemy"]
-[ext_resource type="PackedScene" path="res://scenes/world/checkpoint.tscn" id="6_checkpoint"]
+[ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="6_mirror"]
 [ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="7_remnant"]
 [ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="8_respawn"]
 
@@ -220,12 +220,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -15)
 [node name="Guard3" parent="Enemies" instance=ExtResource("5_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.55, 4)
 
-[node name="Checkpoints" type="Node3D" parent="."]
+[node name="AnchorMirrors" type="Node3D" parent="."]
 
-[node name="CheckpointStart" parent="Checkpoints" instance=ExtResource("6_checkpoint")]
+[node name="MirrorStart" parent="AnchorMirrors" instance=ExtResource("6_mirror")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 6)
 
-[node name="CheckpointWest" parent="Checkpoints" instance=ExtResource("6_checkpoint")]
+[node name="MirrorWest" parent="AnchorMirrors" instance=ExtResource("6_mirror")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -3)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]

@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/anchor_mirror.gd" id="1_mirror"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_area"]
+size = Vector3(2.4, 2.6, 2.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
+albedo_color = Color(0.25, 0.22, 0.2, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame"]
+material = SubResource("StandardMaterial3D_frame")
+size = Vector3(1.4, 2.4, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_glass"]
+size = Vector3(1.1, 2.1, 0.05)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+material = SubResource("StandardMaterial3D_frame")
+top_radius = 0.9
+bottom_radius = 1.0
+height = 0.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_solid"]
+size = Vector3(1.4, 2.4, 0.3)
+
+[node name="AnchorMirror" type="Area3D"]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_mirror")
+prompt = "Rasten"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.6)
+shape = SubResource("BoxShape3D_area")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_base")
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("BoxMesh_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.09)
+mesh = SubResource("BoxMesh_glass")
+
+[node name="Solid" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Solid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("BoxShape3D_solid")
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1.6)

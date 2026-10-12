@@ -19,6 +19,7 @@ extends CharacterBody3D
 @onready var state_machine: StateMachine = $StateMachine
 @onready var camera_rig: CameraRig = $CameraRig
 @onready var lock_on: LockOnComponent = $LockOnComponent
+@onready var interaction_detector: InteractionDetector = $InteractionDetector
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
@@ -44,6 +45,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_input_enabled() and Input.is_action_just_pressed(&"lock_on"):
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
+	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
+		interaction_detector.current.interact(self)
 	state_machine.physics_update(delta)
 	move_and_slide()
 
@@ -130,6 +133,19 @@ func _apply_character_data() -> void:
 		var material := StandardMaterial3D.new()
 		material.albedo_color = data.placeholder_color
 		body_mesh.material_override = material
+
+
+## Interagieren nur im Stehen oder Gehen, nicht mitten im Angriff.
+func can_interact() -> bool:
+	return interaction_detector.current != null \
+		and state_machine.get_current_state_name() in [&"idle", &"move"]
+
+
+## Rasten (Ankerspiegel): alle Werte voll.
+func rest() -> void:
+	health.refill()
+	stamina.refill()
+	focus.refill()
 
 
 ## Wiederbeleben an einer Stelle (Checkpoint): volle Werte, Zustand Idle.
