@@ -35,6 +35,7 @@ func _ready() -> void:
 	hurtbox.hit_received.connect(_on_hit_received)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
 	hitbox.hit_landed.connect(_on_hit_landed)
+	hurtbox.hit_filter = _filter_incoming_hit
 	state_machine.start(self)
 	EventBus.player_spawned.emit(self)
 
@@ -135,8 +136,42 @@ func respawn(at: Transform3D) -> void:
 	EventBus.player_respawned.emit(self)
 
 
+## Entscheidet über Blocken und Parieren, bevor der Schaden ankommt.
+func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
+	var block_state := state_machine.current_state as PlayerBlockState
+	if block_state == null:
+		return Hurtbox.Result.HIT
+	# Nur Treffer von vorne lassen sich abwehren.
+	if get_facing_direction().dot(-hit.direction) < 0.2:
+		return Hurtbox.Result.HIT
+	if block_state.is_in_parry_window():
+		return Hurtbox.Result.PARRIED
+	var data := character_data
+	var absorbed := hit.damage * data.block_damage_reduction
+	hit.damage -= absorbed
+	stamina.consume(absorbed * data.block_stamina_per_damage)
+	return Hurtbox.Result.BLOCKED
+
+
 func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
-	if health.is_dead or result != Hurtbox.Result.HIT:
+	if health.is_dead:
+		return
+	if result == Hurtbox.Result.PARRIED:
+		EventBus.camera_shake_requested.emit(0.3)
+		HitStop.apply(0.12)
+		return
+	if result == Hurtbox.Result.BLOCKED:
+		EventBus.camera_shake_requested.emit(0.2)
+		if stamina.is_empty():
+			# Deckung gebrochen: lange wehrlos.
+			last_hit = hit
+			state_machine.transition_to(&"hurt", {"time": character_data.guard_break_time})
+		else:
+			var push := hit.direction * hit.knockback * 0.6
+			velocity.x = push.x
+			velocity.z = push.z
+		return
+	if result != Hurtbox.Result.HIT:
 		return
 	last_hit = hit
 	EventBus.camera_shake_requested.emit(0.5)

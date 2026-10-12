@@ -19,6 +19,9 @@ func try_start_combat_action() -> bool:
 	if Input.is_action_just_pressed(&"dodge"):
 		state_machine.transition_to(&"dodge")
 		return true
+	if Input.is_action_pressed(&"block"):
+		state_machine.transition_to(&"block")
+		return true
 	var heavy := is_heavy_attack_pressed()
 	if heavy or Input.is_action_just_pressed(&"attack_light"):
 		state_machine.transition_to(&"attack", {"heavy": heavy})

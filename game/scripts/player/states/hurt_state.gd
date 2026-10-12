@@ -6,8 +6,8 @@ extends PlayerState
 var _time_left: float = 0.0
 
 
-func enter(_msg: Dictionary = {}) -> void:
-	_time_left = player.character_data.hurt_stagger_time
+func enter(msg: Dictionary = {}) -> void:
+	_time_left = msg.get("time", player.character_data.hurt_stagger_time)
 	var hit := player.last_hit
 	if hit:
 		var push := hit.direction * hit.knockback * 2.0

@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/player/states/hurt_state.gd" id="15_hurt"]
 [ext_resource type="Script" path="res://scripts/player/states/dead_state.gd" id="16_dead"]
 [ext_resource type="Script" path="res://scripts/player/lock_on_component.gd" id="17_lock_on"]
+[ext_resource type="Script" path="res://scripts/player/states/block_state.gd" id="18_block"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -153,6 +154,9 @@ script = ExtResource("12_dodge")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("13_attack")
+
+[node name="Block" type="Node" parent="StateMachine"]
+script = ExtResource("18_block")
 
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("15_hurt")

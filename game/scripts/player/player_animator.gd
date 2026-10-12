@@ -45,6 +45,14 @@ func play_attack(attack: AttackData) -> void:
 	_tween.tween_property(weapon_pivot, "rotation:y", 0.0, attack.recovery_time)
 
 
+## Deckung: Platzhalter-Waffe quer vor den Körper halten.
+func set_blocking(active: bool) -> void:
+	if _travel(&"block" if active else &"idle") or weapon_pivot == null:
+		return
+	_kill_tween()
+	weapon_pivot.rotation = Vector3(0.0, deg_to_rad(80.0), deg_to_rad(70.0)) if active else Vector3.ZERO
+
+
 ## Grundhaltung wiederherstellen (z. B. nach dem Respawn).
 func reset_pose() -> void:
 	_kill_tween()

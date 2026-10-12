@@ -36,6 +36,17 @@ extends Resource
 ## Wie lange die Figur nach einem Treffer taumelt.
 @export var hurt_stagger_time: float = 0.35
 
+@export_group("Blocken")
+@export var block_move_speed: float = 2.0
+## Anteil des Schadens, der beim Blocken abgefangen wird (0.8 = 80 %).
+@export_range(0.0, 1.0) var block_damage_reduction: float = 0.8
+## Ausdauerkosten pro Punkt abgefangenen Schadens.
+@export var block_stamina_per_damage: float = 1.5
+## So lange nach Blockbeginn zählt ein Treffer als Parade (Sekunden).
+@export var parry_window: float = 0.2
+## Taumelzeit, wenn die Deckung bricht (Ausdauer leer).
+@export var guard_break_time: float = 0.9
+
 @export_group("Angriffe")
 @export var light_attack: AttackData
 @export var heavy_attack: AttackData

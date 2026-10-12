@@ -74,6 +74,35 @@ func _run() -> void:
 	await _frames(120)
 	_check(player.stamina.current > low, "Ausdauer regeneriert sich")
 
+	# Blocken und Parieren (Treffer kommt von vorne)
+	player.health.revive()
+	player.stamina.refill()
+	player.rotation = Vector3.ZERO
+	await _frames(2)
+	Input.action_press(&"block")
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() == &"block", "Rechtsklick halten blockt")
+	var front_hit := HitData.new()
+	front_hit.damage = 20.0
+	front_hit.direction = Vector3(0.0, 0.0, 1.0)
+	_check(player.hurtbox.receive_hit(front_hit) == Hurtbox.Result.PARRIED and player.health.current == player.health.max_value, "Treffer direkt nach Blockbeginn wird pariert")
+	await _frames(20)
+	var stamina_before_block := player.stamina.current
+	front_hit = HitData.new()
+	front_hit.damage = 20.0
+	front_hit.direction = Vector3(0.0, 0.0, 1.0)
+	_check(player.hurtbox.receive_hit(front_hit) == Hurtbox.Result.BLOCKED, "Späterer Treffer wird geblockt")
+	_check(is_equal_approx(player.health.current, player.health.max_value - 4.0), "Block fängt 80 %% Schaden ab (Leben: %s)" % player.health.current)
+	_check(player.stamina.current < stamina_before_block, "Blocken kostet Ausdauer")
+	var back_hit := HitData.new()
+	back_hit.damage = 10.0
+	back_hit.direction = Vector3(0.0, 0.0, -1.0)
+	_check(player.hurtbox.receive_hit(back_hit) == Hurtbox.Result.HIT, "Treffer von hinten geht durch den Block")
+	Input.action_release(&"block")
+	await _frames(30)
+	player.health.revive()
+	player.stamina.refill()
+
 	# Gegner bemerkt, verfolgt und greift an
 	var guard: Enemy = arena.get_node("Enemies/Guard1")
 	player.health.revive()
@@ -102,6 +131,12 @@ func _run() -> void:
 		saw_stagger = saw_stagger or guard.state_machine.get_current_state_name() == &"stagger"
 	_check(guard.health.current < guard_hp, "Spielfigur trifft den Gegner")
 	_check(saw_stagger, "Getroffener Gegner taumelt")
+
+	# Parierter Gegner ist lange wehrlos
+	await _frames(40)
+	guard._on_hit_landed(player.hurtbox, HitData.new(), Hurtbox.Result.PARRIED)
+	await _frames(45)
+	_check(guard.state_machine.get_current_state_name() == &"stagger", "Parierter Gegner ist nach 0,75 s noch wehrlos")
 
 	# Gegner besiegen: Erinnerungen, tot, nicht mehr anvisierbar
 	var memories_before := GameState.memories
