@@ -124,6 +124,11 @@ Eine Gruppe von Freunden will nach oben und gerät selbst in die Spiegelrealitä
 In der gespielten Hauptfigur steckt der **Begleiter**, eine Helfer-Illusion, die
 Hinweise gibt und lehrt, hinter die Realität zu sehen.
 
+**Die Geisterwelt** ist eine ganz eigene Welt, getrennt von den
+Spiegelrealitäten, voller Geister und anderer Wesen. Man kann sie nicht einfach
+betreten: **Entweder Geister laden einen ein, oder man führt bestimmte, schwer
+durchführbare Rituale durch.** Hier lebt Rafa.
+
 **Kernregel:** Eine Realität verlässt man nur, wenn man ihr Ziel erfüllt ODER die
 Illusion durchschaut und bricht. Jede Realität hat eigene Regeln, Optik und
 Mechaniken. Hinter jeder Realität kann eine weitere liegen.
@@ -150,13 +155,21 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
 
 ### Wichtige Verbündete
 - **Rafael („Rafa“)**: Latino, Christ. Held wie ein göttlich gesandter Engel:
-  starke Moral, gewaltige Kraft, strahlende Erscheinung. **Unabhängig**: Kein
-  Konzern kontrolliert ihn. Er lebt in der **Geisterwelt**.
-  - **Herbeirufen ist extrem schwer und gefährlich.**
-  - Wer ihn ruft, wird von ihm **geprüft**: seine Moral, also wie er sich im
-    bisherigen Leben (= bisherigen Spielverlauf) verhalten hat.
-  - **Besteht man die Prüfung nicht, muss man erst gegen ihn kämpfen.**
-  - Danach ist er ein mächtiger Verbündeter. (Details siehe Offene Entscheidungen.)
+  starke Moral, gewaltige Kraft, strahlende Erscheinung.
+  - **Das mächtigste Wesen im ganzen Spiel**, mächtiger als jeder Konzern,
+    Held oder Boss.
+  - **Unabhängig**: Er hält sich aus den Konzernen und ihren Machtkämpfen heraus.
+    Er lebt in der **Geisterwelt** (siehe Abschnitt 3).
+  - **Herbeirufen ist extrem schwer und gefährlich**, weil Rafa seine Ruhe haben
+    will, nicht gestört werden möchte und so mächtig ist.
+  - **Die Prüfung**: Rafa sieht alles, was man im Spiel bisher getan hat und wie
+    man sich verhalten hat. Er urteilt nach der **Moral des Christentums**. Dann
+    stellt er **drei Fragen**, die man nur wahrheitsgemäß beantworten kann.
+    Daraus ergibt sich, ob man bestanden hat.
+  - **Nicht bestanden → Kampf gegen Rafa.**
+  - **Nach dem Kampf** hört er sich die Bitte an und entscheidet, ob er hilft.
+    Er hilft **nur, wenn die Bitte seiner Moral entspricht**. Er ist also kein
+    Verbündeter, den man beliebig einsetzen kann.
 - **Adam**: Araber, Muslim, trägt eine Galabiya. Schlitzohr und Genie. Bewegt sich
   mühelos durch Spiegelrealitäten und kann selbst Realitäten erschaffen. Gibt
   Hinweise, öffnet Abkürzungen, erschafft im Finale die Illusion für den
@@ -184,12 +197,15 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
 4. **Vergessen / Verankerung**: Je länger man in einer Realität bleibt, desto
    höher die Verankerung. Ist sie zu hoch, verblasst das HUD, der Begleiter wird
    leiser und die Wahrnehmung verzerrt sich. Ankerspiegel senken den Wert.
-5. **Verbündete herbeirufen**: Adam nach seinem Beitritt, Rafa nach bestandener
-   Prüfung bzw. gewonnenem Kampf. An bestimmten Orten und vor Bosskämpfen, mit
-   eigener Begleiter-KI. Rafa zu rufen ist schwer und gefährlich (Kosten/Risiko
-   siehe Offene Entscheidungen).
-6. **Rafas Prüfung (Moral)**: Das Spiel merkt sich, wie man sich verhalten hat.
-   Rafa urteilt darüber. Durchgefallen = Kampf gegen Rafa.
+5. **Verbündete herbeirufen**: Adam nach seinem Beitritt, an bestimmten Orten und
+   vor Bosskämpfen, mit eigener Begleiter-KI. Rafa ist ein Sonderfall: Man ruft
+   ihn nicht wie einen Helfer, man bittet ihn (siehe 6).
+6. **Rafa beschwören**: Ritual oder Einladung → Prüfung (Rückblick auf das eigene
+   Verhalten + drei Fragen, nur wahre Antworten möglich) → bestanden: Bitte
+   vortragen / nicht bestanden: Kampf, danach Bitte vortragen → Rafa entscheidet
+   nach seiner Moral, ob er hilft.
+7. **Moral-Gedächtnis**: Das Spiel schreibt von Anfang an mit, wie man sich
+   verhält. Grundlage für Rafas Prüfung.
 
 ## 6. Realitäten (Level)
 1. **Der Konzernturm** (Tutorial): sterile Bürowelt, Kampf lernen. Am Ende ist der
@@ -230,14 +246,16 @@ Status: ⬜ offen · 🟨 in Arbeit · ✅ fertig
   Figur als Daten-Resource, HUD (Leben/Ausdauer/Fokus), Testarena mit Trainingspuppe.
 - ⬜ **M2**: Gegner-KI mit State Machine, Lock-on, Treffer-Feedback, Tod/Respawn,
   Währung verlieren und zurückholen.
-- ⬜ **M3**: Ankerspiegel, Speichern/Laden, Heiltränke, Inventar & Ausrüstung, Level-Up.
+- ⬜ **M3**: Ankerspiegel, Speichern/Laden, Heiltränke, Inventar & Ausrüstung, Level-Up,
+  Moral-Gedächtnis (Grundgerüst, wird gespeichert).
 - ⬜ **M4**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progressionssystem
   (Story + Level-Ups).
 - ⬜ **M5**: Realitätsblick, Realitätsriss, Verankerung.
 - ⬜ **M6**: Tutorial-Level „Konzernturm“ komplett, erster Boss, Adam.
 - ⬜ **M7**: Tarnung/Verdacht, „Gehege der Schweine“, Boss „Mastmutter“.
-- ⬜ **M8**: Verbündeten-System (Rafa & Adam herbeirufen), Dialogsystem,
-  Moral-Gedächtnis, Rafas Prüfung, Kampf gegen Rafa.
+- ⬜ **M8**: Verbündeten-System (Adam), Dialogsystem, Geisterwelt (Ritual/
+  Einladung), Rafas Prüfung, Kampf gegen Rafa, Rafas Bitte-Entscheidung.
+  (Das Moral-Gedächtnis selbst entsteht schon in M3.)
 - ⬜ **M9**: Spiegelstadt, Rafas Geschichte.
 - ⬜ **M10**: Finale „Der Coup“, Hauptmenü, Sound, Feinschliff.
 
@@ -259,25 +277,28 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - Tahirou: ruhig, abwartend, präzise. Ressource „Ruhe“. Äste: Klarheit
      (Illusionen/Schwachstellen sehen), Konter (Paraden, Gegenangriffe),
      Fluss (Bewegung, Ausweichen).
-3. ~~Rafa kontrolliert oder frei~~ → **entschieden**: unabhängig, lebt in der
-   Geisterwelt, Prüfung, bei Durchfallen Kampf (siehe Abschnitt 4).
-   Noch offen dazu:
-   - **Was ist die Geisterwelt?** Eigene Welt neben den Spiegelrealitäten, eine
-     Schicht hinter ihnen, oder etwas ganz anderes? Wo im Spiel betritt man sie?
-   - **Was wird bewertet?** Vorschlag „Moral-Gedächtnis“: zählt Entscheidungen
-     (Gefangene retten oder liegen lassen, Gegner verschonen, lügen/betrügen,
-     Unschuldige verletzen, Versprechen halten). Unsichtbar für den Spieler,
-     damit man nicht „auf die Prüfung hin“ spielt.
-   - **Wie läuft die Prüfung ab?** Vorschlag: Rafa zeigt Szenen aus dem eigenen
-     Spielverlauf und stellt Fragen. Lügen bemerkt er.
-   - **Warum gefährlich?** Vorschlag: kostet viel Fokus und einen Teil der
-     Erinnerungen. Scheitert die Beschwörung, entstehen feindliche Geister.
-   - **Danach**: Kann man ihn erneut prüfen lassen? Wird er nach einem verlorenen
-     Kampf trotzdem Verbündeter, oder erst nach einem Sieg?
+3. **Rafa und die Geisterwelt**: Grundlagen **entschieden** (Abschnitte 3 bis 5).
+   Noch offen:
+   - **Was zählt für die Moral?** Vorschlag nach christlichen Werten:
+     Nächstenliebe (Fremden helfen, Gefangene retten), Barmherzigkeit (Besiegte
+     verschonen), Ehrlichkeit (nicht lügen/betrügen), Vergebung (Verrat nicht
+     rächen), Demut (Macht nicht missbrauchen), Schwache schützen. Gegenteil:
+     Grausamkeit, Gier, Rache an Wehrlosen. Unsichtbar für den Spieler.
+   - **Respekt-Regel (Vorschlag)**: Rafa beurteilt Taten, nicht den Glauben. Ein
+     muslimischer Tahirou wird nicht schlechter beurteilt als ein christlicher
+     Aurel. Rafa predigt nicht, er fragt und urteilt.
+   - **Die drei Fragen**: Feste Fragen oder passend zum eigenen Verhalten? Vorschlag:
+     Rafa wählt die drei Momente, die am meisten über einen aussagen. Antworten
+     bestehen aus Möglichkeiten, die nur die Wahrheit zulassen (unwahre Antworten
+     sind ausgegraut, oder die Figur kann sie nicht aussprechen).
+   - **Kampf gegen das mächtigste Wesen**: Kann man ihn überhaupt besiegen?
+     Vorschlag: Ziel ist nicht siegen, sondern bestehen (eine Zeit lang
+     standhalten oder ihn einmal würdig treffen). Was passiert bei einer
+     Niederlage: einfach Tod wie sonst, oder eigene Folgen?
+   - **Ritual und Einladung**: Welche Rituale (Gegenstände, Orte, Bedingungen)?
+     Wer lädt einen ein und warum?
+   - **Wie hilft Rafa konkret?** Einmaliger Auftritt (z. B. in einem Bosskampf),
+     ein Rat, ein Geschenk? Wie oft darf man ihn bitten?
    - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6),
-     oder spielt sie jetzt in der Geisterwelt?
-   - **Technik-Hinweis**: Damit Rafa „das bisherige Leben“ beurteilen kann, muss
-     das Spiel Entscheidungen von Anfang an mitschreiben. Vorschlag: einfaches
-     Moral-Gedächtnis in `GameState` schon in M3 (zusammen mit Speichern), die
-     Prüfung selbst erst in M8.
+     oder kommt dort jetzt etwas anderes hin?
 4. **Spieltitel**: noch offen (Arbeitstitel „Spiegelrealitäten“).

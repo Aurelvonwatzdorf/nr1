@@ -72,11 +72,11 @@ godot --headless --path game res://tests/smoke_test.tscn
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen
 - ⬜ **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Tod/Respawn, Erinnerungen zurückholen
-- ⬜ **M3**: Ankerspiegel, Speichern/Laden, Heiltränke, Inventar, Level-Up
+- ⬜ **M3**: Ankerspiegel, Speichern/Laden, Heiltränke, Inventar, Level-Up, Moral-Gedächtnis
 - ⬜ **M4**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression
 - ⬜ **M5**: Realitätsblick, Realitätsriss, Verankerung
 - ⬜ **M6**: Tutorial-Level „Konzernturm“, erster Boss, Adam
 - ⬜ **M7**: Tarnung/Verdacht, „Gehege der Schweine“, Boss „Mastmutter“
-- ⬜ **M8**: Verbündeten-System (Rafa & Adam), Dialogsystem, Rafas Prüfung
+- ⬜ **M8**: Verbündeten-System (Adam), Dialogsystem, Geisterwelt, Rafas Prüfung
 - ⬜ **M9**: Spiegelstadt, Rafas Geschichte
 - ⬜ **M10**: Finale „Der Coup“, Hauptmenü, Sound, Feinschliff
