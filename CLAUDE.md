@@ -191,7 +191,9 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
   - **Herbeirufen ist extrem schwer und gefährlich**, weil Rafa seine Ruhe haben
     will, nicht gestört werden möchte und so mächtig ist.
   - **Die Prüfung**: Rafa sieht alles, was man im Spiel bisher getan hat und wie
-    man sich verhalten hat. Er urteilt nach der **Moral des Christentums**. Dann
+    man sich verhalten hat. Er urteilt nach der **Moral des Christentums**,
+    aber **über Taten, nicht über den Glauben**: Figuren mit anderem Glauben
+    (z. B. Tahirou, Adam) werden nicht anders bewertet. Rafa predigt nicht. Dann
     stellt er **drei Fragen**, die man nur wahrheitsgemäß beantworten kann.
     Daraus ergibt sich, ob man bestanden hat.
     - Die Fragen **beziehen sich auf das, was man mit der gespielten Figur
@@ -310,28 +312,30 @@ aus. (Wie genau, siehe Offene Entscheidungen.)
 ## 8. Roadmap
 Status: ⬜ offen · 🟨 in Arbeit · ✅ fertig
 
-> **Achtung:** Diese Roadmap stammt noch aus der Zeit vor Open World, drei Ebenen,
-> Stats und NPCs. Ein Vorschlag für eine neue Roadmap steht unter Offene
-> Entscheidungen, Punkt 5. Bis der Nutzer zustimmt, gilt die alte.
+Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 
 - ✅ **M1**: Spieler-Controller & Kampf-Grundlagen: Projekt, Input Map, Spielfigur
   mit Third-Person-Kamera, Bewegung relativ zur Kamera, Sprint, Ausweichrolle mit
-  I-Frames, leichter (und schwerer) Angriff mit Hitbox, Ausdauer mit Regeneration,
+  I-Frames, leichter und schwerer Angriff mit Hitbox, Ausdauer mit Regeneration,
   Figur als Daten-Resource, HUD (Leben/Ausdauer/Fokus), Testarena mit Trainingspuppe.
-- ⬜ **M2**: Gegner-KI mit State Machine, Lock-on, Treffer-Feedback, Tod/Respawn,
-  Währung verlieren und zurückholen.
-- ⬜ **M3**: Ankerspiegel, Speichern/Laden, Heiltränke, Inventar & Ausrüstung, Level-Up,
-  Moral-Gedächtnis (Grundgerüst, wird gespeichert).
-- ⬜ **M4**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progressionssystem
-  (Story + Level-Ups).
-- ⬜ **M5**: Realitätsblick, Realitätsriss, Verankerung.
-- ⬜ **M6**: Tutorial-Level „Konzernturm“ komplett, erster Boss, Adam.
-- ⬜ **M7**: Tarnung/Verdacht, „Gehege der Schweine“, Boss „Mastmutter“.
-- ⬜ **M8**: Verbündeten-System (Adam), Dialogsystem, Geisterwelt (Ritual/
-  Einladung), Rafas Prüfung, Kampf gegen Rafa, Rafas Bitte-Entscheidung.
-  (Das Moral-Gedächtnis selbst entsteht schon in M3.)
-- ⬜ **M9**: Spiegelstadt, Rafas Geschichte.
-- ⬜ **M10**: Finale „Der Coup“, Hauptmenü, Sound, Feinschliff.
+- 🟨 **M2**: Gegner-KI mit State Machine, Lock-on, Treffer-Feedback (Hitstop,
+  Kamerawackeln, Rückstoß), Blocken, Tod & Respawn am Checkpoint, Erinnerungen
+  verlieren und zurückholen.
+- ⬜ **M3**: Stats & Level-Up (Körper + Spiritualität), Speichern/Laden,
+  Checkpoints/Ankerspiegel, Heiltränke, Artefakte (verbrauchbar/dauerhaft), Inventar.
+- ⬜ **M4**: NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen).
+- ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
+- ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
+  Karte, animierter Look (Cel-Shading).
+- ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
+  „Konzernturm“, Adam.
+- ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
+  und Gebet, spiritueller Druck, Rituale in Bergtempeln.
+- ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
+- ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
+- ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),
+  Spiegelstadt.
+- ⬜ **M12**: Finale „Der Coup“, Hauptmenü, Sound, Feinschliff.
 
 ## 9. Offene Entscheidungen (Vorschläge, vom Nutzer NOCH NICHT bestätigt)
 Nicht umsetzen, bevor der Nutzer zugestimmt hat. Bis dahin haben Aurel und Tahirou
@@ -353,9 +357,6 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
      Fluss (Bewegung, Ausweichen).
 3. **Rafa und die Geisterwelt**: Moralwerte, Fragen, Kampf, Einladung, Ritual und
    Hilfe sind **entschieden** (Abschnitte 3 bis 5). Noch offen:
-   - **Respekt-Regel (Vorschlag)**: Rafa beurteilt Taten, nicht den Glauben.
-     Ein muslimischer Tahirou wird nicht schlechter beurteilt als ein
-     christlicher Aurel. Rafa predigt nicht, er fragt und urteilt.
    - **Wie „manipuliert“ man Rafa im Kampf?** Vorschlag: Während man standhält,
      kann man ihn ansprechen. Die richtigen Worte (passend zu dem, was man über
      Rafa und Daniel herausgefunden hat) bringen ihn ins Zögern. Nach genug
@@ -363,27 +364,10 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - **Welche Gegenstände braucht das Ritual?** Und wo liegen die Bergtempel?
    - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6)?
 4. **Spieltitel**: noch offen (Arbeitstitel „Spiegelrealitäten“).
-5. **Neue Roadmap (Vorschlag)**: Open World nicht auf einmal, sondern erst eine
-   Region komplett, dann erweitern.
-   - M1 ✅ Spieler & Kampf-Grundlagen
-   - M2 Gegner-KI, Lock-on, Treffer-Feedback, Tod/Respawn am Checkpoint, Erinnerungen
-   - M3 Stats & Level-Up (Körper + Spiritualität), Speichern/Laden, Checkpoints,
-     Heiltränke, Artefakte, Inventar
-   - M4 NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen)
-   - M5 Charakterauswahl, Fähigkeitenbäume
-   - M6 Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt), Karte,
-     animierter Look (Cel-Shading)
-   - M7 Spiegelrealitäten: Realitätsblick, Riss, Verankerung, „Konzernturm“, Adam
-   - M8 Geisterwelt: Einladung (Zeit steht still), Tempel und Gebet, spiritueller
-     Druck, Rituale
-   - M9 Rafa: Prüfung, Kampf, Bitte; Daniel
-   - M10 Caspar & Schulden-Assassinen, weitere Missionen
-   - M11+ weitere Regionen/Epochen, „Gehege der Schweine“, Spiegelstadt
-   - M12 Finale „Der Coup“, Hauptmenü, Sound, Feinschliff
-6. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
+5. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
    eine Spiegelrealität? Wie hängt die Epochen-Karte mit Konzernen und
    Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
    Illusionen)?
-7. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
+6. **Stats im Detail**: Welche Werte genau? Vorschlag: Körper (Stärke,
    Schnelligkeit, Ausdauer, Widerstand) und Geist (Spiritualität, Fokus).
    Wie levelt man Körperwerte: mit Erinnerungen wie bisher, oder durch Training?
