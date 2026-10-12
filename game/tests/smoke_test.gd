@@ -114,6 +114,16 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(5)
 
+	# Lock-on: nächstes Ziel vor der Kamera, zweiter Druck löst
+	await _tap(&"lock_on")
+	_check(player.get_lock_target() == dummy, "Lock-on wählt die Puppe direkt vor der Kamera")
+	await _frames(30)
+	var cam_forward := -player.camera_rig.camera.global_basis.z
+	var to_dummy := player.camera_rig.camera.global_position.direction_to(dummy.global_position)
+	_check(cam_forward.dot(to_dummy) > 0.9, "Kamera schaut beim Lock-on aufs Ziel")
+	await _tap(&"lock_on")
+	_check(player.get_lock_target() == null, "Zweiter Druck löst den Lock-on")
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()

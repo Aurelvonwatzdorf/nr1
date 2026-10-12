@@ -21,7 +21,9 @@ func enter(msg: Dictionary = {}) -> void:
 	_time = 0.0
 	_buffered = -1
 	player.stamina.consume(_attack.stamina_cost)
-	player.snap_towards(player.get_move_direction())
+	# Mit Lock-on zielt der Schlag aufs Ziel, sonst in Laufrichtung.
+	var aim := player.get_direction_to_lock_target()
+	player.snap_towards(aim if aim != Vector3.ZERO else player.get_move_direction())
 	player.animator.play_attack(_attack)
 
 

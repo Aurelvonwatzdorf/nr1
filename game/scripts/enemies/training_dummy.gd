@@ -16,6 +16,7 @@ var _flash_tween: Tween
 
 
 func _ready() -> void:
+	add_to_group(&"lock_on_targets")
 	_material = StandardMaterial3D.new()
 	_material.albedo_color = base_color
 	body_mesh.material_override = _material
@@ -23,6 +24,16 @@ func _ready() -> void:
 	health.value_changed.connect(_on_health_changed)
 	health.died.connect(_on_died)
 	_update_label()
+
+
+## Für Lock-on: Die Puppe ist immer anvisierbar.
+func is_targetable() -> bool:
+	return true
+
+
+## Für Lock-on: Punkt, auf den gezielt wird.
+func get_lock_on_point() -> Vector3:
+	return global_position + Vector3.UP * 1.3
 
 
 func _on_hit_received(hit: HitData, _result: Hurtbox.Result) -> void:

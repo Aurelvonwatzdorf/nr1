@@ -10,6 +10,8 @@ extends Node3D
 @export var gamepad_sensitivity: float = 3.0
 @export_range(-89.0, 0.0) var min_pitch_degrees: float = -65.0
 @export_range(0.0, 89.0) var max_pitch_degrees: float = 35.0
+## Wie schnell die Kamera beim Lock-on zum Ziel schwenkt.
+@export var lock_on_turn_speed: float = 8.0
 ## Augenhöhe über dem Fuß der Figur.
 @export var height_offset: float = 1.5
 @export var follow_speed: float = 14.0
@@ -22,6 +24,8 @@ extends Node3D
 var is_capturing: bool = false
 
 var _target: Node3D
+## Angevisiertes Ziel (Lock-on) oder null.
+var _lock_target: Node3D
 var _yaw: float = 0.0
 var _pitch: float = deg_to_rad(-20.0)
 
@@ -42,7 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"menu"):
 		set_capturing(not is_capturing)
 		get_viewport().set_input_as_handled()
-	elif is_capturing and event is InputEventMouseMotion:
+	elif is_capturing and event is InputEventMouseMotion and _lock_target == null:
 		var motion := event as InputEventMouseMotion
 		_yaw -= motion.relative.x * mouse_sensitivity
 		_pitch -= motion.relative.y * mouse_sensitivity
@@ -52,7 +56,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-	if is_capturing:
+	if _lock_target and is_instance_valid(_lock_target):
+		# Kamera schwenkt automatisch hinter die Figur, Blick aufs Ziel.
+		var to_target := _lock_target.global_position - global_position
+		var desired_yaw := atan2(-to_target.x, -to_target.z)
+		var blend := 1.0 - exp(-lock_on_turn_speed * delta)
+		_yaw = lerp_angle(_yaw, desired_yaw, blend)
+		_pitch = lerpf(_pitch, deg_to_rad(-18.0), blend)
+	elif is_capturing:
 		var look := Input.get_vector(&"look_left", &"look_right", &"look_up", &"look_down")
 		_yaw -= look.x * gamepad_sensitivity * delta
 		_pitch -= look.y * gamepad_sensitivity * delta
@@ -67,6 +78,10 @@ func _process(delta: float) -> void:
 ## Drehung links/rechts als Basis, um Eingaben relativ zur Kamera umzurechnen.
 func get_yaw_basis() -> Basis:
 	return Basis(Vector3.UP, _yaw)
+
+
+func set_lock_target(target: Node3D) -> void:
+	_lock_target = target
 
 
 func set_capturing(value: bool) -> void:

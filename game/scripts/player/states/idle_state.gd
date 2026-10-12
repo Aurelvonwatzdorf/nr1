@@ -11,6 +11,7 @@ func enter(_msg: Dictionary = {}) -> void:
 func physics_update(delta: float) -> void:
 	player.apply_gravity(delta)
 	player.accelerate_to(Vector3.ZERO, delta)
+	player.turn_towards(player.get_direction_to_lock_target(), delta)
 	if try_start_combat_action():
 		return
 	if player.get_move_direction() != Vector3.ZERO:

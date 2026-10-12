@@ -18,6 +18,7 @@ extends CharacterBody3D
 @onready var animator: PlayerAnimator = $PlayerAnimator
 @onready var state_machine: StateMachine = $StateMachine
 @onready var camera_rig: CameraRig = $CameraRig
+@onready var lock_on: LockOnComponent = $LockOnComponent
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
@@ -32,11 +33,14 @@ func _ready() -> void:
 	_apply_character_data()
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
+	lock_on.target_changed.connect(camera_rig.set_lock_target)
 	state_machine.start(self)
 	EventBus.player_spawned.emit(self)
 
 
 func _physics_process(delta: float) -> void:
+	if is_input_enabled() and Input.is_action_just_pressed(&"lock_on"):
+		lock_on.toggle(-camera_rig.camera.global_basis.z)
 	state_machine.physics_update(delta)
 	move_and_slide()
 
@@ -53,6 +57,20 @@ func get_move_direction() -> Vector3:
 	var input := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_back")
 	var direction := camera_rig.get_yaw_basis() * Vector3(input.x, 0.0, input.y)
 	return direction.limit_length(1.0)
+
+
+## Angevisiertes Ziel oder null.
+func get_lock_target() -> Node3D:
+	return lock_on.target
+
+
+## Richtung zum angevisierten Ziel (flach) oder Vector3.ZERO ohne Ziel.
+func get_direction_to_lock_target() -> Vector3:
+	if lock_on.target == null:
+		return Vector3.ZERO
+	var offset := lock_on.target.global_position - global_position
+	offset.y = 0.0
+	return offset.normalized()
 
 
 ## Blickrichtung der Figur (Godot: vorne ist -Z).
@@ -124,5 +142,6 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 
 
 func _on_died() -> void:
+	lock_on.set_target(null)
 	state_machine.transition_to(&"dead")
 	EventBus.player_died.emit(self)
