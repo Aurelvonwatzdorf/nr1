@@ -196,6 +196,10 @@ Hinweise gibt und lehrt, hinter die Realität zu sehen.
 - Eine **Hauptstadt** im **Cyberpunk-Stil**.
 - **NPCs** laufen herum. Es gibt auch Wesen, denen man Schaden zufügen kann.
 
+### Geister-Bindung
+Geister können sich mit Figuren **verbinden**. Dann kann die Figur sie
+**herbeirufen**. Beispiel: Tahirous Raben.
+
 ### Spiritueller Druck
 Spirituelle Wesen strahlen **spirituellen Druck** aus. Man hält ihn nur aus, wenn
 man seine **Spiritualität** hoch genug gelevelt hat. Rafa hat den stärksten Druck
@@ -220,10 +224,19 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
   Ankerspiegeln, nach Bosssiegen und in Zwischensequenzen an. Startet als
   ehrgeiziger kleiner Konzernangestellter und wird einer der mächtigsten
   Charaktere der Welt.
+  - **Kampfstil**: aggressiv, schnell, Risiko/Belohnung. Eigene Ressource
+    **„Ehrgeiz“** (wächst durch Treffer und Kombos, sinkt, wenn er nicht angreift).
+    Fähigkeitenbaum mit drei Ästen: **Insider** (Konzerntechnik hacken/
+    übernehmen), **Aufstieg** (Kombos, Kraft), **Glut** (Feuer/Funken).
 - **Tahirou** (Spitzname **„Twin“**): halb Latino, halb Afrikaner, Muslim. Entspannter Kiffer, den am
   Anfang wenig aus der Ruhe bringt, wenig Ehrgeiz. Entwickelt sich weiter, eignet
-  sich immer mehr Fähigkeiten an und wird ebenfalls sehr, sehr stark. Seine
-  Gelassenheit spielt spielerisch eine Rolle (siehe Offene Entscheidungen).
+  sich immer mehr Fähigkeiten an und wird ebenfalls sehr, sehr stark.
+  - **Die Raben**: Tahirou lebt in **Symbiose mit Raben aus der Geisterwelt**. In
+    seinem Clan ist das seit Generationen so. Er kann sie herbeirufen. Gerät er
+    in brenzlige Situationen, **sprechen die alten, weisen Raben zu ihm** und
+    geben ihm Ratschläge. Die Raben sind **seine eigene Ressource** (nur Tahirou).
+  - **Kampfstil**: **präzise und ruhig, aber relativ brutal**.
+  - Gelassenheit ist **keine** eigene Ressource.
 
 ### Wichtige Verbündete
 - **Rafael („Rafa“)**: Latino, Christ. Held wie ein göttlich gesandter Engel:
@@ -378,7 +391,9 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   mit Anzeige, erste Hilfe-Missionen (alte Frau über die Straße, kranker Mann),
   NPCs verletzen/töten zählt fürs Moral-Gedächtnis (Tote bleiben tot, Missionen
   scheitern).
-- ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
+- 🟨 **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume (Punkte durch
+  Level-Ups, manche Knoten erst durch Story-Fortschritt), Aurels „Ehrgeiz“,
+  Tahirous Raben (Ressource, Herbeirufen, Ratschläge).
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
   Karte, animierter Look (Cel-Shading).
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
@@ -395,20 +410,11 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 Nicht umsetzen, bevor der Nutzer zugestimmt hat. Bis dahin haben Aurel und Tahirou
 in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Farbe.
 
-1. **Tahirous Gelassenheit**: Ressource „Ruhe“. Hohe Ruhe = Widerstand gegen
-   Verankerung, Illusionen länger durchschauen, präzisere Treffer (perfekte Konter,
-   kurze Zeitlupe). Hektik (Knöpfe hämmern, unnötiges Ausweichen, viele Treffer)
-   senkt sie. Anfangs passive Gleichgültigkeit, später bewusste Meisterschaft.
-   Kiffen nur als Charakterzug in Dialogen und Auftreten, **nicht** als Buff
-   (Altersfreigabe, Stärke soll aus ihm selbst kommen). Gleiches gilt für Aurels
-   Zigarette: Ritual, kein Buff.
-2. **Kampfstile/Fähigkeitenbäume**:
-   - Aurel: aggressiv, schnell, Risiko/Belohnung. Ressource „Ehrgeiz“ (wächst durch
-     Combos). Äste: Insider (Konzerntechnik hacken/übernehmen), Aufstieg (Combos,
-     Kraft), Glut (Feuer/Funken).
-   - Tahirou: ruhig, abwartend, präzise. Ressource „Ruhe“. Äste: Klarheit
-     (Illusionen/Schwachstellen sehen), Konter (Paraden, Gegenangriffe),
-     Fluss (Bewegung, Ausweichen).
+1. **Tahirous Raben im Detail** (Vorschlag, siehe Chat): wie sich die
+   Raben-Ressource füllt, was sie kostet, welche Taste, welche Äste sein
+   Fähigkeitenbaum hat. Aurels Seite ist entschieden.
+2. **Einzelne Fähigkeiten** (vorläufig): Die konkreten Knoten in den Bäumen hat
+   Claude vorgeschlagen; der Nutzer kann sie ändern.
 3. **Rafa und die Geisterwelt**: Moralwerte, Fragen, Kampf, Einladung, Ritual und
    Hilfe sind **entschieden** (Abschnitte 3 bis 5). Noch offen:
    - **Wie „manipuliert“ man Rafa im Kampf?** Vorschlag: Während man standhält,
