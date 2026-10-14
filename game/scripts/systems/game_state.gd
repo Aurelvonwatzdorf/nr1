@@ -19,7 +19,10 @@ var money: int = 0:
 		money = maxi(value, 0)
 		EventBus.money_changed.emit(money)
 
-enum MissionStatus { NOT_STARTED, ACTIVE, COMPLETED }
+enum MissionStatus { NOT_STARTED, ACTIVE, COMPLETED, FAILED }
+
+## IDs getöteter NPCs (bleiben auch nach dem Laden tot).
+var dead_npcs: Array[StringName] = []
 
 ## Stand aller Missionen: ID → MissionStatus.
 var mission_states: Dictionary[StringName, int] = {}
@@ -106,6 +109,14 @@ func complete_mission(mission: MissionData) -> void:
 	EventBus.mission_completed.emit(mission)
 
 
+## Mission scheitern lassen (z. B. weil die Person tot ist).
+func fail_mission(mission: MissionData) -> void:
+	if get_mission_status(mission.id) == MissionStatus.COMPLETED:
+		return
+	mission_states[mission.id] = MissionStatus.FAILED
+	EventBus.mission_failed.emit(mission)
+
+
 ## Alle angenommenen, noch offenen Missionen.
 func get_active_missions() -> Array[MissionData]:
 	var result: Array[MissionData] = []
@@ -140,6 +151,7 @@ func reset() -> void:
 	moral.from_array([])
 	collected_pickups.clear()
 	mission_states.clear()
+	dead_npcs.clear()
 	checkpoint_transform = Transform3D.IDENTITY
 	has_checkpoint = false
 
@@ -157,6 +169,7 @@ func to_dict() -> Dictionary:
 		"checkpoint": var_to_str(checkpoint_transform),
 		"moral": moral.to_array(),
 		"missions": _missions_to_dict(),
+		"dead_npcs": dead_npcs.map(func(id: StringName) -> String: return String(id)),
 	}
 
 
@@ -176,6 +189,8 @@ func from_dict(data: Dictionary) -> void:
 	if transform is Transform3D:
 		checkpoint_transform = transform
 	moral.from_array(data.get("moral", []))
+	for id: Variant in data.get("dead_npcs", []):
+		dead_npcs.append(StringName(str(id)))
 	var missions: Dictionary = data.get("missions", {})
 	for key: String in missions:
 		mission_states[StringName(key)] = int(missions[key])

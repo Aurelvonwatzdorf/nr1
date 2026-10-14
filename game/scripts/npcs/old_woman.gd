@@ -17,6 +17,8 @@ var _player: Player
 
 func _ready() -> void:
 	super._ready()
+	if is_queued_for_deletion():
+		return
 	destination.body_entered.connect(_on_destination_body_entered)
 	match GameState.get_mission_status(mission.id):
 		GameState.MissionStatus.COMPLETED:
@@ -60,3 +62,7 @@ func _on_destination_body_entered(body: Node3D) -> void:
 	if body == self and mode == Mode.FOLLOWING:
 		mode = Mode.ARRIVED
 		GameState.complete_mission(mission)
+
+
+func _on_death() -> void:
+	GameState.fail_mission(mission)

@@ -109,6 +109,9 @@ tests/       Headless-Rauchtests
   `MissionDatabase.PATHS`. Stand in `GameState.mission_states`;
   `start_mission()`/`complete_mission()` geben Belohnung und tragen die Tat
   (falls `moral_virtue` gesetzt) ins Moral-Gedächtnis ein. HUD zeigt offene Missionen.
+- **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
+  Spielfigur zählen fürs Moral-Gedächtnis (Verletzen −3 Barmherzigkeit, Töten −10
+  Schwache schützen, je NPC einmal). Tote stehen in `GameState.dead_npcs`.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -371,9 +374,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Laden (automatisch beim Rasten, Pausenmenü, „Neues Spiel“), Ankerspiegel,
   Interaktion (E), Pausenmenü, Heiltränke (finden, R), Artefakte (verbrauchbar/
   dauerhaft), Inventar (I), Moral-Gedächtnis (Grundgerüst). Kaufen erst in M4.
-- 🟨 **M4**: Geld, NPCs mit Gesprächen, Händler (Tränke kaufen), Missionssystem,
-  erste Hilfe-Missionen (alte Frau über die Straße, kranker Mann), NPCs verletzen
-  zählt fürs Moral-Gedächtnis.
+- ✅ **M4**: Geld, NPCs mit Gesprächen, Händler (Tränke kaufen), Missionssystem
+  mit Anzeige, erste Hilfe-Missionen (alte Frau über die Straße, kranker Mann),
+  NPCs verletzen/töten zählt fürs Moral-Gedächtnis (Tote bleiben tot, Missionen
+  scheitern).
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
   Karte, animierter Look (Cel-Shading).

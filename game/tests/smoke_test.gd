@@ -372,12 +372,40 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Unschuldige NPCs verletzen: Moral sinkt, Tote bleiben tot
+	var mercy_before := GameState.moral.get_virtue_score(&"mercy")
+	var attack := HitData.new()
+	attack.damage = 10.0
+	attack.source = player
+	merchant.hurtbox.receive_hit(attack)
+	await _frames(2)
+	_check(merchant.is_fleeing(), "Angegriffener NPC flieht")
+	_check(GameState.moral.get_virtue_score(&"mercy") == mercy_before - 3, "Angriff auf Unschuldigen senkt die Barmherzigkeit")
+	var second := HitData.new()
+	second.damage = 10.0
+	second.source = player
+	merchant.hurtbox.receive_hit(second)
+	_check(GameState.moral.get_virtue_score(&"mercy") == mercy_before - 3, "Weitere Schläge auf denselben NPC zählen nur einmal")
+	var guard_hit := HitData.new()
+	guard_hit.damage = 5.0
+	guard_hit.source = guard
+	var protection_before := GameState.moral.get_virtue_score(&"protection")
+	sick.hurtbox.receive_hit(guard_hit)
+	_check(GameState.moral.get_virtue_score(&"protection") == protection_before and not GameState.moral.has_deed(&"hurt_test_sick_man"), "Treffer von Gegnern zählen nicht gegen die Spielfigur")
+	var fatal := HitData.new()
+	fatal.damage = 100.0
+	fatal.source = player
+	merchant.hurtbox.receive_hit(fatal)
+	await _frames(2)
+	_check(GameState.dead_npcs.has(&"test_merchant"), "Getöteter NPC wird gemerkt")
+	_check(GameState.moral.get_virtue_score(&"protection") == protection_before - 10, "Töten zählt schwer (-10)")
+
 	# Moral-Gedächtnis
 	var moral := GameState.moral
 	_check(moral.record(&"test_helped_elder", &"charity", 2, "Einer alten Frau geholfen"), "Gute Tat wird gemerkt")
 	_check(not moral.record(&"test_helped_elder", &"charity", 2, "doppelt"), "Dieselbe Tat zählt nur einmal")
 	moral.record(&"test_cruelty", &"mercy", -3, "Wehrlosen verletzt")
-	_check(moral.get_score() == 5 + 2 - 3, "Moral-Werte werden zusammengezählt (%d)" % moral.get_score())
+	_check(moral.get_score() == 5 - 3 - 10 + 2 - 3, "Moral-Werte werden zusammengezählt (%d)" % moral.get_score())
 
 	# Speichern und Laden
 	_check(SaveSystem.has_save(), "Rasten am Ankerspiegel hat automatisch gespeichert")
@@ -396,7 +424,8 @@ func _run() -> void:
 	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == saved_potions, "Inventar geladen")
 	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Aufgehobene Gegenstände bleiben weg")
 	_check(GameState.has_checkpoint and GameState.checkpoint_transform.is_equal_approx(saved_checkpoint), "Ankerspiegel-Ort geladen")
-	_check(GameState.moral.get_score() == 4, "Moral-Gedächtnis geladen")
+	_check(GameState.moral.get_score() == -9, "Moral-Gedächtnis geladen")
+	_check(GameState.dead_npcs.has(&"test_merchant"), "Tote NPCs geladen")
 	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.COMPLETED, "Missionsstand geladen")
 	SaveSystem.delete_save()
 	GameState.reset()
@@ -413,6 +442,7 @@ func _run() -> void:
 	GameState.reset()
 	GameState.memories = 33
 	GameState.collected_pickups.append(&"arena_potions_start")
+	GameState.dead_npcs.append(&"test_merchant")
 	GameState.set_checkpoint(west_mirror.spawn_point.global_transform)
 	SaveSystem.save_game()
 	GameState.reset()
@@ -427,6 +457,7 @@ func _run() -> void:
 	_check(GameState.memories == 33, "Start lädt den Spielstand")
 	_check(loaded_player.global_position.distance_to(GameState.checkpoint_transform.origin) < 0.5, "Start am gespeicherten Ankerspiegel")
 	_check(not loaded_arena.has_node("Pickups/PotionsNearStart"), "Aufgehobener Gegenstand liegt nicht mehr da")
+	_check(not loaded_arena.has_node("NPCs/Merchant") or loaded_arena.get_node("NPCs/Merchant").is_queued_for_deletion(), "Toter Händler bleibt nach dem Laden weg")
 	SaveSystem.delete_save()
 
 	print("")

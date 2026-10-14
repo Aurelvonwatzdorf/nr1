@@ -7,6 +7,8 @@ extends NPC
 
 func _ready() -> void:
 	super._ready()
+	if is_queued_for_deletion():
+		return
 	_update_pose()
 
 
@@ -37,3 +39,7 @@ func _update_pose() -> void:
 	var healed := GameState.get_mission_status(mission.id) == GameState.MissionStatus.COMPLETED
 	model.rotation.x = 0.0 if healed else deg_to_rad(-25.0)
 	model.position.y = 0.0 if healed else -0.3
+
+
+func _on_death() -> void:
+	GameState.fail_mission(mission)

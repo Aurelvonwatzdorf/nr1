@@ -42,6 +42,9 @@ func _ready() -> void:
 		var reward := "   +%d Geld" % m.reward_money if m.reward_money > 0 else ""
 		show_message("Mission erfüllt: %s%s" % [m.title, reward])
 		_update_missions())
+	EventBus.mission_failed.connect(func(m: MissionData) -> void:
+		show_message("Mission gescheitert: %s" % m.title)
+		_update_missions())
 	_update_missions()
 	_update_potions()
 	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Ankerspiegel berührt"))

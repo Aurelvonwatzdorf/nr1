@@ -27,6 +27,8 @@ signal game_saved
 signal mission_started(mission: MissionData)
 ## Eine Mission wurde erfüllt.
 signal mission_completed(mission: MissionData)
+## Eine Mission ist gescheitert.
+signal mission_failed(mission: MissionData)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.
