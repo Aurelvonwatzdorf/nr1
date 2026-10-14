@@ -112,6 +112,9 @@ tests/       Headless-Rauchtests
 - **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
   Spielfigur zählen fürs Moral-Gedächtnis (Verletzen −3 Barmherzigkeit, Töten −10
   Schwache schützen, je NPC einmal). Tote stehen in `GameState.dead_npcs`.
+- **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
+  verweisen (führt in Godot zu Speicherlecks beim Beenden). Schalter für Tests
+  gehören in `GameState` (z. B. `ask_character_on_new_game`).
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,

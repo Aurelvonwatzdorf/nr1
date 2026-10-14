@@ -161,6 +161,13 @@ func get_speed_multiplier() -> float:
 	return GameState.stats.get_speed_multiplier()
 
 
+## Andere Figur übernehmen (z. B. nach der Charakterauswahl).
+func apply_character(data: CharacterData) -> void:
+	character_data = data
+	_apply_character_data()
+	EventBus.character_changed.emit(data)
+
+
 func _apply_character_data() -> void:
 	var data := character_data
 	stamina.regen_delay = data.stamina_regen_delay
@@ -169,6 +176,7 @@ func _apply_character_data() -> void:
 		# Später: echtes Modell statt Kapsel einsetzen.
 		body_mesh.visible = false
 		model.add_child(data.model_scene.instantiate())
+		return
 	else:
 		var material := StandardMaterial3D.new()
 		material.albedo_color = data.placeholder_color

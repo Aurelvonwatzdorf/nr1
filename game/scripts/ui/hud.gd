@@ -33,6 +33,7 @@ func _ready() -> void:
 	prompt_label.text = ""
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
+	EventBus.character_changed.connect(func(data: CharacterData) -> void: name_label.text = data.display_name)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
 	EventBus.mission_started.connect(func(m: MissionData) -> void:

@@ -10,6 +10,9 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 	&"tahirou": "res://resources/characters/tahirou.tres",
 }
 
+## Bei neuem Spiel die Charakterauswahl zeigen? (Im Rauchtest aus.)
+var ask_character_on_new_game: bool = true
+
 ## Gewählte Figur. `null` heißt: Die Spielfigur nimmt die im Inspector eingestellte.
 var selected_character: CharacterData = null
 

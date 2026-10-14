@@ -8,7 +8,7 @@
 script = ExtResource("1_character")
 id = &"tahirou"
 display_name = "Tahirou"
-description = "Entspannt, kaum aus der Ruhe zu bringen, noch ohne großen Ehrgeiz."
+description = "Genannt „Twin“. Entspannt, kaum aus der Ruhe zu bringen, noch ohne großen Ehrgeiz.\n\nKampfstil: präzise, ruhig und brutal. Raben aus der Geisterwelt stehen ihm bei."
 light_attack = ExtResource("2_light")
 heavy_attack = ExtResource("3_heavy")
 placeholder_color = Color(0.2, 0.55, 0.45, 1)

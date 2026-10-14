@@ -15,6 +15,7 @@ func _ready() -> void:
 	HitStop.enabled = false
 	# Eigener Spielstand für den Test, nichts automatisch laden.
 	SaveSystem.auto_load_enabled = false
+	GameState.ask_character_on_new_game = false
 	SaveSystem.save_path = "user://smoke_test_save.json"
 	SaveSystem.delete_save()
 	GameState.reset()
@@ -446,6 +447,21 @@ func _run() -> void:
 	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.COMPLETED, "Missionsstand geladen")
 	SaveSystem.delete_save()
 	GameState.reset()
+
+	# Charakterauswahl
+	var select_menu: CharacterSelectMenu = arena.get_node("CharacterSelectMenu")
+	select_menu.open()
+	_check(select_menu.is_open and get_tree().paused, "Charakterauswahl öffnet sich")
+	select_menu.choose(&"tahirou")
+	await _frames(2)
+	_check(not select_menu.is_open and player.character_data.id == &"tahirou", "Tahirou gewählt, Spielfigur übernimmt ihn")
+	_check(SaveSystem.has_save(), "Wahl wird sofort gespeichert")
+	select_menu.choose(&"aurel")
+	select_menu.open()
+	select_menu.choose(&"aurel")
+	await _frames(2)
+	_check(player.character_data.id == &"aurel", "Wechsel zurück zu Aurel")
+	SaveSystem.delete_save()
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")

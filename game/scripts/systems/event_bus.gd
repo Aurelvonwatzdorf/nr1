@@ -7,6 +7,8 @@ extends Node
 
 ## Die Spielfigur ist in der Szene bereit.
 signal player_spawned(player: Player)
+## Die gespielte Figur wurde gewählt oder gewechselt.
+signal character_changed(data: CharacterData)
 ## Die Spielfigur ist gestorben.
 signal player_died(player: Player)
 ## Die Spielfigur wurde am Checkpoint wiederbelebt.
