@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="SkillTreeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skills/skill_tree_data.gd" id="1_tree"]
+[ext_resource type="Script" path="res://scripts/skills/skill_data.gd" id="2_skill"]
+
+[sub_resource type="Resource" id="Skill_tahirou_old_voices"]
+script = ExtResource("2_skill")
+id = &"tahirou_old_voices"
+display_name = "Alte Stimmen"
+description = "Der Rabenbund füllt sich 25 % schneller."
+branch = "Rabenbund"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_swarm_mark"]
+script = ExtResource("2_skill")
+id = &"tahirou_swarm_mark"
+display_name = "Schwarmmal"
+description = "Das Rabenmal ist stärker (×2,5 Schaden) und hält zwei Treffer."
+branch = "Rabenbund"
+requires = Array[StringName]([&"tahirou_old_voices"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_ancestral_raven"]
+script = ExtResource("2_skill")
+id = &"tahirou_ancestral_raven"
+display_name = "Ahnenrabe"
+description = "Der Schwarm kostet nur 35 und unterbricht auch Gegner in der Nähe des Ziels."
+branch = "Rabenbund"
+requires = Array[StringName]([&"tahirou_swarm_mark"])
+story_flag = &"ancestral_raven"
+story_hint = "Wenn der Ahnenrabe dich findet"
+
+[sub_resource type="Resource" id="Skill_tahirou_execution"]
+script = ExtResource("2_skill")
+id = &"tahirou_execution"
+display_name = "Hinrichtung"
+description = "Treffer auf wehrlose Gegner (taumelnd oder pariert) machen dreifachen Schaden."
+branch = "Vollstrecker"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_fear"]
+script = ExtResource("2_skill")
+id = &"tahirou_fear"
+display_name = "Furcht"
+description = "Nach einer Hinrichtung zögern Gegner in der Nähe 3 Sekunden mit ihrem Angriff."
+branch = "Vollstrecker"
+requires = Array[StringName]([&"tahirou_execution"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_no_mercy"]
+script = ExtResource("2_skill")
+id = &"tahirou_no_mercy"
+display_name = "Ohne Gnade"
+description = "Jede Hinrichtung heilt Tahirou um 15 Leben."
+branch = "Vollstrecker"
+requires = Array[StringName]([&"tahirou_fear"])
+story_flag = &"first_boss_defeated"
+story_hint = "Nach dem ersten Bosssieg"
+
+[sub_resource type="Resource" id="Skill_tahirou_steady_hand"]
+script = ExtResource("2_skill")
+id = &"tahirou_steady_hand"
+display_name = "Ruhige Hand"
+description = "Das Zeitfenster zum Parieren ist 0,1 Sekunden länger."
+branch = "Stille"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_stillness"]
+script = ExtResource("2_skill")
+id = &"tahirou_stillness"
+display_name = "Stillstand"
+description = "Nach einer perfekten Parade verlangsamt sich die Zeit kurz."
+branch = "Stille"
+requires = Array[StringName]([&"tahirou_steady_hand"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_tahirou_clear_eye"]
+script = ExtResource("2_skill")
+id = &"tahirou_clear_eye"
+display_name = "Klarer Blick"
+description = "+15 % Schaden gegen das anvisierte Ziel."
+branch = "Stille"
+requires = Array[StringName]([&"tahirou_stillness"])
+story_flag = &"tower_escaped"
+story_hint = "Nach der Flucht aus dem Konzernturm"
+
+[resource]
+script = ExtResource("1_tree")
+branches = Array[String](["Rabenbund", "Vollstrecker", "Stille"])
+skills = Array[ExtResource("2_skill")]([SubResource("Skill_tahirou_old_voices"), SubResource("Skill_tahirou_swarm_mark"), SubResource("Skill_tahirou_ancestral_raven"), SubResource("Skill_tahirou_execution"), SubResource("Skill_tahirou_fear"), SubResource("Skill_tahirou_no_mercy"), SubResource("Skill_tahirou_steady_hand"), SubResource("Skill_tahirou_stillness"), SubResource("Skill_tahirou_clear_eye")])

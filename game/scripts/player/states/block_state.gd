@@ -17,7 +17,7 @@ func exit() -> void:
 
 
 func is_in_parry_window() -> bool:
-	return time_in_block <= player.character_data.parry_window
+	return time_in_block <= player.get_parry_window()
 
 
 func physics_update(delta: float) -> void:

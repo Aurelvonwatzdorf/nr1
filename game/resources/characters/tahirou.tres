@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/characters/character_data.gd" id="1_character"]
 [ext_resource type="Resource" path="res://resources/attacks/basic_light.tres" id="2_light"]
 [ext_resource type="Resource" path="res://resources/attacks/basic_heavy.tres" id="3_heavy"]
+[ext_resource type="Resource" path="res://resources/skills/tahirou_tree.tres" id="4_tree"]
 
 [resource]
 script = ExtResource("1_character")
@@ -11,5 +12,6 @@ display_name = "Tahirou"
 description = "Genannt „Twin“. Entspannt, kaum aus der Ruhe zu bringen, noch ohne großen Ehrgeiz.\n\nKampfstil: präzise, ruhig und brutal. Raben aus der Geisterwelt stehen ihm bei."
 light_attack = ExtResource("2_light")
 heavy_attack = ExtResource("3_heavy")
+skill_tree = ExtResource("4_tree")
 placeholder_color = Color(0.2, 0.55, 0.45, 1)
 special_resource = &"ravens"

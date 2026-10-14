@@ -77,7 +77,7 @@ godot --headless --path game res://tests/smoke_test.tscn
 - ✅ **M2**: Gegner-KI, Lock-on, Treffer-Feedback, Blocken, Tod/Respawn, Erinnerungen
 - ✅ **M3**: Stats & Level-Up, Speichern/Laden, Checkpoints, Heiltränke, Artefakte, Inventar
 - ✅ **M4**: Geld, NPCs, Händler, Missionen, Moral-Gedächtnis
-- ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume
+- ✅ **M5**: Charakterauswahl, Fähigkeitenbäume, Ehrgeiz (Aurel), Raben (Tahirou), Blut
 - ⬜ **M6**: Erste Open-World-Region (Hauptstadt), Karte, Cel-Shading-Look
 - ⬜ **M7**: Spiegelrealitäten, „Konzernturm“, Adam
 - ⬜ **M8**: Geisterwelt, Gebet, spiritueller Druck, Rituale

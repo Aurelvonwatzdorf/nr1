@@ -610,6 +610,36 @@ func _run() -> void:
 	_check(advice.has("Du blutest, Twin. Zieh dich zurück."), "Raben raten bei wenig Leben zum Rückzug")
 	player.health.revive()
 	await _frames(40)
+
+	# Tahirous Fähigkeitenbaum
+	var t_tree := player.character_data.skill_tree
+	_check(t_tree != null and t_tree.branches == ["Rabenbund", "Vollstrecker", "Stille"] and t_tree.skills.size() == 9, "Tahirou hat einen eigenen Baum: Rabenbund, Vollstrecker, Stille")
+	var default_window := player.get_parry_window()
+	GameState.unlocked_skills.append_array([&"tahirou_execution", &"tahirou_fear", &"tahirou_no_mercy", &"tahirou_steady_hand", &"tahirou_clear_eye"])
+	_check(is_equal_approx(player.get_parry_window(), default_window + 0.1), "Ruhige Hand: Parierfenster +0,1 s")
+	guard.reset_enemy()
+	await _frames(3)
+	var guard2: Enemy = arena.get_node("Enemies/Guard2")
+	guard2.global_position = guard.global_position + Vector3(3.0, 0.0, 0.0)
+	guard2.attack_cooldown_left = 0.0
+	player.global_position = guard.global_position + Vector3(0.0, 0.05, 1.5)
+	player.snap_towards(Vector3(0.0, 0.0, -1.0))
+	player.health.take_damage(30.0)
+	var hp_before_execution := player.health.current
+	guard.state_machine.transition_to(&"stagger", {"time": 1.0, "parried": true})
+	var guard_hp_exec := guard.health.current
+	await _tap(&"attack_light")
+	await _frames(20)
+	_check(guard_hp_exec - guard.health.current >= 35.0, "Hinrichtung: dreifacher Schaden auf wehrlose Wache (%.0f)" % (guard_hp_exec - guard.health.current))
+	_check(guard2.attack_cooldown_left >= 2.5, "Furcht: andere Wache zögert")
+	_check(player.health.current >= hp_before_execution + 14.0, "Ohne Gnade: Hinrichtung heilt")
+	player.lock_on.set_target(guard)
+	guard.state_machine.transition_to(&"chase")
+	await _frames(2)
+	_check(is_equal_approx(player._modify_outgoing_damage(guard.hurtbox, 10.0), 11.5), "Klarer Blick: +15 % aufs anvisierte Ziel")
+	player.lock_on.set_target(null)
+	GameState.unlocked_skills.clear()
+	guard2.reset_enemy()
 	guard.reset_enemy()
 	player.apply_character(load("res://resources/characters/aurel.tres") as CharacterData)
 	player.global_position = Vector3(0.0, 0.05, 2.0)

@@ -33,6 +33,8 @@ var special_resource: StatPoolComponent
 var combo_count: int = 0
 ## Gegner, die beim aktuellen Treffer wehrlos waren (für Rabenbund/Hinrichtung).
 var _defenseless_targets: Array[Enemy] = []
+## Gegner, die gerade hingerichtet werden (Tahirous „Hinrichtung“).
+var _execution_targets: Array[Enemy] = []
 
 
 func _ready() -> void:
@@ -320,8 +322,13 @@ func _modify_outgoing_damage(target: Hurtbox, damage: float) -> float:
 		if enemy.data.faction == &"corporate" and GameState.has_skill(&"aurel_weak_spots"):
 			damage *= 1.15
 		damage *= enemy.consume_raven_mark()
+		if enemy == lock_on.target and GameState.has_skill(&"tahirou_clear_eye"):
+			damage *= 1.15
 		if enemy.is_defenseless():
 			_defenseless_targets.append(enemy)
+			if GameState.has_skill(&"tahirou_execution"):
+				damage *= 3.0
+				_execution_targets.append(enemy)
 	return damage
 
 
@@ -339,6 +346,28 @@ func release_wildfire(radius: float = 3.0, damage: float = 25.0) -> void:
 	get_ambition().spend_all()
 	EventBus.camera_shake_requested.emit(0.6)
 	animator.play_wildfire(radius)
+
+
+## Zeitfenster fürs Parieren (Tahirous „Ruhige Hand“ verlängert es).
+func get_parry_window() -> float:
+	var window := character_data.parry_window
+	if GameState.has_skill(&"tahirou_steady_hand"):
+		window += 0.1
+	return window
+
+
+## Tahirous Hinrichtung: viel Blut, Furcht und Heilung je nach Fähigkeiten.
+func _on_execution(enemy: Enemy, hit: HitData) -> void:
+	BloodEffect.spawn(enemy, hit.direction, 3.0)
+	EventBus.camera_shake_requested.emit(0.45)
+	if GameState.has_skill(&"tahirou_fear"):
+		for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+			var other := node as Enemy
+			if other and other != enemy and not other.health.is_dead \
+					and other.global_position.distance_to(global_position) <= 8.0:
+				other.hesitate(3.0)
+	if GameState.has_skill(&"tahirou_no_mercy"):
+		health.heal(15.0)
 
 
 ## Rechnet Leben, Ausdauer und Fokus aus Grundwerten und Stats neu aus.
@@ -359,7 +388,10 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 		if get_ravens():
 			get_ravens().on_perfect_parry()
 		EventBus.camera_shake_requested.emit(0.3)
-		HitStop.apply(0.12)
+		if GameState.has_skill(&"tahirou_stillness"):
+			HitStop.apply(0.8, 0.35)
+		else:
+			HitStop.apply(0.12)
 		return
 	if result == Hurtbox.Result.BLOCKED:
 		EventBus.camera_shake_requested.emit(0.2)
@@ -396,6 +428,9 @@ func _on_hit_landed(target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> v
 		_defenseless_targets.erase(enemy)
 		if get_ravens():
 			get_ravens().on_defenseless_hit()
+	if enemy and _execution_targets.has(enemy):
+		_execution_targets.erase(enemy)
+		_on_execution(enemy, hit)
 	var heavy := hit.damage >= 20.0
 	HitStop.apply(0.09 if heavy else 0.05)
 	EventBus.camera_shake_requested.emit(0.3 if heavy else 0.15)

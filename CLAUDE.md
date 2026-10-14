@@ -117,7 +117,7 @@ tests/       Headless-Rauchtests
   optional `story_flag`). Punkte: 1 pro Level-Up. Wirkung im Code über
   `GameState.has_skill(id)`. Story-Fortschritt: `GameState.set_story_flag(flag)`.
 - **Eigene Ressource je Figur**: `CharacterData.special_resource` (&"ambition" =
-  `AmbitionComponent`, später &"ravens"). Der Player erzeugt die Komponente in
+  `AmbitionComponent`, &"ravens" = `RavenComponent`). Der Player erzeugt die Komponente in
   `_setup_special_resource()`; HUD zeigt einen vierten Balken.
 - **Schaden je Ziel**: `hitbox.damage_modifier` (Player: Kombo, Funken,
   Schwachstellen). Gegner haben `EnemyData.faction` (z. B. &"corporate").
@@ -417,9 +417,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   mit Anzeige, erste Hilfe-Missionen (alte Frau über die Straße, kranker Mann),
   NPCs verletzen/töten zählt fürs Moral-Gedächtnis (Tote bleiben tot, Missionen
   scheitern).
-- 🟨 **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume (Punkte durch
-  Level-Ups, manche Knoten erst durch Story-Fortschritt), Aurels „Ehrgeiz“,
-  Tahirous Raben (Ressource, Herbeirufen, Ratschläge).
+- ✅ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume (Punkte durch
+  Level-Ups, jeweils letzter Knoten erst durch Story-Fortschritt), Aurels
+  „Ehrgeiz“ + 9 Fähigkeiten, Tahirous Rabenbund (Schwarm auf F, Ratschläge) +
+  9 Fähigkeiten, sichtbares Blut, Ausweichen in gedrückte Richtung.
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
   Karte, animierter Look (Cel-Shading).
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
