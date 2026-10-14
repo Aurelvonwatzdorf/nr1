@@ -245,7 +245,7 @@ func _run() -> void:
 	await _frames(2)
 	_check(mirror.is_active(), "Rasten macht den Spiegel zum Wiederbelebungsort")
 	_check(is_equal_approx(player.health.current, player.health.max_value), "Rasten heilt voll")
-	var rest_menu: RestMenu = arena.get_node("RestMenu")
+	var rest_menu: RestMenu = arena.get_node("GameUI/RestMenu")
 	_check(rest_menu.is_open and get_tree().paused, "Rast-Menü öffnet sich, Spiel pausiert")
 	GameState.memories = 150
 	_check(rest_menu.try_increase(&"endurance") and GameState.stats.endurance == 2, "Im Rast-Menü Ausdauer erhöhen")
@@ -254,7 +254,7 @@ func _run() -> void:
 	_check(not get_tree().paused and player.is_input_enabled(), "Menü schließen: Spiel läuft weiter")
 	GameState.stats.from_dict({})
 	GameState.memories = 0
-	var pause_menu: PauseMenu = arena.get_node("PauseMenu")
+	var pause_menu: PauseMenu = arena.get_node("GameUI/PauseMenu")
 	pause_menu.open()
 	_check(get_tree().paused and not player.is_input_enabled(), "Pausenmenü pausiert, keine Steuerung")
 	pause_menu.close()
@@ -317,7 +317,7 @@ func _run() -> void:
 	player.damage_buff_time_left = 0.01
 	await _frames(3)
 	_check(is_equal_approx(player.get_damage_multiplier(), multiplier), "Buff läuft ab")
-	var inventory_menu: InventoryMenu = arena.get_node("InventoryMenu")
+	var inventory_menu: InventoryMenu = arena.get_node("GameUI/InventoryMenu")
 	await _send_action(&"inventory")
 	_check(inventory_menu.is_open, "I öffnet das Inventar")
 	inventory_menu.close()
@@ -326,7 +326,7 @@ func _run() -> void:
 
 	# Händler: ansprechen, Tränke kaufen
 	var merchant: Merchant = arena.get_node("NPCs/Merchant")
-	var dialogue: DialogueBox = arena.get_node("DialogueBox")
+	var dialogue: DialogueBox = arena.get_node("GameUI/DialogueBox")
 	GameState.money = 0
 	var potions_before := GameState.inventory.get_count(&"healing_potion")
 	player.global_position = merchant.global_position + Vector3(0.0, 0.05, -1.5)
@@ -404,7 +404,7 @@ func _run() -> void:
 	_check(markers.size() >= 5, "Karte kennt Händler, Ankerspiegel und Missionen (%d Marker)" % markers.size())
 	var woman_marker: MapMarker = arena.get_node("NPCs/OldWoman/WomanMarker")
 	_check(not woman_marker.is_shown(), "Erledigte Mission verschwindet von der Karte")
-	var map_menu: WorldMapMenu = arena.get_node("WorldMapMenu")
+	var map_menu: WorldMapMenu = arena.get_node("GameUI/WorldMapMenu")
 	await _send_action(&"map")
 	await _frames(2)
 	_check(map_menu.is_open and map_menu.legend.get_child_count() >= 2, "M öffnet die große Karte mit Legende")
@@ -470,7 +470,7 @@ func _run() -> void:
 	GameState.reset()
 
 	# Charakterauswahl
-	var select_menu: CharacterSelectMenu = arena.get_node("CharacterSelectMenu")
+	var select_menu: CharacterSelectMenu = arena.get_node("GameUI/CharacterSelectMenu")
 	select_menu.open()
 	_check(select_menu.is_open and get_tree().paused, "Charakterauswahl öffnet sich")
 	select_menu.choose(&"tahirou")
@@ -497,7 +497,7 @@ func _run() -> void:
 	GameState.try_level_up(&"strength")
 	_check(GameState.skill_points == 3, "3 Level-Ups geben 3 Fähigkeitspunkte")
 	_check(not GameState.try_unlock_skill(chain), "Zweite Fähigkeit braucht die erste")
-	var skill_menu: SkillTreeMenu = arena.get_node("SkillTreeMenu")
+	var skill_menu: SkillTreeMenu = arena.get_node("GameUI/SkillTreeMenu")
 	await _send_action(&"skills")
 	_check(skill_menu.is_open, "K öffnet den Fähigkeitenbaum")
 	_check(skill_menu.try_unlock(hunger) and GameState.has_skill(&"aurel_hunger"), "„Hunger“ gelernt")

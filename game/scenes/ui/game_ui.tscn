@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="2_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/ui/rest_menu.tscn" id="3_rest"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="4_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_menu.tscn" id="5_skills"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_map_menu.tscn" id="6_map"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="7_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/character_select_menu.tscn" id="8_select"]
+
+[node name="GameUI" type="Node"]
+
+[node name="HUD" parent="." instance=ExtResource("1_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("2_dialogue")]
+
+[node name="RestMenu" parent="." instance=ExtResource("3_rest")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("4_inventory")]
+
+[node name="SkillTreeMenu" parent="." instance=ExtResource("5_skills")]
+
+[node name="WorldMapMenu" parent="." instance=ExtResource("6_map")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("7_pause")]
+
+[node name="CharacterSelectMenu" parent="." instance=ExtResource("8_select")]

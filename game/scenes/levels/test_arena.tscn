@@ -3,28 +3,21 @@
 [ext_resource type="Script" path="res://scripts/realms/test_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/training_dummy.tscn" id="3_dummy"]
-[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy.tscn" id="5_enemy"]
 [ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="6_mirror"]
 [ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="7_remnant"]
 [ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="8_respawn"]
-[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="9_pause"]
-[ext_resource type="PackedScene" path="res://scenes/ui/rest_menu.tscn" id="10_rest"]
-[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="11_inventory"]
 [ext_resource type="PackedScene" path="res://scenes/world/item_pickup.tscn" id="12_pickup"]
 [ext_resource type="Resource" path="res://resources/items/healing_potion.tres" id="13_potion"]
 [ext_resource type="Resource" path="res://resources/items/focus_potion.tres" id="14_focus"]
 [ext_resource type="Resource" path="res://resources/items/power_ampoule.tres" id="15_ampoule"]
 [ext_resource type="Resource" path="res://resources/items/stamina_talisman.tres" id="16_talisman"]
 [ext_resource type="Resource" path="res://resources/items/heart_amulet.tres" id="17_amulet"]
-[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="18_dialogue"]
 [ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="19_npc"]
 [ext_resource type="Script" path="res://scripts/npcs/merchant.gd" id="20_merchant"]
-[ext_resource type="PackedScene" path="res://scenes/ui/character_select_menu.tscn" id="25_select"]
-[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_menu.tscn" id="26_skills"]
 [ext_resource type="Script" path="res://scripts/world/map_marker.gd" id="27_marker"]
 [ext_resource type="Script" path="res://scripts/world/map_data.gd" id="28_map_data"]
-[ext_resource type="PackedScene" path="res://scenes/ui/world_map_menu.tscn" id="29_map_menu"]
 [ext_resource type="Script" path="res://scripts/npcs/old_woman.gd" id="21_old_woman"]
 [ext_resource type="Script" path="res://scripts/npcs/sick_man.gd" id="22_sick_man"]
 [ext_resource type="Resource" path="res://resources/missions/help_old_woman.tres" id="23_mission_woman"]
@@ -431,21 +424,7 @@ area_name = "Testarena"
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)
 
-[node name="HUD" parent="." instance=ExtResource("4_hud")]
-
-[node name="DialogueBox" parent="." instance=ExtResource("18_dialogue")]
-
-[node name="RestMenu" parent="." instance=ExtResource("10_rest")]
-
-[node name="InventoryMenu" parent="." instance=ExtResource("11_inventory")]
-
-[node name="SkillTreeMenu" parent="." instance=ExtResource("26_skills")]
-
-[node name="WorldMapMenu" parent="." instance=ExtResource("29_map_menu")]
-
-[node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
-
-[node name="CharacterSelectMenu" parent="." instance=ExtResource("25_select")]
+[node name="GameUI" parent="." instance=ExtResource("4_hud")]
 
 [node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("8_respawn")
