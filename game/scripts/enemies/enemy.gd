@@ -163,6 +163,7 @@ func _on_hit_landed(_hurtbox: Hurtbox, _hit: HitData, result: Hurtbox.Result) ->
 
 func _on_died() -> void:
 	GameState.memories += data.memories_reward
+	GameState.money += data.money_reward
 	state_machine.transition_to(&"dead")
 	died.emit(self)
 	EventBus.enemy_killed.emit(self)

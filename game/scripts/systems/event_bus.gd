@@ -33,5 +33,7 @@ signal checkpoint_activated(checkpoint: Node3D)
 signal memories_recovered(amount: int)
 ## Die Erinnerungen der vorherigen Todesstelle sind endgültig verloren.
 signal memories_lost(amount: int)
+## Das Geld hat sich geändert.
+signal money_changed(amount: int)
 ## Die Währung „Erinnerungen“ hat sich geändert.
 signal memories_changed(amount: int)

@@ -13,6 +13,12 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 ## Gewählte Figur. `null` heißt: Die Spielfigur nimmt die im Inspector eingestellte.
 var selected_character: CharacterData = null
 
+## Geld zum Kaufen. Bleibt beim Tod erhalten (anders als Erinnerungen).
+var money: int = 0:
+	set(value):
+		money = maxi(value, 0)
+		EventBus.money_changed.emit(money)
+
 ## Wie viele Menüs gerade offen sind. > 0 = Spiel pausiert, Maus frei.
 var open_menu_count: int = 0:
 	set(value):
@@ -71,6 +77,14 @@ func is_menu_open() -> bool:
 	return open_menu_count > 0
 
 
+## Bezahlen. Gibt false zurück, wenn das Geld nicht reicht.
+func try_spend_money(amount: int) -> bool:
+	if money < amount:
+		return false
+	money -= amount
+	return true
+
+
 func set_checkpoint(at: Transform3D) -> void:
 	checkpoint_transform = at
 	has_checkpoint = true
@@ -80,6 +94,7 @@ func set_checkpoint(at: Transform3D) -> void:
 func reset() -> void:
 	selected_character = null
 	memories = 0
+	money = 0
 	stats.from_dict({})
 	inventory.from_dict({})
 	moral.from_array([])
@@ -93,6 +108,7 @@ func to_dict() -> Dictionary:
 	return {
 		"character_id": String(selected_character.id) if selected_character else "",
 		"memories": memories,
+		"money": money,
 		"stats": stats.to_dict(),
 		"inventory": inventory.to_dict(),
 		"collected_pickups": collected_pickups.map(func(id: StringName) -> String: return String(id)),
@@ -108,6 +124,7 @@ func from_dict(data: Dictionary) -> void:
 	if character_id != &"":
 		select_character(character_id)
 	memories = int(data.get("memories", 0))
+	money = int(data.get("money", 0))
 	stats.from_dict(data.get("stats", {}))
 	inventory.from_dict(data.get("inventory", {}))
 	for id: Variant in data.get("collected_pickups", []):

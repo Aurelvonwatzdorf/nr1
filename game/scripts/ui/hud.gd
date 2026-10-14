@@ -8,6 +8,7 @@ extends CanvasLayer
 @onready var focus_bar: ProgressBar = %FocusBar
 @onready var pause_label: Label = %PauseLabel
 @onready var memories_label: Label = %MemoriesLabel
+@onready var money_label: Label = %MoneyLabel
 @onready var death_label: Label = %DeathLabel
 @onready var message_label: Label = %MessageLabel
 @onready var prompt_label: Label = %PromptLabel
@@ -24,6 +25,8 @@ func _ready() -> void:
 	message_label.modulate.a = 0.0
 	_on_memories_changed(GameState.memories)
 	EventBus.memories_changed.connect(_on_memories_changed)
+	EventBus.money_changed.connect(_on_money_changed)
+	_on_money_changed(GameState.money)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.player_respawned.connect(_on_player_respawned)
 	prompt_label.text = ""
@@ -60,6 +63,10 @@ func saved_label_flash() -> void:
 
 func _update_potions() -> void:
 	potion_label.text = "Heiltränke: %d   [R]" % GameState.inventory.get_count(&"healing_potion")
+
+
+func _on_money_changed(amount: int) -> void:
+	money_label.text = "Geld: %d" % amount
 
 
 func _on_memories_changed(amount: int) -> void:

@@ -145,8 +145,10 @@ func _run() -> void:
 
 	# Gegner besiegen: Erinnerungen, tot, nicht mehr anvisierbar
 	var memories_before := GameState.memories
+	var money_before := GameState.money
 	guard.health.take_damage(1000.0)
 	await _frames(2)
+	_check(GameState.money == money_before + 15, "Sieg bringt 15 Geld")
 	_check(guard.state_machine.get_current_state_name() == &"dead", "Gegner stirbt")
 	_check(GameState.memories == memories_before + 50, "Sieg bringt 50 Erinnerungen")
 	_check(not guard.is_targetable(), "Toter Gegner ist nicht anvisierbar")
@@ -205,6 +207,7 @@ func _run() -> void:
 	player.health.take_damage(1000.0)
 	await _frames(3)
 	_check(manager.get_remnant() == null and GameState.memories == 0, "Erneuter Tod: alte Erinnerungen endgültig verloren")
+	_check(GameState.money > 0, "Geld bleibt beim Tod erhalten")
 	await get_tree().create_timer(0.8).timeout
 
 	# Ankerspiegel: E zeigt „Rasten“, Rasten heilt und setzt Wiederbelebungsort
@@ -304,6 +307,7 @@ func _run() -> void:
 	# Speichern und Laden
 	_check(SaveSystem.has_save(), "Rasten am Ankerspiegel hat automatisch gespeichert")
 	GameState.memories = 77
+	GameState.money = 123
 	GameState.stats.set_stat(&"strength", 3)
 	GameState.inventory.add(&"heart_amulet")
 	var saved_checkpoint := GameState.checkpoint_transform
@@ -312,6 +316,7 @@ func _run() -> void:
 	_check(GameState.memories == 0 and GameState.stats.strength == 1, "Zurücksetzen löscht alles")
 	_check(SaveSystem.load_game(), "Laden klappt")
 	_check(GameState.memories == 77 and GameState.stats.strength == 3, "Erinnerungen und Stats geladen")
+	_check(GameState.money == 123, "Geld geladen")
 	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == 1, "Inventar geladen")
 	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Aufgehobene Gegenstände bleiben weg")
 	_check(GameState.has_checkpoint and GameState.checkpoint_transform.is_equal_approx(saved_checkpoint), "Ankerspiegel-Ort geladen")

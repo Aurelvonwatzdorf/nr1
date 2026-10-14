@@ -8,6 +8,8 @@ extends Resource
 @export var max_health: float = 80.0
 ## Erinnerungen, die man für einen Sieg bekommt.
 @export var memories_reward: int = 50
+## Geld, das er beim Sieg fallen lässt.
+@export var money_reward: int = 15
 
 @export_group("Bewegung")
 @export var walk_speed: float = 2.0
