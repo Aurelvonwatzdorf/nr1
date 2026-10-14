@@ -31,6 +31,8 @@ var damage_buff_time_left: float = 0.0
 var special_resource: StatPoolComponent
 ## Nummer des aktuellen Schlags in einer Kombo (1, 2, 3 …).
 var combo_count: int = 0
+## Gegner, die beim aktuellen Treffer wehrlos waren (für Rabenbund/Hinrichtung).
+var _defenseless_targets: Array[Enemy] = []
 
 
 func _ready() -> void:
@@ -56,6 +58,8 @@ func _physics_process(delta: float) -> void:
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
 	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
 		interaction_detector.current.interact(self)
+	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit") and get_ravens():
+		call_raven_swarm()
 	if is_input_enabled() and Input.is_action_just_pressed(&"heal"):
 		var potion := GameState.inventory.find_healing_item()
 		if potion:
@@ -136,6 +140,53 @@ func get_damage_multiplier() -> float:
 	return GameState.stats.get_damage_multiplier() \
 		+ GameState.inventory.get_permanent_bonus(&"bonus_damage") + damage_buff \
 		+ (get_ambition().get_damage_bonus() if get_ambition() else 0.0)
+
+
+## Tahirous Rabenbund (oder null bei anderen Figuren).
+func get_ravens() -> RavenComponent:
+	return special_resource as RavenComponent
+
+
+## Rabenschwarm (F): auf das anvisierte oder nächste Ziel. Gibt false zurück,
+## wenn es nicht geht (kein Ziel, Rabenbund zu schwach).
+func call_raven_swarm() -> bool:
+	var ravens := get_ravens()
+	if ravens == null or not state_machine.get_current_state_name() in [&"idle", &"move", &"block"]:
+		return false
+	if not ravens.can_call_swarm():
+		EventBus.message_requested.emit("Der Rabenbund ist noch zu schwach")
+		return false
+	var target := _find_swarm_target()
+	if target == null:
+		EventBus.message_requested.emit("Kein Ziel für die Raben")
+		return false
+	ravens.remove(ravens.get_swarm_cost())
+	var strong_mark := GameState.has_skill(&"tahirou_swarm_mark")
+	target.hit_by_raven_swarm(1.2, 2 if strong_mark else 1, 2.5 if strong_mark else 2.0)
+	if GameState.has_skill(&"tahirou_ancestral_raven"):
+		for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+			var other := node as Enemy
+			if other and other != target and other.global_position.distance_to(target.global_position) <= 4.0:
+				other.hit_by_raven_swarm(1.2, 0, 1.0)
+	animator.play_raven_swarm(target.get_lock_on_point())
+	return true
+
+
+func _find_swarm_target() -> Enemy:
+	var locked := lock_on.target as Enemy
+	if locked and not locked.health.is_dead:
+		return locked
+	var best: Enemy = null
+	var best_distance := 12.0
+	for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+		var enemy := node as Enemy
+		if enemy == null or enemy.health.is_dead:
+			continue
+		var distance := enemy.global_position.distance_to(global_position)
+		if distance < best_distance:
+			best_distance = distance
+			best = enemy
+	return best
 
 
 ## Aurels Ehrgeiz (oder null bei anderen Figuren).
@@ -249,6 +300,10 @@ func _setup_special_resource() -> void:
 			special_resource = AmbitionComponent.new()
 			special_resource.name = "Ambition"
 			add_child(special_resource)
+		&"ravens":
+			special_resource = RavenComponent.new()
+			special_resource.name = "Ravens"
+			add_child(special_resource)
 	EventBus.special_resource_changed.emit(special_resource, character_data.special_resource)
 
 
@@ -261,8 +316,12 @@ func _modify_outgoing_damage(target: Hurtbox, damage: float) -> float:
 	if GameState.has_skill(&"aurel_sparks") and ambition and ambition.get_ratio() >= 0.5:
 		damage += 5.0
 	var enemy := target.owner as Enemy
-	if enemy and enemy.data.faction == &"corporate" and GameState.has_skill(&"aurel_weak_spots"):
-		damage *= 1.15
+	if enemy:
+		if enemy.data.faction == &"corporate" and GameState.has_skill(&"aurel_weak_spots"):
+			damage *= 1.15
+		damage *= enemy.consume_raven_mark()
+		if enemy.is_defenseless():
+			_defenseless_targets.append(enemy)
 	return damage
 
 
@@ -297,6 +356,8 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	if health.is_dead:
 		return
 	if result == Hurtbox.Result.PARRIED:
+		if get_ravens():
+			get_ravens().on_perfect_parry()
 		EventBus.camera_shake_requested.emit(0.3)
 		HitStop.apply(0.12)
 		return
@@ -317,6 +378,8 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	if get_ambition():
 		get_ambition().on_got_hit()
+	if get_ravens():
+		get_ravens().on_got_hit()
 	EventBus.camera_shake_requested.emit(0.5)
 	HitStop.apply(0.08)
 	state_machine.transition_to(&"hurt")
@@ -329,6 +392,10 @@ func _on_hit_landed(target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> v
 	var enemy := target.owner as Enemy
 	if enemy and GameState.has_skill(&"aurel_embers"):
 		enemy.apply_burn(3.0, 3.0)
+	if enemy and _defenseless_targets.has(enemy):
+		_defenseless_targets.erase(enemy)
+		if get_ravens():
+			get_ravens().on_defenseless_hit()
 	var heavy := hit.damage >= 20.0
 	HitStop.apply(0.09 if heavy else 0.05)
 	EventBus.camera_shake_requested.emit(0.3 if heavy else 0.15)

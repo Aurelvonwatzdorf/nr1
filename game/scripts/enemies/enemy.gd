@@ -31,6 +31,9 @@ var _pose_tween: Tween
 ## Brennen (z. B. durch Aurels „Glutnarben“): Schaden pro Sekunde und Restzeit.
 var _burn_damage_per_second: float = 0.0
 var _burn_time_left: float = 0.0
+## Rabenmal (Tahirous Schwarm): so viele Treffer machen erhöhten Schaden.
+var raven_mark_hits_left: int = 0
+var raven_mark_multiplier: float = 2.0
 
 
 func _ready() -> void:
@@ -98,6 +101,33 @@ func get_detection_radius() -> float:
 	if data.faction == &"corporate" and GameState.has_skill(&"aurel_badge"):
 		return data.detection_radius * 0.6
 	return data.detection_radius
+
+
+## Rabenschwarm: unterbricht den Gegner und markiert eine Schwachstelle.
+func hit_by_raven_swarm(stun_time: float, mark_hits: int, mark_multiplier: float) -> void:
+	if health.is_dead:
+		return
+	raven_mark_hits_left = mark_hits
+	raven_mark_multiplier = mark_multiplier
+	health_label.visible = true
+	state_machine.transition_to(&"stagger", {"time": stun_time, "parried": true})
+
+
+## Verbraucht das Rabenmal für einen Treffer und gibt den Schadens-Faktor zurück.
+func consume_raven_mark() -> float:
+	if raven_mark_hits_left <= 0:
+		return 1.0
+	raven_mark_hits_left -= 1
+	return raven_mark_multiplier
+
+
+func is_defenseless() -> bool:
+	return state_machine.get_current_state_name() == &"stagger"
+
+
+## Zögern (z. B. aus Furcht): nächster Angriff kommt später.
+func hesitate(seconds: float) -> void:
+	attack_cooldown_left += seconds
 
 
 ## In Brand setzen: Schaden über Zeit, ohne Taumeln.
@@ -173,6 +203,7 @@ func reset_enemy() -> void:
 	velocity = Vector3.ZERO
 	attack_cooldown_left = 0.0
 	_burn_time_left = 0.0
+	raven_mark_hits_left = 0
 	health.revive()
 	visible = true
 	collision_shape.set_deferred(&"disabled", false)
@@ -217,5 +248,6 @@ func _kill_pose_tween() -> void:
 func _update_health_label() -> void:
 	var ratio := health.get_ratio()
 	var filled := roundi(ratio * 10.0)
-	health_label.text = "%s\n%s" % [data.display_name, "■".repeat(filled) + "□".repeat(10 - filled)]
+	var mark := "  ◆ Rabenmal" if raven_mark_hits_left > 0 else ""
+	health_label.text = "%s%s\n%s" % [data.display_name, mark, "■".repeat(filled) + "□".repeat(10 - filled)]
 	health_label.visible = not health.is_dead and ratio < 1.0

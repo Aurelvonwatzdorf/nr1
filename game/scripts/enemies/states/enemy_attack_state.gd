@@ -15,6 +15,7 @@ func enter(_msg: Dictionary = {}) -> void:
 	_phase = Phase.STARTUP
 	_time = 0.0
 	enemy.set_telegraph(true)
+	EventBus.enemy_attack_started.emit(enemy)
 
 
 func exit() -> void:

@@ -78,6 +78,31 @@ func play_wildfire(radius: float) -> void:
 	tween.chain().tween_callback(ring.queue_free)
 
 
+## Platzhalter-Effekt für Tahirous Rabenschwarm: schwarze Vögel fliegen zum Ziel.
+func play_raven_swarm(target_point: Vector3) -> void:
+	if visual_root == null:
+		return
+	var start := visual_root.global_position + Vector3.UP * 2.2
+	for i in 7:
+		var bird := MeshInstance3D.new()
+		var mesh := PrismMesh.new()
+		mesh.size = Vector3(0.35, 0.12, 0.25)
+		bird.mesh = mesh
+		var material := StandardMaterial3D.new()
+		material.albedo_color = Color(0.05, 0.04, 0.08)
+		material.emission_enabled = true
+		material.emission = Color(0.35, 0.25, 0.6)
+		bird.material_override = material
+		visual_root.get_parent().add_child(bird)
+		bird.top_level = true
+		var offset := Vector3(randf_range(-1.2, 1.2), randf_range(0.0, 1.0), randf_range(-1.2, 1.2))
+		bird.global_position = start + offset
+		var tween := bird.create_tween()
+		tween.tween_property(bird, "global_position", target_point + offset * 0.3, 0.35 + i * 0.03)
+		tween.tween_property(bird, "global_position", target_point + offset * 2.0 + Vector3.UP * 3.0, 0.5)
+		tween.tween_callback(bird.queue_free)
+
+
 ## Grundhaltung wiederherstellen (z. B. nach dem Respawn).
 func reset_pose() -> void:
 	_kill_tween()

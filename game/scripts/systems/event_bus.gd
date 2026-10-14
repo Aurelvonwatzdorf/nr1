@@ -37,6 +37,10 @@ signal mission_failed(mission: MissionData)
 signal skill_unlocked(skill: SkillData)
 ## Story-Fortschritt erreicht.
 signal story_flag_set(flag: StringName)
+## Ein Gegner holt zum Angriff aus.
+signal enemy_attack_started(enemy: Enemy)
+## Die Raben geben Tahirou einen Ratschlag.
+signal raven_advice(text: String)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.

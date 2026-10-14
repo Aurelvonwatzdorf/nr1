@@ -52,8 +52,8 @@ extends Resource
 @export var heavy_attack: AttackData
 
 @export_group("Besonderheit")
-## Eigene Ressource der Figur: &"ambition" (Aurels Ehrgeiz), &"ravens" (Tahirou,
-## folgt), leer = keine.
+## Eigene Ressource der Figur: &"ambition" (Aurels Ehrgeiz), &"ravens" (Tahirous
+## Rabenbund), leer = keine.
 @export var special_resource: StringName = &""
 
 @export_group("Darstellung")

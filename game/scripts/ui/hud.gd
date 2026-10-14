@@ -8,6 +8,9 @@ extends CanvasLayer
 @onready var focus_bar: ProgressBar = %FocusBar
 @onready var special_bar: ProgressBar = %SpecialBar
 @onready var special_label: Label = %SpecialLabel
+@onready var raven_label: Label = %RavenLabel
+
+var _raven_tween: Tween
 @onready var pause_label: Label = %PauseLabel
 @onready var memories_label: Label = %MemoriesLabel
 @onready var money_label: Label = %MoneyLabel
@@ -36,6 +39,8 @@ func _ready() -> void:
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
 	EventBus.special_resource_changed.connect(_bind_special)
+	EventBus.raven_advice.connect(show_raven_advice)
+	raven_label.modulate.a = 0.0
 	EventBus.character_changed.connect(func(data: CharacterData) -> void: name_label.text = data.display_name)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
@@ -58,6 +63,17 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
+
+
+## Ratschlag der Raben (nur Tahirou): eigene Zeile, verblasst nach ein paar Sekunden.
+func show_raven_advice(text: String) -> void:
+	raven_label.text = "Die Raben: „%s“" % text
+	if _raven_tween and _raven_tween.is_valid():
+		_raven_tween.kill()
+	_raven_tween = create_tween()
+	_raven_tween.tween_property(raven_label, "modulate:a", 1.0, 0.3)
+	_raven_tween.tween_interval(3.5)
+	_raven_tween.tween_property(raven_label, "modulate:a", 0.0, 0.8)
 
 
 ## Kurze Meldung in der Bildschirmmitte, die von selbst verschwindet.
@@ -120,7 +136,10 @@ func _bind_special(pool: StatPoolComponent, kind: StringName) -> void:
 	special_label.visible = pool != null
 	if pool == null:
 		return
-	special_label.text = {&"ambition": "Ehrgeiz"}.get(kind, String(kind))
+	special_label.text = {&"ambition": "Ehrgeiz", &"ravens": "Rabenbund"}.get(kind, String(kind))
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = {&"ambition": Color(0.95, 0.55, 0.15), &"ravens": Color(0.5, 0.42, 0.85)}.get(kind, Color.WHITE)
+	special_bar.add_theme_stylebox_override(&"fill", fill)
 	var update := func(current: float, maximum: float) -> void:
 		special_bar.max_value = maximum
 		special_bar.value = current
