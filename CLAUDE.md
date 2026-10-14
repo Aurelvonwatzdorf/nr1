@@ -52,11 +52,11 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 ### Ordnerstruktur (`game/`)
 ```
 scenes/      player/, enemies/, npcs/, levels/, ui/, world/  (.tscn)
-scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, combat/,
-             components/, items/, realms/, ui/, systems/, characters/,
-             state_machine/
+scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, missions/,
+             combat/, components/, items/, realms/, ui/, systems/,
+             characters/, state_machine/
 assets/      models/, materials/, audio/
-resources/   characters/, attacks/, enemies/, items/ (.tres-Daten)
+resources/   characters/, attacks/, enemies/, items/, missions/ (.tres)
 tests/       Headless-Rauchtests
 ```
 
@@ -105,6 +105,10 @@ tests/       Headless-Rauchtests
   und überschreiben `talk(player, dialogue)` und `_npc_physics(delta)`.
   Gespräche: `var wahl := await dialogue.ask(name, text, antworten)`; das
   Fenster schließt der NPC-Basiscode am Ende selbst.
+- **Missionen**: `MissionData` (.tres in `resources/missions/`) + Eintrag in
+  `MissionDatabase.PATHS`. Stand in `GameState.mission_states`;
+  `start_mission()`/`complete_mission()` geben Belohnung und tragen die Tat
+  (falls `moral_virtue` gesetzt) ins Moral-Gedächtnis ein. HUD zeigt offene Missionen.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,

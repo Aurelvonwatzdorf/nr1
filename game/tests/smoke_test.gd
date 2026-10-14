@@ -321,12 +321,63 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Mission: alte Frau über die Straße
+	var woman: OldWoman = arena.get_node("NPCs/OldWoman")
+	var charity_before := GameState.moral.get_virtue_score(&"charity")
+	var money_before_mission := GameState.money
+	player.global_position = woman.global_position + Vector3(0.0, 0.05, -1.5)
+	await _frames(10)
+	await _tap(&"interact")
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.ACTIVE, "Mission angenommen")
+	_check(woman.mode == OldWoman.Mode.FOLLOWING and GameState.get_active_missions().size() == 1, "Alte Frau folgt, Mission wird angezeigt")
+	var destination: Area3D = arena.get_node("Street/WomanDestination")
+	player.global_position = destination.global_position + Vector3(0.0, 0.05, 0.5)
+	for i in 400:
+		await get_tree().physics_frame
+		if woman.mode == OldWoman.Mode.ARRIVED:
+			break
+	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.COMPLETED, "Alte Frau kommt an, Mission erfüllt")
+	_check(GameState.money == money_before_mission + 10, "Belohnung: 10 Geld")
+	_check(GameState.moral.get_virtue_score(&"charity") == charity_before + 2, "Gute Tat im Moral-Gedächtnis")
+
+	# Mission: kranker Mann (erst ohne Trank, dann mit)
+	var sick: SickMan = arena.get_node("NPCs/SickMan")
+	var potions_owned := GameState.inventory.get_count(&"healing_potion")
+	GameState.inventory.remove(&"healing_potion", potions_owned)
+	player.global_position = sick.global_position + Vector3(0.0, 0.05, -1.5)
+	await _frames(10)
+	await _tap(&"interact")
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.get_mission_status(&"heal_sick_man") == GameState.MissionStatus.ACTIVE, "Ohne Trank: Mission „später wiederkommen“")
+	GameState.inventory.add(&"healing_potion", potions_owned)
+	await _frames(5)
+	await _tap(&"interact")
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.get_mission_status(&"heal_sick_man") == GameState.MissionStatus.COMPLETED, "Heiltrank gegeben, Mission erfüllt")
+	_check(GameState.inventory.get_count(&"healing_potion") == potions_owned - 1, "Der Trank ist weg")
+	_check(GameState.get_active_missions().is_empty() and not dialogue.is_open, "Keine offenen Missionen mehr")
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(3)
+
 	# Moral-Gedächtnis
 	var moral := GameState.moral
 	_check(moral.record(&"test_helped_elder", &"charity", 2, "Einer alten Frau geholfen"), "Gute Tat wird gemerkt")
 	_check(not moral.record(&"test_helped_elder", &"charity", 2, "doppelt"), "Dieselbe Tat zählt nur einmal")
 	moral.record(&"test_cruelty", &"mercy", -3, "Wehrlosen verletzt")
-	_check(moral.get_score() == -1 and moral.get_virtue_score(&"charity") == 2, "Moral-Werte werden zusammengezählt")
+	_check(moral.get_score() == 5 + 2 - 3, "Moral-Werte werden zusammengezählt (%d)" % moral.get_score())
 
 	# Speichern und Laden
 	_check(SaveSystem.has_save(), "Rasten am Ankerspiegel hat automatisch gespeichert")
@@ -345,7 +396,8 @@ func _run() -> void:
 	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == saved_potions, "Inventar geladen")
 	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Aufgehobene Gegenstände bleiben weg")
 	_check(GameState.has_checkpoint and GameState.checkpoint_transform.is_equal_approx(saved_checkpoint), "Ankerspiegel-Ort geladen")
-	_check(GameState.moral.get_score() == -1, "Moral-Gedächtnis geladen")
+	_check(GameState.moral.get_score() == 4, "Moral-Gedächtnis geladen")
+	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.COMPLETED, "Missionsstand geladen")
 	SaveSystem.delete_save()
 	GameState.reset()
 

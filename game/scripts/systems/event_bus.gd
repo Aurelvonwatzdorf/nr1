@@ -23,6 +23,10 @@ signal interaction_prompt_changed(prompt: String)
 signal menu_state_changed(is_open: bool)
 ## Der Spielstand wurde gespeichert.
 signal game_saved
+## Eine Mission wurde angenommen.
+signal mission_started(mission: MissionData)
+## Eine Mission wurde erfüllt.
+signal mission_completed(mission: MissionData)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.

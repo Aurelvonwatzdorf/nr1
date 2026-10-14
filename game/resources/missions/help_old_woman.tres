@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" path="res://scripts/missions/mission_data.gd" id="1_mission"]
+
+[resource]
+script = ExtResource("1_mission")
+id = &"help_old_woman"
+title = "Über die Straße"
+objective = "Bring die alte Frau sicher auf die andere Straßenseite."
+reward_money = 10
+moral_virtue = &"charity"
+moral_value = 2
+moral_text = "Einer alten Frau über die Straße geholfen"

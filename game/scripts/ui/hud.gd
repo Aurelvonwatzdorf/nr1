@@ -14,6 +14,7 @@ extends CanvasLayer
 @onready var prompt_label: Label = %PromptLabel
 @onready var potion_label: Label = %PotionLabel
 @onready var saved_label: Label = %SavedLabel
+@onready var mission_label: Label = %MissionLabel
 
 var _player: Player
 var _message_tween: Tween
@@ -34,6 +35,14 @@ func _ready() -> void:
 	EventBus.message_requested.connect(show_message)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
+	EventBus.mission_started.connect(func(m: MissionData) -> void:
+		show_message("Neue Mission: %s" % m.title)
+		_update_missions())
+	EventBus.mission_completed.connect(func(m: MissionData) -> void:
+		var reward := "   +%d Geld" % m.reward_money if m.reward_money > 0 else ""
+		show_message("Mission erfüllt: %s%s" % [m.title, reward])
+		_update_missions())
+	_update_missions()
 	_update_potions()
 	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Ankerspiegel berührt"))
 	EventBus.memories_recovered.connect(func(amount: int) -> void: show_message("%d Erinnerungen zurückgeholt" % amount))
@@ -59,6 +68,13 @@ func show_message(text: String) -> void:
 func saved_label_flash() -> void:
 	saved_label.modulate.a = 1.0
 	create_tween().tween_property(saved_label, "modulate:a", 0.0, 1.5).set_delay(1.0)
+
+
+func _update_missions() -> void:
+	var lines: PackedStringArray = []
+	for mission in GameState.get_active_missions():
+		lines.append("◆ %s\n   %s" % [mission.title, mission.objective])
+	mission_label.text = "\n".join(lines)
 
 
 func _update_potions() -> void:

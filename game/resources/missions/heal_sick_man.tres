@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" path="res://scripts/missions/mission_data.gd" id="1_mission"]
+
+[resource]
+script = ExtResource("1_mission")
+id = &"heal_sick_man"
+title = "Ein kranker Mann"
+objective = "Bring dem kranken Mann einen Heiltrank."
+moral_virtue = &"charity"
+moral_value = 3
+moral_text = "Einem Kranken den eigenen Heiltrank gegeben"

@@ -206,3 +206,19 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.9, 1, 1)
 text = "Gespeichert"
 horizontal_alignment = 2
+
+[node name="MissionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -460.0
+offset_top = 28.0
+offset_right = -32.0
+offset_bottom = 200.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.92, 0.7, 1)
+theme_override_constants/outline_size = 6
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3

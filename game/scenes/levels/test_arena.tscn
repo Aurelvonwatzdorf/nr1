@@ -20,6 +20,10 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="18_dialogue"]
 [ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="19_npc"]
 [ext_resource type="Script" path="res://scripts/npcs/merchant.gd" id="20_merchant"]
+[ext_resource type="Script" path="res://scripts/npcs/old_woman.gd" id="21_old_woman"]
+[ext_resource type="Script" path="res://scripts/npcs/sick_man.gd" id="22_sick_man"]
+[ext_resource type="Resource" path="res://resources/missions/help_old_woman.tres" id="23_mission_woman"]
+[ext_resource type="Resource" path="res://resources/missions/heal_sick_man.tres" id="24_mission_sick"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.12, 0.13, 0.2, 1)
@@ -55,6 +59,37 @@ size = Vector3(60, 1, 60)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(60, 1, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_road"]
+albedo_color = Color(0.13, 0.13, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_road"]
+material = SubResource("StandardMaterial3D_road")
+size = Vector3(40, 0.02, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_line"]
+shading_mode = 0
+albedo_color = Color(0.9, 0.9, 0.85, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_line"]
+material = SubResource("StandardMaterial3D_line")
+size = Vector3(1.5, 0.03, 0.15)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_destination"]
+height = 2.0
+radius = 2.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_destination"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.85, 0.3, 0.35)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_destination"]
+material = SubResource("StandardMaterial3D_destination")
+top_radius = 2.5
+bottom_radius = 2.5
+height = 0.03
 
 [sub_resource type="BoxMesh" id="BoxMesh_ramp"]
 material = SubResource("StandardMaterial3D_block")
@@ -278,6 +313,65 @@ item = ExtResource("17_amulet")
 amount = 1
 pickup_id = &"arena_heart_amulet"
 
+[node name="Street" type="Node3D" parent="."]
+
+[node name="Road" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 13)
+mesh = SubResource("BoxMesh_road")
+
+[node name="Line0" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line1" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line2" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line3" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line4" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line5" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line6" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line7" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line8" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="Line9" type="MeshInstance3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.02, 13)
+mesh = SubResource("BoxMesh_line")
+
+[node name="WomanDestination" type="Area3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 17)
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Street/WomanDestination"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_destination")
+
+[node name="Marker" type="MeshInstance3D" parent="Street/WomanDestination"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+mesh = SubResource("CylinderMesh_destination")
+
 [node name="NPCs" type="Node3D" parent="."]
 
 [node name="Merchant" parent="NPCs" instance=ExtResource("19_npc")]
@@ -288,6 +382,24 @@ prices = Array[int]([40, 30])
 npc_id = &"test_merchant"
 display_name = "Händler"
 body_color = Color(0.85, 0.65, 0.25, 1)
+
+[node name="OldWoman" parent="NPCs" node_paths=PackedStringArray("destination") instance=ExtResource("19_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 9.5)
+script = ExtResource("21_old_woman")
+mission = ExtResource("23_mission_woman")
+destination = NodePath("../../Street/WomanDestination")
+npc_id = &"test_old_woman"
+display_name = "Alte Frau"
+body_color = Color(0.6, 0.45, 0.65, 1)
+walk_speed = 2.2
+
+[node name="SickMan" parent="NPCs" instance=ExtResource("19_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 9)
+script = ExtResource("22_sick_man")
+mission = ExtResource("24_mission_sick")
+npc_id = &"test_sick_man"
+display_name = "Kranker Mann"
+body_color = Color(0.5, 0.55, 0.45, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)

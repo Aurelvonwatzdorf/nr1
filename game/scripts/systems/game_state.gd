@@ -19,6 +19,11 @@ var money: int = 0:
 		money = maxi(value, 0)
 		EventBus.money_changed.emit(money)
 
+enum MissionStatus { NOT_STARTED, ACTIVE, COMPLETED }
+
+## Stand aller Missionen: ID → MissionStatus.
+var mission_states: Dictionary[StringName, int] = {}
+
 ## Wie viele Menüs gerade offen sind. > 0 = Spiel pausiert, Maus frei.
 var open_menu_count: int = 0:
 	set(value):
@@ -77,6 +82,41 @@ func is_menu_open() -> bool:
 	return open_menu_count > 0
 
 
+func get_mission_status(id: StringName) -> MissionStatus:
+	return mission_states.get(id, MissionStatus.NOT_STARTED) as MissionStatus
+
+
+## Mission annehmen (wenn noch nicht begonnen).
+func start_mission(mission: MissionData) -> void:
+	if get_mission_status(mission.id) != MissionStatus.NOT_STARTED:
+		return
+	mission_states[mission.id] = MissionStatus.ACTIVE
+	EventBus.mission_started.emit(mission)
+
+
+## Mission abschließen: Belohnung geben, Tat ins Moral-Gedächtnis.
+func complete_mission(mission: MissionData) -> void:
+	if get_mission_status(mission.id) == MissionStatus.COMPLETED:
+		return
+	mission_states[mission.id] = MissionStatus.COMPLETED
+	money += mission.reward_money
+	memories += mission.reward_memories
+	if mission.moral_virtue != &"":
+		moral.record(StringName("mission_%s" % mission.id), mission.moral_virtue, mission.moral_value, mission.moral_text)
+	EventBus.mission_completed.emit(mission)
+
+
+## Alle angenommenen, noch offenen Missionen.
+func get_active_missions() -> Array[MissionData]:
+	var result: Array[MissionData] = []
+	for id: StringName in mission_states:
+		if mission_states[id] == MissionStatus.ACTIVE:
+			var mission := MissionDatabase.get_mission(id)
+			if mission:
+				result.append(mission)
+	return result
+
+
 ## Bezahlen. Gibt false zurück, wenn das Geld nicht reicht.
 func try_spend_money(amount: int) -> bool:
 	if money < amount:
@@ -99,6 +139,7 @@ func reset() -> void:
 	inventory.from_dict({})
 	moral.from_array([])
 	collected_pickups.clear()
+	mission_states.clear()
 	checkpoint_transform = Transform3D.IDENTITY
 	has_checkpoint = false
 
@@ -115,6 +156,7 @@ func to_dict() -> Dictionary:
 		"has_checkpoint": has_checkpoint,
 		"checkpoint": var_to_str(checkpoint_transform),
 		"moral": moral.to_array(),
+		"missions": _missions_to_dict(),
 	}
 
 
@@ -134,3 +176,13 @@ func from_dict(data: Dictionary) -> void:
 	if transform is Transform3D:
 		checkpoint_transform = transform
 	moral.from_array(data.get("moral", []))
+	var missions: Dictionary = data.get("missions", {})
+	for key: String in missions:
+		mission_states[StringName(key)] = int(missions[key])
+
+
+func _missions_to_dict() -> Dictionary:
+	var result := {}
+	for id: StringName in mission_states:
+		result[String(id)] = mission_states[id]
+	return result
