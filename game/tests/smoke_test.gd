@@ -297,6 +297,30 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Händler: ansprechen, Tränke kaufen
+	var merchant: Merchant = arena.get_node("NPCs/Merchant")
+	var dialogue: DialogueBox = arena.get_node("DialogueBox")
+	GameState.money = 0
+	var potions_before := GameState.inventory.get_count(&"healing_potion")
+	player.global_position = merchant.global_position + Vector3(0.0, 0.05, -1.5)
+	await _frames(10)
+	_check(player.interaction_detector.current == merchant.talk_area, "Händler in Reichweite")
+	await _tap(&"interact")
+	await _frames(2)
+	_check(dialogue.is_open and get_tree().paused, "Gespräch öffnet sich, Spiel pausiert")
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.inventory.get_count(&"healing_potion") == potions_before, "Ohne Geld kein Kauf")
+	GameState.money = 100
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.inventory.get_count(&"healing_potion") == potions_before + 1 and GameState.money == 60, "Heiltrank für 40 Geld gekauft")
+	dialogue.choose(2)
+	await _frames(2)
+	_check(not dialogue.is_open and not get_tree().paused, "„Tschüss“ beendet das Gespräch")
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(3)
+
 	# Moral-Gedächtnis
 	var moral := GameState.moral
 	_check(moral.record(&"test_helped_elder", &"charity", 2, "Einer alten Frau geholfen"), "Gute Tat wird gemerkt")
@@ -311,13 +335,14 @@ func _run() -> void:
 	GameState.stats.set_stat(&"strength", 3)
 	GameState.inventory.add(&"heart_amulet")
 	var saved_checkpoint := GameState.checkpoint_transform
+	var saved_potions := GameState.inventory.get_count(&"healing_potion")
 	_check(SaveSystem.save_game(), "Speichern klappt")
 	GameState.reset()
 	_check(GameState.memories == 0 and GameState.stats.strength == 1, "Zurücksetzen löscht alles")
 	_check(SaveSystem.load_game(), "Laden klappt")
 	_check(GameState.memories == 77 and GameState.stats.strength == 3, "Erinnerungen und Stats geladen")
 	_check(GameState.money == 123, "Geld geladen")
-	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == 1, "Inventar geladen")
+	_check(GameState.inventory.has(&"heart_amulet") and GameState.inventory.get_count(&"healing_potion") == saved_potions, "Inventar geladen")
 	_check(GameState.collected_pickups.has(&"arena_potions_start"), "Aufgehobene Gegenstände bleiben weg")
 	_check(GameState.has_checkpoint and GameState.checkpoint_transform.is_equal_approx(saved_checkpoint), "Ankerspiegel-Ort geladen")
 	_check(GameState.moral.get_score() == -1, "Moral-Gedächtnis geladen")

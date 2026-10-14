@@ -51,9 +51,10 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 
 ### Ordnerstruktur (`game/`)
 ```
-scenes/      player/, enemies/, levels/, ui/, world/  (.tscn)
-scripts/     player/ (+ states/), enemies/ (+ states/), combat/, components/,
-             items/, realms/, ui/, systems/, characters/, state_machine/
+scenes/      player/, enemies/, npcs/, levels/, ui/, world/  (.tscn)
+scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, combat/,
+             components/, items/, realms/, ui/, systems/, characters/,
+             state_machine/
 assets/      models/, materials/, audio/
 resources/   characters/, attacks/, enemies/, items/ (.tres-Daten)
 tests/       Headless-Rauchtests
@@ -100,6 +101,10 @@ tests/       Headless-Rauchtests
   einen eigenen Spielstand (`user://smoke_test_save.json`).
 - **Moral**: `GameState.moral.record(id, tugend, wert, text)`; jede Tat-ID zählt
   einmal. Tugenden siehe `MoralMemory.VIRTUES`.
+- **NPCs** erben von `NPC` (`scenes/npcs/npc.tscn`, Skript im Inspector tauschen)
+  und überschreiben `talk(player, dialogue)` und `_npc_physics(delta)`.
+  Gespräche: `var wahl := await dialogue.ask(name, text, antworten)`; das
+  Fenster schließt der NPC-Basiscode am Ende selbst.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -114,6 +119,7 @@ tests/       Headless-Rauchtests
 | 4 | 8 | Hitbox | Angriffsflächen (suchen Hurtboxes) |
 | 5 | 16 | Hurtbox | Trefferflächen (werden gefunden) |
 | 6 | 32 | Interaktion | Interactables (Ankerspiegel, Gegenstände, NPCs) |
+| 7 | 64 | NPC | Körper von NPCs |
 
 ### Konventionen
 - Dateien und Ordner `snake_case`, Klassen `PascalCase` mit `class_name`.

@@ -131,6 +131,7 @@ Object(InputEventJoypadButton,"device":-1,"button_index":6)]
 3d_physics/layer_4="Hitbox"
 3d_physics/layer_5="Hurtbox"
 3d_physics/layer_6="Interaktion"
+3d_physics/layer_7="NPC"
 
 [physics]
 
