@@ -11,16 +11,28 @@ var _phase: Phase = Phase.STARTUP
 var _time: float = 0.0
 ## Gepufferter Folgeangriff: -1 = keiner, 0 = leicht, 1 = schwer.
 var _buffered: int = -1
+var _heavy: bool = false
+
+
+func is_heavy() -> bool:
+	return _heavy
 
 
 func enter(msg: Dictionary = {}) -> void:
 	var data := player.character_data
 	var heavy: bool = msg.get("heavy", false)
 	_attack = data.heavy_attack if heavy and data.heavy_attack else data.light_attack
+	_heavy = _attack == data.heavy_attack
 	_phase = Phase.STARTUP
 	_time = 0.0
 	_buffered = -1
-	player.stamina.consume(_attack.stamina_cost)
+	player.combo_count = msg.get("combo", 1)
+	var ambition := player.get_ambition()
+	var free_attack := ambition != null and ambition.is_full() and GameState.has_skill(&"aurel_summit")
+	if not free_attack:
+		player.stamina.consume(_attack.stamina_cost)
+	if _heavy and ambition and ambition.is_full() and GameState.has_skill(&"aurel_wildfire"):
+		player.release_wildfire()
 	# Mit Lock-on zielt der Schlag aufs Ziel, sonst in Laufrichtung.
 	var aim := player.get_direction_to_lock_target()
 	player.snap_towards(aim if aim != Vector3.ZERO else player.get_move_direction())
@@ -51,7 +63,7 @@ func physics_update(delta: float) -> void:
 
 	if _time >= _attack.get_total_time():
 		if _buffered >= 0 and player.stamina.can_act():
-			state_machine.transition_to(&"attack", {"heavy": _buffered == 1})
+			state_machine.transition_to(&"attack", {"heavy": _buffered == 1, "combo": player.combo_count + 1})
 		else:
 			return_to_locomotion()
 

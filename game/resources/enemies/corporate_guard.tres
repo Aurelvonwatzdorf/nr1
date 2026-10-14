@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_enemy")
 display_name = "Konzernwache"
+faction = &"corporate"
 max_health = 80.0
 memories_reward = 50
 attack = ExtResource("2_attack")

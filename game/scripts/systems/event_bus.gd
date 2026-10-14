@@ -7,6 +7,8 @@ extends Node
 
 ## Die Spielfigur ist in der Szene bereit.
 signal player_spawned(player: Player)
+## Die eigene Ressource der Figur wurde erzeugt (null = keine).
+signal special_resource_changed(pool: StatPoolComponent, kind: StringName)
 ## Die gespielte Figur wurde gewählt oder gewechselt.
 signal character_changed(data: CharacterData)
 ## Die Spielfigur ist gestorben.

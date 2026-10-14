@@ -45,6 +45,7 @@ func _run() -> void:
 
 	# Schwerer Angriff (Shift + Linksklick)
 	await _frames(60)
+	player.get_ambition().spend_all()
 	player.global_position = Vector3(0.0, 0.05, -2.5)
 	player.rotation = Vector3.ZERO
 	Input.action_press(&"sprint")
@@ -256,6 +257,7 @@ func _run() -> void:
 	_check(player.interaction_detector.current == null, "Weit weg: keine Interaktion")
 
 	# Stats: Leveln mit Erinnerungen, abgeleitete Werte
+	player.get_ambition().spend_all()
 	var stats := GameState.stats
 	_check(stats.get_level() == 1 and stats.get_level_up_cost() == 100, "Start: Stufe 1, nächste Stufe kostet 100")
 	GameState.memories = 50
@@ -299,6 +301,7 @@ func _run() -> void:
 	inventory.add(&"heart_amulet")
 	_check(is_equal_approx(player.health.max_value, max_hp + 15.0), "Dauerhaftes Artefakt: +15 maximales Leben")
 	inventory.remove(&"heart_amulet")
+	player.get_ambition().spend_all()
 	var multiplier := player.get_damage_multiplier()
 	inventory.add(&"power_ampoule")
 	player.use_item(ItemDatabase.get_item(&"power_ampoule"))
@@ -491,6 +494,66 @@ func _run() -> void:
 	_check(GameState.has_skill(&"aurel_summit") and GameState.has_story_flag(&"first_boss_defeated"), "Fähigkeiten und Story werden gespeichert")
 	GameState.reset()
 	await _frames(3)
+
+	# Aurels Ehrgeiz
+	var ambition := player.get_ambition()
+	_check(ambition != null and is_equal_approx(ambition.current, 0.0), "Aurel hat Ehrgeiz, startet bei 0")
+	dummy.health.revive()
+	player.stamina.refill()
+	player.global_position = Vector3(0.0, 0.05, -2.5)
+	player.rotation = Vector3.ZERO
+	await _frames(10)
+	await _tap(&"attack_light")
+	await _frames(40)
+	_check(is_equal_approx(ambition.current, 12.0), "Treffer gibt 12 Ehrgeiz (%.1f)" % ambition.current)
+	ambition.add(100.0)
+	var mult_full := player.get_damage_multiplier()
+	_check(is_equal_approx(mult_full, 1.2), "Voller Ehrgeiz: +20 %% Schaden (%.2f)" % mult_full)
+	var hp_ambition := player.health.current
+	var hit_on_aurel := HitData.new()
+	hit_on_aurel.damage = 5.0
+	player.hurtbox.receive_hit(hit_on_aurel)
+	_check(is_equal_approx(ambition.current, 75.0), "Getroffen: -25 Ehrgeiz")
+	await _frames(30)
+	ambition._time_since_hit = 10.0
+	var before_decay := ambition.current
+	await _frames(30)
+	_check(ambition.current < before_decay, "Ohne Angriffe schwindet der Ehrgeiz")
+	player.health.revive()
+
+	# Aurels Fähigkeiten im Kampf
+	GameState.unlocked_skills.append_array([&"aurel_sparks", &"aurel_embers", &"aurel_badge", &"aurel_weak_spots", &"aurel_wildfire", &"aurel_summit"])
+	_check(is_equal_approx(guard.get_detection_radius(), 6.0), "Firmenausweis: Wachen sehen nur noch 6 statt 10 Meter")
+	var weak_spot := player._modify_outgoing_damage(guard.hurtbox, 10.0)
+	ambition.spend_all()
+	_check(is_equal_approx(player._modify_outgoing_damage(guard.hurtbox, 10.0), 11.5), "Schwachstellenwissen: +15 %% gegen Konzern")
+	ambition.add(60.0)
+	_check(is_equal_approx(player._modify_outgoing_damage(dummy.hurtbox, 10.0), 15.0), "Funkenschlag: +5 ab halbem Ehrgeiz")
+	_check(weak_spot >= 11.5, "Boni addieren sich")
+	guard.global_position = player.global_position + Vector3(0.0, 0.0, -2.0)
+	guard.apply_burn(3.0, 3.0)
+	var guard_hp_burn := guard.health.current
+	await _frames(60)
+	_check(guard.health.current < guard_hp_burn and guard.health.current > guard_hp_burn - 4.0, "Glutnarben: Gegner brennt (3 pro Sekunde)")
+	guard.health.revive()
+	guard.attack_cooldown_left = 100.0
+	player.health.revive()
+	player.state_machine.transition_to(&"idle")
+	await _frames(5)
+	ambition.add(100.0)
+	ambition._time_since_hit = 0.0
+	player.stamina.refill()
+	var stamina_full := player.stamina.current
+	await _tap(&"attack_heavy")
+	_check(player.state_machine.get_current_state_name() == &"attack", "Schwerer Angriff startet")
+	await _frames(3)
+	_check(is_equal_approx(player.stamina.current, stamina_full), "Gipfelsturm: voller Ehrgeiz, Angriff kostet keine Ausdauer")
+	_check(guard.health.current <= guard.health.max_value - 25.0 and is_equal_approx(ambition.current, 0.0), "Lauffeuer: Feuerwelle trifft und verbraucht den Ehrgeiz")
+	await _frames(60)
+	GameState.unlocked_skills.clear()
+	guard.reset_enemy()
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	await _frames(5)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")

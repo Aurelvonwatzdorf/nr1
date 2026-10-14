@@ -13,4 +13,5 @@ description = "Ehrgeiziger kleiner Konzernangestellter, der nach oben will.\n\nK
 light_attack = ExtResource("2_light")
 heavy_attack = ExtResource("3_heavy")
 skill_tree = ExtResource("4_tree")
+special_resource = &"ambition"
 placeholder_color = Color(0.75, 0.22, 0.2, 1)

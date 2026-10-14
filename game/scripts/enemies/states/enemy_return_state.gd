@@ -9,7 +9,7 @@ func enter(_msg: Dictionary = {}) -> void:
 
 func physics_update(delta: float) -> void:
 	var player := enemy.get_player()
-	if player and enemy.distance_to_node(player) <= enemy.data.detection_radius:
+	if player and enemy.distance_to_node(player) <= enemy.get_detection_radius():
 		state_machine.transition_to(&"chase")
 		return
 	var offset := enemy.home_transform.origin - enemy.global_position

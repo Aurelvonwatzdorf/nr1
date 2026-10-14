@@ -3,6 +3,9 @@ extends Resource
 ## Alle Werte eines Gegnertyps. Neue Gegner = neue .tres-Datei, kein neuer Code.
 
 @export var display_name: String = "Gegner"
+## Zugehörigkeit, z. B. &"corporate" (Konzern). Manche Fähigkeiten wirken nur
+## gegen bestimmte Gruppen.
+@export var faction: StringName = &""
 
 @export_group("Werte")
 @export var max_health: float = 80.0

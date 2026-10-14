@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var stamina_bar: ProgressBar = %StaminaBar
 @onready var focus_bar: ProgressBar = %FocusBar
+@onready var special_bar: ProgressBar = %SpecialBar
+@onready var special_label: Label = %SpecialLabel
 @onready var pause_label: Label = %PauseLabel
 @onready var memories_label: Label = %MemoriesLabel
 @onready var money_label: Label = %MoneyLabel
@@ -33,6 +35,7 @@ func _ready() -> void:
 	prompt_label.text = ""
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
+	EventBus.special_resource_changed.connect(_bind_special)
 	EventBus.character_changed.connect(func(data: CharacterData) -> void: name_label.text = data.display_name)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
@@ -108,6 +111,21 @@ func bind_player(player: Player) -> void:
 	_bind_bar(health_bar, player.health)
 	_bind_bar(stamina_bar, player.stamina)
 	_bind_bar(focus_bar, player.focus)
+	_bind_special(player.special_resource, player.character_data.special_resource)
+
+
+## Balken für die eigene Ressource der Figur (Ehrgeiz …), sonst ausgeblendet.
+func _bind_special(pool: StatPoolComponent, kind: StringName) -> void:
+	special_bar.visible = pool != null
+	special_label.visible = pool != null
+	if pool == null:
+		return
+	special_label.text = {&"ambition": "Ehrgeiz"}.get(kind, String(kind))
+	var update := func(current: float, maximum: float) -> void:
+		special_bar.max_value = maximum
+		special_bar.value = current
+	pool.value_changed.connect(update)
+	update.call(pool.current, pool.max_value)
 
 
 func _bind_bar(bar: ProgressBar, pool: StatPoolComponent) -> void:

@@ -116,6 +116,11 @@ tests/       Headless-Rauchtests
   `CharacterData.skill_tree`) mit `SkillData`-Knoten (Ast, Kosten, Voraussetzungen,
   optional `story_flag`). Punkte: 1 pro Level-Up. Wirkung im Code über
   `GameState.has_skill(id)`. Story-Fortschritt: `GameState.set_story_flag(flag)`.
+- **Eigene Ressource je Figur**: `CharacterData.special_resource` (&"ambition" =
+  `AmbitionComponent`, später &"ravens"). Der Player erzeugt die Komponente in
+  `_setup_special_resource()`; HUD zeigt einen vierten Balken.
+- **Schaden je Ziel**: `hitbox.damage_modifier` (Player: Kombo, Funken,
+  Schwachstellen). Gegner haben `EnemyData.faction` (z. B. &"corporate").
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
   verweisen (führt in Godot zu Speicherlecks beim Beenden). Schalter für Tests
   gehören in `GameState` (z. B. `ask_character_on_new_game`).

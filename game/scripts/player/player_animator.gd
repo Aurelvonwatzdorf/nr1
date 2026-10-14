@@ -55,6 +55,29 @@ func set_blocking(active: bool) -> void:
 	weapon_pivot.rotation = Vector3(0.0, deg_to_rad(80.0), deg_to_rad(70.0)) if active else Vector3.ZERO
 
 
+## Platzhalter-Effekt für Aurels Feuerwelle: wachsender, verblassender Ring.
+func play_wildfire(radius: float) -> void:
+	if visual_root == null:
+		return
+	var ring := MeshInstance3D.new()
+	var mesh := TorusMesh.new()
+	mesh.inner_radius = 0.8
+	mesh.outer_radius = 1.0
+	ring.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_color = Color(1.0, 0.5, 0.1, 0.9)
+	ring.material_override = material
+	visual_root.get_parent().add_child(ring)
+	ring.top_level = true
+	ring.global_position = visual_root.global_position + Vector3.UP * 0.3
+	var tween := ring.create_tween().set_parallel()
+	tween.tween_property(ring, "scale", Vector3.ONE * radius, 0.35)
+	tween.tween_property(material, "albedo_color:a", 0.0, 0.35)
+	tween.chain().tween_callback(ring.queue_free)
+
+
 ## Grundhaltung wiederherstellen (z. B. nach dem Respawn).
 func reset_pose() -> void:
 	_kill_tween()

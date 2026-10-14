@@ -51,6 +51,11 @@ extends Resource
 @export var light_attack: AttackData
 @export var heavy_attack: AttackData
 
+@export_group("Besonderheit")
+## Eigene Ressource der Figur: &"ambition" (Aurels Ehrgeiz), &"ravens" (Tahirou,
+## folgt), leer = keine.
+@export var special_resource: StringName = &""
+
 @export_group("Darstellung")
 ## Farbe der Platzhalter-Kapsel, solange es kein Modell gibt.
 @export var placeholder_color: Color = Color(0.8, 0.8, 0.8)

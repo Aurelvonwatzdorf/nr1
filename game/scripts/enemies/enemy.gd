@@ -28,6 +28,9 @@ var last_hit: HitData
 
 var _material: StandardMaterial3D
 var _pose_tween: Tween
+## Brennen (z. B. durch Aurels „Glutnarben“): Schaden pro Sekunde und Restzeit.
+var _burn_damage_per_second: float = 0.0
+var _burn_time_left: float = 0.0
 
 
 func _ready() -> void:
@@ -49,6 +52,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	attack_cooldown_left = maxf(attack_cooldown_left - delta, 0.0)
+	_update_burn(delta)
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	state_machine.physics_update(delta)
@@ -87,6 +91,36 @@ func turn_towards(direction: Vector3, delta: float) -> void:
 		return
 	var target_angle := atan2(-direction.x, -direction.z)
 	rotation.y = lerp_angle(rotation.y, target_angle, 1.0 - exp(-data.turn_speed * delta))
+
+
+## Sichtweite, angepasst an Fähigkeiten der Spielfigur (z. B. „Firmenausweis“).
+func get_detection_radius() -> float:
+	if data.faction == &"corporate" and GameState.has_skill(&"aurel_badge"):
+		return data.detection_radius * 0.6
+	return data.detection_radius
+
+
+## In Brand setzen: Schaden über Zeit, ohne Taumeln.
+func apply_burn(damage_per_second: float, duration: float) -> void:
+	_burn_damage_per_second = damage_per_second
+	_burn_time_left = duration
+
+
+func is_burning() -> bool:
+	return _burn_time_left > 0.0
+
+
+func _update_burn(delta: float) -> void:
+	if _burn_time_left <= 0.0:
+		return
+	_burn_time_left -= delta
+	if health.is_dead:
+		_burn_time_left = 0.0
+	else:
+		health.take_damage(_burn_damage_per_second * delta)
+	_material.emission_enabled = _burn_time_left > 0.0
+	_material.emission = Color(1.0, 0.45, 0.1)
+	_material.emission_energy_multiplier = 1.2
 
 
 func get_facing_direction() -> Vector3:
@@ -138,6 +172,7 @@ func reset_enemy() -> void:
 	global_transform = home_transform
 	velocity = Vector3.ZERO
 	attack_cooldown_left = 0.0
+	_burn_time_left = 0.0
 	health.revive()
 	visible = true
 	collision_shape.set_deferred(&"disabled", false)
@@ -158,7 +193,10 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 
 func _on_hit_landed(_hurtbox: Hurtbox, _hit: HitData, result: Hurtbox.Result) -> void:
 	if result == Hurtbox.Result.PARRIED and not health.is_dead:
-		state_machine.transition_to(&"stagger", {"time": data.parried_stun_time, "parried": true})
+		var stun := data.parried_stun_time
+		if data.faction == &"corporate" and GameState.has_skill(&"aurel_takeover"):
+			stun *= 2.0
+		state_machine.transition_to(&"stagger", {"time": stun, "parried": true})
 
 
 func _on_died() -> void:

@@ -11,6 +11,10 @@ signal hit_landed(hurtbox: Hurtbox, hit: HitData, result: Hurtbox.Result)
 ## Team des Angreifers (z. B. &"player", &"enemy").
 @export var team: StringName = &""
 
+## Optional: func(ziel: Hurtbox, schaden: float) -> float. Passt den Schaden je
+## Ziel an (z. B. Bonus gegen bestimmte Gegner).
+var damage_modifier: Callable
+
 var _active: bool = false
 var _damage: float = 0.0
 var _knockback: float = 0.0
@@ -50,7 +54,7 @@ func _physics_process(_delta: float) -> void:
 			continue
 		_already_hit.append(hurtbox)
 		var hit := HitData.new()
-		hit.damage = _damage
+		hit.damage = damage_modifier.call(hurtbox, _damage) if damage_modifier.is_valid() else _damage
 		hit.knockback = _knockback
 		hit.source = owner as Node3D
 		var to_target := hurtbox.global_position - global_position
