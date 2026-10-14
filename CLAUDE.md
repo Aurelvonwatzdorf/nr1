@@ -52,11 +52,11 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 ### Ordnerstruktur (`game/`)
 ```
 scenes/      player/, enemies/, npcs/, levels/, ui/, world/  (.tscn)
-scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, missions/,
+scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, missions/, skills/,
              combat/, components/, items/, realms/, ui/, systems/,
              characters/, state_machine/
 assets/      models/, materials/, audio/
-resources/   characters/, attacks/, enemies/, items/, missions/ (.tres)
+resources/   characters/, attacks/, enemies/, items/, missions/, skills/ (.tres)
 tests/       Headless-Rauchtests
 ```
 
@@ -112,6 +112,10 @@ tests/       Headless-Rauchtests
 - **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
   Spielfigur zählen fürs Moral-Gedächtnis (Verletzen −3 Barmherzigkeit, Töten −10
   Schwache schützen, je NPC einmal). Tote stehen in `GameState.dead_npcs`.
+- **Fähigkeiten**: `SkillTreeData` (.tres in `resources/skills/`, in
+  `CharacterData.skill_tree`) mit `SkillData`-Knoten (Ast, Kosten, Voraussetzungen,
+  optional `story_flag`). Punkte: 1 pro Level-Up. Wirkung im Code über
+  `GameState.has_skill(id)`. Story-Fortschritt: `GameState.set_story_flag(flag)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
   verweisen (führt in Godot zu Speicherlecks beim Beenden). Schalter für Tests
   gehören in `GameState` (z. B. `ask_character_on_new_game`).

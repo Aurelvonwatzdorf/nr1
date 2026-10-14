@@ -22,6 +22,15 @@ var money: int = 0:
 		money = maxi(value, 0)
 		EventBus.money_changed.emit(money)
 
+enum SkillStatus { UNLOCKED, AVAILABLE, NEEDS_POINTS, NEEDS_PREVIOUS, STORY_LOCKED }
+
+## Fähigkeitspunkte (1 pro Level-Up).
+var skill_points: int = 0
+## Freigeschaltete Fähigkeiten (IDs).
+var unlocked_skills: Array[StringName] = []
+## Erreichter Story-Fortschritt (z. B. &"first_boss_defeated").
+var story_flags: Array[StringName] = []
+
 enum MissionStatus { NOT_STARTED, ACTIVE, COMPLETED, FAILED }
 
 ## IDs getöteter NPCs (bleiben auch nach dem Laden tot).
@@ -80,7 +89,45 @@ func try_level_up(stat: StringName) -> bool:
 	if memories < cost:
 		return false
 	memories -= cost
+	skill_points += 1
 	stats.increase(stat)
+	return true
+
+
+func has_skill(id: StringName) -> bool:
+	return unlocked_skills.has(id)
+
+
+func has_story_flag(flag: StringName) -> bool:
+	return story_flags.has(flag)
+
+
+## Story-Fortschritt erreicht (schaltet Story-gebundene Fähigkeiten frei).
+func set_story_flag(flag: StringName) -> void:
+	if not story_flags.has(flag):
+		story_flags.append(flag)
+		EventBus.story_flag_set.emit(flag)
+
+
+func get_skill_status(skill: SkillData) -> SkillStatus:
+	if has_skill(skill.id):
+		return SkillStatus.UNLOCKED
+	if skill.story_flag != &"" and not has_story_flag(skill.story_flag):
+		return SkillStatus.STORY_LOCKED
+	for required in skill.requires:
+		if not has_skill(required):
+			return SkillStatus.NEEDS_PREVIOUS
+	if skill_points < skill.cost:
+		return SkillStatus.NEEDS_POINTS
+	return SkillStatus.AVAILABLE
+
+
+func try_unlock_skill(skill: SkillData) -> bool:
+	if get_skill_status(skill) != SkillStatus.AVAILABLE:
+		return false
+	skill_points -= skill.cost
+	unlocked_skills.append(skill.id)
+	EventBus.skill_unlocked.emit(skill)
 	return true
 
 
@@ -155,6 +202,9 @@ func reset() -> void:
 	collected_pickups.clear()
 	mission_states.clear()
 	dead_npcs.clear()
+	skill_points = 0
+	unlocked_skills.clear()
+	story_flags.clear()
 	checkpoint_transform = Transform3D.IDENTITY
 	has_checkpoint = false
 
@@ -172,6 +222,9 @@ func to_dict() -> Dictionary:
 		"checkpoint": var_to_str(checkpoint_transform),
 		"moral": moral.to_array(),
 		"missions": _missions_to_dict(),
+		"skill_points": skill_points,
+		"skills": unlocked_skills.map(func(id: StringName) -> String: return String(id)),
+		"story_flags": story_flags.map(func(id: StringName) -> String: return String(id)),
 		"dead_npcs": dead_npcs.map(func(id: StringName) -> String: return String(id)),
 	}
 
@@ -192,6 +245,11 @@ func from_dict(data: Dictionary) -> void:
 	if transform is Transform3D:
 		checkpoint_transform = transform
 	moral.from_array(data.get("moral", []))
+	skill_points = int(data.get("skill_points", 0))
+	for id: Variant in data.get("skills", []):
+		unlocked_skills.append(StringName(str(id)))
+	for id: Variant in data.get("story_flags", []):
+		story_flags.append(StringName(str(id)))
 	for id: Variant in data.get("dead_npcs", []):
 		dead_npcs.append(StringName(str(id)))
 	var missions: Dictionary = data.get("missions", {})

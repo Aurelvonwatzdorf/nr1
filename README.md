@@ -36,6 +36,7 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Interagieren (z. B. am Ankerspiegel rasten) | E | A |
 | Heiltrank trinken | R | X |
 | Inventar | I | Back/View |
+| Fähigkeitenbaum | K | Steuerkreuz links |
 | Verbündeten rufen *(ab M8)* | F | Steuerkreuz hoch |
 | Pausenmenü | Esc | Start |
 

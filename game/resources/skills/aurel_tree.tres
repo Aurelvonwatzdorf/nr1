@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="SkillTreeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skills/skill_tree_data.gd" id="1_tree"]
+[ext_resource type="Script" path="res://scripts/skills/skill_data.gd" id="2_skill"]
+
+[sub_resource type="Resource" id="Skill_aurel_hunger"]
+script = ExtResource("2_skill")
+id = &"aurel_hunger"
+display_name = "Hunger"
+description = "Ehrgeiz wächst 50 % schneller."
+branch = "Aufstieg"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_chain_strikes"]
+script = ExtResource("2_skill")
+id = &"aurel_chain_strikes"
+display_name = "Kettenschläge"
+description = "Jeder weitere leichte Schlag einer Kombo macht +10 % Schaden (bis +30 %)."
+branch = "Aufstieg"
+requires = Array[StringName]([&"aurel_hunger"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_summit"]
+script = ExtResource("2_skill")
+id = &"aurel_summit"
+display_name = "Gipfelsturm"
+description = "Bei vollem Ehrgeiz kosten Angriffe keine Ausdauer."
+branch = "Aufstieg"
+requires = Array[StringName]([&"aurel_chain_strikes"])
+story_flag = &"first_boss_defeated"
+story_hint = "Nach dem ersten Bosssieg"
+
+[sub_resource type="Resource" id="Skill_aurel_sparks"]
+script = ExtResource("2_skill")
+id = &"aurel_sparks"
+display_name = "Funkenschlag"
+description = "Ab halbem Ehrgeiz machen Treffer +5 Feuerschaden."
+branch = "Glut"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_embers"]
+script = ExtResource("2_skill")
+id = &"aurel_embers"
+display_name = "Glutnarben"
+description = "Treffer setzen Gegner in Brand: 3 Schaden pro Sekunde für 3 Sekunden."
+branch = "Glut"
+requires = Array[StringName]([&"aurel_sparks"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_wildfire"]
+script = ExtResource("2_skill")
+id = &"aurel_wildfire"
+display_name = "Lauffeuer"
+description = "Schwerer Angriff bei vollem Ehrgeiz entfesselt eine Feuerwelle (25 Schaden im Umkreis) und verbraucht den Ehrgeiz."
+branch = "Glut"
+requires = Array[StringName]([&"aurel_embers"])
+story_flag = &"embers_awakened"
+story_hint = "Wird in der Geschichte geweckt"
+
+[sub_resource type="Resource" id="Skill_aurel_badge"]
+script = ExtResource("2_skill")
+id = &"aurel_badge"
+display_name = "Firmenausweis"
+description = "Konzern-Gegner bemerken dich erst später (40 % geringere Sichtweite)."
+branch = "Insider"
+requires = Array[StringName]([])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_weak_spots"]
+script = ExtResource("2_skill")
+id = &"aurel_weak_spots"
+display_name = "Schwachstellenwissen"
+description = "+15 % Schaden gegen Konzern-Gegner."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_badge"])
+story_flag = &""
+story_hint = ""
+
+[sub_resource type="Resource" id="Skill_aurel_takeover"]
+script = ExtResource("2_skill")
+id = &"aurel_takeover"
+display_name = "Übernahme"
+description = "Parierte Konzern-Gegner sind doppelt so lange wehrlos."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_weak_spots"])
+story_flag = &"tower_escaped"
+story_hint = "Nach der Flucht aus dem Konzernturm"
+
+[resource]
+script = ExtResource("1_tree")
+branches = Array[String](["Aufstieg", "Glut", "Insider"])
+skills = Array[ExtResource("2_skill")]([SubResource("Skill_aurel_hunger"), SubResource("Skill_aurel_chain_strikes"), SubResource("Skill_aurel_summit"), SubResource("Skill_aurel_sparks"), SubResource("Skill_aurel_embers"), SubResource("Skill_aurel_wildfire"), SubResource("Skill_aurel_badge"), SubResource("Skill_aurel_weak_spots"), SubResource("Skill_aurel_takeover")])

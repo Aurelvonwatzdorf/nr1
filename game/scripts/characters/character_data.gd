@@ -64,5 +64,5 @@ extends Resource
 @export_group("Geschichte")
 ## Kurze Zeilen des Begleiters zu Spielbeginn (Dialogsystem kommt in M8).
 @export var intro_lines: Array[String] = []
-## Fähigkeitenbaum (kommt in M4).
-@export var skill_tree: Resource
+## Fähigkeitenbaum der Figur.
+@export var skill_tree: SkillTreeData

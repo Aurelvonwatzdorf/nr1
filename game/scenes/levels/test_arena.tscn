@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="19_npc"]
 [ext_resource type="Script" path="res://scripts/npcs/merchant.gd" id="20_merchant"]
 [ext_resource type="PackedScene" path="res://scenes/ui/character_select_menu.tscn" id="25_select"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_menu.tscn" id="26_skills"]
 [ext_resource type="Script" path="res://scripts/npcs/old_woman.gd" id="21_old_woman"]
 [ext_resource type="Script" path="res://scripts/npcs/sick_man.gd" id="22_sick_man"]
 [ext_resource type="Resource" path="res://resources/missions/help_old_woman.tres" id="23_mission_woman"]
@@ -412,6 +413,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)
 [node name="RestMenu" parent="." instance=ExtResource("10_rest")]
 
 [node name="InventoryMenu" parent="." instance=ExtResource("11_inventory")]
+
+[node name="SkillTreeMenu" parent="." instance=ExtResource("26_skills")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
 

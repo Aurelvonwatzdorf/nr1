@@ -31,6 +31,10 @@ signal mission_started(mission: MissionData)
 signal mission_completed(mission: MissionData)
 ## Eine Mission ist gescheitert.
 signal mission_failed(mission: MissionData)
+## Eine Fähigkeit wurde freigeschaltet.
+signal skill_unlocked(skill: SkillData)
+## Story-Fortschritt erreicht.
+signal story_flag_set(flag: StringName)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.
