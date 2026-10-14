@@ -243,9 +243,7 @@ func _apply_character_data() -> void:
 		model.add_child(data.model_scene.instantiate())
 		return
 	else:
-		var material := StandardMaterial3D.new()
-		material.albedo_color = data.placeholder_color
-		body_mesh.material_override = material
+		body_mesh.material_override = ToonStyle.make(data.placeholder_color)
 
 
 ## Interagieren nur im Stehen oder Gehen, nicht mitten im Angriff.

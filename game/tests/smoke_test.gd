@@ -33,6 +33,10 @@ func _run() -> void:
 	player.rotation = Vector3.ZERO
 	await _frames(20)
 	_check(player.is_on_floor(), "Figur steht auf dem Boden")
+	var body_material := player.body_mesh.material_override as StandardMaterial3D
+	_check(body_material.diffuse_mode == BaseMaterial3D.DIFFUSE_TOON and body_material.next_pass != null, "Gezeichneter Look: Toon-Schattierung und Umriss")
+	var floor_mesh: MeshInstance3D = arena.get_node("Floor/Mesh")
+	_check((floor_mesh.mesh.surface_get_material(0) as BaseMaterial3D).diffuse_mode == BaseMaterial3D.DIFFUSE_TOON, "Auch die Arena ist umgestellt")
 	_check(player.state_machine.get_current_state_name() == &"idle", "Startzustand ist Idle")
 
 	# Leichter Angriff

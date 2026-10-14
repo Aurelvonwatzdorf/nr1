@@ -17,6 +17,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	ToonStyle.apply_to_tree(self)
 	if _loaded_save and GameState.has_checkpoint:
 		player.global_transform = GameState.checkpoint_transform
 		player.rest()

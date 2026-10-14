@@ -125,6 +125,8 @@ func set_invulnerable_visual(active: bool) -> void:
 	if material:
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if active else BaseMaterial3D.TRANSPARENCY_DISABLED
 		material.albedo_color.a = 0.35 if active else 1.0
+		# Durchsichtig ohne Umriss, sonst sähe man nur noch den Umriss.
+		material.next_pass = null if active else ToonStyle.make_outline()
 
 
 func _travel(animation_name: StringName) -> bool:
