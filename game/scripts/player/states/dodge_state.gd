@@ -1,21 +1,26 @@
 class_name PlayerDodgeState
 extends PlayerState
 ## Ausweichrolle. Kurz unverwundbar (I-Frames), danach verwundbar bis zum Ende.
-## Ohne Richtungseingabe gibt es einen Rückwärtsschritt.
+## Die Rolle geht in die Richtung der gedrückten Taste (WASD, relativ zur Kamera).
+## Wird die Richtung kurz nach der Leertaste gedrückt, zählt sie trotzdem noch
+## (Kulanzzeit). Ganz ohne Richtung gibt es einen Rückwärtsschritt.
+
+## So lange nach Rollbeginn darf man die Richtung noch angeben (Sekunden).
+const DIRECTION_GRACE_TIME := 0.15
 
 var _direction: Vector3 = Vector3.ZERO
 var _time: float = 0.0
+## true, sobald eine Richtung gewählt wurde.
+var _direction_chosen: bool = false
 
 
 func enter(_msg: Dictionary = {}) -> void:
 	var data := player.character_data
 	player.stamina.consume(data.dodge_stamina_cost)
 	_time = 0.0
-	_direction = player.get_move_direction().normalized()
-	if _direction == Vector3.ZERO:
-		_direction = -player.get_facing_direction()
-	else:
-		player.snap_towards(_direction)
+	_direction_chosen = false
+	_direction = -player.get_facing_direction()
+	_try_choose_direction()
 	player.animator.play(&"dodge", data.dodge_duration)
 
 
@@ -27,6 +32,8 @@ func physics_update(delta: float) -> void:
 	var data := player.character_data
 	_time += delta
 	player.apply_gravity(delta)
+	if not _direction_chosen and _time <= DIRECTION_GRACE_TIME:
+		_try_choose_direction()
 
 	# Schnell starten, gegen Ende auslaufen lassen.
 	var progress := clampf(_time / data.dodge_duration, 0.0, 1.0)
@@ -38,6 +45,16 @@ func physics_update(delta: float) -> void:
 
 	if _time >= data.dodge_duration:
 		return_to_locomotion()
+
+
+## Übernimmt die gedrückte Richtung, falls es eine gibt.
+func _try_choose_direction() -> void:
+	var input_direction := player.get_move_direction()
+	if input_direction == Vector3.ZERO:
+		return
+	_direction = input_direction.normalized()
+	_direction_chosen = true
+	player.snap_towards(_direction)
 
 
 func _set_invulnerable(value: bool) -> void:

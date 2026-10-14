@@ -79,6 +79,23 @@ func _run() -> void:
 	await _frames(120)
 	_check(player.stamina.current > low, "Ausdauer regeneriert sich")
 
+	# Ausweichen nach rechts: Richtung kurz NACH der Leertaste gedrückt
+	await _frames(60)
+	player.stamina.refill()
+	player.rotation = Vector3.ZERO
+	var dodge_start := player.global_position
+	await get_tree().physics_frame
+	Input.action_press(&"dodge")
+	await _frames(3)
+	Input.action_press(&"move_right")
+	await _frames(2)
+	Input.action_release(&"dodge")
+	await _frames(20)
+	Input.action_release(&"move_right")
+	var moved := player.global_position - dodge_start
+	_check(moved.x > 1.0 and absf(moved.z) < 0.5, "D kurz nach Leertaste: Rolle nach rechts (x %.1f, z %.1f)" % [moved.x, moved.z])
+	await _frames(30)
+
 	# Blocken und Parieren (Treffer kommt von vorne)
 	player.health.revive()
 	player.stamina.refill()
