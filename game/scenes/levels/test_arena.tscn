@@ -22,6 +22,9 @@
 [ext_resource type="Script" path="res://scripts/npcs/merchant.gd" id="20_merchant"]
 [ext_resource type="PackedScene" path="res://scenes/ui/character_select_menu.tscn" id="25_select"]
 [ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_menu.tscn" id="26_skills"]
+[ext_resource type="Script" path="res://scripts/world/map_marker.gd" id="27_marker"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="28_map_data"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_map_menu.tscn" id="29_map_menu"]
 [ext_resource type="Script" path="res://scripts/npcs/old_woman.gd" id="21_old_woman"]
 [ext_resource type="Script" path="res://scripts/npcs/sick_man.gd" id="22_sick_man"]
 [ext_resource type="Resource" path="res://resources/missions/help_old_woman.tres" id="23_mission_woman"]
@@ -403,6 +406,28 @@ npc_id = &"test_sick_man"
 display_name = "Kranker Mann"
 body_color = Color(0.5, 0.55, 0.45, 1)
 
+[node name="MerchantMarker" type="Node3D" parent="NPCs/Merchant"]
+script = ExtResource("27_marker")
+kind = 1
+label = "Händler"
+
+[node name="WomanMarker" type="Node3D" parent="NPCs/OldWoman"]
+script = ExtResource("27_marker")
+kind = 10
+label = "Alte Frau"
+mission_id = &"help_old_woman"
+
+[node name="SickMarker" type="Node3D" parent="NPCs/SickMan"]
+script = ExtResource("27_marker")
+kind = 10
+label = "Kranker Mann"
+mission_id = &"heal_sick_man"
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("28_map_data")
+bounds = Rect2(-30, -30, 60, 60)
+area_name = "Testarena"
+
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)
 
@@ -415,6 +440,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2)
 [node name="InventoryMenu" parent="." instance=ExtResource("11_inventory")]
 
 [node name="SkillTreeMenu" parent="." instance=ExtResource("26_skills")]
+
+[node name="WorldMapMenu" parent="." instance=ExtResource("29_map_menu")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
 

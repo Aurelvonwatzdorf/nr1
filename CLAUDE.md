@@ -53,7 +53,7 @@ scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
 ```
 scenes/      player/, enemies/, npcs/, levels/, ui/, world/  (.tscn)
 scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, missions/, skills/,
-             combat/, components/, items/, realms/, ui/, systems/,
+             combat/, components/, items/, realms/, ui/, systems/, world/,
              characters/, state_machine/
 assets/      models/, materials/, audio/
 resources/   characters/, attacks/, enemies/, items/, missions/, skills/ (.tres)
@@ -121,6 +121,12 @@ tests/       Headless-Rauchtests
   `_setup_special_resource()`; HUD zeigt einen vierten Balken.
 - **Schaden je Ziel**: `hitbox.damage_modifier` (Player: Kombo, Funken,
   Schwachstellen). Gegner haben `EnemyData.faction` (z. B. &"corporate").
+- **Karte**: Orte bekommen einen `MapMarker` als Kind (Art: Händler, Service,
+  Konzernturm, Kaserne, Ankerspiegel, Gotteshäuser, Mission …). Grundriss liefert
+  ein `MapData`-Knoten im Level (`add_rect()`). `MapView` zeichnet Minimap (HUD,
+  dreht mit der Kamera) und große Karte (`WorldMapMenu`, Taste M).
+- **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
+  auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
   verweisen (führt in Godot zu Speicherlecks beim Beenden). Schalter für Tests
   gehören in `GameState` (z. B. `ask_character_on_new_game`).

@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/world_map_menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://scripts/ui/map_view.gd" id="2_view"]
+
+[node name="WorldMapMenu" type="CanvasLayer"]
+layer = 9
+script = ExtResource("1_menu")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 40
+
+[node name="Columns" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="MapView" type="Control" parent="Margin/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_view")
+minimap = false
+
+[node name="Side" type="VBoxContainer" parent="Margin/Columns"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Margin/Columns/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Karte"
+
+[node name="Hint" type="Label" parent="Margin/Columns/Side"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.6)
+text = "M oder Esc: schließen"
+
+[node name="Legend" type="VBoxContainer" parent="Margin/Columns/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6

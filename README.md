@@ -38,6 +38,7 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Inventar | I | Back/View |
 | Fähigkeitenbaum | K | Steuerkreuz links |
 | Raben rufen (nur Tahirou) | F | Steuerkreuz hoch |
+| Karte groß/klein | M | Steuerkreuz rechts |
 | Pausenmenü | Esc | Start |
 
 Alle Tasten lassen sich im Editor unter **Projekt → Projekteinstellungen →

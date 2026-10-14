@@ -399,6 +399,18 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(3)
 
+	# Karte: Marker, erledigte Missionen verschwinden, M öffnet die große Karte
+	var markers := get_tree().get_nodes_in_group(&"map_markers")
+	_check(markers.size() >= 5, "Karte kennt Händler, Ankerspiegel und Missionen (%d Marker)" % markers.size())
+	var woman_marker: MapMarker = arena.get_node("NPCs/OldWoman/WomanMarker")
+	_check(not woman_marker.is_shown(), "Erledigte Mission verschwindet von der Karte")
+	var map_menu: WorldMapMenu = arena.get_node("WorldMapMenu")
+	await _send_action(&"map")
+	await _frames(2)
+	_check(map_menu.is_open and map_menu.legend.get_child_count() >= 2, "M öffnet die große Karte mit Legende")
+	await _send_action(&"map")
+	_check(not map_menu.is_open, "M schließt sie wieder")
+
 	# Unschuldige NPCs verletzen: Moral sinkt, Tote bleiben tot
 	var mercy_before := GameState.moral.get_virtue_score(&"mercy")
 	var attack := HitData.new()
