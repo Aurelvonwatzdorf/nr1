@@ -6,7 +6,7 @@ config_version=5
 
 config/name="Spiegelrealitäten (Arbeitstitel)"
 config/description="Third-Person-Action-RPG in den Spiegelrealitäten der Konzerne."
-run/main_scene="res://scenes/levels/test_arena.tscn"
+run/main_scene="res://scenes/levels/santo_santiago.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]

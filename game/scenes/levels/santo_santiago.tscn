@@ -1,0 +1,71 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="Script" path="res://scripts/world/city_generator.gd" id="4_city"]
+[ext_resource type="Resource" path="res://resources/world/santo_santiago.tres" id="5_layout"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="6_map_data"]
+[ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="7_mirror"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="8_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="9_remnant"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dusk"]
+sky_top_color = Color(0.16, 0.12, 0.3, 1)
+sky_horizon_color = Color(0.85, 0.45, 0.4, 1)
+ground_bottom_color = Color(0.05, 0.04, 0.08, 1)
+ground_horizon_color = Color(0.6, 0.35, 0.4, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_dusk"]
+sky_material = SubResource("ProceduralSkyMaterial_dusk")
+
+[sub_resource type="Environment" id="Environment_city"]
+background_mode = 2
+sky = SubResource("Sky_dusk")
+ambient_light_source = 3
+ambient_light_energy = 1.2
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 1.1
+glow_bloom = 0.15
+fog_enabled = true
+fog_light_color = Color(0.55, 0.4, 0.55, 1)
+fog_density = 0.006
+
+[node name="SantoSantiago" type="Node3D"]
+script = ExtResource("1_level")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_city")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 60, 0)
+light_color = Color(1, 0.78, 0.6, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 120.0
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("6_map_data")
+
+[node name="City" type="Node3D" parent="." node_paths=PackedStringArray("map_data")]
+script = ExtResource("4_city")
+layout = ExtResource("5_layout")
+map_data = NodePath("../MapData")
+
+[node name="AnchorMirrors" type="Node3D" parent="."]
+
+[node name="MirrorMarket" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("9_remnant")

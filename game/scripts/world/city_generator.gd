@@ -93,7 +93,9 @@ func _build_lots(district: CityDistrict) -> void:
 	for row in rows:
 		for column in columns:
 			var lot := Rect2(rect.position + Vector2(column * lot_w, row * lot_d), Vector2(lot_w, lot_d))
-			if _is_blocked(lot.grow(-1.0)):
+			# Grundstück an Straßen/Wahrzeichen so weit verkleinern, bis es frei ist.
+			lot = _fit_lot(lot)
+			if lot.size.x < 5.0 or lot.size.y < 5.0:
 				continue
 			if _rng.randf() < district.empty_chance:
 				_add_plants(Vector3(lot.get_center().x, 0.0, lot.get_center().y), 3)
@@ -104,6 +106,28 @@ func _build_lots(district: CityDistrict) -> void:
 				_build_ruin(district, lot)
 			else:
 				_build_house(district, lot, richness)
+
+
+## Schneidet ein Grundstück von Straßen und Wahrzeichen frei (bleibt rechteckig).
+func _fit_lot(lot: Rect2) -> Rect2:
+	for reserved in _reserved:
+		if not reserved.intersects(lot):
+			continue
+		# Die Seite abschneiden, auf der am wenigsten verloren geht.
+		var options: Array[Rect2] = [
+			Rect2(lot.position, Vector2(reserved.position.x - lot.position.x, lot.size.y)),
+			Rect2(Vector2(reserved.end.x, lot.position.y), Vector2(lot.end.x - reserved.end.x, lot.size.y)),
+			Rect2(lot.position, Vector2(lot.size.x, reserved.position.y - lot.position.y)),
+			Rect2(Vector2(lot.position.x, reserved.end.y), Vector2(lot.size.x, lot.end.y - reserved.end.y)),
+		]
+		var best := Rect2()
+		for option in options:
+			if option.size.x > 0.0 and option.size.y > 0.0 and option.get_area() > best.get_area():
+				best = option
+		lot = best
+		if lot.get_area() <= 0.0:
+			return Rect2()
+	return lot
 
 
 func _is_blocked(area: Rect2) -> bool:

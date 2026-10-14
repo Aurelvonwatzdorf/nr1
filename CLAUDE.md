@@ -31,13 +31,15 @@ Das Repository enthält zwei Dinge:
   (Warnung `untyped_declaration` ist aktiv, keine untypisierten Variablen).
 - **Renderer:** Forward+.
 - **Projektordner:** `game/` (dort liegt `project.godot`).
-- **Hauptszene:** `res://scenes/levels/test_arena.tscn` (bis es ein Hauptmenü gibt).
+- **Hauptszene:** `res://scenes/levels/santo_santiago.tscn` (Santo Santiago). Die
+  Testarena (`test_arena.tscn`) bleibt für Tests und zum Ausprobieren.
 
 ### Prüfen (vor jedem „fertig“)
 ```bash
 godot --headless --path game --import          # Assets/Klassen importieren
 godot --headless --path game --quit            # Projekt laden, Skriptfehler zeigen
 godot --headless --path game res://tests/smoke_test.tscn  # Logik-Rauchtest (Exit 0 = ok)
+godot --headless --path game res://tests/city_test.tscn   # Stadt-Test (Exit 0 = ok)
 ```
 In der Cloud-Umgebung ist Godot nicht vorinstalliert und Release-Downloads sind
 gesperrt. Es wurde aus dem Quellcode gebaut (Tag `4.7.2-stable`, Klon unter
@@ -56,7 +58,7 @@ scripts/     player/ (+ states/), enemies/ (+ states/), npcs/, missions/, skills
              combat/, components/, items/, realms/, ui/, systems/, world/,
              characters/, state_machine/
 assets/      models/, materials/, audio/
-resources/   characters/, attacks/, enemies/, items/, missions/, skills/ (.tres)
+resources/   characters/, attacks/, enemies/, items/, missions/, skills/, world/ (.tres)
 tests/       Headless-Rauchtests
 ```
 
@@ -130,6 +132,13 @@ tests/       Headless-Rauchtests
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
   verweisen (führt in Godot zu Speicherlecks beim Beenden). Schalter für Tests
   gehören in `GameState` (z. B. `ask_character_on_new_game`).
+- **Levels** erben von `Level` (`scripts/realms/level.gd`) und haben die Kinder
+  `Player` und `GameUI` (`scenes/ui/game_ui.tscn` = HUD + alle Menüs).
+- **Stadt**: `CityGenerator` baut aus einem `CityLayout` (.tres in
+  `resources/world/`, Bezirke als `CityDistrict`) Böden, Straßen, Häuser, Ruinen,
+  Wahrzeichen, Ranken und Kartenflächen. Gleicher `seed` = gleiche Stadt. Inhalte
+  (NPCs, Gegner, Spiegel) stehen als normale Knoten in der Level-Szene.
+- **Commits nur, wenn beide Tests grün sind.**
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
