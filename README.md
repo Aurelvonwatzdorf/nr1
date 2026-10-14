@@ -18,7 +18,9 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 3. Godot starten. Im Projektmanager auf **Importieren** klicken und die Datei
    `game/project.godot` auswählen. Dann **Importieren & Bearbeiten** wählen.
 4. Beim ersten Öffnen importiert Godot alles. Das dauert ein paar Sekunden.
-5. Oben rechts auf **▶ (Projekt starten, F5)** klicken. Die Testarena startet.
+5. Oben rechts auf **▶ (Projekt starten, F5)** klicken. Santo Santiago startet.
+   (Die Testarena öffnest du im Dateisystem unter `scenes/levels/test_arena.tscn`
+   und startest sie mit **F6**, „Aktuelle Szene starten“.)
 
 ## Steuerung
 
@@ -67,9 +69,10 @@ game/
 └── tests/                 Automatischer Rauchtest
 ```
 
-**Rauchtest** (prüft Kampf, Gegner, Stats, Gegenstände, Speichern … ohne Bildschirm):
+**Tests** (ohne Bildschirm):
 ```bash
-godot --headless --path game res://tests/smoke_test.tscn
+godot --headless --path game res://tests/smoke_test.tscn   # Kampf, Gegner, Stats, Speichern …
+godot --headless --path game res://tests/city_test.tscn    # Santo Santiago
 ```
 
 ## Roadmap
@@ -79,7 +82,7 @@ godot --headless --path game res://tests/smoke_test.tscn
 - ✅ **M3**: Stats & Level-Up, Speichern/Laden, Checkpoints, Heiltränke, Artefakte, Inventar
 - ✅ **M4**: Geld, NPCs, Händler, Missionen, Moral-Gedächtnis
 - ✅ **M5**: Charakterauswahl, Fähigkeitenbäume, Ehrgeiz (Aurel), Raben (Tahirou), Blut
-- ⬜ **M6**: Erste Open-World-Region (Hauptstadt), Karte, Cel-Shading-Look
+- ✅ **M6**: Santo Santiago (Hauptstadt), Minimap & Karte, gezeichneter Look
 - ⬜ **M7**: Spiegelrealitäten, „Konzernturm“, Adam
 - ⬜ **M8**: Geisterwelt, Gebet, spiritueller Druck, Rituale
 - ⬜ **M9**: Rafa & Daniel

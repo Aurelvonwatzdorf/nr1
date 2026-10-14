@@ -62,8 +62,8 @@ func _build_boundary() -> void:
 		box.size = wall[1]
 		shape.shape = box
 		body.add_child(shape)
-		add_child(body)
 		body.position = wall[0]
+		add_child(body)
 
 
 # --- Böden und Straßen ---
@@ -451,8 +451,9 @@ func _add_mesh(mesh: Mesh, center: Vector3, material: Material) -> MeshInstance3
 	var instance := MeshInstance3D.new()
 	instance.mesh = mesh
 	instance.material_override = material
-	add_child(instance)
+	# Position vor dem Einfügen setzen, damit die Kollision sofort am richtigen Ort ist.
 	instance.position = center
+	add_child(instance)
 	return instance
 
 
@@ -475,13 +476,13 @@ func _add_sign(at: Vector3, text: String) -> void:
 	label.outline_size = 12
 	label.modulate = Color(1.0, 0.95, 0.85)
 	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
-	add_child(label)
 	label.position = at
+	add_child(label)
 
 
 func _add_marker(at: Vector3, kind: MapMarker.Kind, label: String) -> void:
 	var marker := MapMarker.new()
 	marker.kind = kind
 	marker.label = label
-	add_child(marker)
 	marker.position = at
+	add_child(marker)

@@ -9,6 +9,21 @@
 [ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="7_mirror"]
 [ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="8_respawn"]
 [ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="9_remnant"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="10_npc"]
+[ext_resource type="Script" path="res://scripts/npcs/merchant.gd" id="11_merchant"]
+[ext_resource type="Script" path="res://scripts/npcs/old_woman.gd" id="12_old_woman"]
+[ext_resource type="Script" path="res://scripts/npcs/sick_man.gd" id="13_sick_man"]
+[ext_resource type="Script" path="res://scripts/npcs/healer.gd" id="14_healer"]
+[ext_resource type="Resource" path="res://resources/items/healing_potion.tres" id="15_potion"]
+[ext_resource type="Resource" path="res://resources/items/focus_potion.tres" id="16_focus"]
+[ext_resource type="Resource" path="res://resources/items/power_ampoule.tres" id="17_ampoule"]
+[ext_resource type="Resource" path="res://resources/items/stamina_talisman.tres" id="18_talisman"]
+[ext_resource type="Resource" path="res://resources/items/heart_amulet.tres" id="19_amulet"]
+[ext_resource type="Resource" path="res://resources/missions/help_old_woman.tres" id="20_mission_woman"]
+[ext_resource type="Resource" path="res://resources/missions/heal_sick_man.tres" id="21_mission_sick"]
+[ext_resource type="Script" path="res://scripts/world/map_marker.gd" id="22_marker"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy.tscn" id="23_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/world/item_pickup.tscn" id="24_pickup"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dusk"]
 sky_top_color = Color(0.16, 0.12, 0.3, 1)
@@ -34,6 +49,21 @@ fog_enabled = true
 fog_light_color = Color(0.55, 0.4, 0.55, 1)
 fog_density = 0.006
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_destination"]
+height = 2.0
+radius = 2.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_destination"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.85, 0.3, 0.35)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_destination"]
+material = SubResource("StandardMaterial3D_destination")
+top_radius = 2.5
+bottom_radius = 2.5
+height = 0.03
+
 [node name="SantoSantiago" type="Node3D"]
 script = ExtResource("1_level")
 
@@ -58,7 +88,161 @@ map_data = NodePath("../MapData")
 [node name="AnchorMirrors" type="Node3D" parent="."]
 
 [node name="MirrorMarket" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 12)
+
+[node name="MirrorSlum" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 62)
+
+[node name="MirrorBarracks" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -50)
+
+[node name="StreetCrossing" type="Node3D" parent="."]
+
+[node name="WomanDestination" type="Area3D" parent="StreetCrossing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 47)
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StreetCrossing/WomanDestination"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_destination")
+
+[node name="Marker" type="MeshInstance3D" parent="StreetCrossing/WomanDestination"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("CylinderMesh_destination")
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="MarketMerchant" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 13)
+script = ExtResource("11_merchant")
+stock = Array[Resource]([ExtResource("15_potion"), ExtResource("16_focus")])
+prices = Array[int]([40, 30])
+npc_id = &"city_market_merchant"
+display_name = "Händler"
+body_color = Color(0.85, 0.65, 0.25, 1)
+
+[node name="Marker" type="Node3D" parent="NPCs/MarketMerchant"]
+script = ExtResource("22_marker")
+kind = 1
+label = "Händler am Markt"
+
+[node name="SlumMerchant" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 80)
+script = ExtResource("11_merchant")
+stock = Array[Resource]([ExtResource("15_potion")])
+prices = Array[int]([35])
+npc_id = &"city_slum_merchant"
+display_name = "Händlerin"
+body_color = Color(0.6, 0.5, 0.3, 1)
+
+[node name="Marker" type="Node3D" parent="NPCs/SlumMerchant"]
+script = ExtResource("22_marker")
+kind = 1
+label = "Händlerin in der Senke"
+
+[node name="Healer" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 15)
+script = ExtResource("14_healer")
+npc_id = &"city_healer"
+display_name = "Heilerin"
+body_color = Color(0.9, 0.9, 0.95, 1)
+
+[node name="Marker" type="Node3D" parent="NPCs/Healer"]
+script = ExtResource("22_marker")
+kind = 2
+label = "Heilerin"
+
+[node name="OldWoman" parent="NPCs" node_paths=PackedStringArray("destination") instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35)
+script = ExtResource("12_old_woman")
+mission = ExtResource("20_mission_woman")
+destination = NodePath("../../StreetCrossing/WomanDestination")
+npc_id = &"city_old_woman"
+display_name = "Alte Frau"
+body_color = Color(0.6, 0.45, 0.65, 1)
+walk_speed = 2.2
+
+[node name="Marker" type="Node3D" parent="NPCs/OldWoman"]
+script = ExtResource("22_marker")
+kind = 10
+label = "Alte Frau"
+mission_id = &"help_old_woman"
+
+[node name="SickMan" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 62)
+script = ExtResource("13_sick_man")
+mission = ExtResource("21_mission_sick")
+npc_id = &"city_sick_man"
+display_name = "Kranker Mann"
+body_color = Color(0.5, 0.55, 0.45, 1)
+
+[node name="Marker" type="Node3D" parent="NPCs/SickMan"]
+script = ExtResource("22_marker")
+kind = 10
+label = "Kranker Mann"
+mission_id = &"heal_sick_man"
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="GuardGate" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 0, -85)
+
+[node name="GuardYard" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, -92)
+
+[node name="GuardYard2" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98, 0, -90)
+
+[node name="GuardBoulevard" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -70)
+
+[node name="GuardCorporateRoad" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, -50)
+
+[node name="GuardSlum1" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 80)
+
+[node name="GuardSlum2" parent="Enemies" instance=ExtResource("23_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 80)
+
+[node name="Pickups" type="Node3D" parent="."]
+
+[node name="PotionMarket" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 14)
+item = ExtResource("15_potion")
+amount = 1
+pickup_id = &"city_potion_market"
+
+[node name="PotionSlum" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, 100)
+item = ExtResource("15_potion")
+amount = 2
+pickup_id = &"city_potion_slum"
+
+[node name="FocusSlum" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, 60)
+item = ExtResource("16_focus")
+amount = 1
+pickup_id = &"city_focus_slum"
+
+[node name="AmpouleCorporate" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, -85)
+item = ExtResource("17_ampoule")
+amount = 1
+pickup_id = &"city_ampoule_corporate"
+
+[node name="TalismanChristian" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, -50)
+item = ExtResource("18_talisman")
+amount = 1
+pickup_id = &"city_talisman_christian"
+
+[node name="AmuletMuslim" parent="Pickups" instance=ExtResource("24_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, -5)
+item = ExtResource("19_amulet")
+amount = 1
+pickup_id = &"city_amulet_muslim"
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)

@@ -139,6 +139,10 @@ tests/       Headless-Rauchtests
   Wahrzeichen, Ranken und Kartenflächen. Gleicher `seed` = gleiche Stadt. Inhalte
   (NPCs, Gegner, Spiegel) stehen als normale Knoten in der Level-Szene.
 - **Commits nur, wenn beide Tests grün sind.**
+- **Platzierung in der Stadt**: Figuren, Spiegel und Gegenstände auf Straßen und
+  Plätze stellen; der Stadt-Test prüft, dass nichts in einem Haus steckt.
+- Beim Erzeugen von Knoten mit Kollision **erst Position setzen, dann
+  `add_child()`**, sonst steht die Kollision kurz im Weltmittelpunkt.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -448,10 +452,12 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Level-Ups, jeweils letzter Knoten erst durch Story-Fortschritt), Aurels
   „Ehrgeiz“ + 9 Fähigkeiten, Tahirous Rabenbund (Schwarm auf F, Ratschläge) +
   9 Fähigkeiten, sichtbares Blut, Ausweichen in gedrückte Richtung.
-- 🟨 **M6**: Santo Santiago (erster Ausschnitt): gezeichneter Look (Toon-Shading +
-  Umrisse), Stadt-Generator aus Daten (Bezirke, Arm/Reich, Ranken), Marktplatz,
-  vier Viertel mit Gotteshäusern, Konzernviertel mit Kaserne, Senke mit Ruinen,
-  Minimap + große Karte (M), Services (Händler, Heiler).
+- ✅ **M6**: Santo Santiago: gezeichneter Look (Toon-Shading + Umrisse),
+  Stadt-Generator aus Daten (297 Häuser, Bezirke, Arm/Reich, Ranken, leuchtende
+  Pflanzen), Marktplatz mit mystischem Baum, vier Viertel mit Kirche, Moschee,
+  Synagoge, Haus der Stille, Konzernviertel mit Neon-Türmen und Kaserne, Senke mit
+  Ruinen, Minimap + große Karte (M), Services (2 Händler, Heilerin), Missionen,
+  Wachen, 3 Ankerspiegel, Fundstücke. Santo Santiago ist die Startszene.
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
   „Konzernturm“, Adam.
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
