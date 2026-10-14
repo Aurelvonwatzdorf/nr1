@@ -138,7 +138,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - Leben, Ausdauer, Fokus (Mana) als Balken.
 - **Ankerspiegel** (Rastpunkte): heilen, speichern, Gegner respawnen, Level-Up,
   Verbündete wechseln. (Heiltränke werden dort **nicht** aufgefüllt.)
-- **Heiltränke** findet man in der Welt oder kauft sie.
+- **Heiltränke** findet man in der Welt oder kauft sie mit **Geld**.
+- **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
+  **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
   Todesstelle zurückholen. Stirbt man vorher erneut, sind sie weg.
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
@@ -359,7 +361,9 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Laden (automatisch beim Rasten, Pausenmenü, „Neues Spiel“), Ankerspiegel,
   Interaktion (E), Pausenmenü, Heiltränke (finden, R), Artefakte (verbrauchbar/
   dauerhaft), Inventar (I), Moral-Gedächtnis (Grundgerüst). Kaufen erst in M4.
-- ⬜ **M4**: NPCs, Missionssystem, Moral-Gedächtnis (erste Hilfe-Missionen).
+- 🟨 **M4**: Geld, NPCs mit Gesprächen, Händler (Tränke kaufen), Missionssystem,
+  erste Hilfe-Missionen (alte Frau über die Straße, kranker Mann), NPCs verletzen
+  zählt fürs Moral-Gedächtnis.
 - ⬜ **M5**: Charakterauswahl (Aurel/Tahirou), Fähigkeitenbäume, Progression.
 - ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
   Karte, animierter Look (Cel-Shading).
@@ -406,6 +410,5 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    Illusionen)?
 6. **Stats**: Die Liste (Abschnitt 5, Punkt 8) ist vorläufig. Der Nutzer hat
    nicht widersprochen, kann sie aber noch ändern.
-7. **Womit kauft man?** Mit Erinnerungen oder mit einer eigenen Währung (Geld)?
-   Caspar verleiht Geld, das spricht für eine eigene Währung. Kaufen kommt mit
-   den NPCs in M4.
+7. **Beträge (vorläufig)**: Konzernwache lässt 15 Geld fallen, Heiltrank kostet
+   40 Geld beim Händler. Lässt sich in den .tres-Dateien ändern.
