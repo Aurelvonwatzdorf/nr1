@@ -154,6 +154,10 @@ func _run() -> void:
 		await get_tree().physics_frame
 		saw_stagger = saw_stagger or guard.state_machine.get_current_state_name() == &"stagger"
 	_check(guard.health.current < guard_hp, "Spielfigur trifft den Gegner")
+	var blood_found := false
+	for child in arena.get_children():
+		blood_found = blood_found or child is CPUParticles3D
+	_check(blood_found, "Treffer auf die Wache lässt Blut spritzen")
 	_check(saw_stagger, "Getroffener Gegner taumelt")
 
 	# Parierter Gegner ist lange wehrlos

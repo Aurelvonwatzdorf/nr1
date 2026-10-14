@@ -188,6 +188,8 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 		return
 	last_hit = hit
 	flash()
+	if result == Hurtbox.Result.HIT:
+		BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	state_machine.transition_to(&"stagger", {"time": data.stagger_time})
 
 

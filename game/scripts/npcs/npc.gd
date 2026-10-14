@@ -93,6 +93,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 		return
 	_material.albedo_color = Color.WHITE
 	create_tween().tween_property(_material, "albedo_color", body_color, 0.2)
+	BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	_flee_time_left = flee_time
 	_flee_from = hit.source.global_position if hit.source else global_position
 	_shout("Hilfe!")

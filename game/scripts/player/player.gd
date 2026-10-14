@@ -314,6 +314,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	if result != Hurtbox.Result.HIT:
 		return
 	last_hit = hit
+	BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	if get_ambition():
 		get_ambition().on_got_hit()
 	EventBus.camera_shake_requested.emit(0.5)
