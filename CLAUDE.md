@@ -208,7 +208,18 @@ Hinweise gibt und lehrt, hinter die Realität zu sehen.
 - Eine **Weltkarte** mit verschiedenen **Ländern und Regionen**, in denen
   **unterschiedliche Zeiten** herrschen, z. B. Mittelalter, Zukunft, Gegenwart,
   Altes Ägypten.
-- Eine **Hauptstadt** im **Cyberpunk-Stil**.
+- Eine **Hauptstadt** im **Cyberpunk-Stil**: **Santo Santiago**.
+  - Ein **großer Marktplatz**, dazu an vielen Orten **Services** (Händler, Heiler …).
+  - **Bezirke, die sich stark unterscheiden** nach den Menschen, die dort leben:
+    ein **christliches**, ein **muslimisches**, ein **jüdisches** und ein
+    **atheistisches Viertel**, jeweils mit eigenem Haus (Kirche, Moschee,
+    Synagoge; im atheistischen Viertel siehe Offene Entscheidungen).
+    Respektvoll: Unterschiede in Architektur und Alltag, nie als Klischee.
+  - **Klar getrennt in Arm und Reich**: viele Hochhäuser und Wolkenkratzer bei
+    den Reichen, einfache, heruntergekommene Häuser und Ruinen bei den Armen.
+  - **Überall Ranken und leuchtende Pflanzen** an den futuristischen Gebäuden.
+  - **Minimap** oben links (zeigt Händler, Konzern-Wolkenkratzer, Kasernen,
+    Ankerspiegel, Gotteshäuser, Services). Mit **M** groß aufklappen.
 - **NPCs** laufen herum. Es gibt auch Wesen, denen man Schaden zufügen kann.
 
 ### Geister-Bindung
@@ -352,7 +363,7 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
      man **Erinnerungen am Ankerspiegel ausgibt**. Jede Stufe kostet mehr.
    - **Geist** (vorläufig): **Fokus** (Fokusbalken, levelt wie Körper) und
      **Spiritualität**. Spiritualität levelt man **nur** durch **Beten** in
-     Tempeln, Kirchen und Moscheen und durch bestimmte Missionen. Nötig, um
+     Tempeln, Kirchen, Moscheen und Synagogen und durch bestimmte Missionen. Nötig, um
      spirituellen Druck auszuhalten.
 9. **Artefakte**: verbessern eine bestimmte Fähigkeit. Zwei Arten:
    - **Verbrauchbar**: wirken einmal und sind dann weg, wie Tränke.
@@ -394,6 +405,7 @@ aus. (Wie genau, siehe Offene Entscheidungen.)
 | `call_spirit` | F (Tahirous Raben) | Steuerkreuz hoch |
 | `inventory` | I | Back/View |
 | `skills` | K | Steuerkreuz links |
+| `map` | M (Karte groß/klein) | Steuerkreuz rechts |
 | `menu` | Esc | Start |
 
 ## 8. Roadmap
@@ -421,8 +433,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Level-Ups, jeweils letzter Knoten erst durch Story-Fortschritt), Aurels
   „Ehrgeiz“ + 9 Fähigkeiten, Tahirous Rabenbund (Schwarm auf F, Ratschläge) +
   9 Fähigkeiten, sichtbares Blut, Ausweichen in gedrückte Richtung.
-- ⬜ **M6**: Open-World-Grundgerüst: erste Region (Ausschnitt der Hauptstadt),
-  Karte, animierter Look (Cel-Shading).
+- 🟨 **M6**: Santo Santiago (erster Ausschnitt): gezeichneter Look (Toon-Shading +
+  Umrisse), Stadt-Generator aus Daten (Bezirke, Arm/Reich, Ranken), Marktplatz,
+  vier Viertel mit Gotteshäusern, Konzernviertel mit Kaserne, Senke mit Ruinen,
+  Minimap + große Karte (M), Services (Händler, Heiler).
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
   „Konzernturm“, Adam.
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
@@ -455,5 +469,11 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    Illusionen)?
 6. **Stats**: Die Liste (Abschnitt 5, Punkt 8) ist vorläufig. Der Nutzer hat
    nicht widersprochen, kann sie aber noch ändern.
+8. **Santo Santiago, Aufteilung (Vorschlag, gebaut)**: Arm/Reich räumlich
+   getrennt von den Glaubensvierteln, damit kein Glaube mit Armut verknüpft wird:
+   Norden Konzernviertel (reich, Wolkenkratzer, Kaserne), Mitte Marktplatz mit
+   den vier Vierteln (jeweils reichere und ärmere Straßen), Süden „Die Senke“
+   (arm, Ruinen). **Atheistisches Viertel**: Statt eines Gotteshauses ein
+   „Haus der Stille“ (Gemeinschaftshaus/Bibliothek)? Noch offen.
 7. **Beträge (vorläufig)**: Konzernwache lässt 15 Geld fallen, Heiltrank kostet
    40 Geld beim Händler. Lässt sich in den .tres-Dateien ändern.
