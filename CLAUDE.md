@@ -145,6 +145,8 @@ tests/       Headless-Rauchtests
 - Bezeichner im Code auf Englisch, **Kommentare und Spieltexte auf Deutsch**.
 - Signale in Vergangenheitsform (`died`, `hit_received`, `value_changed`).
 - Keine geschützten Namen, Figuren oder Assets anderer Spiele übernehmen.
+- **Schreibweise der Namen genau so:** **Tahirou** (nie „Tahiro“), Aurel, Rafael
+  („Rafa“), Adam, Daniel, Caspar.
 - Commits klein, Nachricht beschreibt den funktionierenden Schritt.
 - `.uid`-Dateien, die Godot neben Skripten anlegt, **mit committen** (Godot nutzt
   sie, um Dateien auch nach Umbenennen wiederzufinden). `.godot/` nie committen.
@@ -161,8 +163,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   Unverwundbarkeitsfenstern (I-Frames), Blocken/Parieren, Lock-on,
   Treffer-Feedback (Hitstop, Kamerawackeln, Rückstoß).
 - Leben, Ausdauer, Fokus (Mana) als Balken.
-- **Ankerspiegel** (Rastpunkte): heilen, speichern, Gegner respawnen, Level-Up,
-  Verbündete wechseln. (Heiltränke werden dort **nicht** aufgefüllt.)
+- **Ankerspiegel** (Rastpunkte): heilen, speichern, Gegner respawnen, Level-Up.
+  (Heiltränke werden dort **nicht** aufgefüllt.)
+- **Blut ist sichtbar.** Die Altersfreigabe spielt keine Rolle.
 - **Heiltränke** findet man in der Welt oder kauft sie mit **Geld**.
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
@@ -247,8 +250,17 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
     seinem Clan ist das seit Generationen so. Er kann sie herbeirufen. Gerät er
     in brenzlige Situationen, **sprechen die alten, weisen Raben zu ihm** und
     geben ihm Ratschläge. Die Raben sind **seine eigene Ressource** (nur Tahirou).
-  - **Kampfstil**: **präzise und ruhig, aber relativ brutal**.
+  - **Kampfstil**: **präzise und ruhig, aber relativ brutal** (mit Blut).
   - Gelassenheit ist **keine** eigene Ressource.
+  - **Rabenbund** (Ressource 0–100): füllt sich durch präzises Spiel (perfekte
+    Parade, Treffer auf wehrlose Gegner, eine Weile kämpfen ohne getroffen zu
+    werden). **F** ruft ab halbem Balken einen Rabenschwarm auf den Gegner: unterbricht
+    ihn und markiert eine Schwachstelle (nächster Treffer macht doppelten Schaden).
+  - **Ratschläge der Raben** (gratis, nicht zu oft): bei wenig Leben, wenn ein
+    Gegner ausholt, wenn er umzingelt ist, wenn die Ausdauer leer ist.
+  - Fähigkeitenbaum: **Rabenbund** (Raben stärker), **Vollstrecker** (Hinrichtungen
+    auf wehrlose/parierte Gegner, Furcht), **Stille** (Parieren, Zeitlupe,
+    Schwachstellen).
 
 ### Wichtige Verbündete
 - **Rafael („Rafa“)**: Latino, Christ. Held wie ein göttlich gesandter Engel:
@@ -286,7 +298,6 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
   mühelos durch Spiegelrealitäten und kann selbst Realitäten erschaffen. Gibt
   Hinweise, öffnet Abkürzungen, erschafft im Finale die Illusion für den
   Konzernboss. Nie ganz durchschaubar, aber am Ende auf der Seite der Gruppe.
-  Später herbeirufbar.
 
 - **Daniel**: Rafas Bruder. Kann **Holz bändigen** (Bäume, Wurzeln und Ranken
   wachsen lassen und formen). Eher eine **Hintergrundfigur**, aber der
@@ -321,9 +332,10 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
 4. **Vergessen / Verankerung**: Je länger man in einer Realität bleibt, desto
    höher die Verankerung. Ist sie zu hoch, verblasst das HUD, der Begleiter wird
    leiser und die Wahrnehmung verzerrt sich. Ankerspiegel senken den Wert.
-5. **Verbündete herbeirufen**: Adam nach seinem Beitritt, an bestimmten Orten und
-   vor Bosskämpfen, mit eigener Begleiter-KI. Rafa ist ein Sonderfall: Man ruft
-   ihn nicht wie einen Helfer, man bittet ihn (siehe 6).
+5. **Verbündete** lassen sich **nicht herbeirufen** (kein Erscheinen auf
+   Knopfdruck). Sie helfen auf anderen Wegen: durch die Story, an bestimmten Orten,
+   in Missionen. Rafa bittet man um Hilfe (siehe 6). Einzige Ausnahme sind
+   gebundene Geister wie Tahirous Raben (Taste F).
 6. **Rafa beschwören**: Ritual oder Einladung → Prüfung (Rückblick auf das eigene
    Verhalten + drei Fragen, nur wahre Antworten möglich) → bestanden: Bitte
    vortragen / nicht bestanden: Kampf, danach Bitte vortragen → Rafa entscheidet
@@ -379,7 +391,9 @@ aus. (Wie genau, siehe Offene Entscheidungen.)
 | `reality_sight` | Q | Y |
 | `interact` | E | A |
 | `heal` | R | X |
-| `call_ally` | F | Steuerkreuz hoch |
+| `call_spirit` | F (Tahirous Raben) | Steuerkreuz hoch |
+| `inventory` | I | Back/View |
+| `skills` | K | Steuerkreuz links |
 | `menu` | Esc | Start |
 
 ## 8. Roadmap
@@ -422,9 +436,7 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 Nicht umsetzen, bevor der Nutzer zugestimmt hat. Bis dahin haben Aurel und Tahirou
 in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Farbe.
 
-1. **Tahirous Raben im Detail** (Vorschlag, siehe Chat): wie sich die
-   Raben-Ressource füllt, was sie kostet, welche Taste, welche Äste sein
-   Fähigkeitenbaum hat. Aurels Seite ist entschieden.
+1. ~~Tahirous Raben~~ → **entschieden** (Abschnitt 4).
 2. **Einzelne Fähigkeiten** (vorläufig): Die konkreten Knoten in den Bäumen hat
    Claude vorgeschlagen; der Nutzer kann sie ändern.
 3. **Rafa und die Geisterwelt**: Moralwerte, Fragen, Kampf, Einladung, Ritual und

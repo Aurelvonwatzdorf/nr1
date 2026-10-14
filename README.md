@@ -37,7 +37,7 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Heiltrank trinken | R | X |
 | Inventar | I | Back/View |
 | Fähigkeitenbaum | K | Steuerkreuz links |
-| Verbündeten rufen *(ab M8)* | F | Steuerkreuz hoch |
+| Raben rufen (nur Tahirou) | F | Steuerkreuz hoch |
 | Pausenmenü | Esc | Start |
 
 Alle Tasten lassen sich im Editor unter **Projekt → Projekteinstellungen →
