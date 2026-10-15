@@ -36,7 +36,7 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Blocken (im richtigen Moment: Parieren) | Rechtsklick | LB |
 | Lock-on | Mittelklick / Tab | R3 |
 | Schießen (wenn Pistole ausgerüstet) | V | LT |
-| Realitätsblick *(ab M5)* | Q | Y |
+| Realitätsblick (kostet Fokus, zeigt die wahre Welt) | Q | Y |
 | Interagieren (z. B. am Ankerspiegel rasten) | E | X |
 | Heiltrank trinken | R | Steuerkreuz runter |
 | Inventar | I | Back/View |

@@ -15,6 +15,8 @@ extends Resource
 @export var max_focus: float = 50.0
 @export var stamina_regen_per_second: float = 35.0
 @export var stamina_regen_delay: float = 0.8
+## Fokus kommt langsam von selbst zurück (pro Sekunde).
+@export var focus_regen_per_second: float = 1.5
 ## Leben regeneriert sich, wenn man so lange keinen Schaden genommen hat (Sekunden).
 @export var health_regen_delay: float = 10.0
 ## Leben pro Sekunde während der Regeneration (in Schritten, einmal pro Sekunde).
@@ -38,6 +40,11 @@ extends Resource
 ## Unverwundbar von … bis … Sekunden nach Rollbeginn (I-Frames).
 @export var dodge_iframe_start: float = 0.05
 @export var dodge_iframe_end: float = 0.35
+
+@export_group("Realitätsblick")
+## Fokus-Kosten und Dauer des Realitätsblicks (Taste Q).
+@export var reality_sight_cost: float = 15.0
+@export var reality_sight_duration: float = 5.0
 
 @export_group("Treffer")
 ## Wie lange die Figur nach einem Treffer taumelt.

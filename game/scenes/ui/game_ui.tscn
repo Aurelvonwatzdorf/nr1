@@ -8,8 +8,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/world_map_menu.tscn" id="6_map"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="7_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/character_select_menu.tscn" id="8_select"]
+[ext_resource type="Script" path="res://scripts/ui/reality_sight_overlay.gd" id="9_sight"]
 
 [node name="GameUI" type="Node"]
+
+[node name="RealitySightOverlay" type="CanvasLayer" parent="."]
+script = ExtResource("9_sight")
 
 [node name="HUD" parent="." instance=ExtResource("1_hud")]
 

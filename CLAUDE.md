@@ -149,6 +149,14 @@ tests/       Headless-Rauchtests
   das Wegenetz) den schnellsten Weg; `current_route` wird alle 0,5 s neu
   berechnet und auf Minimap und Karte lila gezeichnet. Am Ziel (< 8 m) verschwindet
   der Wegpunkt.
+- **Realitätsblick (Q)**: `Player.start_reality_sight()` kostet
+  `CharacterData.reality_sight_cost` Fokus (15) für `reality_sight_duration` (5 s);
+  Fokus regeneriert langsam (`focus_regen_per_second`, 1,5). Zustand in
+  `GameState.reality_sight_active`, Signal `EventBus.reality_sight_changed`.
+  Bildschirm-Effekt: `RealitySightOverlay` (in `game_ui.tscn`, Shader
+  `reality_sight.gdshader`). Dinge, die nur in einer Ebene existieren, liegen unter
+  einem `RealityLayerObject` (`exists_in` = TRUE_WORLD oder ILLUSION; schaltet
+  Sichtbarkeit und Kollision um).
 - **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
   auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
@@ -447,10 +455,15 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
     einen, solange man nicht zurückzahlt (sie werden mit der Zeit stärker).
 
 ## 6. Spiegelrealitäten (Story-Level)
-Die Spiegelrealitäten sind die dritte Ebene. Man betritt sie von der Open World
-aus. (Wie genau, siehe Offene Entscheidungen.)
-1. **Der Konzernturm** (Tutorial): sterile Bürowelt, Kampf lernen. Am Ende ist der
-   Turm selbst eine Illusion. Erste Begegnung mit Adam.
+Die Spiegelrealitäten sind die dritte Ebene. **Entschieden: Man wird von den
+Konzernen hineingesperrt** (man betritt sie nicht freiwillig). Das Spiel beginnt
+bereits gefangen im Konzernturm; später können Konzernkräfte einen in der Open
+World erwischen und in eine Realität sperren. Man kommt nur heraus, wenn man das
+Ziel der Realität erfüllt oder die Illusion bricht.
+1. **Der Konzernturm** (Tutorial, **entschieden**): Man wacht als kleiner
+   Angestellter im sterilen Büro auf, alles wirkt normal. Erst der Realitätsblick
+   (Q) zeigt Risse. Kampf lernen. Am Ende bricht der Turm als Illusion zusammen,
+   Adam taucht auf. Bei Tahirou passt sich der Grund an, warum er im Turm ist.
 2. **Das Gehege der Schweine**: grausame Welt mit monströsen Schweinewesen, die
    Menschen fressen. Stealth/Tarnung mit Verdachtsanzeige. Boss: **„Die Mastmutter“**.
 3. **Die Spiegelstadt**: Realitäten in Realitäten, Türen führen in veränderte
@@ -521,8 +534,11 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 - ✅ **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius, 46 Einwohner).
 - ✅ **Feedback 3**: Ausrüstung (Waffen, Pistole, Munition, Radar, Implantate),
   Waffenschmied am Markt, Schwarzmarkt in der Senke.
-- ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
-  „Konzernturm“, Adam.
+- 🟨 **M7**: Spiegelrealitäten, in Schritten:
+  - ✅ M7.1 Realitätsblick (Q): Fokus, Bildschirm-Effekt, Dinge nur in der wahren Welt
+  - M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
+  - M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
+  - M7.4 Gefangen werden in der Open World
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
   und Gebet, spiritueller Druck, Rituale in Bergtempeln.
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
@@ -547,8 +563,8 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - **Welche Gegenstände braucht das Ritual?** Und wo liegen die Bergtempel?
    - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6)?
 4. **Spieltitel**: noch offen (Arbeitstitel „Spiegelrealitäten“).
-5. **Wie hängen die Ebenen zusammen?** Wie betritt man von der Open World aus
-   eine Spiegelrealität? Wie hängt die Epochen-Karte mit Konzernen und
+5. **Wie hängen die Ebenen zusammen?** Eingang in Spiegelrealitäten ist
+   **entschieden** (gefangen werden, Abschnitt 6). Noch offen: Wie hängt die Epochen-Karte mit Konzernen und
    Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
    Illusionen)?
 6. **Stats**: Die Liste (Abschnitt 5, Punkt 8) ist vorläufig. Der Nutzer hat

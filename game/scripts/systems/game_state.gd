@@ -59,6 +59,9 @@ var stats: PlayerStats = PlayerStats.new()
 
 ## Inventar (Tränke, Artefakte).
 var inventory: Inventory = Inventory.new()
+## Ist gerade der Realitätsblick an? (Setzt die Spielfigur.)
+var reality_sight_active: bool = false
+
 ## Wegpunkt auf der Karte (wie ein Navi). Wird nicht gespeichert.
 var has_map_waypoint: bool = false
 var map_waypoint: Vector2 = Vector2.ZERO

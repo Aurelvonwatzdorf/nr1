@@ -107,7 +107,7 @@ offset_right = 900.0
 offset_bottom = -24.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.6)
-text = "WASD bewegen · Maus Kamera · Shift sprinten · Leertaste springen · Strg ausweichen · Linksklick Angriff · Shift+Linksklick schwerer Angriff · Rechtsklick blocken · Tab Lock-on · E benutzen · R Heiltrank · I Inventar · K Fähigkeiten · M Karte · Esc Menü"
+text = "WASD bewegen · Maus Kamera · Shift sprinten · Leertaste springen · Strg ausweichen · Q Realitätsblick · Linksklick Angriff · Shift+Linksklick schwerer Angriff · Rechtsklick blocken · Tab Lock-on · E benutzen · R Heiltrank · I Inventar · K Fähigkeiten · M Karte · Esc Menü"
 
 [node name="PauseLabel" type="Label" parent="."]
 unique_name_in_owner = true

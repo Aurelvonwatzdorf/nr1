@@ -63,3 +63,6 @@ signal shot_fired(from: Vector3)
 
 ## Wegpunkt auf der Karte gesetzt oder gelöscht.
 signal map_waypoint_changed
+
+## Realitätsblick (Q) an oder aus.
+signal reality_sight_changed(active: bool)

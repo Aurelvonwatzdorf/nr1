@@ -37,6 +37,8 @@ var _defenseless_targets: Array[Enemy] = []
 var _execution_targets: Array[Enemy] = []
 ## Zeit bis zum nächsten möglichen Schuss.
 var _fire_cooldown_left: float = 0.0
+## Restzeit des Realitätsblicks (0 = aus).
+var reality_sight_left: float = 0.0
 ## Schon in der Luft nachgesprungen? (Doppelsprung mit Cyberbeinen.)
 var _air_jump_used: bool = false
 
@@ -69,6 +71,12 @@ func _physics_process(delta: float) -> void:
 	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit") and get_ravens():
 		call_raven_swarm()
 	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
+	if is_input_enabled() and Input.is_action_just_pressed(&"reality_sight"):
+		start_reality_sight()
+	if reality_sight_left > 0.0:
+		reality_sight_left -= delta
+		if reality_sight_left <= 0.0:
+			_set_reality_sight(false)
 	if is_input_enabled() and Input.is_action_just_pressed(&"fire"):
 		fire_firearm()
 	if is_input_enabled() and Input.is_action_just_pressed(&"heal"):
@@ -252,6 +260,28 @@ func get_speed_multiplier() -> float:
 	return GameState.stats.get_speed_multiplier() + GameState.inventory.get_permanent_bonus(&"bonus_speed")
 
 
+## Realitätsblick (Q): kostet Fokus und zeigt kurz die wahre Welt.
+## Gibt false zurück, wenn der Fokus nicht reicht oder er schon läuft.
+func start_reality_sight() -> bool:
+	if reality_sight_left > 0.0:
+		return false
+	if not focus.try_spend(character_data.reality_sight_cost):
+		EventBus.message_requested.emit("Zu wenig Fokus für den Realitätsblick")
+		return false
+	reality_sight_left = character_data.reality_sight_duration
+	_set_reality_sight(true)
+	return true
+
+
+func _set_reality_sight(active: bool) -> void:
+	if not active:
+		reality_sight_left = 0.0
+	if GameState.reality_sight_active == active:
+		return
+	GameState.reality_sight_active = active
+	EventBus.reality_sight_changed.emit(active)
+
+
 ## Ausgerüstete Nahkampfwaffe (oder null = Grundwaffe der Figur).
 func get_weapon() -> ItemData:
 	return ItemDatabase.get_item(GameState.equipped_weapon) if GameState.equipped_weapon != &"" else null
@@ -328,6 +358,7 @@ func apply_character(data: CharacterData) -> void:
 func _apply_character_data() -> void:
 	var data := character_data
 	stamina.regen_delay = data.stamina_regen_delay
+	focus.regen_per_second = data.focus_regen_per_second
 	health.regen_delay = data.health_regen_delay
 	health.regen_per_second = data.health_regen_per_second
 	_apply_stats(true)
@@ -358,6 +389,7 @@ func rest() -> void:
 func respawn(at: Transform3D) -> void:
 	global_transform = at
 	velocity = Vector3.ZERO
+	_set_reality_sight(false)
 	damage_buff = 0.0
 	damage_buff_time_left = 0.0
 	health.revive()

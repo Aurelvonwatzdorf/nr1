@@ -86,6 +86,33 @@ func _run() -> void:
 	await _frames(120)
 	_check(player.stamina.current > low, "Ausdauer regeneriert sich")
 
+	# Realitätsblick (Q): kostet Fokus, zeigt Dinge der wahren Welt
+	var hidden_path := RealityLayerObject.new()
+	var path_body := StaticBody3D.new()
+	path_body.collision_layer = PhysicsLayers.WORLD
+	hidden_path.add_child(path_body)
+	hidden_path.position = Vector3(30.0, 0.0, 30.0)
+	arena.add_child(hidden_path)
+	var false_wall := RealityLayerObject.new()
+	false_wall.exists_in = RealityLayerObject.Layer.ILLUSION
+	false_wall.position = Vector3(32.0, 0.0, 30.0)
+	arena.add_child(false_wall)
+	_check(not hidden_path.is_present() and path_body.collision_layer == 0 and false_wall.is_present(), "Ohne Realitätsblick: versteckter Weg fehlt, Illusion steht")
+	player.focus.refill()
+	var focus_before := player.focus.current
+	await _tap(&"reality_sight")
+	var overlay: RealitySightOverlay = arena.get_node("GameUI/RealitySightOverlay")
+	_check(GameState.reality_sight_active and player.focus.current < focus_before - 14.0, "Q: Realitätsblick kostet 15 Fokus")
+	_check(hidden_path.is_present() and path_body.collision_layer == PhysicsLayers.WORLD and not false_wall.is_present(), "Mit Realitätsblick: Weg da und begehbar, Illusion weg")
+	_check(overlay.visible, "Bildschirm zeigt die wahre Welt")
+	await _frames(int(player.character_data.reality_sight_duration * 60.0) + 10)
+	_check(not GameState.reality_sight_active and not hidden_path.is_present() and false_wall.is_present(), "Nach 5 Sekunden endet der Blick")
+	player.focus.remove(player.focus.current)
+	_check(not player.start_reality_sight() and not GameState.reality_sight_active, "Ohne Fokus kein Realitätsblick")
+	player.focus.refill()
+	hidden_path.queue_free()
+	false_wall.queue_free()
+
 	# Springen (Leertaste)
 	await _frames(40)
 	player.stamina.refill()
