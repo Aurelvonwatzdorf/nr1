@@ -20,6 +20,11 @@ extends Level
 @export var anchoring_per_second: float = 0.25
 ## Was der Begleiter beim Betreten sagt.
 @export var intro_lines: Array[String] = []
+## Dasselbe für Tahirou (leer = wie oben).
+@export var intro_lines_tahirou: Array[String] = []
+
+## Meldung, wenn man nach dem Bruch in `exit_scene` aufwacht.
+@export var wake_message: String = "Du wachst auf. Die Illusion ist gebrochen."
 
 var clues_found: int = 0
 var anchoring: float = 0.0
@@ -33,8 +38,25 @@ func _ready() -> void:
 	EventBus.anchor_mirror_rested.connect(_on_anchor_mirror_rested)
 	if reality_name != "":
 		hud.show_message.call_deferred(reality_name)
-	for i in intro_lines.size():
-		get_tree().create_timer(2.0 + i * 4.0).timeout.connect(func() -> void: companion_say(intro_lines[i]))
+	_play_intro()
+
+
+## Begleiter-Zeilen beim Betreten (Timer laufen nicht, solange ein Menü offen ist,
+## z. B. die Charakterauswahl).
+func _play_intro() -> void:
+	for i in maxi(intro_lines.size(), intro_lines_tahirou.size()):
+		get_tree().create_timer(2.0 + i * 5.0, false).timeout.connect(func() -> void:
+			var lines := get_lines(intro_lines, intro_lines_tahirou)
+			if i < lines.size():
+				companion_say(lines[i]))
+
+
+## Zeilen passend zur gespielten Figur.
+static func get_lines(default_lines: Array[String], tahirou_lines: Array[String]) -> Array[String]:
+	var data := GameState.selected_character
+	if data and data.id == &"tahirou" and not tahirou_lines.is_empty():
+		return tahirou_lines
+	return default_lines
 
 
 func _physics_process(delta: float) -> void:
@@ -88,6 +110,10 @@ func break_reality() -> void:
 	EventBus.reality_broken.emit(reality_id)
 	if exit_scene != "":
 		GameState.clear_checkpoint()
+		GameState.pending_message = wake_message
+		# Speichern, damit man nach einem Neustart draußen weiterspielt.
+		GameState.current_scene = exit_scene
+		SaveSystem.save_game()
 		await get_tree().create_timer(1.5).timeout
 		get_tree().change_scene_to_file(exit_scene)
 

@@ -146,7 +146,8 @@ func show_message(text: String) -> void:
 		_message_tween.kill()
 	_message_tween = create_tween()
 	_message_tween.tween_property(message_label, "modulate:a", 1.0, 0.2)
-	_message_tween.tween_interval(2.0)
+	# Längere Hinweise (z. B. Steuerung) bleiben länger stehen.
+	_message_tween.tween_interval(maxf(2.0, text.length() * 0.06))
 	_message_tween.tween_property(message_label, "modulate:a", 0.0, 0.6)
 
 

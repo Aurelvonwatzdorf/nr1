@@ -1,0 +1,193 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/corporate_tower.gd" id="1_tower"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="4_mirror"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="5_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="6_remnant"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_clue.tscn" id="7_clue"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_rift.tscn" id="8_rift"]
+[ext_resource type="Script" path="res://scripts/realms/reality_layer_object.gd" id="9_layer"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="10_npc"]
+[ext_resource type="Script" path="res://scripts/npcs/talker.gd" id="11_talker"]
+[ext_resource type="Script" path="res://scripts/npcs/adam.gd" id="12_adam"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy.tscn" id="13_enemy"]
+[ext_resource type="Script" path="res://scripts/realms/tutorial_zone.gd" id="14_zone"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="15_map"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.82, 0.86, 0.92, 1)
+sky_horizon_color = Color(0.95, 0.96, 0.98, 1)
+ground_bottom_color = Color(0.8, 0.82, 0.86, 1)
+ground_horizon_color = Color(0.95, 0.96, 0.98, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+ambient_light_energy = 1.2
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.93, 0.94, 0.96, 1)
+fog_density = 0.006
+
+[sub_resource type="BoxShape3D" id="Shape_ZoneCombat"]
+size = Vector3(6, 3, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_ZoneMirror"]
+size = Vector3(10, 3, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_ZoneGallery"]
+size = Vector3(5, 3, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_ZoneOffice"]
+size = Vector3(8, 3, 4)
+
+[node name="CorporateTower" type="Node3D"]
+script = ExtResource("1_tower")
+reality_id = &"corporate_tower"
+reality_name = "Der Konzernturm"
+exit_scene = "res://scenes/levels/santo_santiago.tscn"
+intro_lines = Array[String](["Guten Morgen, Aurel. Noch ein Tag im Turm. Warum fühlt er sich an, als hättest du ihn schon tausendmal erlebt?", "Sieh genauer hin. Wenn dir etwas falsch vorkommt, drück Q."])
+intro_lines_tahirou = Array[String](["Twin. Du solltest hier nur ein Paket abgeben. Wie lange stehst du schon in diesem Büro?", "Etwas stimmt nicht. Drück Q und sieh hinter die Fassade."])
+wake_message = "Du wachst auf, mitten in Santo Santiago. Der Turm war nie echt."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 30, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("15_map")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="HiddenRamp" type="Node3D" parent="."]
+script = ExtResource("9_layer")
+
+[node name="ArchiveDoor" type="Node3D" parent="."]
+script = ExtResource("9_layer")
+exists_in = 1
+
+[node name="Clues" type="Node3D" parent="."]
+
+[node name="ClueDesk" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 5)
+companion_line = "Derselbe Kaffeefleck wie gestern. Und vorgestern. Und am Tag davor."
+
+[node name="ClueGallery" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3, -35)
+companion_line = "Akten über dich. Jeden Tag dieselbe Unterschrift. Deine Hand hat sie nie geschrieben."
+
+[node name="ClueArchive" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -75)
+companion_line = "Hinter der Wand ist nichts. Kein Raum, kein Licht. Nur das, was sie dich glauben lassen."
+
+[node name="Rift" parent="." instance=ExtResource("8_rift")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -86)
+
+[node name="AnchorMirror" parent="." instance=ExtResource("4_mirror")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -32)
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="Colleague" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.7, 0, 4)
+script = ExtResource("11_talker")
+lines = Array[String](["Morgen, Aurel. Die Quartalszahlen liegen schon auf deinem Tisch. Wie jeden Morgen.", "Hast du auch das Gefühl, dass die Uhr nie weiterläuft? … Ach, vergiss es."])
+lines_tahirou = Array[String](["Du bist der neue Kurier, oder? Leg das Paket einfach … wo ist dein Paket?", "Seltsam. Ich könnte schwören, du standest gestern schon genauso da."])
+npc_id = &"tower_colleague"
+display_name = "Kollegin"
+body_color = Color(0.55, 0.55, 0.62, 1)
+
+[node name="Coworker" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.3, 0, -4)
+script = ExtResource("11_talker")
+lines = Array[String](["Wenn du die Beförderung willst, musst du länger bleiben als alle anderen.", "Die Wachen? Die sind zu unserer Sicherheit da. Frag nicht weiter."])
+lines_tahirou = Array[String](["Entspann dich. Hier kommt sowieso keiner raus. Ich meine … vor Feierabend.", "Die Wachen mögen keine Fremden. Halt den Kopf unten."])
+npc_id = &"tower_coworker"
+display_name = "Kollege"
+body_color = Color(0.4, 0.45, 0.55, 1)
+
+[node name="Manager" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+script = ExtResource("11_talker")
+lines = Array[String](["Aurel. Ich hoffe, Sie wissen, wem Sie Ihren Platz hier verdanken.", "Niemand verlässt das Stockwerk vor Feierabend. Und Feierabend ist, wann ich es sage."])
+lines_tahirou = Array[String](["Lieferungen nur über den Hintereingang. Wer hat Sie überhaupt hereingelassen?", "Bleiben Sie, wo Sie sind. Die Sicherheit kümmert sich um Sie."])
+npc_id = &"tower_manager"
+display_name = "Abteilungsleiterin"
+body_color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="Adam" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 4, 0, -84)
+script = ExtResource("12_adam")
+npc_id = &"adam"
+display_name = "Fremder in Galabiya"
+body_color = Color(0.93, 0.9, 0.82, 1)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="GuardHall" parent="Enemies" instance=ExtResource("13_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+
+[node name="GuardOffice1" parent="Enemies" instance=ExtResource("13_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -58)
+
+[node name="GuardOffice2" parent="Enemies" instance=ExtResource("13_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -64)
+
+[node name="TutorialZones" type="Node3D" parent="."]
+
+[node name="ZoneCombat" type="Area3D" parent="TutorialZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -16)
+script = ExtResource("14_zone")
+message = "Kampf: Linksklick = Schlag · Shift+Linksklick = schwerer Schlag · Rechtsklick = Blocken (im richtigen Moment: Parieren) · Strg = Ausweichen · Tab = Gegner anvisieren"
+companion_line = "Die Wache dort vorne … sie schaut dich an, als wüsste sie etwas."
+
+[node name="Shape" type="CollisionShape3D" parent="TutorialZones/ZoneCombat"]
+shape = SubResource("Shape_ZoneCombat")
+
+[node name="ZoneMirror" type="Area3D" parent="TutorialZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, -30)
+script = ExtResource("14_zone")
+message = "E am Ankerspiegel: Rasten. Heilt, speichert und senkt die Verankerung."
+companion_line = ""
+
+[node name="Shape" type="CollisionShape3D" parent="TutorialZones/ZoneMirror"]
+shape = SubResource("Shape_ZoneMirror")
+
+[node name="ZoneGallery" type="Area3D" parent="TutorialZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -35)
+script = ExtResource("14_zone")
+message = "Q: Realitätsblick. Zeigt Wege, die es in der Illusion nicht gibt."
+companion_line = "Dort oben auf der Empore liegt etwas. Aber es gibt keine Treppe … oder doch?"
+
+[node name="Shape" type="CollisionShape3D" parent="TutorialZones/ZoneGallery"]
+shape = SubResource("Shape_ZoneGallery")
+
+[node name="ZoneOffice" type="Area3D" parent="TutorialZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -50)
+script = ExtResource("14_zone")
+message = "Zwei Wachen. Weiche aus, warte auf ihre Lücke, dann greif an."
+companion_line = "Die Wand des Archivs dort links … Sie sieht zu glatt aus."
+
+[node name="Shape" type="CollisionShape3D" parent="TutorialZones/ZoneOffice"]
+shape = SubResource("Shape_ZoneOffice")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.1, 7)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("6_remnant")

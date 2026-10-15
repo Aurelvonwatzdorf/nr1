@@ -3,6 +3,7 @@ extends Node
 ##   godot --headless --path game res://tests/reality_test.tscn
 
 const REALITY := preload("res://scenes/levels/test_reality.tscn")
+const TOWER := preload("res://scenes/levels/corporate_tower.tscn")
 
 var _failures: int = 0
 
@@ -71,9 +72,66 @@ func _run() -> void:
 	await _frames(2)
 	_check(broken == [&"test"] and GameState.has_story_flag(&"reality_test_broken"), "Durch den Riss: Die Illusion bricht")
 
+	reality.queue_free()
+	await _frames(3)
+	await _test_tower()
+
 	print("")
 	print("REALITÄTSTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
 	get_tree().quit(0 if _failures == 0 else 1)
+
+
+## Der Konzernturm (Spielstart): Aufbau, Tutorial, Hinweise, Adam, Zusammenbruch.
+func _test_tower() -> void:
+	GameState.reset()
+	var tower := TOWER.instantiate() as CorporateTower
+	tower.exit_scene = ""
+	add_child(tower)
+	await _frames(5)
+	var player: Player = tower.get_node("Player")
+	_check(get_tree().get_first_node_in_group(&"reality") == tower and ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/levels/corporate_tower.tscn",
+		"Das Spiel beginnt im Konzernturm")
+	_check(tower.get_node("Clues").get_child_count() == 3 and tower.get_node("Enemies").get_child_count() == 3, "Turm: 3 Risse, 3 Wachen")
+	var adam: Adam = tower.get_node("NPCs/Adam")
+	_check(not adam.visible, "Adam ist noch nicht da")
+	# Nichts steckt in einer Wand.
+	var space := tower.get_world_3d().direct_space_state
+	var probe := CapsuleShape3D.new()
+	probe.radius = 0.35
+	probe.height = 1.6
+	var blocked: Array[String] = []
+	var spots: Array[Node3D] = [player, tower.get_node("AnchorMirror/SpawnPoint")]
+	for group_name: String in ["NPCs", "Enemies", "Clues"]:
+		for node in tower.get_node(group_name).get_children():
+			spots.append(node as Node3D)
+	for spot in spots:
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = probe
+		query.transform = Transform3D(Basis.IDENTITY, spot.global_position + Vector3(0, 1.3, 0))
+		query.collision_mask = PhysicsLayers.WORLD
+		if not space.intersect_shape(query, 1).is_empty():
+			blocked.append(String(spot.name))
+	_check(blocked.is_empty(), "Figuren, Spiegel und Risse stehen frei %s" % [blocked])
+	var ramp: Node3D = tower.get_node("HiddenRamp").get_child(0)
+	_check(ramp.to_global(Vector3(4, 0, 0)).y > 2.6 and ramp.to_global(Vector3(-4, 0, 0)).y < 0.4, "Versteckte Rampe führt auf die Empore")
+	var messages: Array[String] = []
+	EventBus.message_requested.connect(func(text: String) -> void: messages.append(text))
+	player.global_position = tower.get_node("TutorialZones/ZoneCombat").global_position - Vector3(0, 0.9, 0)
+	await _frames(5)
+	_check(messages.any(func(text: String) -> bool: return text.begins_with("Kampf:")), "Tutorial: Kampfsteuerung wird erklärt")
+	player.global_position = Vector3(0.5, 0.1, 7)
+	player.focus.refill()
+	player.start_reality_sight()
+	for node in tower.get_node("Clues").get_children():
+		(node as RealityClue).interact(player)
+	await _frames(40)
+	_check(adam.visible and adam.has_appeared, "Riss offen: Adam taucht auf")
+	(tower.get_node("Rift") as RealityRift).interact(player)
+	await _frames(2)
+	_check(GameState.has_story_flag(&"reality_corporate_tower_broken"), "Der Konzernturm bricht zusammen")
+	await get_tree().create_timer(1.6).timeout
+	tower.queue_free()
+	await _frames(2)
 
 
 func _frames(count: int) -> void:

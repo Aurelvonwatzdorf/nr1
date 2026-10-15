@@ -66,6 +66,8 @@ var reality_sight_blocked: bool = false
 ## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach
 ## dem Laden in der richtigen Welt (Stadt oder Spiegelrealität) weiterspielt.
 var current_scene: String = ""
+## Meldung für das nächste Level (z. B. nach dem Aufwachen). Nicht gespeichert.
+var pending_message: String = ""
 ## Szene, zu der der Checkpoint gehört.
 var checkpoint_scene: String = ""
 

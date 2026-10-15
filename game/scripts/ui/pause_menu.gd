@@ -39,7 +39,8 @@ func _on_new_game_pressed() -> void:
 	SaveSystem.delete_save()
 	GameState.reset()
 	close()
-	get_tree().reload_current_scene()
+	# Neues Spiel beginnt immer in der Startszene (dem Konzernturm).
+	get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 
 
 func _on_save_pressed() -> void:

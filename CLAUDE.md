@@ -31,8 +31,10 @@ Das Repository enthält zwei Dinge:
   (Warnung `untyped_declaration` ist aktiv, keine untypisierten Variablen).
 - **Renderer:** Forward+.
 - **Projektordner:** `game/` (dort liegt `project.godot`).
-- **Hauptszene:** `res://scenes/levels/santo_santiago.tscn` (Santo Santiago). Die
-  Testarena (`test_arena.tscn`) bleibt für Tests und zum Ausprobieren.
+- **Hauptszene:** `res://scenes/levels/corporate_tower.tscn` (Der Konzernturm,
+  Spielstart). Nach dem Bruch geht es nach `santo_santiago.tscn`; mit Spielstand
+  wechselt das Spiel direkt in die gespeicherte Welt. „Neues Spiel“ startet immer
+  in der Hauptszene. Testarena und `test_reality.tscn` bleiben zum Ausprobieren.
 
 ### Prüfen (vor jedem „fertig“)
 ```bash
@@ -167,7 +169,15 @@ tests/       Headless-Rauchtests
   Verankerung 0–100: ab 50 verblasst das HUD, der Begleiter wird leiser, das Bild
   verzerrt sich; bei 100 ist Q gesperrt (`GameState.reality_sight_blocked`) bis
   zum Rasten am Ankerspiegel. Begleiter spricht über `EventBus.companion_spoke`.
-  Beispiel/Testlevel: `scenes/levels/test_reality.tscn` (F6).
+  Beispiel/Testlevel: `scenes/levels/test_reality.tscn` (F6). Begleiter-Zeilen
+  und NPC-Sätze können je Figur verschieden sein (`intro_lines_tahirou`,
+  `Talker.lines_tahirou`, `RealityLevel.get_lines()`). Beim Bruch wird gespeichert
+  (`current_scene` = `exit_scene`), `wake_message` erscheint beim Aufwachen.
+- **Konzernturm** (`corporate_tower.gd`, baut Büro, Halle, Empore, Großraum und
+  Archiv im Code): 3 Risse (Schreibtisch, Empore über versteckte Rampe, Archiv
+  hinter falscher Wand), 3 Wachen, Kollegen (`Talker`), `TutorialZone`s mit
+  Steuerungshinweisen, Ankerspiegel, Adam (`Adam`, erscheint beim Öffnen des
+  Risses, Story-Flag `met_adam`), Zusammenbruch mit Lichtblitz.
 - **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
@@ -552,7 +562,7 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 - 🟨 **M7**: Spiegelrealitäten, in Schritten:
   - ✅ M7.1 Realitätsblick (Q): Fokus, Bildschirm-Effekt, Dinge nur in der wahren Welt
   - ✅ M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
-  - M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
+  - ✅ M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
   - M7.4 Gefangen werden in der Open World
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
   und Gebet, spiritueller Druck, Rituale in Bergtempeln.

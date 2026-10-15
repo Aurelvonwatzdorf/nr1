@@ -18,7 +18,8 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 3. Godot starten. Im Projektmanager auf **Importieren** klicken und die Datei
    `game/project.godot` auswählen. Dann **Importieren & Bearbeiten** wählen.
 4. Beim ersten Öffnen importiert Godot alles. Das dauert ein paar Sekunden.
-5. Oben rechts auf **▶ (Projekt starten, F5)** klicken. Santo Santiago startet.
+5. Oben rechts auf **▶ (Projekt starten, F5)** klicken. Das Spiel beginnt im
+   Konzernturm (danach geht es nach Santo Santiago).
    (Die Testarena öffnest du im Dateisystem unter `scenes/levels/test_arena.tscn`
    und startest sie mit **F6**, „Aktuelle Szene starten“.)
 

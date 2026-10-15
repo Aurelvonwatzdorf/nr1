@@ -40,6 +40,9 @@ func _ready() -> void:
 		player.global_transform = GameState.checkpoint_transform
 		player.rest()
 		hud.show_message.call_deferred("Spielstand geladen")
+	if GameState.pending_message != "":
+		hud.show_message.call_deferred(GameState.pending_message)
+		GameState.pending_message = ""
 	# Die Arena kennt beide und verbindet sie. (_ready der Arena läuft erst,
 	# wenn alle Kinder fertig sind.)
 	hud.bind_player(player)
