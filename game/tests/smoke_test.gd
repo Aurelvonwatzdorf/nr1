@@ -113,6 +113,29 @@ func _run() -> void:
 	hidden_path.queue_free()
 	false_wall.queue_free()
 
+	# Spiritueller Druck: zu wenig Spiritualität = langsamer, Schaden, Bild verschwimmt
+	var shrine := SpiritualPressureSource.new()
+	shrine.required_spirituality = 3
+	shrine.radius = 20.0
+	shrine.position = player.global_position + Vector3(4, 0, 0)
+	arena.add_child(shrine)
+	player.health.revive()
+	var normal_speed := player.get_speed_multiplier()
+	var hp_full := player.health.current
+	await _frames(30)
+	_check(player.spiritual_pressure > 0.5 and player.get_speed_multiplier() < normal_speed * 0.8, "Spiritueller Druck: Figur wird langsamer (%.2f)" % player.spiritual_pressure)
+	_check(player.health.current < hp_full, "Spiritueller Druck kostet Leben")
+	var sight_overlay: RealitySightOverlay = arena.get_node("GameUI/RealitySightOverlay")
+	await get_tree().process_frame
+	_check(sight_overlay.visible, "Bild verschwimmt unter dem Druck")
+	GameState.stats.set_stat(&"spirituality", 3)
+	await _frames(3)
+	_check(is_zero_approx(player.spiritual_pressure) and is_equal_approx(player.get_speed_multiplier(), normal_speed), "Mit Spiritualität 3 hält man stand")
+	GameState.stats.set_stat(&"spirituality", 1)
+	shrine.queue_free()
+	await _frames(3)
+	player.health.revive()
+
 	# Springen (Leertaste)
 	await _frames(40)
 	player.stamina.refill()

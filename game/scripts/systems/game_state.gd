@@ -66,6 +66,8 @@ var reality_sight_blocked: bool = false
 ## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach
 ## dem Laden in der richtigen Welt (Stadt oder Spiegelrealität) weiterspielt.
 var current_scene: String = ""
+## Wie stark gerade spiritueller Druck auf der Spielfigur lastet (0–1). Nicht gespeichert.
+var spiritual_pressure: float = 0.0
 ## Spiritualitäts-Erfahrung bis zur nächsten Stufe (durch Beten/Einkehr).
 var spirit_experience: int = 0
 ## Wann man zuletzt an welchem Ort gebetet hat (Millisekunden). Nicht gespeichert.

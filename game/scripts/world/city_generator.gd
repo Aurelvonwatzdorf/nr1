@@ -1530,7 +1530,7 @@ func _build_wilds() -> void:
 	for i in 240:
 		var angle := _rng.randf_range(0.0, TAU)
 		var at := Vector2.from_angle(angle) * (get_outline_radius(angle) + _rng.randf_range(3.0, layout.wild_margin - 3.0))
-		if road_clearance(at) < 2.0:
+		if road_clearance(at) < 2.0 or _in_clear_circle(at, 1.0):
 			continue
 		var roll := _rng.randf()
 		if roll < 0.35:

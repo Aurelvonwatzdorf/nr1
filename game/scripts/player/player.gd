@@ -39,6 +39,9 @@ var _execution_targets: Array[Enemy] = []
 var _fire_cooldown_left: float = 0.0
 ## Restzeit des Realitätsblicks (0 = aus).
 var reality_sight_left: float = 0.0
+## Spiritueller Druck (0–1) und welche Quelle zuletzt gemeldet wurde.
+var spiritual_pressure: float = 0.0
+var _pressure_source_noticed: SpiritualPressureSource
 ## Schon in der Luft nachgesprungen? (Doppelsprung mit Cyberbeinen.)
 var _air_jump_used: bool = false
 
@@ -90,6 +93,7 @@ func _physics_process(delta: float) -> void:
 		if damage_buff_time_left <= 0.0:
 			damage_buff = 0.0
 			EventBus.message_requested.emit("Die Wirkung lässt nach")
+	_update_spiritual_pressure(delta)
 	state_machine.physics_update(delta)
 	move_and_slide()
 
@@ -257,7 +261,36 @@ func apply_item_effect(item: ItemData) -> void:
 
 ## Tempo-Faktor aus den Stats (Schnelligkeit) und Implantaten.
 func get_speed_multiplier() -> float:
-	return GameState.stats.get_speed_multiplier() + GameState.inventory.get_permanent_bonus(&"bonus_speed")
+	var speed := GameState.stats.get_speed_multiplier() + GameState.inventory.get_permanent_bonus(&"bonus_speed")
+	# Spiritueller Druck drückt einen nieder (bis zur Hälfte des Tempos).
+	return speed * (1.0 - 0.5 * spiritual_pressure)
+
+
+## Spiritueller Druck: stärkste Quelle in der Nähe zählt. Zu wenig Spiritualität
+## = Leben sinkt (bis 8 pro Sekunde), Tempo sinkt, Bild verschwimmt.
+func _update_spiritual_pressure(delta: float) -> void:
+	var strongest := 0.0
+	var source: SpiritualPressureSource = null
+	var spirituality := GameState.stats.spirituality
+	for node in get_tree().get_nodes_in_group(&"pressure_sources"):
+		var candidate := node as SpiritualPressureSource
+		var intensity := candidate.get_intensity(global_position, spirituality)
+		if intensity > strongest:
+			strongest = intensity
+			source = candidate
+		elif intensity == 0.0 and candidate.is_withstood(global_position, spirituality) and _pressure_source_noticed != candidate:
+			_pressure_source_noticed = candidate
+			EventBus.message_requested.emit("%s. Du spürst seinen Druck, aber du hältst stand." % candidate.source_name)
+	if source and source != _pressure_source_noticed:
+		_pressure_source_noticed = source
+		EventBus.message_requested.emit("Spiritueller Druck! %s. Du brauchst Spiritualität %d." % [source.source_name, source.required_spirituality])
+	if source == null and strongest == 0.0 and _pressure_source_noticed and \
+			_pressure_source_noticed.global_position.distance_to(global_position) > _pressure_source_noticed.radius:
+		_pressure_source_noticed = null
+	spiritual_pressure = strongest
+	GameState.spiritual_pressure = strongest
+	if strongest > 0.0 and not health.is_dead:
+		health.take_damage(8.0 * strongest * delta)
 
 
 ## Realitätsblick (Q): kostet Fokus und zeigt kurz die wahre Welt.

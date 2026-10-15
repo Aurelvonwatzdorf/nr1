@@ -54,7 +54,7 @@ func _run() -> void:
 		kinds.append((node as MapMarker).kind)
 	for kind: MapMarker.Kind in [MapMarker.Kind.MARKET, MapMarker.Kind.CHURCH, MapMarker.Kind.MOSQUE,
 			MapMarker.Kind.SYNAGOGUE, MapMarker.Kind.HOUSE_OF_SILENCE, MapMarker.Kind.CORPORATE_TOWER,
-			MapMarker.Kind.BARRACKS, MapMarker.Kind.ANCHOR_MIRROR, MapMarker.Kind.BLACK_MARKET]:
+			MapMarker.Kind.BARRACKS, MapMarker.Kind.ANCHOR_MIRROR, MapMarker.Kind.BLACK_MARKET, MapMarker.Kind.SPIRIT_SHRINE]:
 		_check(kinds.has(kind), "Auf der Karte: %s" % MapMarker.get_kind_name(kind))
 	var map_data: MapData = city.get_node("MapData")
 	_check(map_data.area_name == "Santo Santiago" and map_data.shapes.size() > 150, "Grundriss für die Karte (%d Flächen)" % map_data.shapes.size())
@@ -81,6 +81,9 @@ func _run() -> void:
 				var collider := hits[0]["collider"] as Node3D
 				blocked.append("%s@%s(%s %s)" % [spot.name, where.round(), collider.get_parent().name, collider.global_position.round()])
 	_check(blocked.is_empty(), "%d Figuren, Spiegel und Gegenstände stehen frei %s" % [checked, blocked])
+	var shrine: SpiritualPressureSource = city.get_node("SpiritPlaces/ShrineWest")
+	var shrine_at := Vector2(shrine.global_position.x, shrine.global_position.z)
+	_check(generator.is_free(shrine_at, 5.0) and shrine.required_spirituality == 3, "Geisterschrein steht frei am Stadtrand (Spiritualität 3 nötig)")
 	await _frames(60)
 	_check(player.is_on_floor() and player.global_position.y > -0.5, "Spielfigur steht auf dem Marktplatz")
 	var npcs_on_floor := true

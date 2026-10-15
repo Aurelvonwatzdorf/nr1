@@ -202,6 +202,14 @@ tests/       Headless-Rauchtests
   Spiritualität × 100), Fokus voll; je Ort alle 3 Minuten. In Spiegelrealitäten
   wirkt es nicht („nur eine Kopie“). Spiritualität zählt nicht zur Stufe für
   Level-Ups mit Erinnerungen.
+- **Spiritueller Druck**: `SpiritualPressureSource` (Gruppe `pressure_sources`,
+  `required_spirituality`, `radius`, `source_name`). Die stärkste Quelle in der
+  Nähe zählt: Stärke = Abstand-Abfall × Spiritualitäts-Fehlbetrag (0–1,
+  `Player.spiritual_pressure`, `GameState.spiritual_pressure`). Wirkung: Tempo bis
+  −50 %, bis 8 Leben/s, Bild verschwimmt und dunkelt ein (Overlay-Shader,
+  Parameter `pressure`). Mit genug Spiritualität: Meldung „du hältst stand“, keine
+  Wirkung. Erster Ort: `scenes/world/spirit_shrine.tscn` („Schrein der alten
+  Geister“, Spiritualität 3) am Westrand von Santo Santiago (Kartensymbol ✧).
 - **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
@@ -593,7 +601,7 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   - ✅ M7.4 Gefangen werden: Fahndung (Sterne), Spiegeljäger, Kopie des Fangorts
 - 🟨 **M8**: Geisterwelt, in Schritten:
   - ✅ M8.1 Beten / stille Einkehr: Spiritualität leveln (alle vier Häuser gleich)
-  - M8.2 Spiritueller Druck (zu schwach = Schaden, Verlangsamung, Bild verschwimmt)
+  - ✅ M8.2 Spiritueller Druck (zu schwach = Schaden, Verlangsamung, Bild verschwimmt)
   - M8.3 Einladung: Geister erscheinen, die Zeit steht still, Übergang in die Geisterwelt
   - M8.4 Geisterwelt-Level (eigene Optik und Wesen)
   - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)

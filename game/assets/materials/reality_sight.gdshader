@@ -6,6 +6,8 @@ uniform sampler2D screen_texture : hint_screen_texture, filter_linear;
 uniform float strength : hint_range(0.0, 1.0) = 0.0;
 // Verankerung: Die Wahrnehmung verzerrt sich (0 = klar, 1 = ganz verankert).
 uniform float distortion : hint_range(0.0, 1.0) = 0.0;
+// Spiritueller Druck: Bild verschwimmt und dunkelt vom Rand her ein.
+uniform float pressure : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 tint : source_color = vec3(0.45, 0.85, 1.0);
 
 void fragment() {
@@ -24,5 +26,13 @@ void fragment() {
 	vec3 result = mix(color, truth, strength);
 	float flat_gray = dot(result, vec3(0.299, 0.587, 0.114));
 	result = mix(result, vec3(flat_gray) * vec3(1.0, 0.97, 0.9), distortion * 0.6);
+	if (pressure > 0.0) {
+		vec2 spread = vec2(0.006, 0.004) * pressure * (1.0 + 0.3 * sin(TIME * 4.0));
+		vec3 blurred = (texture(screen_texture, uv + spread).rgb + texture(screen_texture, uv - spread).rgb
+			+ texture(screen_texture, uv + spread.yx).rgb + texture(screen_texture, uv - spread.yx).rgb) * 0.25;
+		result = mix(result, blurred, pressure);
+		float dark = smoothstep(0.25, 0.75, length(uv - 0.5)) * pressure;
+		result = mix(result, vec3(0.9, 0.85, 0.7) * 0.15, dark);
+	}
 	COLOR = vec4(result, 1.0);
 }
