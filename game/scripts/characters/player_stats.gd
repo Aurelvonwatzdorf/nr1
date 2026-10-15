@@ -49,12 +49,13 @@ func increase(stat: StringName, amount: int = 1) -> void:
 	set_stat(stat, get_stat(stat) + amount)
 
 
-## Gesamtstufe der Figur (beginnt bei 1).
+## Gesamtstufe der Figur (beginnt bei 1). Spiritualität zählt nicht mit, damit
+## Beten das Leveln mit Erinnerungen nicht teurer macht.
 func get_level() -> int:
 	var total := 0
-	for stat in ALL:
+	for stat in LEVELABLE:
 		total += get_stat(stat)
-	return total - ALL.size() + 1
+	return total - LEVELABLE.size() + 1
 
 
 ## Erinnerungen, die die nächste Stufe kostet. Jede Stufe wird teurer.

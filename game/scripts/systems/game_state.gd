@@ -66,6 +66,11 @@ var reality_sight_blocked: bool = false
 ## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach
 ## dem Laden in der richtigen Welt (Stadt oder Spiegelrealität) weiterspielt.
 var current_scene: String = ""
+## Spiritualitäts-Erfahrung bis zur nächsten Stufe (durch Beten/Einkehr).
+var spirit_experience: int = 0
+## Wann man zuletzt an welchem Ort gebetet hat (Millisekunden). Nicht gespeichert.
+var _prayer_times: Dictionary[StringName, int] = {}
+
 ## Fahndung (0–100): steigt, wenn man Konzernkräfte angreift. Nicht gespeichert.
 var wanted_level: float = 0.0
 ## Gerade von Spiegeljägern gefangen (bis man ausbricht).
@@ -237,6 +242,33 @@ func clear_checkpoint() -> void:
 	checkpoint_scene = ""
 
 
+## Erfahrung für die nächste Spiritualitäts-Stufe.
+func get_spirit_experience_needed() -> int:
+	return stats.spirituality * 100
+
+
+## Erfahrung durch Beten oder Einkehr. Gibt true zurück, wenn die Stufe stieg.
+func add_spirit_experience(amount: int) -> bool:
+	spirit_experience += amount
+	var leveled := false
+	while spirit_experience >= get_spirit_experience_needed():
+		spirit_experience -= get_spirit_experience_needed()
+		stats.increase(&"spirituality")
+		leveled = true
+	return leveled
+
+
+## Restliche Wartezeit (Sekunden), bis man am Ort wieder beten kann.
+func get_prayer_wait(spot_id: StringName, cooldown: float) -> float:
+	if not _prayer_times.has(spot_id):
+		return 0.0
+	return maxf(cooldown - (Time.get_ticks_msec() - _prayer_times[spot_id]) / 1000.0, 0.0)
+
+
+func mark_prayer(spot_id: StringName) -> void:
+	_prayer_times[spot_id] = Time.get_ticks_msec()
+
+
 ## Wegpunkt setzen (x, z in Weltkoordinaten).
 func set_map_waypoint(at: Vector2) -> void:
 	map_waypoint = at
@@ -274,6 +306,8 @@ func reset() -> void:
 	has_map_waypoint = false
 	reality_sight_blocked = false
 	wanted_level = 0.0
+	spirit_experience = 0
+	_prayer_times.clear()
 	is_captured = false
 	return_scene = ""
 	current_scene = ""
@@ -298,6 +332,7 @@ func to_dict() -> Dictionary:
 		"stats": stats.to_dict(),
 		"inventory": inventory.to_dict(),
 		"current_scene": current_scene,
+		"spirit_experience": spirit_experience,
 		"return_scene": return_scene,
 		"return_transform": var_to_str(return_transform),
 		"capture_district": String(capture_district),
@@ -327,6 +362,7 @@ func from_dict(data: Dictionary) -> void:
 	stats.from_dict(data.get("stats", {}))
 	inventory.from_dict(data.get("inventory", {}))
 	current_scene = str(data.get("current_scene", ""))
+	spirit_experience = int(data.get("spirit_experience", 0))
 	return_scene = str(data.get("return_scene", ""))
 	var saved_return: Variant = str_to_var(str(data.get("return_transform", "")))
 	if saved_return is Transform3D:

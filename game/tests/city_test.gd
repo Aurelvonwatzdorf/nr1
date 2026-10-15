@@ -129,6 +129,31 @@ func _run() -> void:
 	_check(moved > citizens.size() * 0.6, "Einwohner laufen herum (%d von %d)" % [moved, citizens.size()])
 	_check(at_home > citizens.size() * 0.75, "Einwohner bleiben meist in ihrem Viertel (%d von %d)" % [at_home, citizens.size()])
 	_check(merchant_moved > 0.5 and merchant_max <= merchant.roam_radius + 1.0, "Händler schlendert, bleibt aber an seinem Platz (max. %.1f m)" % merchant_max)
+	# Beten / stille Einkehr: alle vier Häuser wirken gleich auf die Spiritualität
+	var spots := get_tree().get_nodes_in_group(&"prayer_spots")
+	var spot_ids: Array[StringName] = []
+	for node in spots:
+		spot_ids.append((node as PrayerSpot).spot_id)
+	spot_ids.sort()
+	_check(spot_ids.size() == 4 and spot_ids.has(&"church") and spot_ids.has(&"mosque") and spot_ids.has(&"synagogue") and spot_ids.has(&"house_of_silence"), "Beten in Kirche, Moschee, Synagoge, Einkehr im Haus der Stille")
+	var silence: PrayerSpot = city.get_node("City/Prayer_house_of_silence")
+	var church: PrayerSpot = city.get_node("City/Prayer_church")
+	_check(silence.prompt == "Stille Einkehr" and silence.experience == church.experience, "Haus der Stille wirkt genauso wie ein Gotteshaus")
+	player.focus.remove(player.focus.current)
+	church.interact(player)
+	_check(GameState.spirit_experience == 40 and is_equal_approx(player.focus.current, player.focus.max_value), "Gebet: +40 Spiritualität, Fokus voll")
+	church.interact(player)
+	_check(GameState.spirit_experience == 40, "Am selben Ort erst nach einer Weile wieder")
+	silence.interact(player)
+	for node in spots:
+		if node != church and node != silence:
+			(node as PrayerSpot).interact(player)
+	_check(GameState.stats.spirituality == 2 and GameState.spirit_experience == 60, "Nach vier Gebeten: Spiritualität Stufe 2")
+	var free := true
+	for node in spots:
+		free = free and generator.is_free(Vector2((node as Node3D).global_position.x, (node as Node3D).global_position.z))
+	_check(free, "Gebetsorte liegen vor den Häusern, nicht darin")
+
 	# Navi: Wegpunkt auf der großen Karte setzen, schnellster Weg über die Straßen
 	var target := Vector2(-22, 100)
 	var route := generator.find_route(Vector2(0, 12), target)

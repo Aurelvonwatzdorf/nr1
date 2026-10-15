@@ -195,6 +195,13 @@ tests/       Headless-Rauchtests
   Schattengestalten auf Straßen in der Nähe. Nach dem Ausbruch
   (`returns_to_capture_point`) wacht man am Fangort in der Stadt auf
   (`GameState.return_scene/return_transform`, `pending_spawn`). `RealityLevel.change_scene_on_break` ist im Test aus.
+- **Beten / stille Einkehr** (`PrayerSpot`, vom CityGenerator vor Kirche,
+  Moschee, Synagoge und Haus der Stille gebaut, Gruppe `prayer_spots`): E =
+  „Beten“ bzw. „Stille Einkehr“ (Haus der Stille, **wirkt genau gleich**):
+  +40 Spiritualitäts-Erfahrung (`GameState.spirit_experience`, Stufe braucht
+  Spiritualität × 100), Fokus voll; je Ort alle 3 Minuten. In Spiegelrealitäten
+  wirkt es nicht („nur eine Kopie“). Spiritualität zählt nicht zur Stufe für
+  Level-Ups mit Erinnerungen.
 - **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
@@ -486,7 +493,8 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
      man **Erinnerungen am Ankerspiegel ausgibt**. Jede Stufe kostet mehr.
    - **Geist** (vorläufig): **Fokus** (Fokusbalken, levelt wie Körper) und
      **Spiritualität**. Spiritualität levelt man **nur** durch **Beten** in
-     Tempeln, Kirchen, Moscheen und Synagogen und durch bestimmte Missionen. Nötig, um
+     Tempeln, Kirchen, Moscheen und Synagogen (bzw. **stille Einkehr** im Haus der
+     Stille, gleiche Wirkung) und durch bestimmte Missionen. Nötig, um
      spirituellen Druck auszuhalten.
 9. **Artefakte**: verbessern eine bestimmte Fähigkeit. Zwei Arten:
    - **Verbrauchbar**: wirken einmal und sind dann weg, wie Tränke.
@@ -583,8 +591,12 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   - ✅ M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
   - ✅ M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
   - ✅ M7.4 Gefangen werden: Fahndung (Sterne), Spiegeljäger, Kopie des Fangorts
-- ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
-  und Gebet, spiritueller Druck, Rituale in Bergtempeln.
+- 🟨 **M8**: Geisterwelt, in Schritten:
+  - ✅ M8.1 Beten / stille Einkehr: Spiritualität leveln (alle vier Häuser gleich)
+  - M8.2 Spiritueller Druck (zu schwach = Schaden, Verlangsamung, Bild verschwimmt)
+  - M8.3 Einladung: Geister erscheinen, die Zeit steht still, Übergang in die Geisterwelt
+  - M8.4 Geisterwelt-Level (eigene Optik und Wesen)
+  - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),
@@ -619,6 +631,7 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    Mitte Großer Markt mit den vier Vierteln ringsum (jeweils reichere Straßen im
    Norden, ärmere im Süden), Süden „Die Senke“ (arm, Hütten, Ruinen).
    → **Vom Nutzer bestätigt**, ebenso das **„Haus der Stille“** im
-   atheistischen Viertel.
+   atheistischen Viertel. **Entschieden:** Dort steigert „Stille Einkehr“ die
+   Spiritualität genauso wie Beten in Kirche, Moschee und Synagoge.
 7. **Beträge (vorläufig)**: Konzernwache lässt 15 Geld fallen, Heiltrank kostet
    40 Geld beim Händler. Lässt sich in den .tres-Dateien ändern.

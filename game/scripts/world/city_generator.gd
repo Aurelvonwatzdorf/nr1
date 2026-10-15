@@ -1375,6 +1375,7 @@ func _build_church(center: Vector3) -> void:
 	_glow_box(self, center + Vector3(0, 7, -13.6), Vector3(2.0, 3.0, 0.2), Color(1.0, 0.8, 0.5))
 	_add_vines(nave, Vector3(12, 10, 22), 4.0, -5.0)
 	_add_sign(center + Vector3(0, 3.5, -14.0), "Kirche")
+	_add_prayer_spot(center + Vector3(0, 0, -15.5), &"church", "Du kniest nieder und betest.", "Beten")
 	_add_marker(center, MapMarker.Kind.CHURCH, "Kirche")
 
 
@@ -1388,6 +1389,7 @@ func _build_mosque(center: Vector3) -> void:
 	_glow_box(self, center + Vector3(0, 3.5, -9.1), Vector3(3.0, 5.0, 0.2), Color(0.5, 1.0, 0.85))
 	_add_vines(hall, Vector3(18, 8, 18), 4.0, -4.0)
 	_add_sign(center + Vector3(0, 7.0, -9.4), "Moschee")
+	_add_prayer_spot(center + Vector3(0, 0, -11.5), &"mosque", "Du betest in Stille.", "Beten")
 	_add_marker(center, MapMarker.Kind.MOSQUE, "Moschee")
 
 
@@ -1402,6 +1404,7 @@ func _build_synagogue(center: Vector3) -> void:
 	disc.rotation.x = PI / 2.0
 	_add_vines(hall, Vector3(14, 12, 18), 4.0, -6.0)
 	_add_sign(center + Vector3(0, 3.5, -9.5), "Synagoge")
+	_add_prayer_spot(center + Vector3(0, 0, -11.5), &"synagogue", "Du sprichst ein Gebet.", "Beten")
 	_add_marker(center, MapMarker.Kind.SYNAGOGUE, "Synagoge")
 
 
@@ -1413,6 +1416,7 @@ func _build_house_of_silence(center: Vector3) -> void:
 		_add_plants(center + Vector3(-9 + i * 6, 0, -10), 3)
 	_add_vines(hall, Vector3(20, 6, 14), 5.0, -3.0)
 	_add_sign(center + Vector3(0, 6.6, -7.2), "Haus der Stille")
+	_add_prayer_spot(center + Vector3(0, 0, -12.5), &"house_of_silence", "Du sitzt in stiller Einkehr.", "Stille Einkehr")
 	_add_marker(center, MapMarker.Kind.HOUSE_OF_SILENCE, "Haus der Stille")
 
 
@@ -1829,6 +1833,19 @@ func _add_sign(at: Vector3, text: String) -> void:
 	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 	label.position = at
 	add_child(label)
+
+
+## Ort zum Beten bzw. zur stillen Einkehr (alle wirken gleich auf die Spiritualität).
+func _add_prayer_spot(at: Vector3, id: StringName, action: String, prompt_text: String) -> void:
+	var spot := PrayerSpot.new()
+	spot.name = "Prayer_%s" % id
+	spot.spot_id = id
+	spot.action_text = action
+	spot.prompt = prompt_text
+	spot.position = at
+	add_child(spot)
+	spot.add_to_group(&"prayer_spots")
+	_glow_box(self, at + Vector3(0, 0.03, 0), Vector3(2.4, 0.04, 2.4), Color(1.0, 0.92, 0.7), 0.8)
 
 
 func _add_marker(at: Vector3, kind: MapMarker.Kind, label: String) -> void:
