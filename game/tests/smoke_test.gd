@@ -85,6 +85,28 @@ func _run() -> void:
 	await _frames(120)
 	_check(player.stamina.current > low, "Ausdauer regeneriert sich")
 
+	# Springen (Leertaste)
+	await _frames(40)
+	player.stamina.refill()
+	var floor_y := player.global_position.y
+	await _tap(&"jump")
+	var max_y := floor_y
+	for i in 20:
+		await get_tree().physics_frame
+		max_y = maxf(max_y, player.global_position.y)
+	_check(max_y > floor_y + 0.8, "Leertaste springt (Höhe %.2f)" % (max_y - floor_y))
+	await _frames(60)
+	_check(player.is_on_floor(), "Figur landet wieder")
+
+	# Leben regeneriert nach 10 s ohne Schaden in 20er-Schritten
+	var hp_regen_start := player.health.current
+	player.health.time_since_damage = 9.5
+	await _frames(30)
+	_check(is_equal_approx(player.health.current, hp_regen_start), "Vor 10 s keine Regeneration")
+	await _frames(70)
+	_check(is_equal_approx(player.health.current, minf(hp_regen_start + 20.0, player.health.max_value)), "Nach 10 s: +20 Leben pro Sekunde (ist %.0f)" % player.health.current)
+	player.health.take_damage(player.health.current - hp_regen_start)
+
 	# Ausweichen nach rechts: Richtung kurz NACH der Leertaste gedrückt
 	await _frames(60)
 	player.stamina.refill()
@@ -213,6 +235,7 @@ func _run() -> void:
 	_check(player.state_machine.get_current_state_name() == &"dead", "Figur stirbt")
 	var remnant := manager.get_remnant()
 	_check(remnant != null and remnant.amount == 120 and GameState.memories == 0, "120 Erinnerungen bleiben an der Todesstelle liegen")
+	_check(remnant != null and not remnant.find_children("*", "MapMarker", true, false).is_empty(), "Erinnerungen sind auf der Karte markiert")
 	await get_tree().create_timer(0.8).timeout
 	_check(not player.health.is_dead and player.state_machine.get_current_state_name() == &"idle", "Figur wird wiederbelebt")
 	_check(player.global_position.distance_to(start_checkpoint.origin) < 0.5, "Wiederbelebung am Checkpoint")
@@ -408,8 +431,9 @@ func _run() -> void:
 	await _send_action(&"map")
 	await _frames(2)
 	_check(map_menu.is_open and map_menu.legend.get_child_count() >= 2, "M öffnet die große Karte mit Legende")
+	_check(get_tree().paused, "Bei offener Karte steht die Zeit still")
 	await _send_action(&"map")
-	_check(not map_menu.is_open, "M schließt sie wieder")
+	_check(not map_menu.is_open and not get_tree().paused, "M schließt sie wieder, die Zeit läuft weiter")
 
 	# Unschuldige NPCs verletzen: Moral sinkt, Tote bleiben tot
 	var mercy_before := GameState.moral.get_virtue_score(&"mercy")
@@ -573,13 +597,13 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(5)
 
-	# Tahirou: Rabenbund, Rabenschwarm, Ratschläge
+	# Tahirou: Rabenbund, Rabenschwarm, Gaben der Ahnen
 	player.apply_character(load("res://resources/characters/tahirou.tres") as CharacterData)
 	await _frames(2)
 	var ravens := player.get_ravens()
 	_check(ravens != null and player.get_ambition() == null and is_equal_approx(ravens.current, 0.0), "Tahirou hat den Rabenbund (startet bei 0), keinen Ehrgeiz")
-	var advice: Array[String] = []
-	EventBus.raven_advice.connect(func(text: String) -> void: advice.append(text))
+	var gifts: Array[String] = []
+	EventBus.raven_gift_granted.connect(func(gift_name: String, _text: String) -> void: gifts.append(gift_name))
 	player.global_position = Vector3(-9.0, 0.05, -10.0)
 	player.rotation = Vector3.ZERO
 	guard.global_position = guard.home_transform.origin
@@ -618,12 +642,23 @@ func _run() -> void:
 	await _tap(&"attack_light")
 	await _frames(20)
 	_check(ravens.current >= ravens_before_defenseless + 15.0, "Treffer auf wehrlosen Gegner: +15 Rabenbund")
-	advice.clear()
-	ravens._last_advice_at = -100.0
-	ravens._advice_ready_at.clear()
+	gifts.clear()
+	ravens._last_gift_at = -100.0
+	ravens._gift_ready_at.clear()
 	player.health.take_damage(player.health.current - 10.0)
 	await _frames(5)
-	_check(advice.has("Du blutest, Twin. Zieh dich zurück."), "Raben raten bei wenig Leben zum Rückzug")
+	_check(gifts.has("Federkleid") and ravens.feather_cloak_left > 0.0 and player.health.current >= 25.0, "Wenig Leben: Ahnen leihen das Federkleid (+15 Leben)")
+	var cloak_hit := HitData.new()
+	cloak_hit.damage = 10.0
+	var hp_cloak := player.health.current
+	player.hurtbox.receive_hit(cloak_hit)
+	_check(is_equal_approx(player.health.current, hp_cloak - 5.0), "Federkleid halbiert den Schaden")
+	ravens.feather_cloak_left = 0.0
+	ravens._last_gift_at = -100.0
+	player.health.revive()
+	player.stamina.consume(1000.0)
+	await _frames(3)
+	_check(gifts.has("Zweiter Atem") and player.stamina.current > player.stamina.max_value * 0.9, "Ausdauer leer: Zweiter Atem füllt sie auf")
 	player.health.revive()
 	await _frames(40)
 

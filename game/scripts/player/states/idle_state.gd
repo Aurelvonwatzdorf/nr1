@@ -14,5 +14,6 @@ func physics_update(delta: float) -> void:
 	player.turn_towards(player.get_direction_to_lock_target(), delta)
 	if try_start_combat_action():
 		return
+	player.try_jump()
 	if player.get_move_direction() != Vector3.ZERO:
 		state_machine.transition_to(&"move")

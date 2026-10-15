@@ -29,14 +29,15 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Bewegen | WASD | linker Stick |
 | Kamera | Maus | rechter Stick |
 | Sprinten | Shift halten | L3 halten |
-| Ausweichen | Leertaste | B |
+| Springen | Leertaste | A |
+| Ausweichen (ohne Richtung: Rückwärtsschritt) | Strg | B |
 | Leichter Angriff | Linksklick | RB |
 | Schwerer Angriff | Shift + Linksklick | RT |
 | Blocken (im richtigen Moment: Parieren) | Rechtsklick | LB |
 | Lock-on | Mittelklick / Tab | R3 |
 | Realitätsblick *(ab M5)* | Q | Y |
-| Interagieren (z. B. am Ankerspiegel rasten) | E | A |
-| Heiltrank trinken | R | X |
+| Interagieren (z. B. am Ankerspiegel rasten) | E | X |
+| Heiltrank trinken | R | Steuerkreuz runter |
 | Inventar | I | Back/View |
 | Fähigkeitenbaum | K | Steuerkreuz links |
 | Raben rufen (nur Tahirou) | F | Steuerkreuz hoch |

@@ -182,6 +182,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   Unverwundbarkeitsfenstern (I-Frames), Blocken/Parieren, Lock-on,
   Treffer-Feedback (Hitstop, Kamerawackeln, Rückstoß).
 - Leben, Ausdauer, Fokus (Mana) als Balken.
+- **Leben regeneriert** nach 10 s ohne Schaden um 20 pro Sekunde (in Schritten).
+  Heiltränke sind für schnelles Heilen im Kampf und zum Heilen von NPCs.
+- **Springen** (Leertaste); Ausweichen liegt auf Strg.
 - **Ankerspiegel** (Rastpunkte): heilen, speichern, Gegner respawnen, Level-Up.
   (Heiltränke werden dort **nicht** aufgefüllt.)
 - **Blut ist sichtbar.** Die Altersfreigabe spielt keine Rolle.
@@ -189,7 +192,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
-  Todesstelle zurückholen. Stirbt man vorher erneut, sind sie weg.
+  Todesstelle zurückholen (auf Minimap und Karte markiert). Stirbt man vorher
+  erneut, sind sie weg.
+- Große Karte, Inventar und alle Menüs **halten die Zeit an**.
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
 - Harte, aber faire Gegner, Bosse mit mehreren Phasen.
 
@@ -286,8 +291,11 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
     Parade, Treffer auf wehrlose Gegner, eine Weile kämpfen ohne getroffen zu
     werden). **F** ruft ab halbem Balken einen Rabenschwarm auf den Gegner: unterbricht
     ihn und markiert eine Schwachstelle (nächster Treffer macht doppelten Schaden).
-  - **Ratschläge der Raben** (gratis, nicht zu oft): bei wenig Leben, wenn ein
-    Gegner ausholt, wenn er umzingelt ist, wenn die Ausdauer leer ist.
+  - **Gaben der Ahnen** (gratis, nicht zu oft, keine Ratschläge mit Offensichtlichem):
+    In brenzligen Lagen leihen die alten Raben ihm kurz eine Fähigkeit:
+    **Federkleid** (wenig Leben: halber Schaden für 8 s, +15 Leben),
+    **Rabenauge** (Gegner holt aus: Zeitlupe), **Flügelschlag** (umzingelt:
+    Gegner ringsum zögern), **Zweiter Atem** (Ausdauer leer: sofort voll).
   - Fähigkeitenbaum: **Rabenbund** (Raben stärker), **Vollstrecker** (Hinrichtungen
     auf wehrlose/parierte Gegner, Furcht), **Stille** (Parieren, Zeitlupe,
     Schwachstellen).
@@ -413,14 +421,15 @@ aus. (Wie genau, siehe Offene Entscheidungen.)
 | `move_*` | WASD | linker Stick |
 | `look_*` | Maus | rechter Stick |
 | `sprint` | Shift (halten) | L3 (halten) |
-| `dodge` | Leertaste | B |
+| `jump` | Leertaste | A |
+| `dodge` | Strg (still stehen = Rückwärtsschritt) | B |
 | `attack_light` | Linksklick | RB |
 | `attack_heavy` | Shift + Linksklick (im Code) | RT |
 | `block` | Rechtsklick | LB |
 | `lock_on` | Mittelklick / Tab | R3 |
 | `reality_sight` | Q | Y |
-| `interact` | E | A |
-| `heal` | R | X |
+| `interact` | E | X |
+| `heal` | R | Steuerkreuz runter |
 | `call_spirit` | F (Tahirous Raben) | Steuerkreuz hoch |
 | `inventory` | I | Back/View |
 | `skills` | K | Steuerkreuz links |

@@ -12,6 +12,11 @@ func _ready() -> void:
 	collision_layer = 0
 	collision_mask = PhysicsLayers.PLAYER
 	label.text = str(amount)
+	# Auf Minimap und großer Karte zeigen, wo die Erinnerungen liegen.
+	var marker := MapMarker.new()
+	marker.kind = MapMarker.Kind.MEMORY_REMNANT
+	marker.label = "Deine Erinnerungen (%d)" % amount
+	add_child(marker)
 	body_entered.connect(_on_body_entered)
 
 

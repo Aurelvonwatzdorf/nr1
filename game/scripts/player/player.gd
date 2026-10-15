@@ -110,6 +110,18 @@ func get_facing_direction() -> Vector3:
 	return -global_basis.z
 
 
+## Springen (Leertaste), nur vom Boden aus. Gibt true zurück, wenn gesprungen wurde.
+func try_jump() -> bool:
+	if not is_input_enabled() or not is_on_floor() or not Input.is_action_just_pressed(&"jump"):
+		return false
+	if not stamina.can_act():
+		return false
+	stamina.consume(character_data.jump_stamina_cost)
+	velocity.y = character_data.jump_velocity
+	animator.play(&"jump", 0.35)
+	return true
+
+
 func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -235,6 +247,8 @@ func apply_character(data: CharacterData) -> void:
 func _apply_character_data() -> void:
 	var data := character_data
 	stamina.regen_delay = data.stamina_regen_delay
+	health.regen_delay = data.health_regen_delay
+	health.regen_per_second = data.health_regen_per_second
 	_apply_stats(true)
 	_setup_special_resource()
 	if data.model_scene:
@@ -275,6 +289,8 @@ func respawn(at: Transform3D) -> void:
 
 ## Entscheidet über Blocken und Parieren, bevor der Schaden ankommt.
 func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
+	if get_ravens():
+		hit.damage *= get_ravens().get_damage_taken_factor()
 	var block_state := state_machine.current_state as PlayerBlockState
 	if block_state == null:
 		return Hurtbox.Result.HIT

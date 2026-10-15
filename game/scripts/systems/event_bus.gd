@@ -39,8 +39,8 @@ signal skill_unlocked(skill: SkillData)
 signal story_flag_set(flag: StringName)
 ## Ein Gegner holt zum Angriff aus.
 signal enemy_attack_started(enemy: Enemy)
-## Die Raben geben Tahirou einen Ratschlag.
-signal raven_advice(text: String)
+## Die Raben-Ahnen leihen Tahirou kurz eine Gabe (Name und ihr Satz dazu).
+signal raven_gift_granted(gift_name: String, text: String)
 ## Kurze Meldung für das HUD.
 signal message_requested(text: String)
 ## Die Spielfigur hat an einem Ankerspiegel gerastet.

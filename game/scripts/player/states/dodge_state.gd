@@ -2,7 +2,7 @@ class_name PlayerDodgeState
 extends PlayerState
 ## Ausweichrolle. Kurz unverwundbar (I-Frames), danach verwundbar bis zum Ende.
 ## Die Rolle geht in die Richtung der gedrückten Taste (WASD, relativ zur Kamera).
-## Wird die Richtung kurz nach der Leertaste gedrückt, zählt sie trotzdem noch
+## Wird die Richtung kurz nach der Ausweichtaste (Strg) gedrückt, zählt sie trotzdem noch
 ## (Kulanzzeit). Ganz ohne Richtung gibt es einen Rückwärtsschritt.
 
 ## So lange nach Rollbeginn darf man die Richtung noch angeben (Sekunden).

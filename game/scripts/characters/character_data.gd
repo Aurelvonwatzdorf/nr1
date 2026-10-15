@@ -15,6 +15,10 @@ extends Resource
 @export var max_focus: float = 50.0
 @export var stamina_regen_per_second: float = 35.0
 @export var stamina_regen_delay: float = 0.8
+## Leben regeneriert sich, wenn man so lange keinen Schaden genommen hat (Sekunden).
+@export var health_regen_delay: float = 10.0
+## Leben pro Sekunde während der Regeneration (in Schritten, einmal pro Sekunde).
+@export var health_regen_per_second: float = 20.0
 
 @export_group("Bewegung")
 @export var walk_speed: float = 4.5
@@ -23,6 +27,9 @@ extends Resource
 @export var acceleration: float = 30.0
 ## Wie schnell sich die Figur zur Laufrichtung dreht.
 @export var turn_speed: float = 12.0
+## Startgeschwindigkeit nach oben beim Springen (Leertaste).
+@export var jump_velocity: float = 6.0
+@export var jump_stamina_cost: float = 8.0
 
 @export_group("Ausweichrolle")
 @export var dodge_speed: float = 9.0

@@ -39,7 +39,7 @@ func _ready() -> void:
 	EventBus.interaction_prompt_changed.connect(func(prompt: String) -> void: prompt_label.text = "E: %s" % prompt if prompt != "" else "")
 	EventBus.message_requested.connect(show_message)
 	EventBus.special_resource_changed.connect(_bind_special)
-	EventBus.raven_advice.connect(show_raven_advice)
+	EventBus.raven_gift_granted.connect(show_raven_gift)
 	raven_label.modulate.a = 0.0
 	EventBus.character_changed.connect(func(data: CharacterData) -> void: name_label.text = data.display_name)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
@@ -65,9 +65,9 @@ func _process(_delta: float) -> void:
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
 
 
-## Ratschlag der Raben (nur Tahirou): eigene Zeile, verblasst nach ein paar Sekunden.
-func show_raven_advice(text: String) -> void:
-	raven_label.text = "Die Raben: „%s“" % text
+## Gabe der Raben-Ahnen (nur Tahirou): eigene Zeile, verblasst nach ein paar Sekunden.
+func show_raven_gift(gift_name: String, text: String) -> void:
+	raven_label.text = "Die Ahnen leihen dir: %s\n„%s“" % [gift_name, text]
 	if _raven_tween and _raven_tween.is_valid():
 		_raven_tween.kill()
 	_raven_tween = create_tween()
