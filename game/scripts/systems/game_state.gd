@@ -61,6 +61,13 @@ var stats: PlayerStats = PlayerStats.new()
 var inventory: Inventory = Inventory.new()
 ## Ist gerade der Realitätsblick an? (Setzt die Spielfigur.)
 var reality_sight_active: bool = false
+## Zu tief verankert: Der Realitätsblick geht nicht (bis zum nächsten Rasten).
+var reality_sight_blocked: bool = false
+## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach
+## dem Laden in der richtigen Welt (Stadt oder Spiegelrealität) weiterspielt.
+var current_scene: String = ""
+## Szene, zu der der Checkpoint gehört.
+var checkpoint_scene: String = ""
 
 ## Wegpunkt auf der Karte (wie ein Navi). Wird nicht gespeichert.
 var has_map_waypoint: bool = false
@@ -204,6 +211,13 @@ func try_spend_money(amount: int) -> bool:
 func set_checkpoint(at: Transform3D) -> void:
 	checkpoint_transform = at
 	has_checkpoint = true
+	checkpoint_scene = current_scene
+
+
+## Checkpoint vergessen (z. B. beim Wechsel in eine andere Welt).
+func clear_checkpoint() -> void:
+	has_checkpoint = false
+	checkpoint_scene = ""
 
 
 ## Wegpunkt setzen (x, z in Weltkoordinaten).
@@ -241,6 +255,9 @@ func reset() -> void:
 	equipped_weapon = &""
 	equipped_firearm = &""
 	has_map_waypoint = false
+	reality_sight_blocked = false
+	current_scene = ""
+	checkpoint_scene = ""
 	moral.from_array([])
 	collected_pickups.clear()
 	mission_states.clear()
@@ -260,6 +277,8 @@ func to_dict() -> Dictionary:
 		"money": money,
 		"stats": stats.to_dict(),
 		"inventory": inventory.to_dict(),
+		"current_scene": current_scene,
+		"checkpoint_scene": checkpoint_scene,
 		"equipped_weapon": String(equipped_weapon),
 		"equipped_firearm": String(equipped_firearm),
 		"collected_pickups": collected_pickups.map(func(id: StringName) -> String: return String(id)),
@@ -283,6 +302,8 @@ func from_dict(data: Dictionary) -> void:
 	money = int(data.get("money", 0))
 	stats.from_dict(data.get("stats", {}))
 	inventory.from_dict(data.get("inventory", {}))
+	current_scene = str(data.get("current_scene", ""))
+	checkpoint_scene = str(data.get("checkpoint_scene", ""))
 	equipped_weapon = StringName(str(data.get("equipped_weapon", "")))
 	equipped_firearm = StringName(str(data.get("equipped_firearm", "")))
 	for id: Variant in data.get("collected_pickups", []):

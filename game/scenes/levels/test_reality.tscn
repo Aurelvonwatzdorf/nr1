@@ -1,0 +1,181 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/reality_level.gd" id="1_reality"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="4_mirror"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="5_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="6_remnant"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_clue.tscn" id="7_clue"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_rift.tscn" id="8_rift"]
+[ext_resource type="Script" path="res://scripts/realms/reality_layer_object.gd" id="9_layer"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.85, 0.88, 0.92, 1)
+sky_horizon_color = Color(0.95, 0.95, 0.97, 1)
+ground_bottom_color = Color(0.8, 0.8, 0.82, 1)
+ground_horizon_color = Color(0.95, 0.95, 0.97, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.92, 0.93, 0.95, 1)
+fog_density = 0.01
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.86, 0.86, 0.88, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+material = SubResource("Material_floor")
+size = Vector3(40, 1, 40)
+
+[sub_resource type="BoxShape3D" id="Shape_floor"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="StandardMaterial3D" id="Material_wall"]
+albedo_color = Color(0.93, 0.93, 0.95, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_wall"]
+material = SubResource("Material_wall")
+size = Vector3(16, 4, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_wall"]
+size = Vector3(16, 4, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_door"]
+material = SubResource("Material_wall")
+size = Vector3(4, 4, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_door"]
+size = Vector3(4, 4, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_platform"]
+material = SubResource("Material_wall")
+size = Vector3(6, 3, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_platform"]
+size = Vector3(6, 3, 6)
+
+[sub_resource type="StandardMaterial3D" id="Material_true"]
+albedo_color = Color(0.45, 0.85, 1, 1)
+emission_enabled = true
+emission = Color(0.3, 0.7, 0.9, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_ramp"]
+material = SubResource("Material_true")
+size = Vector3(2.5, 0.3, 7)
+
+[sub_resource type="BoxShape3D" id="Shape_ramp"]
+size = Vector3(2.5, 0.3, 7)
+
+[node name="TestReality" type="Node3D"]
+script = ExtResource("1_reality")
+reality_id = &"test"
+reality_name = "Test-Realität"
+exit_scene = "res://scenes/levels/santo_santiago.tscn"
+intro_lines = Array[String](["Irgendetwas stimmt hier nicht. Drück Q und sieh genau hin.", "Finde drei Risse. Dann bricht diese Welt."])
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 20, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Mesh_floor")
+
+[node name="Shape" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("Shape_floor")
+
+[node name="WallLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallLeft"]
+mesh = SubResource("Mesh_wall")
+
+[node name="Shape" type="CollisionShape3D" parent="WallLeft"]
+shape = SubResource("Shape_wall")
+
+[node name="WallRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="WallRight"]
+mesh = SubResource("Mesh_wall")
+
+[node name="Shape" type="CollisionShape3D" parent="WallRight"]
+shape = SubResource("Shape_wall")
+
+[node name="FalseWall" type="Node3D" parent="."]
+script = ExtResource("9_layer")
+exists_in = 1
+
+[node name="Body" type="StaticBody3D" parent="FalseWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="FalseWall/Body"]
+mesh = SubResource("Mesh_door")
+
+[node name="Shape" type="CollisionShape3D" parent="FalseWall/Body"]
+shape = SubResource("Shape_door")
+
+[node name="Platform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.5, 6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Platform"]
+mesh = SubResource("Mesh_platform")
+
+[node name="Shape" type="CollisionShape3D" parent="Platform"]
+shape = SubResource("Shape_platform")
+
+[node name="HiddenRamp" type="Node3D" parent="."]
+script = ExtResource("9_layer")
+
+[node name="Body" type="StaticBody3D" parent="HiddenRamp"]
+transform = Transform3D(1, 0, 0, 0, 0.917, -0.399, 0, 0.399, 0.917, 14, 1.4, 12)
+
+[node name="Mesh" type="MeshInstance3D" parent="HiddenRamp/Body"]
+mesh = SubResource("Mesh_ramp")
+
+[node name="Shape" type="CollisionShape3D" parent="HiddenRamp/Body"]
+shape = SubResource("Shape_ramp")
+
+[node name="Clues" type="Node3D" parent="."]
+
+[node name="ClueDesk" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 2)
+companion_line = "Derselbe Kaffeefleck. Jeden Tag am selben Ort. Wie oft hast du diesen Tag schon gelebt?"
+
+[node name="CluePlatform" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 3, 6)
+companion_line = "Diesen Weg gab es vorhin nicht. Oder du hast ihn nicht sehen dürfen."
+
+[node name="ClueBehindWall" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -15)
+companion_line = "Hinter der Wand ist nichts. Kein Raum, kein Licht. Nur das, was sie dich glauben lassen."
+
+[node name="Rift" parent="." instance=ExtResource("8_rift")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -16)
+
+[node name="AnchorMirror" parent="." instance=ExtResource("4_mirror")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 10)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("6_remnant")

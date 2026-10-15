@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/reality_rift.gd" id="1_rift"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_area"]
+size = Vector3(3, 4, 2.5)
+
+[sub_resource type="StandardMaterial3D" id="Material_rift"]
+shading_mode = 0
+albedo_color = Color(0.85, 0.97, 1, 1)
+emission_enabled = true
+emission = Color(0.6, 0.95, 1, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_core"]
+material = SubResource("Material_rift")
+size = Vector3(0.35, 3.6, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shard"]
+material = SubResource("Material_rift")
+size = Vector3(0.12, 1.4, 0.06)
+
+[node name="RealityRift" type="Area3D"]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_rift")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_area")
+
+[node name="Core" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_core")
+
+[node name="Shard1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, -0.6, 0, 0.6, 0.8, 0, 0, 0, 1, 0.35, 2.6, 0)
+mesh = SubResource("BoxMesh_shard")
+
+[node name="Shard2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0.6, 0, -0.6, 0.8, 0, 0, 0, 1, -0.35, 1.5, 0)
+mesh = SubResource("BoxMesh_shard")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0.5)
+light_color = Color(0.6, 0.95, 1, 1)
+light_energy = 3.0
+omni_range = 8.0

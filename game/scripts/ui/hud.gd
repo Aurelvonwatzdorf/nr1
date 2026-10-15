@@ -22,6 +22,10 @@ var _raven_tween: Tween
 @onready var mission_label: Label = %MissionLabel
 
 var _player: Player
+## Nur in Spiegelrealitäten: Verankerung und Hinweise, dazu die Stimme des Begleiters.
+var reality_label: Label
+var companion_label: Label
+var _companion_tween: Tween
 var _message_tween: Tween
 
 
@@ -57,6 +61,10 @@ func _ready() -> void:
 		_update_missions())
 	_update_missions()
 	_update_potions()
+	_create_reality_labels()
+	EventBus.companion_spoke.connect(show_companion)
+	EventBus.reality_clue_found.connect(func(found: int, needed: int) -> void:
+		show_message("Hinweis gefunden (%d/%d)" % [found, needed]))
 	EventBus.checkpoint_activated.connect(func(_c: Node3D) -> void: show_message("Ankerspiegel berührt"))
 	EventBus.memories_recovered.connect(func(amount: int) -> void: show_message("%d Erinnerungen zurückgeholt" % amount))
 	EventBus.memories_lost.connect(func(amount: int) -> void: show_message("%d Erinnerungen für immer verloren" % amount))
@@ -64,6 +72,60 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
+	_update_reality()
+
+
+func _create_reality_labels() -> void:
+	reality_label = Label.new()
+	reality_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	reality_label.position = Vector2(-360, 24)
+	reality_label.size = Vector2(330, 60)
+	reality_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	reality_label.add_theme_font_size_override(&"font_size", 20)
+	reality_label.add_theme_color_override(&"font_color", Color(0.6, 0.9, 1.0))
+	reality_label.visible = false
+	add_child(reality_label)
+	companion_label = Label.new()
+	companion_label.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	companion_label.position = Vector2(-450, -170)
+	companion_label.size = Vector2(900, 40)
+	companion_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	companion_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	companion_label.add_theme_font_size_override(&"font_size", 20)
+	companion_label.add_theme_color_override(&"font_color", Color(0.85, 0.95, 1.0))
+	companion_label.add_theme_color_override(&"font_outline_color", Color(0, 0, 0))
+	companion_label.add_theme_constant_override(&"outline_size", 6)
+	companion_label.modulate.a = 0.0
+	add_child(companion_label)
+
+
+## In Spiegelrealitäten: Verankerung anzeigen und das HUD verblassen lassen.
+func _update_reality() -> void:
+	var reality := get_tree().get_first_node_in_group(&"reality") as RealityLevel
+	reality_label.visible = reality != null
+	var fade := 0.0
+	if reality:
+		reality_label.text = "%s\nVerankerung %d %%   ·   Hinweise %d/%d" % [
+			reality.reality_name, roundi(reality.anchoring), reality.clues_found, reality.clues_needed]
+		fade = reality.get_fade()
+	var alpha := lerpf(1.0, 0.25, fade)
+	for child in get_children():
+		var control := child as Control
+		if control and control != companion_label and control != message_label:
+			control.self_modulate.a = alpha
+
+
+## Der Begleiter spricht (kursive Zeile unten). Bei hoher Verankerung leiser.
+func show_companion(text: String) -> void:
+	var reality := get_tree().get_first_node_in_group(&"reality") as RealityLevel
+	var loudness := lerpf(1.0, 0.3, reality.get_fade()) if reality else 1.0
+	companion_label.text = "Begleiter: „%s“" % text
+	if _companion_tween and _companion_tween.is_valid():
+		_companion_tween.kill()
+	_companion_tween = create_tween()
+	_companion_tween.tween_property(companion_label, "modulate:a", loudness, 0.4)
+	_companion_tween.tween_interval(4.0)
+	_companion_tween.tween_property(companion_label, "modulate:a", 0.0, 0.8)
 
 
 ## Gabe der Raben-Ahnen (nur Tahirou): eigene Zeile, verblasst nach ein paar Sekunden.

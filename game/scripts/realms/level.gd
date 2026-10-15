@@ -18,6 +18,17 @@ func _enter_tree() -> void:
 	# gleich mit den gespeicherten Daten starten.
 	if SaveSystem.auto_load_enabled:
 		_loaded_save = SaveSystem.load_game()
+		# Gespeichert wurde in einer anderen Welt (z. B. in einer Spiegelrealität)?
+		# Dann dorthin wechseln.
+		if _loaded_save and GameState.current_scene != "" and GameState.current_scene != scene_file_path \
+				and get_tree().current_scene == self and ResourceLoader.exists(GameState.current_scene):
+			get_tree().change_scene_to_file.call_deferred(GameState.current_scene)
+			return
+	if scene_file_path != "":
+		GameState.current_scene = scene_file_path
+	# Checkpoint aus einer anderen Welt gilt hier nicht.
+	if GameState.has_checkpoint and GameState.checkpoint_scene != "" and GameState.checkpoint_scene != GameState.current_scene:
+		GameState.clear_checkpoint()
 	# Testversion: genug Startgeld zum Ausprobieren (siehe GameState).
 	if GameState.money < GameState.test_start_money:
 		GameState.money = GameState.test_start_money
@@ -25,7 +36,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	ToonStyle.apply_to_tree(self)
-	if _loaded_save and GameState.has_checkpoint:
+	if _loaded_save and GameState.has_checkpoint and GameState.checkpoint_scene in ["", GameState.current_scene]:
 		player.global_transform = GameState.checkpoint_transform
 		player.rest()
 		hud.show_message.call_deferred("Spielstand geladen")

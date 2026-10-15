@@ -40,6 +40,7 @@ godot --headless --path game --import          # Assets/Klassen importieren
 godot --headless --path game --quit            # Projekt laden, Skriptfehler zeigen
 godot --headless --path game res://tests/smoke_test.tscn  # Logik-Rauchtest (Exit 0 = ok)
 godot --headless --path game res://tests/city_test.tscn   # Stadt-Test (Exit 0 = ok)
+godot --headless --path game res://tests/reality_test.tscn  # Spiegelrealität (Exit 0 = ok)
 ```
 In der Cloud-Umgebung ist Godot nicht vorinstalliert und Release-Downloads sind
 gesperrt. Es wurde aus dem Quellcode gebaut (Tag `4.7.2-stable`, Klon unter
@@ -157,6 +158,20 @@ tests/       Headless-Rauchtests
   `reality_sight.gdshader`). Dinge, die nur in einer Ebene existieren, liegen unter
   einem `RealityLayerObject` (`exists_in` = TRUE_WORLD oder ILLUSION; schaltet
   Sichtbarkeit und Kollision um).
+- **Spiegelrealitäten**: Level erbt von `RealityLevel` (`scripts/realms/`):
+  `reality_id`, `reality_name`, `clues_needed`, `exit_scene` (wo man nach dem
+  Bruch aufwacht), `anchoring_per_second`, `intro_lines` (Begleiter). Hinweise =
+  `scenes/realms/reality_clue.tscn` (nur mit Q sichtbar, E untersucht,
+  `companion_line`), Riss = `reality_rift.tscn` (öffnet sich bei genug
+  Hinweisen, E bricht die Illusion → Story-Flag `reality_<id>_broken`).
+  Verankerung 0–100: ab 50 verblasst das HUD, der Begleiter wird leiser, das Bild
+  verzerrt sich; bei 100 ist Q gesperrt (`GameState.reality_sight_blocked`) bis
+  zum Rasten am Ankerspiegel. Begleiter spricht über `EventBus.companion_spoke`.
+  Beispiel/Testlevel: `scenes/levels/test_reality.tscn` (F6).
+- **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
+  gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
+  Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
+  gelten sie nicht.
 - **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
   auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
@@ -185,7 +200,7 @@ tests/       Headless-Rauchtests
   hochgeladenen „Blade_runner_style_Cityscapes.blend“, Grundfläche auf 1 normiert,
   Maße in `manifest.json` und `CityGenerator.KIT_*`). **Lizenz vor einer
   Veröffentlichung prüfen.**
-- **Commits nur, wenn beide Tests grün sind.**
+- **Commits nur, wenn alle drei Tests grün sind.**
 - **Platzierung in der Stadt**: Figuren, Spiegel und Gegenstände auf Straßen und
   Plätze stellen; der Stadt-Test prüft, dass nichts in einem Haus steckt.
 - Beim Erzeugen von Knoten mit Kollision **erst Position setzen, dann
@@ -536,7 +551,7 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Waffenschmied am Markt, Schwarzmarkt in der Senke.
 - 🟨 **M7**: Spiegelrealitäten, in Schritten:
   - ✅ M7.1 Realitätsblick (Q): Fokus, Bildschirm-Effekt, Dinge nur in der wahren Welt
-  - M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
+  - ✅ M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
   - M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
   - M7.4 Gefangen werden in der Open World
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen

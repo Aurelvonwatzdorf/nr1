@@ -66,3 +66,12 @@ signal map_waypoint_changed
 
 ## Realitätsblick (Q) an oder aus.
 signal reality_sight_changed(active: bool)
+
+## Der Begleiter (Helfer-Illusion im Kopf der Figur) sagt etwas.
+signal companion_spoke(text: String)
+## In einer Spiegelrealität einen Hinweis gefunden (gefunden, gebraucht).
+signal reality_clue_found(found: int, needed: int)
+## Genug Hinweise: Der Realitätsriss öffnet sich.
+signal reality_rift_opened
+## Eine Spiegelrealität wurde gebrochen (ID der Realität).
+signal reality_broken(reality_id: StringName)

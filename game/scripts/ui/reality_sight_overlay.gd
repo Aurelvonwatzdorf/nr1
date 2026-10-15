@@ -14,6 +14,7 @@ func _ready() -> void:
 	_material = ShaderMaterial.new()
 	_material.shader = preload("res://assets/materials/reality_sight.gdshader")
 	_material.set_shader_parameter(&"strength", 0.0)
+	_material.set_shader_parameter(&"distortion", 0.0)
 	_rect = ColorRect.new()
 	_rect.material = _material
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -21,6 +22,17 @@ func _ready() -> void:
 	add_child(_rect)
 	visible = false
 	EventBus.reality_sight_changed.connect(_on_reality_sight_changed)
+
+
+## Verankerung in Spiegelrealitäten verzerrt das Bild, auch ohne Realitätsblick.
+func _process(_delta: float) -> void:
+	var reality := get_tree().get_first_node_in_group(&"reality") as RealityLevel
+	var distortion := reality.get_fade() if reality else 0.0
+	_material.set_shader_parameter(&"distortion", distortion)
+	if distortion > 0.0:
+		visible = true
+	elif not GameState.reality_sight_active and (_tween == null or not _tween.is_valid()):
+		visible = false
 
 
 func _on_reality_sight_changed(active: bool) -> void:

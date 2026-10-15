@@ -76,6 +76,7 @@ game/
 ```bash
 godot --headless --path game res://tests/smoke_test.tscn   # Kampf, Gegner, Stats, Speichern …
 godot --headless --path game res://tests/city_test.tscn    # Santo Santiago
+godot --headless --path game res://tests/reality_test.tscn # Spiegelrealität
 ```
 
 ## Roadmap

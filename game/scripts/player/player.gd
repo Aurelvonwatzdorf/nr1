@@ -265,6 +265,9 @@ func get_speed_multiplier() -> float:
 func start_reality_sight() -> bool:
 	if reality_sight_left > 0.0:
 		return false
+	if GameState.reality_sight_blocked:
+		EventBus.message_requested.emit("Du bist zu tief verankert. Raste an einem Ankerspiegel.")
+		return false
 	if not focus.try_spend(character_data.reality_sight_cost):
 		EventBus.message_requested.emit("Zu wenig Fokus für den Realitätsblick")
 		return false
