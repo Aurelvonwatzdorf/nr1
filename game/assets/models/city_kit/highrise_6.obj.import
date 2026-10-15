@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://db11etlimp72b"
+path="res://.godot/imported/highrise_6.obj-ccf49dfb27cf2cb47c4666da5954233f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/highrise_6.obj-ccf49dfb27cf2cb47c4666da5954233f.mesh"]
+
+source_file="res://assets/models/city_kit/highrise_6.obj"
+dest_files=["res://.godot/imported/highrise_6.obj-ccf49dfb27cf2cb47c4666da5954233f.mesh", "res://.godot/imported/highrise_6.obj-ccf49dfb27cf2cb47c4666da5954233f.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

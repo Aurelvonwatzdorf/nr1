@@ -80,9 +80,10 @@ directional_shadow_max_distance = 120.0
 [node name="MapData" type="Node" parent="."]
 script = ExtResource("6_map_data")
 
-[node name="City" type="Node3D" parent="." node_paths=PackedStringArray("map_data")]
+[node name="City" type="Node3D" parent="." node_paths=PackedStringArray("map_data", "keep_clear")]
 script = ExtResource("4_city")
 layout = ExtResource("5_layout")
+keep_clear = [NodePath("../AnchorMirrors"), NodePath("../NPCs"), NodePath("../Enemies"), NodePath("../Pickups"), NodePath("../StreetCrossing")]
 map_data = NodePath("../MapData")
 
 [node name="AnchorMirrors" type="Node3D" parent="."]
@@ -91,15 +92,15 @@ map_data = NodePath("../MapData")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 12)
 
 [node name="MirrorSlum" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 62)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -22, 0, 96)
 
 [node name="MirrorBarracks" parent="AnchorMirrors" instance=ExtResource("7_mirror")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -50)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 0, -50)
 
 [node name="StreetCrossing" type="Node3D" parent="."]
 
 [node name="WomanDestination" type="Area3D" parent="StreetCrossing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 47)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 40)
 collision_layer = 0
 collision_mask = 64
 
@@ -128,7 +129,7 @@ kind = 1
 label = "Händler am Markt"
 
 [node name="SlumMerchant" parent="NPCs" instance=ExtResource("10_npc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 104)
 script = ExtResource("11_merchant")
 stock = Array[Resource]([ExtResource("15_potion")])
 prices = Array[int]([35])
@@ -154,7 +155,7 @@ kind = 2
 label = "Heilerin"
 
 [node name="OldWoman" parent="NPCs" node_paths=PackedStringArray("destination") instance=ExtResource("10_npc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 38)
 script = ExtResource("12_old_woman")
 mission = ExtResource("20_mission_woman")
 destination = NodePath("../../StreetCrossing/WomanDestination")
@@ -170,7 +171,7 @@ label = "Alte Frau"
 mission_id = &"help_old_woman"
 
 [node name="SickMan" parent="NPCs" instance=ExtResource("10_npc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 62)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 106)
 script = ExtResource("13_sick_man")
 mission = ExtResource("21_mission_sick")
 npc_id = &"city_sick_man"
@@ -186,25 +187,25 @@ mission_id = &"heal_sick_man"
 [node name="Enemies" type="Node3D" parent="."]
 
 [node name="GuardGate" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 0, -85)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85, 0, -136)
 
 [node name="GuardYard" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, -92)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 0, -152)
 
 [node name="GuardYard2" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98, 0, -90)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95, 0, -154)
 
 [node name="GuardBoulevard" parent="Enemies" instance=ExtResource("23_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -70)
 
 [node name="GuardCorporateRoad" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, -50)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, -110)
 
 [node name="GuardSlum1" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74, 0, 64)
 
 [node name="GuardSlum2" parent="Enemies" instance=ExtResource("23_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 0, 80)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98, 0, 86)
 
 [node name="Pickups" type="Node3D" parent="."]
 
@@ -215,31 +216,31 @@ amount = 1
 pickup_id = &"city_potion_market"
 
 [node name="PotionSlum" parent="Pickups" instance=ExtResource("24_pickup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, 100)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 104)
 item = ExtResource("15_potion")
 amount = 2
 pickup_id = &"city_potion_slum"
 
 [node name="FocusSlum" parent="Pickups" instance=ExtResource("24_pickup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, 60)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, 42)
 item = ExtResource("16_focus")
 amount = 1
 pickup_id = &"city_focus_slum"
 
 [node name="AmpouleCorporate" parent="Pickups" instance=ExtResource("24_pickup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, -85)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 0, -110)
 item = ExtResource("17_ampoule")
 amount = 1
 pickup_id = &"city_ampoule_corporate"
 
 [node name="TalismanChristian" parent="Pickups" instance=ExtResource("24_pickup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -72, 0, -50)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, -64)
 item = ExtResource("18_talisman")
 amount = 1
 pickup_id = &"city_talisman_christian"
 
 [node name="AmuletMuslim" parent="Pickups" instance=ExtResource("24_pickup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92, 0, -4)
 item = ExtResource("19_amulet")
 amount = 1
 pickup_id = &"city_amulet_muslim"

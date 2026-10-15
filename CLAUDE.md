@@ -134,10 +134,22 @@ tests/       Headless-Rauchtests
   gehören in `GameState` (z. B. `ask_character_on_new_game`).
 - **Levels** erben von `Level` (`scripts/realms/level.gd`) und haben die Kinder
   `Player` und `GameUI` (`scenes/ui/game_ui.tscn` = HUD + alle Menüs).
-- **Stadt**: `CityGenerator` baut aus einem `CityLayout` (.tres in
-  `resources/world/`, Bezirke als `CityDistrict`) Böden, Straßen, Häuser, Ruinen,
-  Wahrzeichen, Ranken und Kartenflächen. Gleicher `seed` = gleiche Stadt. Inhalte
-  (NPCs, Gegner, Spiegel) stehen als normale Knoten in der Level-Szene.
+- **Stadt** (organisch, kein Raster): `CityGenerator` baut aus einem `CityLayout`
+  (.tres in `resources/world/`) die Stadt: unregelmäßiger Umriss, Bezirke
+  (`CityDistrict` mit Mitte + `reach`, Grenzen per Rauschen), Hauptstraßen und
+  Plätze aus dem Bauplan, davon abzweigende gewundene Gassen (Konzernviertel:
+  gerade, imperial), Häuser entlang der Straßen und als Lückenfüller, jedes zur
+  Straße gedreht. Bauweise je `CityDistrict.Style` (Hütten, Container,
+  Hüttentürme, Giebelhäuser, Hofhäuser, Steinzeilen, Würfelbauten, Händlerhäuser,
+  Monumentalbauten, Hochhäuser aus dem Blender-Kit). Gleicher `seed` = gleiche
+  Stadt. Alle Kinder der Knoten unter `keep_clear` (NPCs, Spiegel, Gegner,
+  Gegenstände) bleiben frei. `road_paths` liefert die Straßen (z. B. für NPCs).
+- **Gebäude-Material**: ein `ShaderMaterial` (`assets/materials/building.gdshader`)
+  für alle Gebäude; Farbe und Fenster per `set_instance_shader_parameter`.
+- **Blender-Kit**: `assets/models/city_kit/*.obj` (aus der vom Nutzer
+  hochgeladenen „Blade_runner_style_Cityscapes.blend“, Grundfläche auf 1 normiert,
+  Maße in `manifest.json` und `CityGenerator.KIT_*`). **Lizenz vor einer
+  Veröffentlichung prüfen.**
 - **Commits nur, wenn beide Tests grün sind.**
 - **Platzierung in der Stadt**: Figuren, Spiegel und Gegenstände auf Straßen und
   Plätze stellen; der Stadt-Test prüft, dass nichts in einem Haus steckt.
@@ -467,6 +479,12 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Synagoge, Haus der Stille, Konzernviertel mit Neon-Türmen und Kaserne, Senke mit
   Ruinen, Minimap + große Karte (M), Services (2 Händler, Heilerin), Missionen,
   Wachen, 3 Ankerspiegel, Fundstücke. Santo Santiago ist die Startszene.
+- ✅ **Feedback 1**: Springen (Leertaste), Ausweichen auf Strg, Leben-Regeneration,
+  Erinnerungen auf der Karte, Gaben der Raben-Ahnen, Stadt organisch neu
+  (natürlicher Umriss, gewundene Gassen, viele Bauformen, imperiales
+  Konzernviertel mit Zitadelle, Prachtstraße, Säulen, Obelisken).
+- 🟨 **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius), Markt
+  und Schwarzmarkt (Pistolen, Waffen, Radar, Implantate).
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
   „Konzernturm“, Adam.
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
@@ -501,9 +519,9 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    nicht widersprochen, kann sie aber noch ändern.
 8. **Santo Santiago, Aufteilung (Vorschlag, gebaut)**: Arm/Reich räumlich
    getrennt von den Glaubensvierteln, damit kein Glaube mit Armut verknüpft wird:
-   Norden Konzernviertel (reich, Wolkenkratzer, Kaserne), Mitte Marktplatz mit
-   den vier Vierteln (jeweils reichere und ärmere Straßen), Süden „Die Senke“
-   (arm, Ruinen). **Atheistisches Viertel**: Statt eines Gotteshauses ein
+   Norden Konzernviertel (reich, imperial: Zitadelle, Prachtstraße, Kaserne),
+   Mitte Großer Markt mit den vier Vierteln ringsum (jeweils reichere Straßen im
+   Norden, ärmere im Süden), Süden „Die Senke“ (arm, Hütten, Ruinen). **Atheistisches Viertel**: Statt eines Gotteshauses ein
    „Haus der Stille“ (Gemeinschaftshaus/Bibliothek)? Noch offen.
 7. **Beträge (vorläufig)**: Konzernwache lässt 15 Geld fallen, Heiltrank kostet
    40 Geld beim Händler. Lässt sich in den .tres-Dateien ändern.

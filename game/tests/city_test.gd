@@ -22,7 +22,25 @@ func _run() -> void:
 	print("Stadt gebaut in %d ms" % (Time.get_ticks_msec() - started))
 	var generator: CityGenerator = city.get_node("City")
 	var player: Player = city.get_node("Player")
-	_check(generator.building_count > 150, "Viele Häuser gebaut (%d)" % generator.building_count)
+	_check(generator.building_count > 300, "Viele Häuser gebaut (%d)" % generator.building_count)
+	print("Bauformen: %s" % generator.kind_counts)
+	_check(generator.kind_counts.size() >= 12, "Viele verschiedene Bauformen (%d)" % generator.kind_counts.size())
+	# Organisch: Umriss ist kein Rechteck, Straßen laufen in alle Richtungen.
+	var radii: Array[float] = []
+	for point in generator.outline:
+		radii.append(point.length())
+	_check(radii.max() - radii.min() > 40.0, "Natürlicher Stadtumriss (Radius %.0f bis %.0f m)" % [radii.min(), radii.max()])
+	var diagonal := 0
+	var segments := 0
+	for path in generator.road_paths:
+		for i in path.size() - 1:
+			var angle := fmod(absf((path[i + 1] - path[i]).angle()), PI / 2.0)
+			segments += 1
+			if angle > 0.15 and angle < PI / 2.0 - 0.15:
+				diagonal += 1
+	_check(segments > 200 and diagonal > segments * 0.4, "Kein Schachbrett: %d von %d Straßenstücken schräg" % [diagonal, segments])
+	_check(generator.kind_counts.get(&"imperial_tower", 0) >= 2 and generator.kind_counts.get(&"monument_block", 0) >= 3 \
+		and generator.kind_counts.has(&"citadel"), "Imperiales Konzernviertel: Zitadelle, Turmpaar, Monumentalbauten")
 	var kinds: Array[MapMarker.Kind] = []
 	for node in get_tree().get_nodes_in_group(&"map_markers"):
 		kinds.append((node as MapMarker).kind)
@@ -78,12 +96,19 @@ func _run() -> void:
 	await _frames(180)
 	Input.action_release(&"move_back")
 	_check(player.global_position.y > -1.0, "Laufen durch die Stadt: kein Fall durch den Boden (y %.1f)" % player.global_position.y)
-	# Stadtrand: unsichtbare Mauer.
-	player.global_position = Vector3(0.0, 0.5, 118.0)
+	# Stadtrand: unsichtbare Mauer (Spieler läuft im Süden nach draußen).
+	var south := Vector2.ZERO
+	for point in generator.boundary:
+		if point.y > south.y:
+			south = point
+	player.global_position = Vector3(south.x, 0.5, south.y) * Vector3(1, 1, 1) - Vector3(0, 0, 4)
+	player.global_position.y = 0.5
+	await _frames(5)
 	Input.action_press(&"move_back")
-	await _frames(120)
+	await _frames(150)
 	Input.action_release(&"move_back")
-	_check(player.global_position.z < 121.0, "Unsichtbare Mauer am Stadtrand hält (z %.1f)" % player.global_position.z)
+	var at := Vector2(player.global_position.x, player.global_position.z)
+	_check(Geometry2D.is_point_in_polygon(at, generator.boundary.duplicate()) or at.distance_to(south) < 2.0, "Unsichtbare Mauer am Stadtrand hält (z %.1f, Rand %.1f)" % [at.y, south.y])
 	print("")
 	print("STADTTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
 	get_tree().quit(0 if _failures == 0 else 1)

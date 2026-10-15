@@ -1,0 +1,152 @@
+{
+ "group1": {
+  "width": 0.653,
+  "depth": 1.0,
+  "height": 1.769,
+  "polys": 952
+ },
+ "group2": {
+  "width": 0.553,
+  "depth": 1.0,
+  "height": 1.064,
+  "polys": 1764
+ },
+ "group3": {
+  "width": 1.0,
+  "depth": 0.971,
+  "height": 1.407,
+  "polys": 562
+ },
+ "group4": {
+  "width": 0.709,
+  "depth": 1.0,
+  "height": 1.709,
+  "polys": 996
+ },
+ "group5": {
+  "width": 0.863,
+  "depth": 1.0,
+  "height": 1.287,
+  "polys": 1290
+ },
+ "group6": {
+  "width": 0.814,
+  "depth": 1.0,
+  "height": 1.605,
+  "polys": 1438
+ },
+ "highrise_1": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 3.671,
+  "polys": 66
+ },
+ "highrise_10": {
+  "width": 1.0,
+  "depth": 0.812,
+  "height": 2.948,
+  "polys": 90
+ },
+ "highrise_11": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 4.775,
+  "polys": 380
+ },
+ "highrise_12": {
+  "width": 1.0,
+  "depth": 0.444,
+  "height": 1.321,
+  "polys": 398
+ },
+ "highrise_14": {
+  "width": 1.0,
+  "depth": 0.598,
+  "height": 1.517,
+  "polys": 1508
+ },
+ "highrise_15": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 3.65,
+  "polys": 902
+ },
+ "highrise_16": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 4.372,
+  "polys": 208
+ },
+ "highrise_17": {
+  "width": 0.525,
+  "depth": 1.0,
+  "height": 3.807,
+  "polys": 572
+ },
+ "highrise_18": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 3.944,
+  "polys": 512
+ },
+ "highrise_19": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 2.409,
+  "polys": 398
+ },
+ "highrise_2": {
+  "width": 1.0,
+  "depth": 0.943,
+  "height": 1.888,
+  "polys": 214
+ },
+ "highrise_3": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 3.417,
+  "polys": 174
+ },
+ "highrise_4": {
+  "width": 1.0,
+  "depth": 0.712,
+  "height": 3.188,
+  "polys": 70
+ },
+ "highrise_5": {
+  "width": 1.0,
+  "depth": 0.521,
+  "height": 3.482,
+  "polys": 218
+ },
+ "highrise_6": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 1.978,
+  "polys": 354
+ },
+ "highrise_7": {
+  "width": 0.902,
+  "depth": 1.0,
+  "height": 2.701,
+  "polys": 174
+ },
+ "highrise_8": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 1.155,
+  "polys": 38
+ },
+ "highrise_9": {
+  "width": 1.0,
+  "depth": 1.0,
+  "height": 2.266,
+  "polys": 98
+ },
+ "highrise_13": {
+  "width": 1.0,
+  "depth": 0.352,
+  "height": 1.605,
+  "polys": 836
+ }
+}

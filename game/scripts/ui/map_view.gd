@@ -33,15 +33,22 @@ func _draw() -> void:
 	var to_screen := func(world: Vector2) -> Vector2:
 		return origin + (world - center).rotated(angle) * scale
 	if map_data:
+		# Auf der Minimap nur zeichnen, was in der Nähe ist.
+		var view_radius := size.length() / 2.0 / scale
 		for shape in map_data.shapes:
-			var rect: Rect2 = shape["rect"]
-			var points := PackedVector2Array([
-				to_screen.call(rect.position),
-				to_screen.call(rect.position + Vector2(rect.size.x, 0.0)),
-				to_screen.call(rect.end),
-				to_screen.call(rect.position + Vector2(0.0, rect.size.y)),
-			])
-			draw_colored_polygon(points, shape["color"])
+			var shape_center: Vector2 = shape["center"]
+			if minimap and shape_center.distance_to(center) > view_radius + float(shape["radius"]):
+				continue
+			var world_points: PackedVector2Array = shape["points"]
+			var points := PackedVector2Array()
+			points.resize(world_points.size())
+			for i in world_points.size():
+				points[i] = to_screen.call(world_points[i])
+			var width: float = shape["width"]
+			if width > 0.0:
+				draw_polyline(points, shape["color"], maxf(width * scale, 1.0))
+			else:
+				draw_colored_polygon(points, shape["color"])
 		if not minimap:
 			_draw_labels(map_data, to_screen)
 	_draw_markers(to_screen)
@@ -58,8 +65,7 @@ func _draw_labels(map_data: MapData, to_screen: Callable) -> void:
 		var label: String = shape["label"]
 		if label == "":
 			continue
-		var rect: Rect2 = shape["rect"]
-		var at: Vector2 = to_screen.call(rect.get_center())
+		var at: Vector2 = to_screen.call(shape["center"])
 		var width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 		draw_string_outline(font, at - Vector2(width / 2.0, 0.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0, 0, 0, 0.8))
 		draw_string(font, at - Vector2(width / 2.0, 0.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1, 1, 1, 0.75))
