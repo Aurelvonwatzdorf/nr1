@@ -18,6 +18,9 @@ func _enter_tree() -> void:
 	# gleich mit den gespeicherten Daten starten.
 	if SaveSystem.auto_load_enabled:
 		_loaded_save = SaveSystem.load_game()
+	# Testversion: genug Startgeld zum Ausprobieren (siehe GameState).
+	if GameState.money < GameState.test_start_money:
+		GameState.money = GameState.test_start_money
 
 
 func _ready() -> void:

@@ -10,6 +10,11 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 	&"tahirou": "res://resources/characters/tahirou.tres",
 }
 
+## Testversion: Beim Start wird das Geld mindestens auf diesen Betrag
+## aufgefüllt, damit man alles kaufen und ausprobieren kann. 0 = aus.
+## Für die fertige Version auf 0 setzen. (In den Tests aus.)
+var test_start_money: int = 5000
+
 ## Bei neuem Spiel die Charakterauswahl zeigen? (Im Rauchtest aus.)
 var ask_character_on_new_game: bool = true
 

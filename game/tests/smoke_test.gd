@@ -16,6 +16,7 @@ func _ready() -> void:
 	# Eigener Spielstand für den Test, nichts automatisch laden.
 	SaveSystem.auto_load_enabled = false
 	GameState.ask_character_on_new_game = false
+	GameState.test_start_money = 0
 	SaveSystem.save_path = "user://smoke_test_save.json"
 	SaveSystem.delete_save()
 	GameState.reset()

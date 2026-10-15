@@ -232,6 +232,9 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
   Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
   Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung). Preise vorläufig in der Level-Szene.
+- **Testversion**: `GameState.test_start_money` (5000) füllt beim Laden eines
+  Levels das Geld mindestens auf diesen Betrag auf, damit man alles kaufen und
+  testen kann. **Für die fertige Version auf 0 setzen.** Die Tests schalten es aus.
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
