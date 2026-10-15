@@ -17,6 +17,7 @@ const PATHS: Dictionary[StringName, String] = {
 	&"dermal_plating": "res://resources/items/dermal_plating.tres",
 	&"neuro_booster": "res://resources/items/neuro_booster.tres",
 	&"heart_pump": "res://resources/items/heart_pump.tres",
+	&"cyber_legs": "res://resources/items/cyber_legs.tres",
 }
 
 static var _cache: Dictionary[StringName, ItemData] = {}

@@ -48,6 +48,8 @@ enum Kind {
 @export var bonus_stamina_regen: float = 0.0
 ## Zeigt Gegner auf Minimap und Karte.
 @export var grants_radar: bool = false
+## Erlaubt einen zweiten Sprung in der Luft (Cyberbeine).
+@export var grants_double_jump: bool = false
 
 @export_group("Nahkampfwaffe")
 @export var light_attack: AttackData

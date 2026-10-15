@@ -37,6 +37,31 @@ func play(animation_name: StringName, duration: float = 0.3) -> void:
 			_tween.tween_property(visual_root, "rotation:x", deg_to_rad(-90.0), 0.5)
 
 
+## Doppelsprung: kurzer Lichtring unter den Füßen (Schub der Cyberbeine).
+func play_double_jump() -> void:
+	if visual_root == null:
+		return
+	var ring := MeshInstance3D.new()
+	var mesh := TorusMesh.new()
+	mesh.inner_radius = 0.35
+	mesh.outer_radius = 0.5
+	ring.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color(0.4, 0.9, 1.0)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	ring.material_override = material
+	var parent: Node = visual_root.get_tree().current_scene
+	if parent == null:
+		parent = visual_root
+	parent.add_child(ring)
+	ring.global_position = visual_root.global_position
+	var tween := ring.create_tween().set_parallel()
+	tween.tween_property(ring, "scale", Vector3(2.5, 1.0, 2.5), 0.3)
+	tween.tween_property(material, "albedo_color:a", 0.0, 0.3)
+	tween.chain().tween_callback(ring.queue_free)
+
+
 ## Schuss: kurzer Leuchtstrahl vom Lauf bis zum Einschlag, Mündungsblitz.
 func play_shot(from: Vector3, to: Vector3) -> void:
 	var length := from.distance_to(to)

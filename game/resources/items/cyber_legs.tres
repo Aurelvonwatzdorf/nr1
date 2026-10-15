@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"cyber_legs"
+display_name = "Cyberbeine (Implantat)"
+description = "Cyborg-Implantat vom Schwarzmarkt: Schubdüsen in den Beinen. In der Luft noch einmal springen (Doppelsprung)."
+kind = 1
+color = Color(0.4, 0.9, 1, 1)
+grants_double_jump = true

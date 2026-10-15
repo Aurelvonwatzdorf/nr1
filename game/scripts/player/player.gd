@@ -37,6 +37,8 @@ var _defenseless_targets: Array[Enemy] = []
 var _execution_targets: Array[Enemy] = []
 ## Zeit bis zum nächsten möglichen Schuss.
 var _fire_cooldown_left: float = 0.0
+## Schon in der Luft nachgesprungen? (Doppelsprung mit Cyberbeinen.)
+var _air_jump_used: bool = false
 
 
 func _ready() -> void:
@@ -118,11 +120,17 @@ func get_facing_direction() -> Vector3:
 
 
 ## Springen (Leertaste), nur vom Boden aus. Gibt true zurück, wenn gesprungen wurde.
+## In der Luft geht ein zweiter Sprung, wenn man Cyberbeine besitzt.
 func try_jump() -> bool:
-	if not is_input_enabled() or not is_on_floor() or not Input.is_action_just_pressed(&"jump"):
+	if is_on_floor():
+		_air_jump_used = false
+	if not is_input_enabled() or not Input.is_action_just_pressed(&"jump") or not stamina.can_act():
 		return false
-	if not stamina.can_act():
-		return false
+	if not is_on_floor():
+		if _air_jump_used or not GameState.inventory.has_permanent_flag(&"grants_double_jump"):
+			return false
+		_air_jump_used = true
+		animator.play_double_jump()
 	stamina.consume(character_data.jump_stamina_cost)
 	velocity.y = character_data.jump_velocity
 	animator.play(&"jump", 0.35)

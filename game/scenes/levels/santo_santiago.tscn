@@ -35,6 +35,7 @@
 [ext_resource type="Resource" path="res://resources/items/dermal_plating.tres" id="item_dermal_plating"]
 [ext_resource type="Resource" path="res://resources/items/neuro_booster.tres" id="item_neuro_booster"]
 [ext_resource type="Resource" path="res://resources/items/heart_pump.tres" id="item_heart_pump"]
+[ext_resource type="Resource" path="res://resources/items/cyber_legs.tres" id="item_cyber_legs"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dusk"]
 sky_top_color = Color(0.16, 0.12, 0.3, 1)
@@ -223,8 +224,8 @@ label = "Waffenschmied am Markt"
 [node name="BlackMarket" parent="NPCs" instance=ExtResource("10_npc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 91)
 script = ExtResource("11_merchant")
-stock = Array[Resource]([ExtResource("item_pistol"), ExtResource("item_pistol_ammo"), ExtResource("item_vibro_blade"), ExtResource("item_radar_system"), ExtResource("item_leg_servos"), ExtResource("item_dermal_plating"), ExtResource("item_neuro_booster"), ExtResource("item_heart_pump")])
-prices = Array[int]([250, 30, 300, 200, 220, 260, 240, 180])
+stock = Array[Resource]([ExtResource("item_pistol"), ExtResource("item_pistol_ammo"), ExtResource("item_vibro_blade"), ExtResource("item_radar_system"), ExtResource("item_leg_servos"), ExtResource("item_dermal_plating"), ExtResource("item_neuro_booster"), ExtResource("item_heart_pump"), ExtResource("item_cyber_legs")])
+prices = Array[int]([250, 30, 300, 200, 220, 260, 240, 180, 280])
 greeting = "Leise. Hier fragt keiner, woher etwas kommt. Und du fragst auch nicht."
 npc_id = &"city_black_market"
 display_name = "Schwarzhändler"

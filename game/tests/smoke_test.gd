@@ -98,6 +98,27 @@ func _run() -> void:
 	await _frames(60)
 	_check(player.is_on_floor(), "Figur landet wieder")
 
+	# Doppelsprung nur mit Cyberbeinen
+	var single_peak := floor_y + 2.0
+	for with_legs: bool in [false, true]:
+		if with_legs:
+			GameState.inventory.add(&"cyber_legs")
+		player.stamina.refill()
+		await _tap(&"jump")
+		await _frames(12)
+		await _tap(&"jump")
+		var peak := floor_y
+		for i in 40:
+			await get_tree().physics_frame
+			peak = maxf(peak, player.global_position.y)
+		if with_legs:
+			_check(peak > single_peak + 0.5, "Cyberbeine: zweiter Sprung in der Luft (Höhe %.2f)" % (peak - floor_y))
+		else:
+			_check(peak < single_peak, "Ohne Cyberbeine kein Doppelsprung (Höhe %.2f)" % (peak - floor_y))
+		await _frames(80)
+	GameState.inventory.remove(&"cyber_legs")
+	_check(player.is_on_floor(), "Nach dem Doppelsprung wieder am Boden")
+
 	# Leben regeneriert nach 10 s ohne Schaden in 20er-Schritten
 	var hp_regen_start := player.health.current
 	player.health.time_since_damage = 9.5

@@ -51,8 +51,13 @@ func find_healing_item() -> ItemData:
 
 ## Besitzt man ein Radar? (Gegner auf der Karte.)
 func has_radar() -> bool:
+	return has_permanent_flag(&"grants_radar")
+
+
+## Hat irgendein dauerhafter Gegenstand diese Eigenschaft (z. B. &"grants_double_jump")?
+func has_permanent_flag(property: StringName) -> bool:
 	for item in get_owned_items():
-		if item.kind == ItemData.Kind.PERMANENT and item.grants_radar:
+		if item.kind == ItemData.Kind.PERMANENT and bool(item.get(property)):
 			return true
 	return false
 

@@ -95,7 +95,8 @@ tests/       Headless-Rauchtests
   `ammo_id`), AMMO (`buy_amount` Stück pro Kauf). Ausgerüstet in
   `GameState.equipped_weapon/equipped_firearm` (Inventar: Ausrüsten/Ablegen).
   Implantate/Radar sind PERMANENT mit `bonus_speed`, `damage_reduction`,
-  `bonus_stamina_regen`, `grants_radar`. Händler: `Merchant.stock/prices/greeting`;
+  `bonus_stamina_regen`, `grants_radar`, `grants_double_jump`
+  (`Inventory.has_permanent_flag()`). Händler: `Merchant.stock/prices/greeting`;
   Dauerhaftes kauft man einmal. Schüsse (`EventBus.shot_fired`) lassen NPCs fliehen.
 - **Gegenstände**: `ItemData` (.tres in `resources/items/`, Art CONSUMABLE oder
   PERMANENT) und Eintrag in `ItemDatabase.PATHS`. Besitz in `GameState.inventory`.
@@ -223,7 +224,7 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - **Großer Markt**: Händler (Tränke, Kraftampulle), Waffenschmied (Kurzschwert,
   Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
   Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
-  Neuroverstärker, Herzpumpe). Preise vorläufig in der Level-Szene.
+  Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung). Preise vorläufig in der Level-Szene.
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
