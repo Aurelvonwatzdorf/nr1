@@ -119,6 +119,10 @@ var boundary: PackedVector2Array = PackedVector2Array()
 var waypoints: PackedVector2Array = PackedVector2Array()
 var waypoint_links: Array[PackedInt32Array] = []
 var waypoint_districts: Array[StringName] = []
+## Schnellster Weg von der Spielfigur zum Kartenwegpunkt (leer = keiner).
+var current_route: PackedVector2Array = PackedVector2Array()
+var _astar := AStar2D.new()
+var _route_timer: float = 0.0
 
 var _rng := RandomNumberGenerator.new()
 var _noise := FastNoiseLite.new()
@@ -521,6 +525,53 @@ func _build_waypoints() -> void:
 					_link(a, b)
 	for point in waypoints:
 		waypoint_districts.append(district_at(point).id if is_inside_city(point) else &"")
+	# Wegsuche (A*): kürzester Weg über das Wegenetz.
+	_astar.clear()
+	_astar.reserve_space(waypoints.size())
+	for i in waypoints.size():
+		_astar.add_point(i, waypoints[i])
+	for i in waypoints.size():
+		for j in waypoint_links[i]:
+			if j > i:
+				_astar.connect_points(i, j)
+
+
+## Schnellster Weg über Straßen und Plätze von `from` nach `to` (x, z).
+func find_route(from: Vector2, to: Vector2) -> PackedVector2Array:
+	if _astar.get_point_count() == 0:
+		return PackedVector2Array([from, to])
+	var start := _astar.get_closest_point(from)
+	var goal := _astar.get_closest_point(to)
+	var path := _astar.get_point_path(start, goal)
+	var route := PackedVector2Array([from])
+	route.append_array(path)
+	route.append(to)
+	return route
+
+
+## Navi: Route zum Kartenwegpunkt regelmäßig neu berechnen; am Ziel löschen.
+func _physics_process(delta: float) -> void:
+	if not GameState.has_map_waypoint:
+		current_route = PackedVector2Array()
+		return
+	_route_timer -= delta
+	if _route_timer > 0.0 and not current_route.is_empty():
+		return
+	_route_timer = 0.5
+	update_route()
+
+
+func update_route() -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Node3D
+	if player == null or not GameState.has_map_waypoint:
+		return
+	var at := Vector2(player.global_position.x, player.global_position.z)
+	if at.distance_to(GameState.map_waypoint) < 8.0:
+		GameState.clear_map_waypoint()
+		current_route = PackedVector2Array()
+		EventBus.message_requested.emit("Ziel erreicht")
+		return
+	current_route = find_route(at, GameState.map_waypoint)
 
 
 func _link(a: int, b: int) -> void:

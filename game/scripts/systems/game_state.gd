@@ -54,6 +54,10 @@ var stats: PlayerStats = PlayerStats.new()
 
 ## Inventar (Tränke, Artefakte).
 var inventory: Inventory = Inventory.new()
+## Wegpunkt auf der Karte (wie ein Navi). Wird nicht gespeichert.
+var has_map_waypoint: bool = false
+var map_waypoint: Vector2 = Vector2.ZERO
+
 ## Ausgerüstete Waffen (Item-IDs, leer = keine).
 var equipped_weapon: StringName = &""
 var equipped_firearm: StringName = &""
@@ -194,6 +198,18 @@ func set_checkpoint(at: Transform3D) -> void:
 	has_checkpoint = true
 
 
+## Wegpunkt setzen (x, z in Weltkoordinaten).
+func set_map_waypoint(at: Vector2) -> void:
+	map_waypoint = at
+	has_map_waypoint = true
+	EventBus.map_waypoint_changed.emit()
+
+
+func clear_map_waypoint() -> void:
+	has_map_waypoint = false
+	EventBus.map_waypoint_changed.emit()
+
+
 ## Waffe ausrüsten (oder ablegen, wenn sie schon ausgerüstet ist).
 func toggle_equip(item: ItemData) -> void:
 	if item.kind == ItemData.Kind.WEAPON:
@@ -216,6 +232,7 @@ func reset() -> void:
 	inventory.from_dict({})
 	equipped_weapon = &""
 	equipped_firearm = &""
+	has_map_waypoint = false
 	moral.from_array([])
 	collected_pickups.clear()
 	mission_states.clear()

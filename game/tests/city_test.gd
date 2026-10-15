@@ -128,6 +128,34 @@ func _run() -> void:
 	_check(moved > citizens.size() * 0.6, "Einwohner laufen herum (%d von %d)" % [moved, citizens.size()])
 	_check(at_home > citizens.size() * 0.75, "Einwohner bleiben meist in ihrem Viertel (%d von %d)" % [at_home, citizens.size()])
 	_check(merchant_moved > 0.5 and merchant_max <= merchant.roam_radius + 1.0, "Händler schlendert, bleibt aber an seinem Platz (max. %.1f m)" % merchant_max)
+	# Navi: Wegpunkt auf der großen Karte setzen, schnellster Weg über die Straßen
+	var target := Vector2(-22, 100)
+	var route := generator.find_route(Vector2(0, 12), target)
+	var route_length := 0.0
+	var longest_step := 0.0
+	for i in route.size() - 1:
+		var step := route[i].distance_to(route[i + 1])
+		route_length += step
+		longest_step = maxf(longest_step, step)
+	_check(route.size() > 5 and longest_step < 30.0 and route_length < Vector2(0, 12).distance_to(target) * 2.0,
+		"Route vom Markt zur Senke über Straßen (%d Punkte, %.0f m)" % [route.size(), route_length])
+	player.global_position = Vector3(0, 0.1, 12)
+	var map_menu: WorldMapMenu = city.get_node("GameUI/WorldMapMenu")
+	map_menu.open()
+	await _frames(3)
+	var map_view := map_menu.find_child("MapView") as MapView
+	map_view.size = Vector2(900, 700)
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	click.position = map_view.world_to_screen(target)
+	map_view._gui_input(click)
+	_check(GameState.has_map_waypoint and GameState.map_waypoint.distance_to(target) < 3.0, "Linksklick auf die Karte setzt einen Wegpunkt")
+	_check(generator.current_route.size() > 5, "Der schnellste Weg wird angezeigt (%d Punkte)" % generator.current_route.size())
+	map_menu.close()
+	player.global_position = Vector3(target.x, 0.1, target.y + 3.0)
+	await _frames(40)
+	_check(not GameState.has_map_waypoint, "Am Ziel verschwindet der Wegpunkt")
 	player.global_position = Vector3(0, 0.1, 12)
 	# Geradeaus nach Süden laufen: Figur darf nicht durch den Boden fallen.
 	Input.action_press(&"move_back")

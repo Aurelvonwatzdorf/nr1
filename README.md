@@ -43,6 +43,7 @@ Design (Story, Figuren, Mechaniken, Konventionen) steht in [`CLAUDE.md`](CLAUDE.
 | Fähigkeitenbaum | K | Steuerkreuz links |
 | Raben rufen (nur Tahirou) | F | Steuerkreuz hoch |
 | Karte groß/klein | M | Steuerkreuz rechts |
+| Wegpunkt setzen / löschen (auf der großen Karte) | Linksklick / Rechtsklick | – |
 | Pausenmenü | Esc | Start |
 
 Alle Tasten lassen sich im Editor unter **Projekt → Projekteinstellungen →

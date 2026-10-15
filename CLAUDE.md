@@ -144,6 +144,11 @@ tests/       Headless-Rauchtests
   Konzernturm, Kaserne, Ankerspiegel, Gotteshäuser, Mission …). Grundriss liefert
   ein `MapData`-Knoten im Level (`add_rect()`). `MapView` zeichnet Minimap (HUD,
   dreht mit der Kamera) und große Karte (`WorldMapMenu`, Taste M).
+- **Navi (wie GTA)**: Linksklick auf die große Karte setzt `GameState.map_waypoint`
+  (Rechtsklick löscht). `CityGenerator.find_route()` sucht per A* (`AStar2D` über
+  das Wegenetz) den schnellsten Weg; `current_route` wird alle 0,5 s neu
+  berechnet und auf Minimap und Karte lila gezeichnet. Am Ziel (< 8 m) verschwindet
+  der Wegpunkt.
 - **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
   auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz

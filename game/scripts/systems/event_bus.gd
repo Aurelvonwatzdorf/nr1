@@ -60,3 +60,6 @@ signal memories_changed(amount: int)
 signal equipment_changed
 ## Ein Schuss fiel (z. B. damit Leute in der Nähe fliehen).
 signal shot_fired(from: Vector3)
+
+## Wegpunkt auf der Karte gesetzt oder gelöscht.
+signal map_waypoint_changed

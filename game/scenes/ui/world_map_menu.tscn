@@ -50,7 +50,7 @@ text = "Karte"
 [node name="Hint" type="Label" parent="Margin/Columns/Side"]
 layout_mode = 2
 modulate = Color(1, 1, 1, 0.6)
-text = "M oder Esc: schließen"
+text = "Linksklick: Wegpunkt setzen\nRechtsklick: Wegpunkt löschen\nM oder Esc: schließen"
 
 [node name="Legend" type="VBoxContainer" parent="Margin/Columns/Side"]
 unique_name_in_owner = true
