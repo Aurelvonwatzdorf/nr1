@@ -94,9 +94,14 @@ func _run() -> void:
 	player.global_position = city.get_node("StreetCrossing/WomanDestination").global_position + Vector3(0, 0.1, 0.5)
 	for i in 600:
 		await get_tree().physics_frame
-		if woman.mode == OldWoman.Mode.ARRIVED:
+		if woman.mode != OldWoman.Mode.FOLLOWING:
 			break
-	_check(woman.mode == OldWoman.Mode.ARRIVED, "Alte Frau schafft es über die Straße")
+	_check(GameState.get_mission_status(&"help_old_woman") == GameState.MissionStatus.COMPLETED, "Alte Frau schafft es über die Straße")
+	for i in 900:
+		await get_tree().physics_frame
+		if woman.is_home():
+			break
+	_check(woman.is_home() and not woman.visible, "Danach geht sie in ihr Haus")
 	# Einwohner: laufen herum, meist im eigenen Viertel; Händler bleiben in der Nähe.
 	var citizens := city.get_node("Citizens").get_children()
 	_check(citizens.size() >= 40, "Einwohner in allen Vierteln (%d)" % citizens.size())

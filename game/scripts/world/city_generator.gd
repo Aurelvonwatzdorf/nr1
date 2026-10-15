@@ -677,7 +677,9 @@ func _reserve_keep_clear() -> void:
 			continue
 		for node in root.find_children("*", "Node3D", false, false):
 			var spot := node as Node3D
-			_clear_circles.append(Vector3(spot.global_position.x, spot.global_position.z, KEEP_CLEAR_RADIUS))
+			# Größere Dinge (z. B. ein Haus aus der Level-Szene) geben ihren Radius selbst an.
+			var radius: float = spot.get_meta(&"clear_radius", KEEP_CLEAR_RADIUS)
+			_clear_circles.append(Vector3(spot.global_position.x, spot.global_position.z, radius))
 
 
 # --- Häuser verteilen ---
@@ -791,10 +793,10 @@ func _pick_spec(district: CityDistrict, point: Vector2) -> Dictionary:
 		CityDistrict.Style.MARKET:
 			return _spec(&"shophouse", _rng.randf_range(5.0, 8.0), height, _rng.randf_range(6.0, 9.0))
 		CityDistrict.Style.IMPERIAL:
-			if roll < 0.55:
+			if roll < 0.45:
 				return _kit_spec(&"kit_tower", KIT_TOWERS, _rng.randf_range(14.0, 20.0), height)
-			if roll < 0.8:
-				return _spec(&"monument_block", _rng.randf_range(18.0, 26.0), _rng.randf_range(16.0, 26.0), _rng.randf_range(14.0, 20.0))
+			if roll < 0.9:
+				return _spec(&"monument_block", _rng.randf_range(16.0, 24.0), _rng.randf_range(16.0, 26.0), _rng.randf_range(12.0, 18.0))
 			return _kit_spec(&"kit_block", KIT_BLOCKS, _rng.randf_range(16.0, 24.0), height * 0.6)
 	# Glaubensviertel und modernes Viertel: in reichen Straßen auch große Blöcke.
 	if rich > 0.55 and roll < 0.3:
