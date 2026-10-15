@@ -25,6 +25,8 @@ var _player: Player
 ## Nur in Spiegelrealitäten: Verankerung und Hinweise, dazu die Stimme des Begleiters.
 var reality_label: Label
 var companion_label: Label
+## Fahndung als Sterne (nur sichtbar, wenn man gesucht wird).
+var wanted_label: Label
 var _companion_tween: Tween
 var _message_tween: Tween
 
@@ -73,6 +75,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
 	_update_reality()
+	_update_wanted()
 
 
 func _create_reality_labels() -> void:
@@ -85,6 +88,17 @@ func _create_reality_labels() -> void:
 	reality_label.add_theme_color_override(&"font_color", Color(0.6, 0.9, 1.0))
 	reality_label.visible = false
 	add_child(reality_label)
+	wanted_label = Label.new()
+	wanted_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	wanted_label.position = Vector2(-360, 96)
+	wanted_label.size = Vector2(330, 40)
+	wanted_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	wanted_label.add_theme_font_size_override(&"font_size", 26)
+	wanted_label.add_theme_color_override(&"font_color", Color(1.0, 0.35, 0.35))
+	wanted_label.add_theme_color_override(&"font_outline_color", Color(0, 0, 0))
+	wanted_label.add_theme_constant_override(&"outline_size", 6)
+	wanted_label.visible = false
+	add_child(wanted_label)
 	companion_label = Label.new()
 	companion_label.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	companion_label.position = Vector2(-450, -170)
@@ -100,6 +114,12 @@ func _create_reality_labels() -> void:
 
 
 ## In Spiegelrealitäten: Verankerung anzeigen und das HUD verblassen lassen.
+func _update_wanted() -> void:
+	var stars := ceili(GameState.wanted_level / 20.0)
+	wanted_label.visible = stars > 0
+	wanted_label.text = "Fahndung  " + "★".repeat(stars) + "☆".repeat(5 - stars)
+
+
 func _update_reality() -> void:
 	var reality := get_tree().get_first_node_in_group(&"reality") as RealityLevel
 	reality_label.visible = reality != null

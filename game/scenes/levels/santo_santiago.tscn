@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/item_pickup.tscn" id="24_pickup"]
 [ext_resource type="Script" path="res://scripts/npcs/citizen_spawner.gd" id="25_citizens"]
 [ext_resource type="PackedScene" path="res://scenes/world/small_house.tscn" id="26_house"]
+[ext_resource type="Script" path="res://scripts/systems/wanted_system.gd" id="27_wanted"]
 [ext_resource type="Resource" path="res://resources/items/short_sword.tres" id="item_short_sword"]
 [ext_resource type="Resource" path="res://resources/items/battle_staff.tres" id="item_battle_staff"]
 [ext_resource type="Resource" path="res://resources/items/vibro_blade.tres" id="item_vibro_blade"]
@@ -316,3 +317,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)
 script = ExtResource("8_respawn")
 player = NodePath("../Player")
 remnant_scene = ExtResource("9_remnant")
+
+[node name="WantedSystem" type="Node" parent="." node_paths=PackedStringArray("city")]
+script = ExtResource("27_wanted")
+city = NodePath("../City")

@@ -40,6 +40,10 @@ func _ready() -> void:
 		player.global_transform = GameState.checkpoint_transform
 		player.rest()
 		hud.show_message.call_deferred("Spielstand geladen")
+	if GameState.has_pending_spawn:
+		GameState.has_pending_spawn = false
+		player.global_transform = GameState.pending_spawn
+		player.reset_physics_interpolation()
 	if GameState.pending_message != "":
 		hud.show_message.call_deferred(GameState.pending_message)
 		GameState.pending_message = ""

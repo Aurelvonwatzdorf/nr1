@@ -75,3 +75,10 @@ signal reality_clue_found(found: int, needed: int)
 signal reality_rift_opened
 ## Eine Spiegelrealität wurde gebrochen (ID der Realität).
 signal reality_broken(reality_id: StringName)
+
+## Die Spielfigur hat einen Gegner getroffen (für die Fahndung).
+signal enemy_hit_by_player(enemy: Enemy)
+## Fahndungsstufe geändert (0–100).
+signal wanted_changed(level: float)
+## Spiegeljäger haben die Spielfigur erwischt.
+signal player_captured(player: Player)

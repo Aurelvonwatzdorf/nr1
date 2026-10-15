@@ -178,6 +178,16 @@ tests/       Headless-Rauchtests
   hinter falscher Wand), 3 Wachen, Kollegen (`Talker`), `TutorialZone`s mit
   Steuerungshinweisen, Ankerspiegel, Adam (`Adam`, erscheint beim Öffnen des
   Risses, Story-Flag `met_adam`), Zusammenbruch mit Lichtblitz.
+- **Fahndung & Gefangennahme** (`WantedSystem` im Level Santo Santiago):
+  Konzernkräfte treffen (+12), töten (+25) oder in ihrer Nähe schießen (+8) lässt
+  `GameState.wanted_level` (0–100, HUD: 5 Sterne) steigen; nach 15 s Ruhe und ohne
+  Jäger in der Nähe sinkt sie. Bei 100 erscheinen 2 Spiegeljäger
+  (`resources/enemies/mirror_hunter.tres`, `EnemyData.captures`) auf der Straße.
+  Ihr letzter Treffer tötet nicht: `EventBus.player_captured` → man wacht im
+  „Wartezimmer“ (`capture_cell.tscn`, `CaptureCell`, 2 Risse) auf. Nach dem
+  Ausbruch (`returns_to_capture_point`) geht es zurück in die Stadt, an den
+  letzten Ankerspiegel bzw. den Fangort (`GameState.return_scene/return_transform`,
+  `pending_spawn`). `RealityLevel.change_scene_on_break` ist im Test aus.
 - **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
@@ -484,7 +494,8 @@ Die Spiegelrealitäten sind die dritte Ebene. **Entschieden: Man wird von den
 Konzernen hineingesperrt** (man betritt sie nicht freiwillig). Das Spiel beginnt
 bereits gefangen im Konzernturm; später können Konzernkräfte einen in der Open
 World erwischen und in eine Realität sperren. Man kommt nur heraus, wenn man das
-Ziel der Realität erfüllt oder die Illusion bricht.
+Ziel der Realität erfüllt oder die Illusion bricht. **Entschieden (M7.4):**
+Fahndung → Spiegeljäger → gefangen statt tot → Ausbruch aus dem „Wartezimmer“.
 1. **Der Konzernturm** (Tutorial, **entschieden**): Man wacht als kleiner
    Angestellter im sterilen Büro auf, alles wirkt normal. Erst der Realitätsblick
    (Q) zeigt Risse. Kampf lernen. Am Ende bricht der Turm als Illusion zusammen,
@@ -559,11 +570,11 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 - ✅ **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius, 46 Einwohner).
 - ✅ **Feedback 3**: Ausrüstung (Waffen, Pistole, Munition, Radar, Implantate),
   Waffenschmied am Markt, Schwarzmarkt in der Senke.
-- 🟨 **M7**: Spiegelrealitäten, in Schritten:
+- ✅ **M7**: Spiegelrealitäten, in Schritten:
   - ✅ M7.1 Realitätsblick (Q): Fokus, Bildschirm-Effekt, Dinge nur in der wahren Welt
   - ✅ M7.2 Realitätsebene: Hinweise/Risse sammeln, Realitätsriss, Verankerung
   - ✅ M7.3 Level „Konzernturm“ (Spielstart, Büro, Kampf lernen, Zusammenbruch, Adam)
-  - M7.4 Gefangen werden in der Open World
+  - ✅ M7.4 Gefangen werden: Fahndung (Sterne), Spiegeljäger, Wartezimmer
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen
   und Gebet, spiritueller Druck, Rituale in Bergtempeln.
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.

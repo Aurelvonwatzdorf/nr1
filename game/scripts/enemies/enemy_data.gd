@@ -37,5 +37,9 @@ extends Resource
 ## Wie lange er nach einer Parade wehrlos ist.
 @export var parried_stun_time: float = 1.5
 
+## Spiegeljäger: Wer von ihm besiegt wird, stirbt nicht, sondern wird in eine
+## Spiegelrealität gesperrt.
+@export var captures: bool = false
+
 @export_group("Darstellung")
 @export var placeholder_color: Color = Color(0.35, 0.38, 0.45)

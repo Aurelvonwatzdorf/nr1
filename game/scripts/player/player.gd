@@ -405,6 +405,14 @@ func respawn(at: Transform3D) -> void:
 
 ## Entscheidet über Blocken und Parieren, bevor der Schaden ankommt.
 func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
+	# Spiegeljäger töten nicht: Der letzte Treffer sperrt einen in eine Realität.
+	var hunter := hit.source as Enemy
+	if hunter and hunter.data.captures and not health.is_dead \
+			and hit.damage * (1.0 - minf(GameState.inventory.get_permanent_bonus(&"damage_reduction"), 0.5)) >= health.current:
+		if not GameState.is_captured:
+			GameState.is_captured = true
+			EventBus.player_captured.emit(self)
+		return Hurtbox.Result.IGNORED
 	hit.damage *= 1.0 - minf(GameState.inventory.get_permanent_bonus(&"damage_reduction"), 0.5)
 	if get_ravens():
 		hit.damage *= get_ravens().get_damage_taken_factor()

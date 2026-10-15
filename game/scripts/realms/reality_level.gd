@@ -23,6 +23,11 @@ extends Level
 ## Dasselbe für Tahirou (leer = wie oben).
 @export var intro_lines_tahirou: Array[String] = []
 
+## Gefangenen-Realität: Nach dem Bruch geht es dorthin zurück, wo man gefangen
+## wurde (`GameState.return_scene`), statt nach `exit_scene`.
+@export var returns_to_capture_point: bool = false
+## Nach dem Bruch wirklich die Szene wechseln? (Im Test aus.)
+var change_scene_on_break: bool = true
 ## Meldung, wenn man nach dem Bruch in `exit_scene` aufwacht.
 @export var wake_message: String = "Du wachst auf. Die Illusion ist gebrochen."
 
@@ -108,14 +113,23 @@ func break_reality() -> void:
 	GameState.reality_sight_blocked = false
 	EventBus.camera_shake_requested.emit(0.8)
 	EventBus.reality_broken.emit(reality_id)
-	if exit_scene != "":
+	GameState.is_captured = false
+	var target := exit_scene
+	if returns_to_capture_point and GameState.return_scene != "":
+		target = GameState.return_scene
+		GameState.has_pending_spawn = true
+		GameState.pending_spawn = GameState.return_transform
+		GameState.return_scene = ""
+	if target != "":
 		GameState.clear_checkpoint()
 		GameState.pending_message = wake_message
 		# Speichern, damit man nach einem Neustart draußen weiterspielt.
-		GameState.current_scene = exit_scene
+		GameState.current_scene = target
 		SaveSystem.save_game()
+		if not change_scene_on_break:
+			return
 		await get_tree().create_timer(1.5).timeout
-		get_tree().change_scene_to_file(exit_scene)
+		get_tree().change_scene_to_file(target)
 
 
 func _on_anchor_mirror_rested(_mirror: Node3D, _player: Player) -> void:

@@ -66,6 +66,17 @@ var reality_sight_blocked: bool = false
 ## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach
 ## dem Laden in der richtigen Welt (Stadt oder Spiegelrealität) weiterspielt.
 var current_scene: String = ""
+## Fahndung (0–100): steigt, wenn man Konzernkräfte angreift. Nicht gespeichert.
+var wanted_level: float = 0.0
+## Gerade von Spiegeljägern gefangen (bis man ausbricht).
+var is_captured: bool = false
+## Wo man nach dem Ausbruch aus einer Gefangenen-Realität aufwacht.
+var return_scene: String = ""
+var return_transform: Transform3D = Transform3D.IDENTITY
+
+## Startpunkt im nächsten Level (z. B. nach dem Ausbruch). Nicht gespeichert.
+var has_pending_spawn: bool = false
+var pending_spawn: Transform3D = Transform3D.IDENTITY
 ## Meldung für das nächste Level (z. B. nach dem Aufwachen). Nicht gespeichert.
 var pending_message: String = ""
 ## Szene, zu der der Checkpoint gehört.
@@ -258,6 +269,9 @@ func reset() -> void:
 	equipped_firearm = &""
 	has_map_waypoint = false
 	reality_sight_blocked = false
+	wanted_level = 0.0
+	is_captured = false
+	return_scene = ""
 	current_scene = ""
 	checkpoint_scene = ""
 	moral.from_array([])
@@ -280,6 +294,8 @@ func to_dict() -> Dictionary:
 		"stats": stats.to_dict(),
 		"inventory": inventory.to_dict(),
 		"current_scene": current_scene,
+		"return_scene": return_scene,
+		"return_transform": var_to_str(return_transform),
 		"checkpoint_scene": checkpoint_scene,
 		"equipped_weapon": String(equipped_weapon),
 		"equipped_firearm": String(equipped_firearm),
@@ -305,6 +321,10 @@ func from_dict(data: Dictionary) -> void:
 	stats.from_dict(data.get("stats", {}))
 	inventory.from_dict(data.get("inventory", {}))
 	current_scene = str(data.get("current_scene", ""))
+	return_scene = str(data.get("return_scene", ""))
+	var saved_return: Variant = str_to_var(str(data.get("return_transform", "")))
+	if saved_return is Transform3D:
+		return_transform = saved_return
 	checkpoint_scene = str(data.get("checkpoint_scene", ""))
 	equipped_weapon = StringName(str(data.get("equipped_weapon", "")))
 	equipped_firearm = StringName(str(data.get("equipped_firearm", "")))

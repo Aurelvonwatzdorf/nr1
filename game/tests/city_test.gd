@@ -157,6 +157,37 @@ func _run() -> void:
 	player.global_position = Vector3(target.x, 0.1, target.y + 3.0)
 	await _frames(40)
 	_check(not GameState.has_map_waypoint, "Am Ziel verschwindet der Wegpunkt")
+	# Fahndung: Konzernwachen angreifen → Spiegeljäger → gefangen
+	var wanted: WantedSystem = city.get_node("WantedSystem")
+	wanted.capture_scene = ""
+	var guard: Enemy = city.get_node("Enemies/GuardBoulevard")
+	player.global_position = guard.global_position + Vector3(0, 0.1, 3)
+	await _frames(3)
+	var punch := HitData.new()
+	punch.damage = 1.0
+	punch.source = player
+	guard.hurtbox.receive_hit(punch)
+	_check(GameState.wanted_level > 0.0 and wanted.get_stars() == 1, "Wache angreifen: Fahndung steigt (1 Stern)")
+	wanted.add_wanted(100.0)
+	await _frames(3)
+	_check(wanted.hunters.size() == 2 and wanted.hunters[0].data.captures, "Volle Fahndung: zwei Spiegeljäger erscheinen")
+	var free_spawn := true
+	for hunter in wanted.hunters:
+		free_spawn = free_spawn and generator.is_free(Vector2(hunter.global_position.x, hunter.global_position.z))
+	_check(free_spawn, "Spiegeljäger tauchen auf der Straße auf")
+	var captured: Array[bool] = []
+	EventBus.player_captured.connect(func(_p: Player) -> void: captured.append(true))
+	player.health.revive()
+	var final_blow := HitData.new()
+	final_blow.damage = 1000.0
+	final_blow.source = wanted.hunters[0]
+	player.hurtbox.receive_hit(final_blow)
+	await _frames(3)
+	_check(captured.size() == 1 and not player.health.is_dead, "Besiegt von Spiegeljägern: gefangen statt tot")
+	_check(GameState.wanted_level == 0.0 and wanted.hunters.is_empty() and GameState.return_scene != "", "Fahndung vorbei, Rückkehrort gemerkt")
+	GameState.is_captured = false
+	GameState.return_scene = ""
+	await _frames(3)
 	player.global_position = Vector3(0, 0.1, 12)
 	# Geradeaus nach Süden laufen: Figur darf nicht durch den Boden fallen.
 	Input.action_press(&"move_back")

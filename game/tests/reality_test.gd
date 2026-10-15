@@ -4,6 +4,7 @@ extends Node
 
 const REALITY := preload("res://scenes/levels/test_reality.tscn")
 const TOWER := preload("res://scenes/levels/corporate_tower.tscn")
+const CELL := preload("res://scenes/levels/capture_cell.tscn")
 
 var _failures: int = 0
 
@@ -13,6 +14,7 @@ func _ready() -> void:
 	SaveSystem.auto_load_enabled = false
 	GameState.ask_character_on_new_game = false
 	GameState.test_start_money = 0
+	SaveSystem.save_path = "user://reality_test_save.json"
 	GameState.reset()
 	_run.call_deferred()
 
@@ -75,6 +77,7 @@ func _run() -> void:
 	reality.queue_free()
 	await _frames(3)
 	await _test_tower()
+	await _test_capture_cell()
 
 	print("")
 	print("REALITÄTSTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
@@ -131,6 +134,51 @@ func _test_tower() -> void:
 	_check(GameState.has_story_flag(&"reality_corporate_tower_broken"), "Der Konzernturm bricht zusammen")
 	await get_tree().create_timer(1.6).timeout
 	tower.queue_free()
+	await _frames(2)
+
+
+## Das Wartezimmer: Gefangenen-Realität, nach dem Ausbruch zurück zum Fangort.
+func _test_capture_cell() -> void:
+	GameState.reset()
+	GameState.return_scene = "res://scenes/levels/santo_santiago.tscn"
+	GameState.return_transform = Transform3D(Basis.IDENTITY, Vector3(5, 0.1, 9))
+	var cell := CELL.instantiate() as CaptureCell
+	cell.change_scene_on_break = false
+	add_child(cell)
+	await _frames(5)
+	var player: Player = cell.get_node("Player")
+	_check(cell.clues_needed == 2 and cell.returns_to_capture_point, "Wartezimmer: 2 Risse, Rückkehr zum Fangort")
+	var space := cell.get_world_3d().direct_space_state
+	var probe := CapsuleShape3D.new()
+	probe.radius = 0.35
+	probe.height = 1.6
+	var blocked: Array[String] = []
+	var spots: Array[Node3D] = [player, cell.get_node("AnchorMirror/SpawnPoint"), cell.get_node("Rift")]
+	for group_name: String in ["NPCs", "Clues"]:
+		for node in cell.get_node(group_name).get_children():
+			spots.append(node as Node3D)
+	for spot in spots:
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = probe
+		query.transform = Transform3D(Basis.IDENTITY, spot.global_position + Vector3(0, 1.3, 0))
+		query.collision_mask = PhysicsLayers.WORLD
+		if not space.intersect_shape(query, 1).is_empty():
+			blocked.append(String(spot.name))
+	_check(blocked.is_empty(), "Wartezimmer: alles steht frei %s" % [blocked])
+	player.focus.refill()
+	player.start_reality_sight()
+	_check(not (cell.get_node("BackDoor") as RealityLayerObject).is_present(), "Falsche Tür verschwindet im Realitätsblick")
+	for node in cell.get_node("Clues").get_children():
+		(node as RealityClue).interact(player)
+	await _frames(2)
+	cell.break_reality()
+	await _frames(2)
+	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.is_equal_approx(Vector3(5, 0.1, 9)) and GameState.return_scene == "",
+		"Ausbruch: Man wacht dort auf, wo man gefangen wurde")
+	_check(not GameState.is_captured, "Ausbruch beendet die Gefangenschaft")
+	GameState.has_pending_spawn = false
+	await get_tree().create_timer(1.6).timeout
+	cell.queue_free()
 	await _frames(2)
 
 

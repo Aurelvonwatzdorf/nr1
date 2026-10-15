@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/capture_cell.gd" id="1_cell"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="PackedScene" path="res://scenes/world/anchor_mirror.tscn" id="4_mirror"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="5_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="6_remnant"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_clue.tscn" id="7_clue"]
+[ext_resource type="PackedScene" path="res://scenes/realms/reality_rift.tscn" id="8_rift"]
+[ext_resource type="Script" path="res://scripts/realms/reality_layer_object.gd" id="9_layer"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="10_npc"]
+[ext_resource type="Script" path="res://scripts/npcs/talker.gd" id="11_talker"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="15_map"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.8, 0.82, 0.85, 1)
+sky_horizon_color = Color(0.9, 0.9, 0.92, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+ambient_light_energy = 1.1
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.85, 0.87, 0.9, 1)
+fog_density = 0.02
+
+[node name="CaptureCell" type="Node3D"]
+script = ExtResource("1_cell")
+reality_id = &"capture_cell"
+reality_name = "Das Wartezimmer"
+clues_needed = 2
+exit_scene = "res://scenes/levels/santo_santiago.tscn"
+anchoring_per_second = 0.5
+intro_lines = Array[String](["Wo bist du? … Ein Wartezimmer. Du wartest. Worauf eigentlich?", "Sie haben dich eingesperrt. Drück Q. Irgendwo hat diese Welt eine Naht."])
+intro_lines_tahirou = Array[String](["Twin, wach auf. Das ist kein Wartezimmer. Das ist ein Käfig.", "Drück Q. Die Raben können dich hier nicht hören, aber ich schon."])
+returns_to_capture_point = true
+wake_message = "Du bist entkommen. Die Spiegeljäger haben dich verloren."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 20, 0)
+shadow_enabled = true
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("15_map")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="BackDoor" type="Node3D" parent="."]
+script = ExtResource("9_layer")
+exists_in = 1
+
+[node name="Clues" type="Node3D" parent="."]
+
+[node name="ClueDisplay" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -24)
+companion_line = "4416. Seit du hier sitzt, hat sich die Zahl nicht bewegt. Keine einzige Nummer."
+
+[node name="ClueCorridor" parent="Clues" instance=ExtResource("7_clue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -31)
+companion_line = "Hinter der Tür ist kein Flur. Nur Spiegel, die sich gegenseitig ansehen."
+
+[node name="Rift" parent="." instance=ExtResource("8_rift")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -34)
+
+[node name="AnchorMirror" parent="." instance=ExtResource("4_mirror")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 4)
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="Clerk" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -21.5)
+script = ExtResource("11_talker")
+lines = Array[String](["Ihre Nummer wird gleich aufgerufen. Bitte nehmen Sie Platz.", "Gleich. Haben Sie Geduld. Alle haben Geduld.", "Es gibt keinen Ausgang. Es gibt nur den Aufruf."])
+npc_id = &"cell_clerk"
+display_name = "Sachbearbeiter"
+body_color = Color(0.35, 0.36, 0.42, 1)
+
+[node name="Waiting" parent="NPCs" instance=ExtResource("10_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -6)
+script = ExtResource("11_talker")
+lines = Array[String](["Ich warte hier seit … seit heute Morgen. Glaube ich.", "Nicht so laut. Wer laut ist, wird nie aufgerufen."])
+npc_id = &"cell_waiting"
+display_name = "Wartende"
+body_color = Color(0.5, 0.48, 0.45, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 6)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("6_remnant")
