@@ -34,6 +34,11 @@ func talk(_player: Player, dialogue: DialogueBox) -> void:
 		await dialogue.ask(display_name, "Ich warte hier … ich kann ohnehin nirgendwohin.")
 
 
+## Krank bleibt er sitzen; geheilt läuft er wieder herum.
+func _can_roam() -> bool:
+	return GameState.get_mission_status(mission.id) == GameState.MissionStatus.COMPLETED
+
+
 ## Krank: sitzt zusammengesunken. Geheilt: steht aufrecht.
 func _update_pose() -> void:
 	var healed := GameState.get_mission_status(mission.id) == GameState.MissionStatus.COMPLETED

@@ -110,6 +110,11 @@ var road_widths: PackedFloat32Array = PackedFloat32Array()
 ## Stadtrand und unsichtbare Mauer (Punktfolgen x, z).
 var outline: PackedVector2Array = PackedVector2Array()
 var boundary: PackedVector2Array = PackedVector2Array()
+## Wegenetz für NPCs: Wegpunkte auf Straßen und Plätzen, ihre Nachbarn und der
+## Bezirk (id), in dem jeder Punkt liegt.
+var waypoints: PackedVector2Array = PackedVector2Array()
+var waypoint_links: Array[PackedInt32Array] = []
+var waypoint_districts: Array[StringName] = []
 
 var _rng := RandomNumberGenerator.new()
 var _noise := FastNoiseLite.new()
@@ -122,6 +127,10 @@ var _building_material: ShaderMaterial
 var _materials: Dictionary[Color, StandardMaterial3D] = {}
 var _glow_materials: Dictionary[Color, StandardMaterial3D] = {}
 var _kit_meshes: Dictionary[String, Mesh] = {}
+
+
+func _enter_tree() -> void:
+	add_to_group(&"city_generator")
 
 
 func _ready() -> void:
@@ -164,6 +173,7 @@ func generate() -> void:
 	_place_infill()
 	_build_wilds()
 	_build_boundary()
+	_build_waypoints()
 	if map_data:
 		var box := Rect2(boundary[0], Vector2.ZERO)
 		for point in boundary:
@@ -336,6 +346,91 @@ func _sample_path(points: PackedVector2Array, distance: float) -> Array:
 			return [a.lerp(b, t), (b - a).normalized()]
 		distance -= segment
 	return [points[0], Vector2.RIGHT]
+
+
+# --- Wegenetz für NPCs ---
+
+## Wegpunkte alle ~9 m auf jeder Straße; Nachbarn entlang der Straße, an
+## Kreuzungen und quer über Plätze.
+func _build_waypoints() -> void:
+	waypoints = PackedVector2Array()
+	waypoint_links.clear()
+	waypoint_districts.clear()
+	var road_of: PackedInt32Array = PackedInt32Array()
+	for road_index in road_paths.size():
+		var road := road_paths[road_index]
+		var length := _path_length(road)
+		var count := maxi(int(ceil(length / 9.0)), 1)
+		var previous := -1
+		for i in count + 1:
+			var point: Vector2 = _sample_path(road, length * i / count)[0]
+			var index := waypoints.size()
+			waypoints.append(point)
+			waypoint_links.append(PackedInt32Array())
+			road_of.append(road_index)
+			if previous >= 0:
+				_link(previous, index)
+			previous = index
+	# Kreuzungen: Punkte verschiedener Straßen, die nah beieinander liegen.
+	var grid: Dictionary[Vector2i, PackedInt32Array] = {}
+	for i in waypoints.size():
+		var cell := Vector2i(floori(waypoints[i].x / 10.0), floori(waypoints[i].y / 10.0))
+		if not grid.has(cell):
+			grid[cell] = PackedInt32Array()
+		grid[cell].append(i)
+	for i in waypoints.size():
+		var cell := Vector2i(floori(waypoints[i].x / 10.0), floori(waypoints[i].y / 10.0))
+		for dx in range(-1, 2):
+			for dz in range(-1, 2):
+				for j in grid.get(cell + Vector2i(dx, dz), PackedInt32Array()):
+					if j > i and road_of[j] != road_of[i] and waypoints[i].distance_to(waypoints[j]) < 8.0:
+						_link(i, j)
+	# Plätze: alle Punkte am Platz untereinander verbinden.
+	for plaza in layout.plazas:
+		var around: Array[int] = []
+		for i in waypoints.size():
+			if waypoints[i].distance_to(Vector2(plaza.x, plaza.y)) < plaza.z + 6.0:
+				around.append(i)
+		for a in around:
+			for b in around:
+				if a < b and road_of[a] != road_of[b]:
+					_link(a, b)
+	for point in waypoints:
+		waypoint_districts.append(district_at(point).id if is_inside_city(point) else &"")
+
+
+func _link(a: int, b: int) -> void:
+	if not waypoint_links[a].has(b):
+		waypoint_links[a].append(b)
+		waypoint_links[b].append(a)
+
+
+## Nächster Wegpunkt zu einer Position (oder -1, wenn es keine gibt).
+func nearest_waypoint(point: Vector2, district_id: StringName = &"") -> int:
+	var best := -1
+	var best_distance := INF
+	for i in waypoints.size():
+		if district_id != &"" and waypoint_districts[i] != district_id:
+			continue
+		var distance := point.distance_squared_to(waypoints[i])
+		if distance < best_distance:
+			best_distance = distance
+			best = i
+	return best
+
+
+## Steht an diesem Punkt nichts im Weg (kein Haus, kein Wahrzeichen)?
+func is_free(point: Vector2, radius: float = 0.6) -> bool:
+	return Geometry2D.is_point_in_polygon(point, boundary) \
+		and not _hits_footprint(Footprint.new(point, Vector2(radius, radius) * 2.0, 0.0))
+
+
+## Mitte eines Bezirks (Weltkoordinaten x, z).
+func get_district_center(district_id: StringName) -> Vector2:
+	for district in layout.districts:
+		if district.id == district_id:
+			return district.center
+	return Vector2.ZERO
 
 
 # --- Belegung (wo schon etwas steht) ---

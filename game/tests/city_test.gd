@@ -90,6 +90,32 @@ func _run() -> void:
 		if woman.mode == OldWoman.Mode.ARRIVED:
 			break
 	_check(woman.mode == OldWoman.Mode.ARRIVED, "Alte Frau schafft es über die Straße")
+	# Einwohner: laufen herum, meist im eigenen Viertel; Händler bleiben in der Nähe.
+	var citizens := city.get_node("Citizens").get_children()
+	_check(citizens.size() >= 40, "Einwohner in allen Vierteln (%d)" % citizens.size())
+	var starts: Array[Vector3] = []
+	for node in citizens:
+		starts.append((node as Node3D).global_position)
+	var merchant: NPC = city.get_node("NPCs/MarketMerchant")
+	var merchant_moved := 0.0
+	var merchant_max := 0.0
+	var merchant_start := merchant.global_position
+	for i in 900:
+		await get_tree().physics_frame
+		merchant_max = maxf(merchant_max, merchant.global_position.distance_to(merchant.home_position))
+		merchant_moved = maxf(merchant_moved, merchant.global_position.distance_to(merchant_start))
+	var moved := 0
+	var at_home := 0
+	for i in citizens.size():
+		var citizen := citizens[i] as Citizen
+		if citizen.global_position.distance_to(starts[i]) > 4.0:
+			moved += 1
+		var here := generator.district_at(Vector2(citizen.global_position.x, citizen.global_position.z))
+		if here and here.id == citizen.home_quarter:
+			at_home += 1
+	_check(moved > citizens.size() * 0.6, "Einwohner laufen herum (%d von %d)" % [moved, citizens.size()])
+	_check(at_home > citizens.size() * 0.75, "Einwohner bleiben meist in ihrem Viertel (%d von %d)" % [at_home, citizens.size()])
+	_check(merchant_moved > 0.5 and merchant_max <= merchant.roam_radius + 1.0, "Händler schlendert, bleibt aber an seinem Platz (max. %.1f m)" % merchant_max)
 	player.global_position = Vector3(0, 0.1, 12)
 	# Geradeaus nach Süden laufen: Figur darf nicht durch den Boden fallen.
 	Input.action_press(&"move_back")

@@ -24,6 +24,7 @@ func _ready() -> void:
 		GameState.MissionStatus.COMPLETED:
 			mode = Mode.ARRIVED
 			global_position = destination.global_position
+			home_position = global_position
 		GameState.MissionStatus.ACTIVE:
 			mode = Mode.FOLLOWING
 
@@ -58,9 +59,15 @@ func _npc_physics(delta: float) -> void:
 	super._npc_physics(delta)
 
 
+## Wartet sie auf Hilfe, bleibt sie an der Straße. Danach geht sie ihrer Wege.
+func _can_roam() -> bool:
+	return mode == Mode.ARRIVED
+
+
 func _on_destination_body_entered(body: Node3D) -> void:
 	if body == self and mode == Mode.FOLLOWING:
 		mode = Mode.ARRIVED
+		home_position = global_position
 		GameState.complete_mission(mission)
 
 

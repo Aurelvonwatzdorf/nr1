@@ -111,6 +111,13 @@ tests/       Headless-Rauchtests
   `MissionDatabase.PATHS`. Stand in `GameState.mission_states`;
   `start_mission()`/`complete_mission()` geben Belohnung und tragen die Tat
   (falls `moral_virtue` gesetzt) ins Moral-Gedächtnis ein. HUD zeigt offene Missionen.
+- **NPCs laufen herum**: `NPC.roam` = STAY / NEAR_HOME (Service-NPCs im
+  `roam_radius` um ihren Platz, immer auffindbar) / CITY (über das Wegenetz
+  `CityGenerator.waypoints`, meist im Viertel `home_quarter`, `home_loyalty`;
+  wer sich verlaufen hat, geht nach Hause). `_can_roam()` sperrt es (Kranker,
+  wartende alte Frau). Einwohner (`Citizen`, `CitizenSpawner` im Level) wohnen
+  in einem Viertel (Konzernangestellte im Konzernviertel usw.), sagen
+  Alltagssätze aus ihrem Viertel; IDs `citizen_<viertel>_<n>` zählen fürs Moral-Gedächtnis.
 - **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
   Spielfigur zählen fürs Moral-Gedächtnis (Verletzen −3 Barmherzigkeit, Töten −10
   Schwache schützen, je NPC einmal). Tote stehen in `GameState.dead_npcs`.
@@ -483,8 +490,8 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Erinnerungen auf der Karte, Gaben der Raben-Ahnen, Stadt organisch neu
   (natürlicher Umriss, gewundene Gassen, viele Bauformen, imperiales
   Konzernviertel mit Zitadelle, Prachtstraße, Säulen, Obelisken).
-- 🟨 **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius), Markt
-  und Schwarzmarkt (Pistolen, Waffen, Radar, Implantate).
+- ✅ **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius, 46 Einwohner).
+- 🟨 **Feedback 3**: Markt und Schwarzmarkt (Pistolen, Waffen, Radar, Implantate).
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
   „Konzernturm“, Adam.
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen

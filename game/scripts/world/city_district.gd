@@ -9,6 +9,8 @@ enum Worship { NONE, CHURCH, MOSQUE, SYNAGOGUE, HOUSE_OF_SILENCE }
 ## Bauweise der Häuser.
 enum Style { IMPERIAL, MARKET, CHRISTIAN, MUSLIM, JEWISH, MODERN, SLUM }
 
+## Kurzer Name für Code und Daten (z. B. &"muslim"); NPCs nutzen ihn als Zuhause.
+@export var id: StringName = &""
 @export var display_name: String = ""
 @export var kind: Kind = Kind.QUARTER
 @export var style: Style = Style.MODERN
