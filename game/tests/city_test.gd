@@ -24,6 +24,13 @@ func _run() -> void:
 	var player: Player = city.get_node("Player")
 	_check(generator.building_count > 300, "Viele Häuser gebaut (%d)" % generator.building_count)
 	print("Bauformen: %s" % generator.kind_counts)
+	var drawn := 0
+	var parts := generator.find_children("*", "MeshInstance3D", true, false)
+	for node in parts:
+		if (node as MeshInstance3D).mesh != null:
+			drawn += 1
+	print("Bauteile: %d, gezeichnet: %d" % [parts.size(), drawn])
+	_check(drawn < 500, "Stadt zusammengefasst: %d Meshes statt Tausender (%d Stücke)" % [drawn, generator.batch_count])
 	_check(generator.kind_counts.size() >= 12, "Viele verschiedene Bauformen (%d)" % generator.kind_counts.size())
 	# Organisch: Umriss ist kein Rechteck, Straßen laufen in alle Richtungen.
 	var radii: Array[float] = []

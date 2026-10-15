@@ -158,8 +158,13 @@ tests/       Headless-Rauchtests
   Monumentalbauten, Hochhäuser aus dem Blender-Kit). Gleicher `seed` = gleiche
   Stadt. Alle Kinder der Knoten unter `keep_clear` (NPCs, Spiegel, Gegner,
   Gegenstände) bleiben frei. `road_paths` liefert die Straßen (z. B. für NPCs).
-- **Gebäude-Material**: ein `ShaderMaterial` (`assets/materials/building.gdshader`)
-  für alle Gebäude; Farbe und Fenster per `set_instance_shader_parameter`.
+- **Leistung / Gebäude-Material**: Am Ende fasst `CityGenerator._batch_geometry()`
+  alle Bauteile pro 48-m-Stück zu wenigen Meshes zusammen (6600 Teile → ~250
+  Meshes). Ein Shader (`assets/materials/building.gdshader`) für alles; Farbe,
+  Leuchten und Fenster stehen in den Ecken (COLOR, UV, UV2), gesetzt über
+  `_paint()` bzw. die Farbe des Materials. Umriss: `outline.gdshader`. Neue
+  Bauteile einfach als MeshInstance bauen, das Zusammenfassen passiert von selbst
+  (Ausnahme: Meta `no_batch`, durchsichtige Materialien).
 - **Blender-Kit**: `assets/models/city_kit/*.obj` (aus der vom Nutzer
   hochgeladenen „Blade_runner_style_Cityscapes.blend“, Grundfläche auf 1 normiert,
   Maße in `manifest.json` und `CityGenerator.KIT_*`). **Lizenz vor einer

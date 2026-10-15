@@ -31,6 +31,8 @@ const IMPERIAL_RED := Color(0.85, 0.12, 0.16)
 const DETAIL_RANGE := 90.0
 ## Größe einer Zelle im Belegungsraster (Meter).
 const CELL := 24.0
+## Größe eines Stadtstücks beim Zusammenfassen der Meshes (Meter).
+const BATCH_CHUNK := 48.0
 ## Radius, der um NPCs, Spiegel und Gegenstände frei bleibt.
 const KEEP_CLEAR_RADIUS := 3.0
 const KIT_PATH := "res://assets/models/city_kit/%s.obj"
@@ -99,6 +101,8 @@ class Footprint:
 		return half.length()
 
 
+## Anzahl zusammengefasster Meshes (für Tests und Statistik).
+var batch_count: int = 0
 ## Anzahl gebauter Häuser (für Tests und Statistik).
 var building_count: int = 0
 ## Wie oft jede Bauform vorkommt (für Tests).
@@ -150,7 +154,7 @@ func generate() -> void:
 	kind_counts.clear()
 	_building_material = ShaderMaterial.new()
 	_building_material.shader = preload("res://assets/materials/building.gdshader")
-	_building_material.next_pass = ToonStyle.make_outline()
+	batch_count = 0
 
 	_build_outline()
 	_add_district_map()
@@ -174,6 +178,7 @@ func generate() -> void:
 	_build_wilds()
 	_build_boundary()
 	_build_waypoints()
+	_batch_geometry()
 	if map_data:
 		var box := Rect2(boundary[0], Vector2.ZERO)
 		for point in boundary:
@@ -346,6 +351,125 @@ func _sample_path(points: PackedVector2Array, distance: float) -> Array:
 			return [a.lerp(b, t), (b - a).normalized()]
 		distance -= segment
 	return [points[0], Vector2.RIGHT]
+
+
+# --- Zusammenfassen (Leistung) ---
+
+## Fasst alle Gebäudeteile, Ranken und Pflanzen pro Stadtstück (Chunk) zu
+## wenigen großen Meshes zusammen. Tausende einzelne Objekte kosten die
+## Grafikkarte viel Zeit (vor allem beim Blick auf die Skyline). Die Knoten
+## bleiben (ohne Mesh) bestehen, weil ihre Kollision daran hängt.
+func _batch_geometry() -> void:
+	var batches: Dictionary[String, Dictionary] = {}
+	var to_local := global_transform.affine_inverse()
+	for node in find_children("*", "MeshInstance3D", true, false):
+		var instance := node as MeshInstance3D
+		if instance.mesh == null or instance.has_meta(&"no_batch"):
+			continue
+		var color := Color.WHITE
+		var windows := Vector2.ZERO
+		var spacing := Vector2(2.6, 3.2)
+		var glow := 0.0
+		var outline := true
+		if instance.has_meta(&"paint"):
+			var paint: Array = instance.get_meta(&"paint")
+			color = paint[0]
+			windows = paint[1]
+			spacing = paint[2]
+		elif instance.material_override is StandardMaterial3D:
+			var material := instance.material_override as StandardMaterial3D
+			if material.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
+				continue
+			color = material.albedo_color
+			outline = material.next_pass != null
+			if material.emission_enabled:
+				glow = material.emission_energy_multiplier
+				color = material.emission
+		else:
+			continue
+		var detail := instance.visibility_range_end > 0.0
+		var xform := to_local * instance.global_transform
+		var chunk := Vector2i(floori(xform.origin.x / BATCH_CHUNK), floori(xform.origin.z / BATCH_CHUNK))
+		var key := "%d,%d,%d,%d" % [chunk.x, chunk.y, int(outline), int(detail)]
+		if not batches.has(key):
+			batches[key] = {"verts": PackedVector3Array(), "normals": PackedVector3Array(),
+				"colors": PackedColorArray(), "uv": PackedVector2Array(), "uv2": PackedVector2Array(),
+				"indices": PackedInt32Array(), "outline": outline, "detail": detail}
+		var batch: Dictionary = batches[key]
+		var vertex_color := Color(color.r, color.g, color.b, 1.0 / (1.0 + glow))
+		var normal_xform := Transform3D(xform.basis.inverse().transposed(), Vector3.ZERO)
+		for surface in instance.mesh.get_surface_count():
+			var arrays := instance.mesh.surface_get_arrays(surface)
+			var verts: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+			# Packed-Arrays sind Werte: holen, erweitern, zurückschreiben.
+			var all_verts: PackedVector3Array = batch["verts"]
+			var offset := all_verts.size()
+			all_verts.append_array(xform * verts)
+			batch["verts"] = all_verts
+			var all_normals: PackedVector3Array = batch["normals"]
+			all_normals.append_array(normal_xform * normals)
+			batch["normals"] = all_normals
+			var count := verts.size()
+			var colors := PackedColorArray()
+			colors.resize(count)
+			colors.fill(vertex_color)
+			var all_colors: PackedColorArray = batch["colors"]
+			all_colors.append_array(colors)
+			batch["colors"] = all_colors
+			var uv := PackedVector2Array()
+			uv.resize(count)
+			uv.fill(windows)
+			var all_uv: PackedVector2Array = batch["uv"]
+			all_uv.append_array(uv)
+			batch["uv"] = all_uv
+			uv.fill(spacing)
+			var all_uv2: PackedVector2Array = batch["uv2"]
+			all_uv2.append_array(uv)
+			batch["uv2"] = all_uv2
+			var source_indices: Variant = arrays[Mesh.ARRAY_INDEX]
+			var indices := PackedInt32Array()
+			if source_indices is PackedInt32Array and not (source_indices as PackedInt32Array).is_empty():
+				indices = source_indices
+			else:
+				indices.resize(count)
+				for i in count:
+					indices[i] = i
+			var target: PackedInt32Array = batch["indices"]
+			var start := target.size()
+			target.resize(start + indices.size())
+			for i in indices.size():
+				target[start + i] = indices[i] + offset
+			batch["indices"] = target
+		instance.mesh = null
+	var outline_material := ShaderMaterial.new()
+	outline_material.shader = preload("res://assets/materials/outline.gdshader")
+	var plain := ShaderMaterial.new()
+	plain.shader = _building_material.shader
+	var outlined := ShaderMaterial.new()
+	outlined.shader = _building_material.shader
+	outlined.next_pass = outline_material
+	for key in batches:
+		var batch: Dictionary = batches[key]
+		var arrays := []
+		arrays.resize(Mesh.ARRAY_MAX)
+		arrays[Mesh.ARRAY_VERTEX] = batch["verts"]
+		arrays[Mesh.ARRAY_NORMAL] = batch["normals"]
+		arrays[Mesh.ARRAY_COLOR] = batch["colors"]
+		arrays[Mesh.ARRAY_TEX_UV] = batch["uv"]
+		arrays[Mesh.ARRAY_TEX_UV2] = batch["uv2"]
+		arrays[Mesh.ARRAY_INDEX] = batch["indices"]
+		var mesh := ArrayMesh.new()
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		var merged := MeshInstance3D.new()
+		merged.mesh = mesh
+		merged.material_override = outlined if batch["outline"] else plain
+		if batch["detail"]:
+			merged.visibility_range_end = DETAIL_RANGE * 1.5
+			merged.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		merged.set_meta(&"no_batch", true)
+		add_child(merged)
+		batch_count += 1
 
 
 # --- Wegenetz für NPCs ---
@@ -1258,6 +1382,7 @@ func _build_ground() -> void:
 	var ground := MeshInstance3D.new()
 	ground.mesh = tool.commit()
 	ground.material_override = material
+	ground.set_meta(&"no_batch", true)
 	add_child(ground)
 	_add_collision(self, Vector3(box.get_center().x, -0.5, box.get_center().y), Vector3(box.size.x, 1.0, box.size.y))
 
@@ -1316,6 +1441,7 @@ func _build_roads() -> void:
 	var roads := MeshInstance3D.new()
 	roads.mesh = tool.commit()
 	roads.material_override = material
+	roads.set_meta(&"no_batch", true)
 	add_child(roads)
 
 
@@ -1445,13 +1571,11 @@ func _part(root: Node3D, center: Vector3, size: Vector3, color: Color, windows: 
 	return instance
 
 
-## Farbe und Fenster eines Gebäudeteils setzen (ein Material für alle Gebäude).
+## Farbe und Fenster eines Gebäudeteils festlegen. Wird beim Zusammenfassen
+## (`_batch_geometry`) in die Ecken des Meshes geschrieben.
 func _paint(instance: GeometryInstance3D, color: Color, windows: float, lit: float, spacing: Vector2 = Vector2(2.6, 3.2)) -> void:
 	instance.material_override = _building_material
-	instance.set_instance_shader_parameter(&"wall_color", color)
-	instance.set_instance_shader_parameter(&"window_density", windows)
-	instance.set_instance_shader_parameter(&"lit_ratio", lit)
-	instance.set_instance_shader_parameter(&"window_spacing", spacing)
+	instance.set_meta(&"paint", [color, Vector2(windows, lit), spacing])
 
 
 func _tilted_roof(root: Node3D, top: Vector3, size: Vector3, color: Color) -> void:
