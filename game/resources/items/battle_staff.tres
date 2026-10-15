@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+[ext_resource type="Script" path="res://scripts/combat/attack_data.gd" id="2_attack"]
+
+[sub_resource type="Resource" id="Attack_light"]
+script = ExtResource("2_attack")
+display_name = "Stabschlag"
+animation_name = &"attack_light"
+damage = 13
+stamina_cost = 15
+startup_time = 0.2
+active_time = 0.18
+recovery_time = 0.32
+lunge_speed = 2.5
+knockback = 4.0
+
+[sub_resource type="Resource" id="Attack_heavy"]
+script = ExtResource("2_attack")
+display_name = "Wirbelnder Stab"
+animation_name = &"attack_heavy"
+damage = 30
+stamina_cost = 28
+startup_time = 0.45
+active_time = 0.25
+recovery_time = 0.5
+lunge_speed = 3.5
+knockback = 8.0
+
+[resource]
+script = ExtResource("1_item")
+id = &"battle_staff"
+display_name = "Kampfstab"
+description = "Nahkampfwaffe vom Großen Markt. Große Reichweite, wirft Gegner weit zurück, etwas langsamer."
+kind = 2
+color = Color(0.5, 0.36, 0.22, 1)
+weapon_length = 1.7
+light_attack = SubResource("Attack_light")
+heavy_attack = SubResource("Attack_heavy")

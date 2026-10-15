@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+[ext_resource type="Script" path="res://scripts/combat/attack_data.gd" id="2_attack"]
+
+[sub_resource type="Resource" id="Attack_light"]
+script = ExtResource("2_attack")
+display_name = "Schwerthieb"
+animation_name = &"attack_light"
+damage = 15
+stamina_cost = 16
+startup_time = 0.15
+active_time = 0.15
+recovery_time = 0.3
+lunge_speed = 3.0
+knockback = 2.0
+
+[sub_resource type="Resource" id="Attack_heavy"]
+script = ExtResource("2_attack")
+display_name = "Schwerer Schwerthieb"
+animation_name = &"attack_heavy"
+damage = 32
+stamina_cost = 30
+startup_time = 0.42
+active_time = 0.2
+recovery_time = 0.5
+lunge_speed = 4.5
+knockback = 5.0
+
+[resource]
+script = ExtResource("1_item")
+id = &"short_sword"
+display_name = "Kurzschwert"
+description = "Nahkampfwaffe vom Großen Markt. Ausgewogen: etwas mehr Schaden als der Grundschlag."
+kind = 2
+color = Color(0.75, 0.78, 0.82, 1)
+weapon_length = 1.0
+light_attack = SubResource("Attack_light")
+heavy_attack = SubResource("Attack_heavy")

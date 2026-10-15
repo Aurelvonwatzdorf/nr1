@@ -54,6 +54,9 @@ var stats: PlayerStats = PlayerStats.new()
 
 ## Inventar (Tränke, Artefakte).
 var inventory: Inventory = Inventory.new()
+## Ausgerüstete Waffen (Item-IDs, leer = keine).
+var equipped_weapon: StringName = &""
+var equipped_firearm: StringName = &""
 ## IDs bereits aufgehobener Gegenstände in der Welt.
 var collected_pickups: Array[StringName] = []
 
@@ -191,6 +194,19 @@ func set_checkpoint(at: Transform3D) -> void:
 	has_checkpoint = true
 
 
+## Waffe ausrüsten (oder ablegen, wenn sie schon ausgerüstet ist).
+func toggle_equip(item: ItemData) -> void:
+	if item.kind == ItemData.Kind.WEAPON:
+		equipped_weapon = &"" if equipped_weapon == item.id else item.id
+	elif item.kind == ItemData.Kind.FIREARM:
+		equipped_firearm = &"" if equipped_firearm == item.id else item.id
+	EventBus.equipment_changed.emit()
+
+
+func is_equipped(item: ItemData) -> bool:
+	return item.id == equipped_weapon or item.id == equipped_firearm
+
+
 ## Alles zurück auf Anfang (neues Spiel).
 func reset() -> void:
 	selected_character = null
@@ -198,6 +214,8 @@ func reset() -> void:
 	money = 0
 	stats.from_dict({})
 	inventory.from_dict({})
+	equipped_weapon = &""
+	equipped_firearm = &""
 	moral.from_array([])
 	collected_pickups.clear()
 	mission_states.clear()
@@ -217,6 +235,8 @@ func to_dict() -> Dictionary:
 		"money": money,
 		"stats": stats.to_dict(),
 		"inventory": inventory.to_dict(),
+		"equipped_weapon": String(equipped_weapon),
+		"equipped_firearm": String(equipped_firearm),
 		"collected_pickups": collected_pickups.map(func(id: StringName) -> String: return String(id)),
 		"has_checkpoint": has_checkpoint,
 		"checkpoint": var_to_str(checkpoint_transform),
@@ -238,6 +258,8 @@ func from_dict(data: Dictionary) -> void:
 	money = int(data.get("money", 0))
 	stats.from_dict(data.get("stats", {}))
 	inventory.from_dict(data.get("inventory", {}))
+	equipped_weapon = StringName(str(data.get("equipped_weapon", "")))
+	equipped_firearm = StringName(str(data.get("equipped_firearm", "")))
 	for id: Variant in data.get("collected_pickups", []):
 		collected_pickups.append(StringName(str(id)))
 	has_checkpoint = bool(data.get("has_checkpoint", false))

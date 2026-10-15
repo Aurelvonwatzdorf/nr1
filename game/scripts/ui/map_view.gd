@@ -52,6 +52,8 @@ func _draw() -> void:
 		if not minimap:
 			_draw_labels(map_data, to_screen)
 	_draw_markers(to_screen)
+	if GameState.inventory.has_radar():
+		_draw_radar(to_screen)
 	if player:
 		var player_screen: Vector2 = origin if minimap else to_screen.call(Vector2(player.global_position.x, player.global_position.z))
 		var facing := 0.0 if minimap else -player.camera_rig.rotation.y
@@ -93,6 +95,17 @@ func _draw_markers(to_screen: Callable) -> void:
 		var font_size := 12 if symbol.length() > 1 else 14
 		var text_size := font.get_string_size(symbol, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 		draw_string(font, at + Vector2(-text_size.x / 2.0, text_size.y / 3.0), symbol, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, marker.get_color())
+
+
+## Radar (gekauft auf dem Schwarzmarkt): Gegner als rote Punkte.
+func _draw_radar(to_screen: Callable) -> void:
+	for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+		var enemy := node as Enemy
+		if enemy == null or enemy.health.is_dead:
+			continue
+		var at: Vector2 = to_screen.call(Vector2(enemy.global_position.x, enemy.global_position.z))
+		if Rect2(Vector2.ZERO, size).has_point(at):
+			draw_circle(at, 4.0, Color(1.0, 0.2, 0.2))
 
 
 func _draw_player_arrow(at: Vector2, facing: float) -> void:

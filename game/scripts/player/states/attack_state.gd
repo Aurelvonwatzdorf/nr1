@@ -19,10 +19,10 @@ func is_heavy() -> bool:
 
 
 func enter(msg: Dictionary = {}) -> void:
-	var data := player.character_data
 	var heavy: bool = msg.get("heavy", false)
-	_attack = data.heavy_attack if heavy and data.heavy_attack else data.light_attack
-	_heavy = _attack == data.heavy_attack
+	var heavy_attack := player.get_heavy_attack()
+	_attack = heavy_attack if heavy and heavy_attack else player.get_light_attack()
+	_heavy = _attack == heavy_attack
 	_phase = Phase.STARTUP
 	_time = 0.0
 	_buffered = -1

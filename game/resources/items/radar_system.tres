@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"radar_system"
+display_name = "Radarsystem"
+description = "Vom Schwarzmarkt. Zeigt Gegner als rote Punkte auf Minimap und Karte."
+kind = 1
+color = Color(0.3, 1, 0.5, 1)
+grants_radar = true

@@ -90,6 +90,13 @@ tests/       Headless-Rauchtests
 - **Menüs** erben von `GameMenu` (CanvasLayer, läuft auch pausiert). Öffnen erhöht
   `GameState.open_menu_count`: Das pausiert das Spiel und gibt die Maus frei.
   Esc öffnet das Pausenmenü; offene Menüs schließen sich selbst mit Esc.
+- **Ausrüstung**: `ItemData.Kind` WEAPON (Nahkampf, ersetzt `light/heavy_attack`
+  der Figur), FIREARM (Schuss per Strahl-Abfrage auf Hurtboxes, braucht
+  `ammo_id`), AMMO (`buy_amount` Stück pro Kauf). Ausgerüstet in
+  `GameState.equipped_weapon/equipped_firearm` (Inventar: Ausrüsten/Ablegen).
+  Implantate/Radar sind PERMANENT mit `bonus_speed`, `damage_reduction`,
+  `bonus_stamina_regen`, `grants_radar`. Händler: `Merchant.stock/prices/greeting`;
+  Dauerhaftes kauft man einmal. Schüsse (`EventBus.shot_fired`) lassen NPCs fliehen.
 - **Gegenstände**: `ItemData` (.tres in `resources/items/`, Art CONSUMABLE oder
   PERMANENT) und Eintrag in `ItemDatabase.PATHS`. Besitz in `GameState.inventory`.
   Permanente Artefakte wirken, solange man sie besitzt. Fundorte (`ItemPickup`)
@@ -208,6 +215,10 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   (Heiltränke werden dort **nicht** aufgefüllt.)
 - **Blut ist sichtbar.** Die Altersfreigabe spielt keine Rolle.
 - **Heiltränke** findet man in der Welt oder kauft sie mit **Geld**.
+- **Großer Markt**: Händler (Tränke, Kraftampulle), Waffenschmied (Kurzschwert,
+  Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
+  Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
+  Neuroverstärker, Herzpumpe). Preise vorläufig in der Level-Szene.
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
@@ -446,6 +457,7 @@ aus. (Wie genau, siehe Offene Entscheidungen.)
 | `attack_heavy` | Shift + Linksklick (im Code) | RT |
 | `block` | Rechtsklick | LB |
 | `lock_on` | Mittelklick / Tab | R3 |
+| `fire` | V (Schusswaffe) | LT |
 | `reality_sight` | Q | Y |
 | `interact` | E | X |
 | `heal` | R | Steuerkreuz runter |
@@ -491,7 +503,8 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   (natürlicher Umriss, gewundene Gassen, viele Bauformen, imperiales
   Konzernviertel mit Zitadelle, Prachtstraße, Säulen, Obelisken).
 - ✅ **Feedback 2**: NPCs laufen frei (Viertel-Logik, Service-Radius, 46 Einwohner).
-- 🟨 **Feedback 3**: Markt und Schwarzmarkt (Pistolen, Waffen, Radar, Implantate).
+- ✅ **Feedback 3**: Ausrüstung (Waffen, Pistole, Munition, Radar, Implantate),
+  Waffenschmied am Markt, Schwarzmarkt in der Senke.
 - ⬜ **M7**: Spiegelrealitäten: Realitätsblick, Realitätsriss, Verankerung,
   „Konzernturm“, Adam.
 - ⬜ **M8**: Geisterwelt: Einladung (Zeit steht still), Tempel/Kirchen/Moscheen

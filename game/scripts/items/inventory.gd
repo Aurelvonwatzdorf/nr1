@@ -49,6 +49,14 @@ func find_healing_item() -> ItemData:
 	return null
 
 
+## Besitzt man ein Radar? (Gegner auf der Karte.)
+func has_radar() -> bool:
+	for item in get_owned_items():
+		if item.kind == ItemData.Kind.PERMANENT and item.grants_radar:
+			return true
+	return false
+
+
 ## Summe eines Dauer-Bonus über alle permanenten Artefakte.
 func get_permanent_bonus(property: StringName) -> float:
 	var total := 0.0

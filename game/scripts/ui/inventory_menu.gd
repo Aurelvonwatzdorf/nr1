@@ -53,6 +53,18 @@ func _make_row(item: ItemData) -> HBoxContainer:
 		button.text = "Benutzen"
 		button.pressed.connect(_use.bind(item))
 		row.add_child(button)
+	elif item.kind in [ItemData.Kind.WEAPON, ItemData.Kind.FIREARM]:
+		var button := Button.new()
+		button.text = "Ablegen" if GameState.is_equipped(item) else "Ausrüsten"
+		button.pressed.connect(func() -> void:
+			GameState.toggle_equip(item)
+			_refresh())
+		row.add_child(button)
+	elif item.kind == ItemData.Kind.AMMO:
+		var tag := Label.new()
+		tag.text = "Munition"
+		tag.modulate = Color(1.0, 0.85, 0.5)
+		row.add_child(tag)
 	else:
 		var tag := Label.new()
 		tag.text = "wirkt dauerhaft"

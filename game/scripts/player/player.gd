@@ -35,6 +35,8 @@ var combo_count: int = 0
 var _defenseless_targets: Array[Enemy] = []
 ## Gegner, die gerade hingerichtet werden (Tahirous „Hinrichtung“).
 var _execution_targets: Array[Enemy] = []
+## Zeit bis zum nächsten möglichen Schuss.
+var _fire_cooldown_left: float = 0.0
 
 
 func _ready() -> void:
@@ -45,6 +47,8 @@ func _ready() -> void:
 	_apply_character_data()
 	GameState.stats.changed.connect(_apply_stats)
 	GameState.inventory.changed.connect(_apply_stats)
+	EventBus.equipment_changed.connect(_update_weapon_visual)
+	_update_weapon_visual()
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
@@ -62,6 +66,9 @@ func _physics_process(delta: float) -> void:
 		interaction_detector.current.interact(self)
 	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit") and get_ravens():
 		call_raven_swarm()
+	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
+	if is_input_enabled() and Input.is_action_just_pressed(&"fire"):
+		fire_firearm()
 	if is_input_enabled() and Input.is_action_just_pressed(&"heal"):
 		var potion := GameState.inventory.find_healing_item()
 		if potion:
@@ -232,9 +239,75 @@ func apply_item_effect(item: ItemData) -> void:
 		EventBus.message_requested.emit("+%d %% Schaden für %d s" % [roundi(item.buff_damage_bonus * 100.0), roundi(item.buff_duration)])
 
 
-## Tempo-Faktor aus den Stats (Schnelligkeit).
+## Tempo-Faktor aus den Stats (Schnelligkeit) und Implantaten.
 func get_speed_multiplier() -> float:
-	return GameState.stats.get_speed_multiplier()
+	return GameState.stats.get_speed_multiplier() + GameState.inventory.get_permanent_bonus(&"bonus_speed")
+
+
+## Ausgerüstete Nahkampfwaffe (oder null = Grundwaffe der Figur).
+func get_weapon() -> ItemData:
+	return ItemDatabase.get_item(GameState.equipped_weapon) if GameState.equipped_weapon != &"" else null
+
+
+func get_light_attack() -> AttackData:
+	var weapon := get_weapon()
+	return weapon.light_attack if weapon and weapon.light_attack else character_data.light_attack
+
+
+func get_heavy_attack() -> AttackData:
+	var weapon := get_weapon()
+	return weapon.heavy_attack if weapon and weapon.heavy_attack else character_data.heavy_attack
+
+
+## Schießen (Taste V) mit der ausgerüsteten Schusswaffe. Zielt aufs Lock-on-Ziel,
+## sonst dorthin, wo die Kamera hinschaut. Gibt true zurück, wenn ein Schuss fiel.
+func fire_firearm() -> bool:
+	if GameState.equipped_firearm == &"" or _fire_cooldown_left > 0.0:
+		return false
+	if not state_machine.get_current_state_name() in [&"idle", &"move", &"block"]:
+		return false
+	var gun := ItemDatabase.get_item(GameState.equipped_firearm)
+	if not GameState.inventory.remove(gun.ammo_id):
+		EventBus.message_requested.emit("Keine Munition")
+		_fire_cooldown_left = 0.5
+		return false
+	_fire_cooldown_left = gun.fire_cooldown
+	var origin := global_position + Vector3.UP * 1.4
+	var direction := -camera_rig.camera.global_basis.z
+	if lock_on.target:
+		direction = (lock_on.target.get_lock_on_point() - origin).normalized()
+	snap_towards(Vector3(direction.x, 0.0, direction.z))
+	var query := PhysicsRayQueryParameters3D.create(origin, origin + direction * gun.shot_range,
+		PhysicsLayers.WORLD | PhysicsLayers.HURTBOX, [get_rid(), hurtbox.get_rid()])
+	query.collide_with_areas = true
+	var result := get_world_3d().direct_space_state.intersect_ray(query)
+	var end := origin + direction * gun.shot_range
+	if not result.is_empty():
+		end = result["position"]
+		var target := result["collider"] as Hurtbox
+		if target and target != hurtbox:
+			var hit := HitData.new()
+			hit.damage = gun.shot_damage * get_damage_multiplier()
+			hit.knockback = 1.5
+			hit.direction = direction
+			hit.source = self
+			target.receive_hit(hit)
+	animator.play_shot(origin, end)
+	EventBus.camera_shake_requested.emit(0.12)
+	EventBus.shot_fired.emit(global_position)
+	return true
+
+
+## Platzhalter-Waffe an die ausgerüstete Waffe anpassen (Länge, Farbe).
+func _update_weapon_visual() -> void:
+	var weapon_mesh := get_node_or_null(^"Model/WeaponPivot/Weapon") as MeshInstance3D
+	if weapon_mesh == null:
+		return
+	var weapon := get_weapon()
+	var length := weapon.weapon_length if weapon else 1.1
+	weapon_mesh.scale = Vector3(1.0, 1.0, length / 1.1)
+	weapon_mesh.position.z = -0.05 - length / 2.0
+	weapon_mesh.material_override = ToonStyle.make(weapon.color) if weapon else null
 
 
 ## Andere Figur übernehmen (z. B. nach der Charakterauswahl).
@@ -289,6 +362,7 @@ func respawn(at: Transform3D) -> void:
 
 ## Entscheidet über Blocken und Parieren, bevor der Schaden ankommt.
 func _filter_incoming_hit(hit: HitData) -> Hurtbox.Result:
+	hit.damage *= 1.0 - minf(GameState.inventory.get_permanent_bonus(&"damage_reduction"), 0.5)
 	if get_ravens():
 		hit.damage *= get_ravens().get_damage_taken_factor()
 	var block_state := state_machine.current_state as PlayerBlockState
@@ -391,7 +465,7 @@ func _apply_stats(refill: bool = false) -> void:
 	var inventory := GameState.inventory
 	health.set_max_value(stats.get_max_health(data.max_health) + inventory.get_permanent_bonus(&"bonus_max_health"), refill)
 	stamina.set_max_value(stats.get_max_stamina(data.max_stamina) + inventory.get_permanent_bonus(&"bonus_max_stamina"), refill)
-	stamina.regen_per_second = stats.get_stamina_regen(data.stamina_regen_per_second)
+	stamina.regen_per_second = stats.get_stamina_regen(data.stamina_regen_per_second) + inventory.get_permanent_bonus(&"bonus_stamina_regen")
 	focus.set_max_value(stats.get_max_focus(data.max_focus) + inventory.get_permanent_bonus(&"bonus_max_focus"), refill)
 
 

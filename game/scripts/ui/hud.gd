@@ -44,6 +44,7 @@ func _ready() -> void:
 	EventBus.character_changed.connect(func(data: CharacterData) -> void: name_label.text = data.display_name)
 	EventBus.game_saved.connect(func() -> void: saved_label_flash())
 	GameState.inventory.changed.connect(_update_potions)
+	EventBus.equipment_changed.connect(_update_potions)
 	EventBus.mission_started.connect(func(m: MissionData) -> void:
 		show_message("Neue Mission: %s" % m.title)
 		_update_missions())
@@ -101,7 +102,14 @@ func _update_missions() -> void:
 
 
 func _update_potions() -> void:
-	potion_label.text = "Heiltränke: %d   [R]" % GameState.inventory.get_count(&"healing_potion")
+	var text := "Heiltränke: %d   [R]" % GameState.inventory.get_count(&"healing_potion")
+	var weapon := ItemDatabase.get_item(GameState.equipped_weapon) if GameState.equipped_weapon != &"" else null
+	if weapon:
+		text += "\nWaffe: %s" % weapon.display_name
+	var firearm := ItemDatabase.get_item(GameState.equipped_firearm) if GameState.equipped_firearm != &"" else null
+	if firearm:
+		text += "\n%s: %d Schuss   [V]" % [firearm.display_name, GameState.inventory.get_count(firearm.ammo_id)]
+	potion_label.text = text
 
 
 func _on_money_changed(amount: int) -> void:

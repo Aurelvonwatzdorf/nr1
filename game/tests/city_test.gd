@@ -46,7 +46,7 @@ func _run() -> void:
 		kinds.append((node as MapMarker).kind)
 	for kind: MapMarker.Kind in [MapMarker.Kind.MARKET, MapMarker.Kind.CHURCH, MapMarker.Kind.MOSQUE,
 			MapMarker.Kind.SYNAGOGUE, MapMarker.Kind.HOUSE_OF_SILENCE, MapMarker.Kind.CORPORATE_TOWER,
-			MapMarker.Kind.BARRACKS, MapMarker.Kind.ANCHOR_MIRROR]:
+			MapMarker.Kind.BARRACKS, MapMarker.Kind.ANCHOR_MIRROR, MapMarker.Kind.BLACK_MARKET]:
 		_check(kinds.has(kind), "Auf der Karte: %s" % MapMarker.get_kind_name(kind))
 	var map_data: MapData = city.get_node("MapData")
 	_check(map_data.area_name == "Santo Santiago" and map_data.shapes.size() > 150, "Grundriss für die Karte (%d Flächen)" % map_data.shapes.size())

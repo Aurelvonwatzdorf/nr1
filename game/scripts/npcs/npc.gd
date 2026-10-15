@@ -78,6 +78,7 @@ func _ready() -> void:
 	_roam_rng.seed = hash(npc_id)
 	_lane = _roam_rng.randf_range(-1.2, 1.2)
 	_wait_left = _roam_rng.randf_range(0.0, 3.0)
+	EventBus.shot_fired.connect(_on_shot_fired)
 
 
 func _physics_process(delta: float) -> void:
@@ -252,6 +253,16 @@ func _on_died() -> void:
 	tween.tween_property(model, "rotation:x", deg_to_rad(-90.0), 0.5)
 	tween.tween_interval(2.0)
 	tween.tween_callback(queue_free)
+
+
+## Schüsse in der Nähe: Leute laufen weg.
+func _on_shot_fired(from: Vector3) -> void:
+	if health.is_dead or global_position.distance_to(from) > 15.0:
+		return
+	_flee_time_left = flee_time
+	_flee_from = from
+	if _roam_rng.randf() < 0.4:
+		_shout("Er schießt!")
 
 
 ## Kurzer Ausruf über dem Kopf.

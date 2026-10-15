@@ -7,6 +7,16 @@ const PATHS: Dictionary[StringName, String] = {
 	&"power_ampoule": "res://resources/items/power_ampoule.tres",
 	&"stamina_talisman": "res://resources/items/stamina_talisman.tres",
 	&"heart_amulet": "res://resources/items/heart_amulet.tres",
+	&"short_sword": "res://resources/items/short_sword.tres",
+	&"battle_staff": "res://resources/items/battle_staff.tres",
+	&"vibro_blade": "res://resources/items/vibro_blade.tres",
+	&"pistol": "res://resources/items/pistol.tres",
+	&"pistol_ammo": "res://resources/items/pistol_ammo.tres",
+	&"radar_system": "res://resources/items/radar_system.tres",
+	&"leg_servos": "res://resources/items/leg_servos.tres",
+	&"dermal_plating": "res://resources/items/dermal_plating.tres",
+	&"neuro_booster": "res://resources/items/neuro_booster.tres",
+	&"heart_pump": "res://resources/items/heart_pump.tres",
 }
 
 static var _cache: Dictionary[StringName, ItemData] = {}

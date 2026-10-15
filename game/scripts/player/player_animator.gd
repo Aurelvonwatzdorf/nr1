@@ -37,6 +37,31 @@ func play(animation_name: StringName, duration: float = 0.3) -> void:
 			_tween.tween_property(visual_root, "rotation:x", deg_to_rad(-90.0), 0.5)
 
 
+## Schuss: kurzer Leuchtstrahl vom Lauf bis zum Einschlag, Mündungsblitz.
+func play_shot(from: Vector3, to: Vector3) -> void:
+	var length := from.distance_to(to)
+	if length < 0.1 or visual_root == null:
+		return
+	var beam := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.04, 0.04, length)
+	beam.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color(1.0, 0.85, 0.5)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	beam.material_override = material
+	var parent: Node = visual_root.get_tree().current_scene
+	if parent == null:
+		parent = visual_root
+	parent.add_child(beam)
+	beam.global_position = from.lerp(to, 0.5)
+	beam.look_at(to, Vector3.UP if absf((to - from).normalized().y) < 0.99 else Vector3.RIGHT)
+	var tween := beam.create_tween()
+	tween.tween_property(material, "albedo_color:a", 0.0, 0.12)
+	tween.tween_callback(beam.queue_free)
+
+
 ## Spielt einen Angriff. Die Platzhalter-Waffe schwingt während der Trefferphase.
 func play_attack(attack: AttackData) -> void:
 	if _travel(attack.animation_name) or weapon_pivot == null:

@@ -55,3 +55,8 @@ signal memories_lost(amount: int)
 signal money_changed(amount: int)
 ## Die Währung „Erinnerungen“ hat sich geändert.
 signal memories_changed(amount: int)
+
+## Waffe oder Schusswaffe aus- oder abgelegt.
+signal equipment_changed
+## Ein Schuss fiel (z. B. damit Leute in der Nähe fliehen).
+signal shot_fired(from: Vector3)
