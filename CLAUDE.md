@@ -210,6 +210,20 @@ tests/       Headless-Rauchtests
   Parameter `pressure`). Mit genug Spiritualität: Meldung „du hältst stand“, keine
   Wirkung. Erster Ort: `scenes/world/spirit_shrine.tscn` („Schrein der alten
   Geister“, Spiritualität 3) am Westrand von Santo Santiago (Kartensymbol ✧).
+- **Einladung & angehaltene Zeit**: `SpiritInvitation` (Kind des Schreins):
+  Wer den Druck aushält und näher als `trigger_radius` (14 m) kommt, dem
+  erscheinen 3 Geister; `GameState.time_stopped` (nicht gespeichert,
+  `EventBus.time_stop_changed`) setzt alle Knoten in `npcs`/`enemies` auf
+  `PROCESS_MODE_DISABLED` (kein Pausieren des Baums, denn das hält die Physik an),
+  das Overlay erstarrt grau-blau (Shader-Parameter `time_stop`). E am mittleren
+  Geist: „Mit ihnen gehen“ → `return_scene/return_transform` (vor dem Schrein),
+  Story-Flag `spirit_invitation_accepted`, Wechsel nach `spirit_world.tscn`;
+  „Noch nicht“ oder Weggehen (> `leave_radius`) → Zeit läuft weiter. Neu
+  erscheinen sie erst, wenn man den Ort verlassen hat (auch nach der Rückkehr).
+- **Geisterwelt** (`SpiritWorld` extends `Level`, baut sich im Code):
+  schwebende Lichtung, Geisterbäume, Lichter, „Der Älteste“ (Sätze je Figur,
+  `get_elder_lines()`), Tor zurück (`return_to_world()` → am Schrein aufwachen).
+  Story-Flag `visited_spirit_world`. Keine Spiegelrealität (Beten wirkt).
 - **Welt-Wechsel und Speichern**: `GameState.current_scene` (vom Level gesetzt,
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
@@ -602,8 +616,9 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
 - 🟨 **M8**: Geisterwelt, in Schritten:
   - ✅ M8.1 Beten / stille Einkehr: Spiritualität leveln (alle vier Häuser gleich)
   - ✅ M8.2 Spiritueller Druck (zu schwach = Schaden, Verlangsamung, Bild verschwimmt)
-  - M8.3 Einladung: Geister erscheinen, die Zeit steht still, Übergang in die Geisterwelt
-  - M8.4 Geisterwelt-Level (eigene Optik und Wesen)
+  - ✅ M8.3 Einladung: Geister erscheinen, die Zeit steht still, Übergang in die
+    Geisterwelt (erste Lichtung mit Ältestem und Tor zurück)
+  - M8.4 Geisterwelt-Level ausbauen (Wege, Orte, eigene Wesen, Rafas Bereich)
   - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.

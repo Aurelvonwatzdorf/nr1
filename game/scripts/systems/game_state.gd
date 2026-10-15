@@ -68,6 +68,8 @@ var reality_sight_blocked: bool = false
 var current_scene: String = ""
 ## Wie stark gerade spiritueller Druck auf der Spielfigur lastet (0–1). Nicht gespeichert.
 var spiritual_pressure: float = 0.0
+## Hält die Zeit gerade an (Geister laden ein)? Wird nicht gespeichert.
+var time_stopped: bool = false
 ## Spiritualitäts-Erfahrung bis zur nächsten Stufe (durch Beten/Einkehr).
 var spirit_experience: int = 0
 ## Wann man zuletzt an welchem Ort gebetet hat (Millisekunden). Nicht gespeichert.
@@ -309,6 +311,7 @@ func reset() -> void:
 	reality_sight_blocked = false
 	wanted_level = 0.0
 	spirit_experience = 0
+	time_stopped = false
 	_prayer_times.clear()
 	is_captured = false
 	return_scene = ""

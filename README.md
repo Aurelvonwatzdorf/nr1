@@ -89,7 +89,7 @@ godot --headless --path game res://tests/reality_test.tscn # Spiegelrealität
 - ✅ **M5**: Charakterauswahl, Fähigkeitenbäume, Ehrgeiz (Aurel), Raben (Tahirou), Blut
 - ✅ **M6**: Santo Santiago (Hauptstadt), Minimap & Karte, gezeichneter Look
 - ⬜ **M7**: Spiegelrealitäten, „Konzernturm“, Adam
-- ⬜ **M8**: Geisterwelt, Gebet, spiritueller Druck, Rituale
+- 🟨 **M8**: Geisterwelt: Gebet ✅, spiritueller Druck ✅, Einladung mit angehaltener Zeit ✅, Geisterwelt ausbauen, Rituale
 - ⬜ **M9**: Rafa & Daniel
 - ⬜ **M10**: Caspar & Schulden-Assassinen
 - ⬜ **M11+**: Weitere Regionen und Epochen, Gehege der Schweine, Spiegelstadt

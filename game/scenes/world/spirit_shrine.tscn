@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/world/spiritual_pressure_source.gd" id="1_source"]
 [ext_resource type="Script" path="res://scripts/world/map_marker.gd" id="2_marker"]
+[ext_resource type="Script" path="res://scripts/world/spirit_invitation.gd" id="3_invitation"]
 
 [sub_resource type="StandardMaterial3D" id="Material_stone"]
 albedo_color = Color(0.42, 0.4, 0.38, 1)
@@ -111,3 +112,6 @@ omni_range = 12.0
 script = ExtResource("2_marker")
 kind = 13
 label = "Schrein der alten Geister"
+
+[node name="Invitation" type="Node3D" parent="."]
+script = ExtResource("3_invitation")

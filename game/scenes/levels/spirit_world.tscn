@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/spirit_world.gd" id="1_world"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="4_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="5_remnant"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="6_map"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.12, 0.1, 0.28, 1)
+sky_horizon_color = Color(0.45, 0.62, 0.75, 1)
+ground_bottom_color = Color(0.05, 0.06, 0.14, 1)
+ground_horizon_color = Color(0.4, 0.55, 0.7, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+ambient_light_color = Color(0.55, 0.7, 0.9, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.2
+fog_enabled = true
+fog_light_color = Color(0.5, 0.65, 0.85, 1)
+fog_density = 0.012
+
+[node name="SpiritWorld" type="Node3D"]
+script = ExtResource("1_world")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 20, 0)
+light_color = Color(0.75, 0.85, 1, 1)
+light_energy = 0.7
+shadow_enabled = true
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("6_map")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 6)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("4_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("5_remnant")

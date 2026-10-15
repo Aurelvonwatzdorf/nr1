@@ -5,6 +5,7 @@ extends Node
 const REALITY := preload("res://scenes/levels/test_reality.tscn")
 const TOWER := preload("res://scenes/levels/corporate_tower.tscn")
 const MIRROR_CITY := preload("res://scenes/levels/mirror_city_reality.tscn")
+const SPIRIT_WORLD := preload("res://scenes/levels/spirit_world.tscn")
 
 var _failures: int = 0
 
@@ -78,6 +79,7 @@ func _run() -> void:
 	await _frames(3)
 	await _test_tower()
 	await _test_mirror_city()
+	await _test_spirit_world()
 
 	print("")
 	print("REALITÄTSTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
@@ -183,6 +185,37 @@ func _test_mirror_city() -> void:
 	GameState.has_pending_spawn = false
 	await get_tree().create_timer(1.6).timeout
 	mirror.queue_free()
+	await _frames(2)
+
+
+## Die Geisterwelt (nach der Einladung): Lichtung, Ältester, Tor zurück.
+func _test_spirit_world() -> void:
+	GameState.reset()
+	GameState.return_scene = "res://scenes/levels/santo_santiago.tscn"
+	GameState.return_transform = Transform3D(Basis.IDENTITY, Vector3(-149, 0.1, -8))
+	var world := SPIRIT_WORLD.instantiate() as SpiritWorld
+	world.change_scene_on_return = false
+	add_child(world)
+	await _frames(10)
+	var player: Player = world.get_node("Player")
+	_check(player.is_on_floor() and GameState.has_story_flag(&"visited_spirit_world"), "Geisterwelt: Man steht auf der Lichtung")
+	_check(not GameState.time_stopped and get_tree().get_first_node_in_group(&"reality") == null, "Die Geisterwelt ist echt, keine Spiegelrealität")
+	var dialogue := world.get_node("GameUI").find_child("DialogueBox", true, false) as DialogueBox
+	if dialogue == null:
+		dialogue = get_tree().get_first_node_in_group(&"dialogue_box") as DialogueBox
+	var elder_talk := world.get_node("Glade/Elder/TalkArea") as Interactable
+	elder_talk.interact(player)
+	await get_tree().process_frame
+	_check(dialogue.is_open and dialogue.speaker_label.text == "Der Älteste", "Der Älteste spricht")
+	dialogue.choose(0)
+	await get_tree().process_frame
+	_check(not dialogue.is_open, "Gespräch endet")
+	(world.get_node("Glade/ReturnGate/UseArea") as Interactable).interact(player)
+	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.is_equal_approx(Vector3(-149, 0.1, -8)) and GameState.return_scene == "",
+		"Tor zurück: Man kommt am Schrein heraus")
+	GameState.has_pending_spawn = false
+	GameState.pending_message = ""
+	world.queue_free()
 	await _frames(2)
 
 

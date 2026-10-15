@@ -26,6 +26,8 @@ func _enter_tree() -> void:
 			return
 	if scene_file_path != "":
 		GameState.current_scene = scene_file_path
+	# Eine angehaltene Zeit endet mit dem Weltwechsel.
+	GameState.time_stopped = false
 	# Checkpoint aus einer anderen Welt gilt hier nicht.
 	if GameState.has_checkpoint and GameState.checkpoint_scene != "" and GameState.checkpoint_scene != GameState.current_scene:
 		GameState.clear_checkpoint()

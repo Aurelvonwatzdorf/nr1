@@ -8,6 +8,8 @@ uniform float strength : hint_range(0.0, 1.0) = 0.0;
 uniform float distortion : hint_range(0.0, 1.0) = 0.0;
 // Spiritueller Druck: Bild verschwimmt und dunkelt vom Rand her ein.
 uniform float pressure : hint_range(0.0, 1.0) = 0.0;
+// Angehaltene Zeit: Die Welt erstarrt in kühlem Grau, nur ein feiner Schimmer bleibt.
+uniform float time_stop : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 tint : source_color = vec3(0.45, 0.85, 1.0);
 
 void fragment() {
@@ -33,6 +35,13 @@ void fragment() {
 		result = mix(result, blurred, pressure);
 		float dark = smoothstep(0.25, 0.75, length(uv - 0.5)) * pressure;
 		result = mix(result, vec3(0.9, 0.85, 0.7) * 0.15, dark);
+	}
+	if (time_stop > 0.0) {
+		float still = dot(result, vec3(0.299, 0.587, 0.114));
+		vec3 frozen = vec3(still) * vec3(0.82, 0.9, 1.0);
+		float rim = smoothstep(0.4, 0.8, length(uv - 0.5));
+		frozen = mix(frozen, vec3(0.65, 0.92, 1.0) * 0.6, rim * 0.5);
+		result = mix(result, frozen, time_stop * 0.85);
 	}
 	COLOR = vec4(result, 1.0);
 }

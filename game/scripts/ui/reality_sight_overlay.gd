@@ -7,6 +7,7 @@ const FADE_TIME := 0.35
 var _rect: ColorRect
 var _material: ShaderMaterial
 var _tween: Tween
+var _time_stop: float = 0.0
 
 
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 	_material.set_shader_parameter(&"strength", 0.0)
 	_material.set_shader_parameter(&"distortion", 0.0)
 	_material.set_shader_parameter(&"pressure", 0.0)
+	_material.set_shader_parameter(&"time_stop", 0.0)
 	_rect = ColorRect.new()
 	_rect.material = _material
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -26,12 +28,15 @@ func _ready() -> void:
 
 
 ## Verankerung in Spiegelrealitäten verzerrt das Bild, auch ohne Realitätsblick.
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var reality := get_tree().get_first_node_in_group(&"reality") as RealityLevel
 	var distortion := reality.get_fade() if reality else 0.0
+	# Angehaltene Zeit blendet weich ein und aus.
+	_time_stop = move_toward(_time_stop, 1.0 if GameState.time_stopped else 0.0, delta * 2.0)
 	_material.set_shader_parameter(&"distortion", distortion)
 	_material.set_shader_parameter(&"pressure", GameState.spiritual_pressure)
-	if distortion > 0.0 or GameState.spiritual_pressure > 0.0:
+	_material.set_shader_parameter(&"time_stop", _time_stop)
+	if distortion > 0.0 or GameState.spiritual_pressure > 0.0 or _time_stop > 0.0:
 		visible = true
 	elif not GameState.reality_sight_active and (_tween == null or not _tween.is_valid()):
 		visible = false

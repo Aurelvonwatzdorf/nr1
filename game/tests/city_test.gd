@@ -156,6 +156,48 @@ func _run() -> void:
 	for node in spots:
 		free = free and generator.is_free(Vector2((node as Node3D).global_position.x, (node as Node3D).global_position.z))
 	_check(free, "Gebetsorte liegen vor den Häusern, nicht darin")
+	# Einladung der Geister am Schrein: Zeit steht still, annehmen oder ablehnen.
+	var invitation: SpiritInvitation = shrine.get_node("Invitation")
+	invitation.change_scene_on_accept = false
+	var shrine_front := invitation.to_global(Vector3(0, 0.1, 9.0))
+	player.global_position = shrine_front
+	await _frames(4)
+	_check(not invitation.is_active(), "Mit zu wenig Spiritualität erscheinen keine Geister")
+	GameState.stats.spirituality = 3
+	await _frames(3)
+	var some_npc := get_tree().get_first_node_in_group(&"npcs")
+	_check(invitation.is_active() and GameState.time_stopped and some_npc.process_mode == Node.PROCESS_MODE_DISABLED and player.can_process(),
+		"Geister erscheinen, die Zeit steht still, nur die Figur bewegt sich")
+	var dialogue := get_tree().get_first_node_in_group(&"dialogue_box") as DialogueBox
+	var envoy_talk := invitation.find_child("TalkArea", true, false) as Interactable
+	envoy_talk.interact(player)
+	await get_tree().process_frame
+	dialogue.choose(0)
+	await get_tree().process_frame
+	dialogue.choose(1)
+	await _frames(3)
+	_check(not invitation.is_active() and not GameState.time_stopped and some_npc.process_mode != Node.PROCESS_MODE_DISABLED,
+		"„Noch nicht“: Die Geister gehen, die Zeit läuft weiter")
+	await _frames(3)
+	_check(not invitation.is_active(), "Sie kommen erst wieder, wenn man weggegangen ist")
+	player.global_position = Vector3(0, 0.1, 12)
+	await _frames(3)
+	player.global_position = shrine_front
+	await _frames(3)
+	envoy_talk = invitation.find_child("TalkArea", true, false) as Interactable
+	_check(invitation.is_active() and envoy_talk != null, "Zurückgekommen: Die Geister erscheinen wieder")
+	envoy_talk.interact(player)
+	await get_tree().process_frame
+	dialogue.choose(0)
+	await get_tree().process_frame
+	dialogue.choose(0)
+	await _frames(2)
+	_check(GameState.has_story_flag(&"spirit_invitation_accepted") and GameState.return_scene == city.scene_file_path and not GameState.time_stopped,
+		"Einladung angenommen: Rückkehrort am Schrein gemerkt")
+	GameState.return_scene = ""
+	GameState.stats.spirituality = 2
+	player.global_position = Vector3(0, 0.1, 12)
+	await _frames(3)
 
 	# Navi: Wegpunkt auf der großen Karte setzen, schnellster Weg über die Straßen
 	var target := Vector2(-22, 100)

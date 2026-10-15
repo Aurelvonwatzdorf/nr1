@@ -82,3 +82,5 @@ signal enemy_hit_by_player(enemy: Enemy)
 signal wanted_changed(level: float)
 ## Spiegeljäger haben die Spielfigur erwischt.
 signal player_captured(player: Player)
+## Die Zeit steht still (Einladung der Geister) bzw. läuft wieder.
+signal time_stop_changed(active: bool)
