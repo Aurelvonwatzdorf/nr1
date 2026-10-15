@@ -98,7 +98,8 @@ tests/       Headless-Rauchtests
   `ammo_id`), AMMO (`buy_amount` Stück pro Kauf). Ausgerüstet in
   `GameState.equipped_weapon/equipped_firearm` (Inventar: Ausrüsten/Ablegen).
   Implantate/Radar sind PERMANENT mit `bonus_speed`, `damage_reduction`,
-  `bonus_stamina_regen`, `grants_radar`, `grants_double_jump`
+  `bonus_stamina_regen`, `grants_radar` (Radar: Minimap zeigt Gegner im sichtbaren
+  Ausschnitt, große Karte nur im Umkreis `MapView.RADAR_RANGE` = 60 m), `grants_double_jump`
   (`Inventory.has_permanent_flag()`). Händler: `Merchant.stock/prices/greeting`;
   Dauerhaftes kauft man einmal. Schüsse (`EventBus.shot_fired`) lassen NPCs fliehen.
 - **Gegenstände**: `ItemData` (.tres in `resources/items/`, Art CONSUMABLE oder

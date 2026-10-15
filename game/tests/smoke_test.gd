@@ -458,6 +458,18 @@ func _run() -> void:
 	_check(not GameState.inventory.has_radar(), "Ohne Radar keine Gegner auf der Karte")
 	GameState.inventory.add(&"radar_system")
 	_check(GameState.inventory.has_radar(), "Radarsystem zeigt Gegner auf der Karte")
+	var big_map: MapView = arena.get_node("GameUI/WorldMapMenu").find_child("MapView") as MapView
+	var mini_map: MapView = arena.get_node("GameUI/HUD").find_child("Minimap") as MapView
+	var far_guard: Enemy = null
+	for node in get_tree().get_nodes_in_group(&"enemies"):
+		if node is Enemy:
+			far_guard = node as Enemy
+	var saved_pos := far_guard.global_position
+	far_guard.global_position = player.global_position + Vector3(MapView.RADAR_RANGE + 20.0, 0, 0)
+	var here := Vector2(player.global_position.x, player.global_position.z)
+	_check(not big_map.get_radar_contacts(here).has(far_guard) and mini_map.get_radar_contacts(here).has(far_guard),
+		"Radar: große Karte nur im Umkreis, Minimap zeigt alles im Ausschnitt")
+	far_guard.global_position = saved_pos
 	for id: StringName in [&"leg_servos", &"dermal_plating", &"radar_system", &"pistol", &"short_sword"]:
 		GameState.inventory.remove(id)
 	GameState.equipped_firearm = &""

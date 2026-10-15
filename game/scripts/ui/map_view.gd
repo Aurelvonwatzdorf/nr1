@@ -10,6 +10,8 @@ extends Control
 
 const BACKGROUND := Color(0.06, 0.07, 0.1, 0.85)
 const ROUTE_COLOR := Color(0.85, 0.35, 1.0)
+## Reichweite des Radars auf der großen Karte (Meter).
+const RADAR_RANGE := 60.0
 
 ## Umrechnung Welt → Bildschirm vom letzten Zeichnen (für Mausklicks).
 var _center: Vector2 = Vector2.ZERO
@@ -176,14 +178,35 @@ func _draw_route(to_screen: Callable, player: Player) -> void:
 
 
 ## Radar (gekauft auf dem Schwarzmarkt): Gegner als rote Punkte.
+## Minimap: alle Gegner im sichtbaren Ausschnitt. Große Karte: nur im
+## Umkreis `RADAR_RANGE` um die Spielfigur (als Kreis eingezeichnet).
 func _draw_radar(to_screen: Callable) -> void:
+	var player := get_tree().get_first_node_in_group(&"player") as Player
+	if player == null:
+		return
+	var player_at := Vector2(player.global_position.x, player.global_position.z)
+	if not minimap:
+		draw_arc(to_screen.call(player_at), RADAR_RANGE * _scale, 0.0, TAU, 48, Color(1.0, 0.3, 0.3, 0.6), 2.0)
+	for enemy in get_radar_contacts(player_at):
+		var at: Vector2 = to_screen.call(Vector2(enemy.global_position.x, enemy.global_position.z))
+		if Rect2(Vector2.ZERO, size).has_point(at):
+			draw_circle(at, 4.0, Color(1.0, 0.2, 0.2))
+
+
+## Welche Gegner das Radar gerade zeigt.
+func get_radar_contacts(player_at: Vector2) -> Array[Enemy]:
+	var contacts: Array[Enemy] = []
+	if not GameState.inventory.has_radar():
+		return contacts
 	for node: Node in get_tree().get_nodes_in_group(&"enemies"):
 		var enemy := node as Enemy
 		if enemy == null or enemy.health.is_dead:
 			continue
-		var at: Vector2 = to_screen.call(Vector2(enemy.global_position.x, enemy.global_position.z))
-		if Rect2(Vector2.ZERO, size).has_point(at):
-			draw_circle(at, 4.0, Color(1.0, 0.2, 0.2))
+		var at := Vector2(enemy.global_position.x, enemy.global_position.z)
+		if not minimap and at.distance_to(player_at) > RADAR_RANGE:
+			continue
+		contacts.append(enemy)
+	return contacts
 
 
 func _draw_player_arrow(at: Vector2, facing: float) -> void:
