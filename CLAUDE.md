@@ -123,7 +123,9 @@ tests/       Headless-Rauchtests
   `roam_radius` um ihren Platz, immer auffindbar) / CITY (über das Wegenetz
   `CityGenerator.waypoints`, meist im Viertel `home_quarter`, `home_loyalty`;
   wer sich verlaufen hat, geht nach Hause). `_can_roam()` sperrt es (Kranker,
-  wartende alte Frau). Einwohner (`Citizen`, `CitizenSpawner` im Level) wohnen
+  alte Frau; sie geht nach der Hilfe durch `home_door` in ihr Haus,
+  `scenes/world/small_house.tscn`, und bleibt dort). Level-Objekte unter
+  `keep_clear` reservieren mit Meta `clear_radius` mehr Platz. Einwohner (`Citizen`, `CitizenSpawner` im Level) wohnen
   in einem Viertel (Konzernangestellte im Konzernviertel usw.), sagen
   Alltagssätze aus ihrem Viertel; IDs `citizen_<viertel>_<n>` zählen fürs Moral-Gedächtnis.
 - **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
@@ -547,7 +549,8 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    getrennt von den Glaubensvierteln, damit kein Glaube mit Armut verknüpft wird:
    Norden Konzernviertel (reich, imperial: Zitadelle, Prachtstraße, Kaserne),
    Mitte Großer Markt mit den vier Vierteln ringsum (jeweils reichere Straßen im
-   Norden, ärmere im Süden), Süden „Die Senke“ (arm, Hütten, Ruinen). **Atheistisches Viertel**: Statt eines Gotteshauses ein
-   „Haus der Stille“ (Gemeinschaftshaus/Bibliothek)? Noch offen.
+   Norden, ärmere im Süden), Süden „Die Senke“ (arm, Hütten, Ruinen).
+   → **Vom Nutzer bestätigt**, ebenso das **„Haus der Stille“** im
+   atheistischen Viertel.
 7. **Beträge (vorläufig)**: Konzernwache lässt 15 Geld fallen, Heiltrank kostet
    40 Geld beim Händler. Lässt sich in den .tres-Dateien ändern.
