@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/realms/mirror_city_reality.gd" id="1_reality"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui"]
+[ext_resource type="Script" path="res://scripts/systems/respawn_manager.gd" id="5_respawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/memory_remnant.tscn" id="6_remnant"]
+[ext_resource type="Script" path="res://scripts/world/city_generator.gd" id="7_city"]
+[ext_resource type="Resource" path="res://resources/world/santo_santiago.tres" id="8_layout"]
+[ext_resource type="Script" path="res://scripts/world/map_data.gd" id="9_map"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.35, 0.36, 0.42, 1)
+sky_horizon_color = Color(0.55, 0.56, 0.6, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.55, 0.56, 0.6, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.48, 0.52, 0.6, 1)
+fog_density = 0.035
+
+[node name="MirrorCityReality" type="Node3D"]
+script = ExtResource("1_reality")
+reality_id = &"mirror_city"
+reality_name = "Die stille Straße"
+clues_needed = 2
+exit_scene = "res://scenes/levels/santo_santiago.tscn"
+anchoring_per_second = 0.5
+returns_to_capture_point = true
+wake_message = "Du bist entkommen. Du stehst wieder dort, wo sie dich erwischt haben."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.454519, 0.541675, 0, 0.766044, 0.642788, -0.707107, -0.454519, 0.541675, 0, 60, 0)
+light_energy = 0.6
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+
+[node name="MapData" type="Node" parent="."]
+script = ExtResource("9_map")
+
+[node name="City" type="Node3D" parent="." node_paths=PackedStringArray("map_data")]
+script = ExtResource("7_city")
+layout = ExtResource("8_layout")
+map_data = NodePath("../MapData")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 12)
+
+[node name="GameUI" parent="." instance=ExtResource("3_ui")]
+
+[node name="RespawnManager" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_respawn")
+player = NodePath("../Player")
+remnant_scene = ExtResource("6_remnant")

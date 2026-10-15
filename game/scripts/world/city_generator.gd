@@ -21,6 +21,9 @@ extends Node3D
 ## Deren Kinder (NPCs, Gegner, Spiegel, Gegenstände) bekommen Platz: Dort wird
 ## nichts gebaut.
 @export var keep_clear: Array[Node] = []
+## Zusätzliche freie Kreise Vector3(x, z, Radius), z. B. die der echten Stadt,
+## damit eine Spiegelrealität genau dieselben Häuser bekommt.
+@export var extra_clear_circles: Array[Vector3] = []
 
 const VINE_COLORS: Array[Color] = [Color(0.2, 1.0, 0.75), Color(0.45, 1.0, 0.4), Color(0.4, 0.85, 1.0)]
 const ROAD_COLOR := Color(0.11, 0.11, 0.13)
@@ -131,6 +134,8 @@ var _cells: Dictionary[Vector2i, Array] = {}
 var _road_cells: Dictionary[Vector2i, Array] = {}
 ## Frei zu haltende Kreise: Vector3(x, z, Radius).
 var _clear_circles: Array[Vector3] = []
+## Nur die frei gehaltenen Kreise von Spawn, extra_clear_circles und keep_clear.
+var _keep_clear_circles: Array[Vector3] = []
 var _building_material: ShaderMaterial
 var _materials: Dictionary[Color, StandardMaterial3D] = {}
 var _glow_materials: Dictionary[Color, StandardMaterial3D] = {}
@@ -721,8 +726,16 @@ static func _overlaps(a: Footprint, b: Footprint) -> bool:
 	return true
 
 
+## Alle frei gehaltenen Kreise (für eine identische Kopie der Stadt).
+func get_keep_clear_circles() -> Array[Vector3]:
+	return _keep_clear_circles.duplicate()
+
+
 func _reserve_keep_clear() -> void:
+	_keep_clear_circles.clear()
+	var before := _clear_circles.size()
 	_clear_circles.append(Vector3(layout.spawn_point.x, layout.spawn_point.z, KEEP_CLEAR_RADIUS))
+	_clear_circles.append_array(extra_clear_circles)
 	for root in keep_clear:
 		if root == null:
 			continue
@@ -731,6 +744,7 @@ func _reserve_keep_clear() -> void:
 			# Größere Dinge (z. B. ein Haus aus der Level-Szene) geben ihren Radius selbst an.
 			var radius: float = spot.get_meta(&"clear_radius", KEEP_CLEAR_RADIUS)
 			_clear_circles.append(Vector3(spot.global_position.x, spot.global_position.z, radius))
+	_keep_clear_circles = _clear_circles.slice(before)
 
 
 # --- Häuser verteilen ---

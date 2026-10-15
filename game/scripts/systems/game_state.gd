@@ -73,6 +73,10 @@ var is_captured: bool = false
 ## Wo man nach dem Ausbruch aus einer Gefangenen-Realität aufwacht.
 var return_scene: String = ""
 var return_transform: Transform3D = Transform3D.IDENTITY
+## Bezirk (CityDistrict.id), in dem man gefangen wurde, und die frei gehaltenen
+## Stellen der Stadt (damit die Spiegelrealität genau dieselben Häuser hat).
+var capture_district: StringName = &""
+var capture_clear_circles: Array[Vector3] = []
 
 ## Startpunkt im nächsten Level (z. B. nach dem Ausbruch). Nicht gespeichert.
 var has_pending_spawn: bool = false
@@ -296,6 +300,8 @@ func to_dict() -> Dictionary:
 		"current_scene": current_scene,
 		"return_scene": return_scene,
 		"return_transform": var_to_str(return_transform),
+		"capture_district": String(capture_district),
+		"capture_clear_circles": var_to_str(capture_clear_circles),
 		"checkpoint_scene": checkpoint_scene,
 		"equipped_weapon": String(equipped_weapon),
 		"equipped_firearm": String(equipped_firearm),
@@ -325,6 +331,13 @@ func from_dict(data: Dictionary) -> void:
 	var saved_return: Variant = str_to_var(str(data.get("return_transform", "")))
 	if saved_return is Transform3D:
 		return_transform = saved_return
+	capture_district = StringName(str(data.get("capture_district", "")))
+	var saved_circles: Variant = str_to_var(str(data.get("capture_clear_circles", "")))
+	capture_clear_circles.clear()
+	if saved_circles is Array:
+		for circle: Variant in saved_circles:
+			if circle is Vector3:
+				capture_clear_circles.append(circle)
 	checkpoint_scene = str(data.get("checkpoint_scene", ""))
 	equipped_weapon = StringName(str(data.get("equipped_weapon", "")))
 	equipped_firearm = StringName(str(data.get("equipped_firearm", "")))

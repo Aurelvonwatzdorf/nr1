@@ -4,7 +4,7 @@ extends Node
 
 const REALITY := preload("res://scenes/levels/test_reality.tscn")
 const TOWER := preload("res://scenes/levels/corporate_tower.tscn")
-const CELL := preload("res://scenes/levels/capture_cell.tscn")
+const MIRROR_CITY := preload("res://scenes/levels/mirror_city_reality.tscn")
 
 var _failures: int = 0
 
@@ -77,7 +77,7 @@ func _run() -> void:
 	reality.queue_free()
 	await _frames(3)
 	await _test_tower()
-	await _test_capture_cell()
+	await _test_mirror_city()
 
 	print("")
 	print("REALITÄTSTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
@@ -137,25 +137,27 @@ func _test_tower() -> void:
 	await _frames(2)
 
 
-## Das Wartezimmer: Gefangenen-Realität, nach dem Ausbruch zurück zum Fangort.
-func _test_capture_cell() -> void:
+## Gefangen auf dem Markt: Die Spiegelrealität ist eine Kopie des Marktes.
+func _test_mirror_city() -> void:
 	GameState.reset()
 	GameState.return_scene = "res://scenes/levels/santo_santiago.tscn"
-	GameState.return_transform = Transform3D(Basis.IDENTITY, Vector3(5, 0.1, 9))
-	var cell := CELL.instantiate() as CaptureCell
-	cell.change_scene_on_break = false
-	add_child(cell)
+	GameState.return_transform = Transform3D(Basis.IDENTITY, Vector3(6, 0.1, 16))
+	GameState.capture_district = &"market"
+	var mirror := MIRROR_CITY.instantiate() as MirrorCityReality
+	mirror.change_scene_on_break = false
+	add_child(mirror)
 	await _frames(5)
-	var player: Player = cell.get_node("Player")
-	_check(cell.clues_needed == 2 and cell.returns_to_capture_point, "Wartezimmer: 2 Risse, Rückkehr zum Fangort")
-	var space := cell.get_world_3d().direct_space_state
+	var player: Player = mirror.get_node("Player")
+	_check(mirror.reality_name == "Der Markt ohne Ende" and mirror.city.building_count > 300, "Gefangen auf dem Markt: Kopie der Stadt, „Der Markt ohne Ende“")
+	_check(player.global_position.distance_to(Vector3(6, 0.1, 16)) < 1.0, "Man wacht genau am Fangort auf")
+	var space := mirror.get_world_3d().direct_space_state
 	var probe := CapsuleShape3D.new()
 	probe.radius = 0.35
 	probe.height = 1.6
 	var blocked: Array[String] = []
-	var spots: Array[Node3D] = [player, cell.get_node("AnchorMirror/SpawnPoint"), cell.get_node("Rift")]
+	var spots: Array[Node3D] = [player, mirror.get_node("AnchorMirror/SpawnPoint"), mirror.get_node("Rift")]
 	for group_name: String in ["NPCs", "Clues"]:
-		for node in cell.get_node(group_name).get_children():
+		for node in mirror.get_node(group_name).get_children():
 			spots.append(node as Node3D)
 	for spot in spots:
 		var query := PhysicsShapeQueryParameters3D.new()
@@ -164,21 +166,23 @@ func _test_capture_cell() -> void:
 		query.collision_mask = PhysicsLayers.WORLD
 		if not space.intersect_shape(query, 1).is_empty():
 			blocked.append(String(spot.name))
-	_check(blocked.is_empty(), "Wartezimmer: alles steht frei %s" % [blocked])
+	_check(blocked.is_empty() and spots.size() == 8, "Risse, Riss, Spiegel und Schattengestalten stehen frei auf der Straße %s" % [blocked])
+	var near := true
+	for node in mirror.get_node("Clues").get_children():
+		near = near and (node as Node3D).global_position.distance_to(player.global_position) < 70.0
+	_check(near, "Die Risse liegen in der Nähe des Fangorts")
 	player.focus.refill()
 	player.start_reality_sight()
-	_check(not (cell.get_node("BackDoor") as RealityLayerObject).is_present(), "Falsche Tür verschwindet im Realitätsblick")
-	for node in cell.get_node("Clues").get_children():
+	for node in mirror.get_node("Clues").get_children():
 		(node as RealityClue).interact(player)
 	await _frames(2)
-	cell.break_reality()
+	mirror.break_reality()
 	await _frames(2)
-	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.is_equal_approx(Vector3(5, 0.1, 9)) and GameState.return_scene == "",
+	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.is_equal_approx(Vector3(6, 0.1, 16)) and not GameState.is_captured,
 		"Ausbruch: Man wacht dort auf, wo man gefangen wurde")
-	_check(not GameState.is_captured, "Ausbruch beendet die Gefangenschaft")
 	GameState.has_pending_spawn = false
 	await get_tree().create_timer(1.6).timeout
-	cell.queue_free()
+	mirror.queue_free()
 	await _frames(2)
 
 

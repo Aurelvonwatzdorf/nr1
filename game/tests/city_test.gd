@@ -185,6 +185,16 @@ func _run() -> void:
 	await _frames(3)
 	_check(captured.size() == 1 and not player.health.is_dead, "Besiegt von Spiegeljägern: gefangen statt tot")
 	_check(GameState.wanted_level == 0.0 and wanted.hunters.is_empty() and GameState.return_scene != "", "Fahndung vorbei, Rückkehrort gemerkt")
+	_check(GameState.capture_district == &"corporate" and not GameState.capture_clear_circles.is_empty(), "Fangort gemerkt: Konzernviertel")
+	# Die Spiegelrealität baut genau dieselbe Stadt (gleiche Häuser).
+	var mirror := (load("res://scenes/levels/mirror_city_reality.tscn") as PackedScene).instantiate() as MirrorCityReality
+	mirror.change_scene_on_break = false
+	add_child(mirror)
+	await _frames(3)
+	_check(mirror.city.building_count == generator.building_count and mirror.reality_name == "Der endlose Feierabend",
+		"Spiegelrealität gleicht dem Fangort (%d = %d Häuser)" % [mirror.city.building_count, generator.building_count])
+	mirror.queue_free()
+	await _frames(3)
 	GameState.is_captured = false
 	GameState.return_scene = ""
 	await _frames(3)

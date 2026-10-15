@@ -12,7 +12,7 @@ const HUNTER_DATA := preload("res://resources/enemies/mirror_hunter.tres")
 
 @export var city: CityGenerator
 ## Realität, in die man gesperrt wird (leer = nur Signal, z. B. im Test).
-@export_file("*.tscn") var capture_scene: String = "res://scenes/levels/capture_cell.tscn"
+@export_file("*.tscn") var capture_scene: String = "res://scenes/levels/mirror_city_reality.tscn"
 @export var hit_gain: float = 12.0
 @export var kill_gain: float = 25.0
 @export var shot_gain: float = 8.0
@@ -126,15 +126,15 @@ func _on_shot_fired(from: Vector3) -> void:
 			return
 
 
-## Erwischt: Man wacht in einer Spiegelrealität auf. Nach dem Ausbruch geht es
-## am letzten Ankerspiegel (oder hier) weiter.
+## Erwischt: Man wacht in einer Spiegelrealität auf, die genau diesem Ort
+## gleicht. Nach dem Ausbruch wacht man hier wieder auf.
 func _on_player_captured(player: Player) -> void:
-	var here := GameState.current_scene
-	GameState.return_scene = here
-	if GameState.has_checkpoint and GameState.checkpoint_scene == here:
-		GameState.return_transform = GameState.checkpoint_transform
-	else:
-		GameState.return_transform = player.global_transform
+	GameState.return_scene = GameState.current_scene
+	GameState.return_transform = player.global_transform
+	if city:
+		var at := Vector2(player.global_position.x, player.global_position.z)
+		GameState.capture_district = city.district_at(at).id if city.is_inside_city(at) else &"slum"
+		GameState.capture_clear_circles = city.get_keep_clear_circles()
 	_set_wanted(0.0)
 	_dismiss_hunters()
 	EventBus.message_requested.emit("Die Spiegeljäger haben dich erwischt …")
