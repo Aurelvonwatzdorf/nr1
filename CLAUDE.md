@@ -23,6 +23,39 @@ Das Repository enthält zwei Dinge:
 - Vor „fertig“ immer Skriptfehler prüfen (siehe Abschnitt 1, „Prüfen“).
 - Nach jedem Meilenstein: erklären, wie man testet, und fragen, ob es weitergeht.
 
+### Zusammenarbeit Browser (Cloud) und Terminal (Mac)
+Der Nutzer arbeitet mit zwei Claude-Code-Sitzungen am selben Projekt: im
+Browser (Cloud) und im Terminal auf seinem Mac. Gemeinsamer Stand ist **nur
+GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
+- **Branch fürs Spiel:** `claude/youthful-ptolemy-6ekfbs`. Achtung: Der
+  Standard-Branch auf GitHub ist ein Video-Branch. Darum beim Klonen den Branch
+  angeben: `git clone -b claude/youthful-ptolemy-6ekfbs https://github.com/aurelvonwatzdorf/nr1`.
+  Andere Branches nur nach Rückfrage benutzen oder zusammenführen.
+- **Vor dem Arbeiten** `git pull`, **nach jedem grünen Schritt** committen und
+  `git push`. Nie ungepushte Arbeit liegen lassen.
+- **Immer nur eine Sitzung gleichzeitig** am Spiel arbeiten lassen, sonst gibt es
+  Konflikte. Gibt es doch einen Konflikt: zusammenführen (merge), nicht
+  überschreiben, und den Nutzer fragen, wenn beide Seiten dieselbe Logik ändern.
+- **Entscheidungen** des Nutzers sofort hier eintragen (bzw. in `STAND.md`),
+  damit die andere Sitzung sie kennt.
+- **`STAND.md`** (im Hauptordner) = Übergabe-Notiz: aktueller Stand, letzter
+  Commit, nächster Schritt, offene Fragen. Am Ende jeder Arbeitsrunde aktualisieren.
+- **Godot-Version:** überall 4.7.x (Cloud: 4.7.2). Auf dem Mac keine andere
+  Hauptversion öffnen, sonst schreibt der Editor Dateien in neuem Format um.
+- **Visuelles** (Farben, Effekte, Ruckeln) kann nur der Mac prüfen: Die Cloud
+  läuft ohne Bild. Solche Prüfungen dem Nutzer bzw. der Terminal-Sitzung überlassen.
+- **Vor jeder Entscheidung den Nutzer fragen**, ob es passt (Wunsch des Nutzers).
+
+### REA (Reverse-Engineering-Skill)
+`.claude/skills/reverse-engineer-anything/` (aus morluto/rea, MIT-Lizenz). Auf
+dem Mac mit `npx rea-agents setup` eingerichtet. Regeln für dieses Projekt:
+- Nur zum **Verstehen**, wie eine Mechanik grundsätzlich funktioniert (z. B. wie
+  ein Spiel eine Kamera oder ein Kampfsystem löst), oder zum Untersuchen
+  **eigener** Exporte (z. B. warum ein eigener Build ruckelt).
+- **Nie** fremden Code, fremde Assets, Namen, Texte oder Daten übernehmen; immer
+  eigene Umsetzung in GDScript. Lizenzen/Nutzungsbedingungen beachten.
+- Für den eigenen Quellcode **kein** REA nötig (normale Werkzeuge genügen).
+
 ---
 
 ## 1. Technik
@@ -37,22 +70,17 @@ Das Repository enthält zwei Dinge:
   in der Hauptszene. Testarena und `test_reality.tscn` bleiben zum Ausprobieren.
 
 ### Prüfen (vor jedem „fertig“)
+Ein Befehl für alles (Mac, Linux, Cloud), vom Ordner `nr1` aus:
 ```bash
-godot --headless --path game --import          # Assets/Klassen importieren
-godot --headless --path game --quit            # Projekt laden, Skriptfehler zeigen
-godot --headless --path game res://tests/smoke_test.tscn  # Logik-Rauchtest (Exit 0 = ok)
-godot --headless --path game res://tests/city_test.tscn   # Stadt-Test (Exit 0 = ok)
-godot --headless --path game res://tests/reality_test.tscn  # Spiegelrealität (Exit 0 = ok)
+./game/tools/run_tests.sh     # Import, Skriptfehler, smoke/city/reality-Test; Exit 0 = grün
 ```
-In der Cloud-Umgebung ist Godot nicht vorinstalliert und Release-Downloads sind
-gesperrt. Es wurde aus dem Quellcode gebaut (Tag `4.7.2-stable`, Klon unter
-`/home/user/godotengine/godot`, ca. 30–60 Min.):
-```bash
-pip install scons
-scons platform=linuxbsd target=editor x11=no wayland=no vulkan=no opengl3=no \
-  alsa=no pulseaudio=no dbus=no speechd=no fontconfig=no udev=no accesskit=no sdl=no -j4
-# Ergebnis: bin/godot.linuxbsd.editor.x86_64
-```
+Es sucht Godot über `$GODOT`, dann `godot` im PATH, dann
+`/Applications/Godot.app` (Mac). Einzeln geht es weiterhin mit
+`godot --headless --path game res://tests/<name>.tscn`.
+
+**Cloud:** Der SessionStart-Hook (`.claude/hooks/session-start.sh`, eingetragen in
+`.claude/settings.json`) lädt beim Start den offiziellen Godot-4.7.2-Build von
+GitHub (ca. 3 s) nach `~/.local/bin/godot`. Kein Bauen aus dem Quellcode mehr nötig.
 
 ### Ordnerstruktur (`game/`)
 ```
