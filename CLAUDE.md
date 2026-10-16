@@ -82,13 +82,14 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
 - **Projektordner:** `game/` (dort liegt `project.godot`).
 - **Hauptszene:** `res://scenes/levels/corporate_tower.tscn` (Der Konzernturm,
   Spielstart). Nach dem Bruch geht es nach `santo_santiago.tscn`; mit Spielstand
-  wechselt das Spiel direkt in die gespeicherte Welt. „Neues Spiel“ startet immer
+  wechselt das Spiel direkt in die gespeicherte Welt. Das Südtor von Santo
+  Santiago führt auf den Kontinent (`continent.tscn`). „Neues Spiel“ startet immer
   in der Hauptszene. Testarena und `test_reality.tscn` bleiben zum Ausprobieren.
 
 ### Prüfen (vor jedem „fertig“)
 Ein Befehl für alles (Mac, Linux, Cloud), vom Ordner `nr1` aus:
 ```bash
-./game/tools/run_tests.sh     # Import, Skriptfehler, smoke/city/reality-Test; Exit 0 = grün
+./game/tools/run_tests.sh     # Import, Skriptfehler, smoke/city/reality/continent-Test; Exit 0 = grün
 ```
 Es sucht Godot über `$GODOT`, dann `godot` im PATH, dann
 `/Applications/Godot.app` (Mac). Einzeln geht es weiterhin mit
@@ -283,6 +284,20 @@ tests/       Headless-Rauchtests
   gespeichert): Nach dem Laden wechselt das Spiel in die gespeicherte Welt.
   Checkpoints gehören zu einer Szene (`checkpoint_scene`); in einer anderen Welt
   gelten sie nicht.
+- **Kontinent Aurion** (`scenes/levels/continent.tscn`, `ContinentWorld`
+  extends Level): `ContinentGenerator` baut aus `ContinentLayout`
+  (`resources/world/continent.tres`, erzeugt von `tools/make_continent.gd`; Werte
+  dort ändern und neu erzeugen) Höhenraster (8 m), Küste, Straßen (eingeebnet,
+  max. Steigung), Fluss, Pflanzen (`ContinentPlants`, MultiMesh) und Bauten
+  (`ContinentLandmarks._build_<art>`). Neun Regionen (`ContinentRegion`: Stil,
+  Epoche, Farben, Nebel, Bewohner-Sätze), Design in `docs/welt/KONTINENT.md`.
+  Entdecken: `GameState.discovered_regions` (gespeichert), Titelkarte
+  (`hud.show_region_title`), Karte zeigt „???“ und versteckt Symbole
+  unentdeckter Regionen. Tiefes Meer setzt zurück an Land. Übergänge mit
+  `TravelGate` (Interactable, `pending_spawn`): Südtor in Santo Santiago ↔
+  Stadttor auf dem Kontinent. Bergtempel (Kagerō, versiegeltes Tor) = Ort des
+  Rituals (M8.5); „Herz des Nebelwalds“ = Druckquelle Spiritualität 5.
+  Ausbau per Skill `/region-ausbau`.
 - **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
   auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz
@@ -311,7 +326,7 @@ tests/       Headless-Rauchtests
   hochgeladenen „Blade_runner_style_Cityscapes.blend“, Grundfläche auf 1 normiert,
   Maße in `manifest.json` und `CityGenerator.KIT_*`). **Lizenz vor einer
   Veröffentlichung prüfen.**
-- **Commits nur, wenn alle drei Tests grün sind.**
+- **Commits nur, wenn alle Tests grün sind** (smoke, city, reality, continent).
 - **Platzierung in der Stadt**: Figuren, Spiegel und Gegenstände auf Straßen und
   Plätze stellen; der Stadt-Test prüft, dass nichts in einem Haus steckt.
 - Beim Erzeugen von Knoten mit Kollision **erst Position setzen, dann
@@ -701,6 +716,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)
 - ✅ **Mechanik-Studie 1**: Wucht (schwere Waffen, Zweihand-Hammer), Schubsprung,
   Wandlauf, Nachhall (Zeitlupe), Fernzugriff (Aurel hackt Konzern-Wachen).
+- ✅ **K1**: Kontinent „Aurion“: neun Regionen als Zeitinseln (Zukunft,
+  Mittelalter, Altes Ägypten, Gegenwart, Reiterclans, Schreine …), Straßen,
+  Fluss, Wahrzeichen, Bewohner, Entdecken mit Titelkarte, Südtor-Übergang,
+  Kontinent-Test, Skill `/region-ausbau`.
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),
@@ -723,7 +742,8 @@ in ihren `.tres` dieselben Grundwerte und unterscheiden sich nur in Name und Far
    - **Welche Gegenstände braucht das Ritual?** Und wo liegen die Bergtempel?
    - **Rafas Geschichte**: Bleibt die Spiegelstadt sein Kapitel (Abschnitt 6)?
 4. **Spieltitel**: noch offen (Arbeitstitel „Spiegelrealitäten“).
-5. **Wie hängen die Ebenen zusammen?** Eingang in Spiegelrealitäten ist
+5. **Wie hängen die Ebenen zusammen?** (Vorschlag gebaut, K1: Die Regionen
+   sind „Zeitinseln“, entstanden durch den „Zeitbruch“; Nutzer kann ändern.) Eingang in Spiegelrealitäten ist
    **entschieden** (gefangen werden, Abschnitt 6). Noch offen: Wie hängt die Epochen-Karte mit Konzernen und
    Spiegelrealitäten zusammen (z. B. sind manche Epochen-Regionen selbst
    Illusionen)?

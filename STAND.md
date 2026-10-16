@@ -5,6 +5,18 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **K1 Kontinent „Aurion“** (freie Hand vom Nutzer, Design in
+  `docs/welt/KONTINENT.md`): neun Regionen als „Zeitinseln“ mit eigener Epoche,
+  Bauweise, Pflanzen, Bewohnern, Nebelstimmung. Santo Santiago (Zukunft), Die
+  Narbe (verwüstet), Kagerō-Gebirge (Schreine, Bergtempel = Ort für das Ritual
+  M8.5), Ewige Steppe (Reiterclans), Grauwald-Mark (Mittelalter, Burg),
+  Nebelwald (zeitlos, „Herz des Nebelwalds“, Spiritualität 5), Sonnenreich
+  Kemet (Altes Ägypten, Pyramiden, Fluss), Neu-Vallis (Gegenwart), Gläserne
+  Küste (ferne Zukunft). Straßenring + Speichen, Serpentine zum Bergtempel.
+  Eingang: **Südtor von Santo Santiago** („Die Stadt verlassen“); zurück durch
+  das Stadttor. Entdecken mit Titelkarte, Karte zeigt „???“ für Unentdecktes.
+  Neuer Test `continent_test` (23 Prüfungen), Screenshots 10–19.
+  Automatisierung: `/region-ausbau <Region>` baut eine Region weiter aus.
 - **Mechanik-Studie 1** (`/mechanik-studie`, Notizen in `docs/mechaniken/`),
   alles gebaut und im Rauchtest geprüft:
   - Wucht: schwere Schläge mit Ausholen, nicht unterbrechbar durch leichte
@@ -33,6 +45,8 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   damit der Nutzer den Schrein ohne langes Beten testen kann.
 
 ## Noch vom Nutzer zu prüfen (nur am Mac sichtbar)
+- Kontinent: Farben, Nebel, Berge (in der Cloud wirken sie blass), Tempo beim
+  Laufen, Ruckeln? Bilder `screenshots/cloud/10_…19_*.png` zum Vergleich.
 - Wie sehen der Grau-Effekt der angehaltenen Zeit, die Geister und die
   Geisterwelt aus? Passen Farben und Leuchten?
 

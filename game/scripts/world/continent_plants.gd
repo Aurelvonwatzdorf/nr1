@@ -13,6 +13,7 @@ var _plain_material: StandardMaterial3D
 func _init() -> void:
 	_plain_material = ToonStyle.make(Color.WHITE)
 	_plain_material.vertex_color_use_as_albedo = true
+	_plain_material.vertex_color_is_srgb = true
 
 
 ## Welche Pflanze an dieser Stelle wächst ("" = keine).

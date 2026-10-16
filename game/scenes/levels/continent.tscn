@@ -10,8 +10,8 @@
 [ext_resource type="Resource" path="res://resources/world/continent.tres" id="8_layout"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
-sky_top_color = Color(0.32, 0.45, 0.72, 1)
-sky_horizon_color = Color(0.82, 0.78, 0.8, 1)
+sky_top_color = Color(0.22, 0.36, 0.62, 1)
+sky_horizon_color = Color(0.7, 0.68, 0.74, 1)
 ground_bottom_color = Color(0.2, 0.22, 0.26, 1)
 ground_horizon_color = Color(0.75, 0.72, 0.75, 1)
 sun_angle_max = 30.0
@@ -23,12 +23,13 @@ sky_material = SubResource("Sky_material")
 background_mode = 2
 sky = SubResource("Sky_main")
 ambient_light_source = 3
+ambient_light_energy = 0.7
 tonemap_mode = 2
 glow_enabled = true
 glow_intensity = 0.9
 fog_enabled = true
 fog_light_color = Color(0.75, 0.75, 0.85, 1)
-fog_density = 0.002
+fog_density = 0.0006
 fog_sky_affect = 0.3
 
 [node name="ContinentWorld" type="Node3D"]

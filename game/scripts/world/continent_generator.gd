@@ -20,8 +20,8 @@ const MAX_ROAD_GRADE := 0.45
 const RIVER_WIDTH := 10.0
 const RIVER_BANK := 45.0
 const CHUNK_CELLS := 25
-const SNOW_HEIGHT := 110.0
-const ROCK_COLOR := Color(0.42, 0.4, 0.4)
+const SNOW_HEIGHT := 185.0
+const ROCK_COLOR := Color(0.36, 0.33, 0.32)
 const SNOW_COLOR := Color(0.92, 0.93, 0.97)
 const SAND_COLOR := Color(0.86, 0.79, 0.58)
 const BANK_COLOR := Color(0.28, 0.52, 0.22)
@@ -293,7 +293,9 @@ func _raw_height(p: Vector2) -> float:
 		land = lerpf(plains, h / total, clampf(total * 3.0, 0.0, 1.0))
 	# Küste folgt den Regionen: Wo keine Region mehr wirkt, beginnt das Meer.
 	var shore := 0.012 * _noise.get_noise_2d(p.x * 0.006 + 40.0, p.y * 0.006)
-	var mask := smoothstep(0.018, 0.065, total + shore)
+	# Kernland um die Hauptstadt: dort keine Buchten.
+	var core := 0.2 * exp(-pow(p.length() / 520.0, 2.0))
+	var mask := smoothstep(0.018, 0.065, total + core + shore)
 	return lerpf(SEA_DEPTH, land, mask)
 
 
@@ -505,6 +507,7 @@ func _near_river(ix: int, iz: int) -> bool:
 func _build_terrain() -> void:
 	_terrain_material = ToonStyle.make(Color.WHITE, false)
 	_terrain_material.vertex_color_use_as_albedo = true
+	_terrain_material.vertex_color_is_srgb = true
 	_terrain_material.roughness = 1.0
 	_terrain_material.set_meta(&"no_outline", true)
 	var terrain := Node3D.new()
@@ -575,7 +578,7 @@ func _chunk_mesh(x0: int, z0: int) -> ArrayMesh:
 
 func _build_water() -> void:
 	var plane := PlaneMesh.new()
-	plane.size = Vector2.ONE * (layout.half_size * 2.0 + 1600.0)
+	plane.size = Vector2.ONE * 16000.0
 	var material := StandardMaterial3D.new()
 	material.albedo_color = WATER_COLOR
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
