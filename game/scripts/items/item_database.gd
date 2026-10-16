@@ -10,6 +10,7 @@ const PATHS: Dictionary[StringName, String] = {
 	&"short_sword": "res://resources/items/short_sword.tres",
 	&"battle_staff": "res://resources/items/battle_staff.tres",
 	&"vibro_blade": "res://resources/items/vibro_blade.tres",
+	&"war_hammer": "res://resources/items/war_hammer.tres",
 	&"pistol": "res://resources/items/pistol.tres",
 	&"pistol_ammo": "res://resources/items/pistol_ammo.tres",
 	&"radar_system": "res://resources/items/radar_system.tres",

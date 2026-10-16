@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://scripts/systems/wanted_system.gd" id="27_wanted"]
 [ext_resource type="PackedScene" path="res://scenes/world/spirit_shrine.tscn" id="28_shrine"]
 [ext_resource type="Resource" path="res://resources/items/short_sword.tres" id="item_short_sword"]
+[ext_resource type="Resource" path="res://resources/items/war_hammer.tres" id="item_war_hammer"]
 [ext_resource type="Resource" path="res://resources/items/battle_staff.tres" id="item_battle_staff"]
 [ext_resource type="Resource" path="res://resources/items/vibro_blade.tres" id="item_vibro_blade"]
 [ext_resource type="Resource" path="res://resources/items/pistol.tres" id="item_pistol"]
@@ -218,8 +219,8 @@ mission_id = &"heal_sick_man"
 [node name="Weaponsmith" parent="NPCs" instance=ExtResource("10_npc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -15)
 script = ExtResource("11_merchant")
-stock = Array[Resource]([ExtResource("item_short_sword"), ExtResource("item_battle_staff")])
-prices = Array[int]([120, 90])
+stock = Array[Resource]([ExtResource("item_short_sword"), ExtResource("item_battle_staff"), ExtResource("item_war_hammer")])
+prices = Array[int]([120, 90, 500])
 greeting = "Ehrlicher Stahl, ehrliche Preise. Was brauchst du?"
 npc_id = &"city_weaponsmith"
 display_name = "Waffenschmied"

@@ -18,6 +18,15 @@ func is_heavy() -> bool:
 	return _heavy
 
 
+func get_attack() -> AttackData:
+	return _attack
+
+
+## Wucht: Hält der laufende Schlag diesen Treffer aus (keine Unterbrechung)?
+func withstands(damage: float) -> bool:
+	return _attack != null and _attack.withstands(_time, damage)
+
+
 func enter(msg: Dictionary = {}) -> void:
 	var heavy: bool = msg.get("heavy", false)
 	var heavy_attack := player.get_heavy_attack()
@@ -56,6 +65,17 @@ func physics_update(delta: float) -> void:
 			state_machine.transition_to(&"dodge")
 			return
 	else:
+		if _phase == Phase.STARTUP:
+			# Schwere Schläge: beim Ausholen nur wenig nachdrehen, abbrechen kostet extra.
+			if _attack.windup_turn_factor > 0.0:
+				var aim := player.get_direction_to_lock_target()
+				var wanted := aim if aim != Vector3.ZERO else player.get_move_direction()
+				player.turn_towards(wanted, delta * _attack.windup_turn_factor)
+			if _attack.startup_cancel_cost >= 0.0 and player.is_input_enabled() \
+					and player.stamina.can_act() and Input.is_action_just_pressed(&"dodge"):
+				player.stamina.consume(_attack.startup_cancel_cost)
+				state_machine.transition_to(&"dodge")
+				return
 		# Kurzer Schub nach vorn beim Zuschlagen.
 		var lunge := player.get_facing_direction() * _attack.lunge_speed
 		player.velocity.x = lunge.x

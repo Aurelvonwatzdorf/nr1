@@ -35,6 +35,8 @@ var _pitch: float = deg_to_rad(-20.0)
 ## Aktuelle Wackelstärke 0 bis 1 („Trauma“).
 var _trauma: float = 0.0
 var _shake_time: float = 0.0
+## Ruck in eine Richtung (schwere Treffer), klingt schnell ab.
+var _kick: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
@@ -80,6 +82,8 @@ func _process(delta: float) -> void:
 	var target_position := _target.get_global_transform_interpolated().origin + Vector3.UP * height_offset
 	global_position = global_position.lerp(target_position, 1.0 - exp(-follow_speed * delta))
 	_update_shake(delta)
+	_kick = _kick.lerp(Vector3.ZERO, 1.0 - exp(-12.0 * delta / maxf(Engine.time_scale, 0.001)))
+	global_position += _kick
 
 
 ## Kamera sofort auf einen Punkt richten (z. B. für Screenshots und Szenen).
@@ -93,6 +97,11 @@ func look_at_point(point: Vector3, pitch_degrees: float = -12.0) -> void:
 ## Kamera wackeln lassen. Mehrere Aufrufe addieren sich (max. 1).
 func shake(strength: float) -> void:
 	_trauma = minf(_trauma + strength, 1.0)
+
+
+## Kurzer Ruck in eine Richtung (z. B. schwerer Treffer in Schlagrichtung).
+func kick(direction: Vector3, strength: float) -> void:
+	_kick += direction.normalized() * strength * 0.4
 
 
 func _update_shake(delta: float) -> void:

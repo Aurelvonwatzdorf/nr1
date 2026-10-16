@@ -584,6 +584,12 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 		get_ambition().on_got_hit()
 	if get_ravens():
 		get_ravens().on_got_hit()
+	# Wucht: Ein schwerer Schlag läuft trotz des Treffers weiter.
+	var attack_state := state_machine.current_state as PlayerAttackState
+	if attack_state and attack_state.withstands(hit.damage):
+		EventBus.camera_shake_requested.emit(0.25)
+		animator.play_poise_flash()
+		return
 	EventBus.camera_shake_requested.emit(0.5)
 	HitStop.apply(0.08)
 	state_machine.transition_to(&"hurt")
@@ -604,8 +610,12 @@ func _on_hit_landed(target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> v
 		_execution_targets.erase(enemy)
 		_on_execution(enemy, hit)
 	var heavy := hit.damage >= 20.0
-	HitStop.apply(0.09 if heavy else 0.05)
+	var attack_state := state_machine.current_state as PlayerAttackState
+	var attack := attack_state.get_attack() if attack_state else null
+	HitStop.apply(attack.hitstop if attack and attack.hitstop > 0.0 else (0.09 if heavy else 0.05))
 	EventBus.camera_shake_requested.emit(0.3 if heavy else 0.15)
+	if attack and attack.kick_strength > 0.0:
+		camera_rig.kick(hit.direction, attack.kick_strength)
 
 
 func _on_died() -> void:

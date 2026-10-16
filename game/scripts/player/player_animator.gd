@@ -97,6 +97,25 @@ func play_attack(attack: AttackData) -> void:
 	_tween.tween_interval(attack.startup_time)
 	_tween.tween_property(weapon_pivot, "rotation:y", deg_to_rad(-70.0), attack.active_time)
 	_tween.tween_property(weapon_pivot, "rotation:y", 0.0, attack.recovery_time)
+	# Schwere Schläge (Wucht): sichtbar weit ausholen, dann mit dem Körper nachsetzen.
+	if attack.poise_max_damage > 0.0 and visual_root:
+		var lean := visual_root.create_tween()
+		lean.tween_property(visual_root, "rotation:x", deg_to_rad(14.0), attack.startup_time) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		lean.tween_property(visual_root, "rotation:x", deg_to_rad(-12.0), attack.active_time * 0.6)
+		lean.tween_property(visual_root, "rotation:x", 0.0, attack.recovery_time)
+
+
+## Wucht hält einen Treffer aus: kurzes helles Aufleuchten statt Taumeln.
+func play_poise_flash() -> void:
+	var material := body_mesh.material_override as StandardMaterial3D if body_mesh else null
+	if material == null:
+		return
+	material.emission_enabled = true
+	material.emission = Color(1.0, 0.85, 0.6)
+	var tween := body_mesh.create_tween()
+	tween.tween_method(func(value: float) -> void: material.emission_energy_multiplier = value, 1.5, 0.0, 0.2)
+	tween.tween_callback(func() -> void: material.emission_enabled = false)
 
 
 ## Deckung: Platzhalter-Waffe quer vor den Körper halten.

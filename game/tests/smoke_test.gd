@@ -828,6 +828,8 @@ func _run() -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	await _frames(5)
 
+	await _test_movement_and_combat_mechanics(arena, player)
+
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
 	var tahirou: Player = PLAYER_SCENE.instantiate()
@@ -861,6 +863,38 @@ func _run() -> void:
 	print("")
 	print("RAUCHTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
 	get_tree().quit(0 if _failures == 0 else 1)
+
+
+## Mechanik-Studie: Wucht, Schubsprung, Wandlauf, Nachhall, Fernzugriff.
+func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
+	# Wucht: schwerer Schlag läuft trotz leichter Treffer weiter
+	player.health.revive()
+	player.stamina.refill()
+	player.rotation = Vector3.ZERO
+	player.state_machine.transition_to(&"attack", {"heavy": true})
+	await _frames(30)
+	var light_hit := HitData.new()
+	light_hit.damage = 10.0
+	player.hurtbox.receive_hit(light_hit)
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() == &"attack", "Wucht: leichter Treffer unterbricht den schweren Schlag nicht")
+	var hard_hit := HitData.new()
+	hard_hit.damage = 30.0
+	player.hurtbox.receive_hit(hard_hit)
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() == &"hurt", "Wucht bricht bei starkem Treffer (30)")
+	await _frames(40)
+	player.health.revive()
+	player.stamina.refill()
+	player.state_machine.transition_to(&"attack", {"heavy": true})
+	await _frames(5)
+	var stamina_cancel := player.stamina.current
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() == &"dodge" \
+		and player.stamina.current <= stamina_cancel - 29.0, "Ausholen abbrechen geht, kostet 10 Ausdauer extra")
+	await _frames(40)
+	var hammer := ItemDatabase.get_item(&"war_hammer")
+	_check(hammer != null and hammer.heavy_attack.poise_max_damage >= 30.0 and hammer.heavy_attack.damage >= 60.0, "Zweihand-Hammer: schwerer Schlag mit Wucht")
 
 
 ## Drückt eine Taste kurz. Die Figur sieht den Druck im nächsten Physik-Frame,
