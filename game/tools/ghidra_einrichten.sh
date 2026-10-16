@@ -65,6 +65,41 @@ rm -f "$zip_file"
 echo "Ghidra liegt in: $ghidra_dir"
 
 echo ""
+echo "== 3b. Decompiler für Apple Silicon bauen =="
+# Ghidra liefert den Decompiler nur für Linux/Windows mit. Auf arm64-Macs
+# bauen wir ihn aus dem mitgelieferten Quellcode. Das Makefile will Intel
+# (x86_64), daher erzwingen wir arm64. Das neueste SDK passt manchmal nicht
+# zum Linker, also probieren wir die SDKs von neu nach alt durch.
+decomp_os="$ghidra_dir/Ghidra/Features/Decompiler/os/mac_arm_64"
+decomp_src="$ghidra_dir/Ghidra/Features/Decompiler/src/decompile/cpp"
+if [ "$(uname -m)" = "arm64" ] && [ ! -x "$decomp_os/decompile" ]; then
+	if ! xcode-select -p >/dev/null 2>&1; then
+		echo "Xcode-Kommandozeilenwerkzeuge fehlen. Bitte 'xcode-select --install' ausführen."
+		exit 1
+	fi
+	built=""
+	for sdk in $(ls -d /Library/Developer/CommandLineTools/SDKs/MacOSX[0-9]*.sdk 2>/dev/null | sort -V -r); do
+		echo "Versuche SDK $(basename "$sdk") …"
+		(
+			cd "$decomp_src" || exit 1
+			rm -rf ghi_opt sla_opt ghidra_opt sleigh_opt
+			export SDKROOT="$sdk"
+			make -j8 ghidra_opt "ARCH_TYPE=-arch arm64" ADDITIONAL_FLAGS="-mmacosx-version-min=12.0 -w" >/dev/null 2>&1 &&
+				make -j8 sleigh_opt "ARCH_TYPE=-arch arm64" ADDITIONAL_FLAGS="-mmacosx-version-min=12.0 -w" >/dev/null 2>&1
+		) && { built="yes"; break; }
+	done
+	if [ -z "$built" ]; then
+		echo "Decompiler ließ sich nicht bauen. Bitte Claude fragen."
+		exit 1
+	fi
+	mkdir -p "$decomp_os"
+	cp "$decomp_src/ghidra_opt" "$decomp_os/decompile"
+	cp "$decomp_src/sleigh_opt" "$decomp_os/sleigh"
+	chmod +x "$decomp_os/decompile" "$decomp_os/sleigh"
+fi
+echo "ok"
+
+echo ""
 echo "== 4. Für REA eintragen (~/.zprofile) =="
 touch "$HOME/.zprofile"
 grep -v "GHIDRA_INSTALL_DIR" "$HOME/.zprofile" > "$HOME/.zprofile.tmp" && mv "$HOME/.zprofile.tmp" "$HOME/.zprofile"
