@@ -78,7 +78,23 @@ requires = Array[StringName]([&"aurel_weak_spots"])
 story_flag = &"tower_escaped"
 story_hint = "Nach der Flucht aus dem Konzernturm"
 
+[sub_resource type="Resource" id="Skill_aurel_hack_disrupt"]
+script = ExtResource("2_skill")
+id = &"aurel_hack_disrupt"
+display_name = "Fernzugriff"
+description = "F auf eine anvisierte Konzern-Wache (bis 15 m): 1 Sekunde hochladen, dann taumelt sie 1,5 s. Kostet 40 Ehrgeiz und 10 Fokus. Wirst du beim Laden getroffen, bricht es ab."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_badge"])
+
+[sub_resource type="Resource" id="Skill_aurel_hack_jam"]
+script = ExtResource("2_skill")
+id = &"aurel_hack_jam"
+display_name = "Waffensperre"
+description = "Fernzugriff sperrt zusätzlich die Waffe: 8 Sekunden lang macht die Wache nur halben Schaden."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_hack_disrupt"])
+
 [resource]
 script = ExtResource("1_tree")
 branches = Array[String](["Aufstieg", "Glut", "Insider"])
-skills = Array[ExtResource("2_skill")]([SubResource("Skill_aurel_hunger"), SubResource("Skill_aurel_chain_strikes"), SubResource("Skill_aurel_summit"), SubResource("Skill_aurel_sparks"), SubResource("Skill_aurel_embers"), SubResource("Skill_aurel_wildfire"), SubResource("Skill_aurel_badge"), SubResource("Skill_aurel_weak_spots"), SubResource("Skill_aurel_takeover")])
+skills = Array[ExtResource("2_skill")]([SubResource("Skill_aurel_hunger"), SubResource("Skill_aurel_chain_strikes"), SubResource("Skill_aurel_summit"), SubResource("Skill_aurel_sparks"), SubResource("Skill_aurel_embers"), SubResource("Skill_aurel_wildfire"), SubResource("Skill_aurel_badge"), SubResource("Skill_aurel_hack_disrupt"), SubResource("Skill_aurel_hack_jam"), SubResource("Skill_aurel_weak_spots"), SubResource("Skill_aurel_takeover")])

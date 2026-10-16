@@ -21,6 +21,15 @@ extends CharacterBody3D
 @onready var lock_on: LockOnComponent = $LockOnComponent
 @onready var interaction_detector: InteractionDetector = $InteractionDetector
 
+## Fernzugriff (Aurel): Reichweite, Ladezeit, Kosten und Wirkung.
+const HACK_RANGE := 15.0
+const HACK_UPLOAD_TIME := 1.0
+const HACK_AMBITION_COST := 40.0
+const HACK_FOCUS_COST := 10.0
+const HACK_STUN_TIME := 1.5
+const HACK_JAM_TIME := 8.0
+const HACK_COOLDOWN := 12.0
+
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
 var last_hit: HitData
@@ -52,6 +61,9 @@ var wall_run_cooldown_left: float = 0.0
 ## Nachhall: Restzeit der verlangsamten Welt (Echtzeit) und Sperre bis zum nächsten.
 var afterimage_left: float = 0.0
 var afterimage_cooldown_left: float = 0.0
+## Aurels Fernzugriff: Ziel, das gerade geladen wird, und Restzeit.
+var hack_target: Enemy
+var _hack_time_left: float = 0.0
 
 
 func _ready() -> void:
@@ -80,8 +92,12 @@ func _physics_process(delta: float) -> void:
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
 	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
 		interaction_detector.current.interact(self)
-	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit") and get_ravens():
-		call_raven_swarm()
+	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit"):
+		if get_ravens():
+			call_raven_swarm()
+		elif get_ambition():
+			start_hack()
+	_update_hack(delta)
 	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
 	dash_cooldown_left = maxf(dash_cooldown_left - delta, 0.0)
 	wall_run_cooldown_left = maxf(wall_run_cooldown_left - delta, 0.0)
@@ -308,6 +324,66 @@ func _find_swarm_target() -> Enemy:
 	return best
 
 
+## Aurels Fernzugriff (F, Fähigkeit „Fernzugriff“): auf die anvisierte
+## Konzern-Wache. Gibt false zurück, wenn es nicht geht (Meldung erklärt warum).
+func start_hack() -> bool:
+	var ambition := get_ambition()
+	if ambition == null or hack_target != null:
+		return false
+	if not GameState.has_skill(&"aurel_hack_disrupt"):
+		EventBus.message_requested.emit("Fernzugriff erst im Fähigkeitenbaum (Insider) lernen")
+		return false
+	var target := lock_on.target as Enemy
+	if target == null or target.data.faction != &"corporate" or target.health.is_dead:
+		EventBus.message_requested.emit("Fernzugriff: Konzern-Gegner anvisieren (Tab)")
+		return false
+	if target.global_position.distance_to(global_position) > HACK_RANGE:
+		EventBus.message_requested.emit("Fernzugriff: zu weit weg")
+		return false
+	if not target.can_be_hacked():
+		EventBus.message_requested.emit("Ihre Technik startet gerade neu")
+		return false
+	if ambition.current < HACK_AMBITION_COST or focus.current < HACK_FOCUS_COST:
+		EventBus.message_requested.emit("Zu wenig Ehrgeiz oder Fokus für den Zugriff")
+		return false
+	hack_target = target
+	_hack_time_left = HACK_UPLOAD_TIME
+	target.set_hack_progress(0.0)
+	return true
+
+
+## Bricht einen laufenden Zugriff ab (Treffer, Ziel weg, zu weit).
+func cancel_hack() -> void:
+	if hack_target and is_instance_valid(hack_target):
+		hack_target.set_hack_progress(-1.0)
+	hack_target = null
+	_hack_time_left = 0.0
+
+
+func _update_hack(delta: float) -> void:
+	if hack_target == null:
+		return
+	if not is_instance_valid(hack_target) or hack_target.health.is_dead or health.is_dead \
+			or hack_target.global_position.distance_to(global_position) > HACK_RANGE:
+		cancel_hack()
+		return
+	_hack_time_left -= delta
+	hack_target.set_hack_progress(1.0 - _hack_time_left / HACK_UPLOAD_TIME)
+	if _hack_time_left > 0.0:
+		return
+	var target := hack_target
+	hack_target = null
+	if not focus.try_spend(HACK_FOCUS_COST):
+		target.set_hack_progress(-1.0)
+		return
+	get_ambition().remove(HACK_AMBITION_COST)
+	var jam := HACK_JAM_TIME if GameState.has_skill(&"aurel_hack_jam") else 0.0
+	target.receive_hack(HACK_STUN_TIME, jam, HACK_COOLDOWN)
+	# Zählt wie ein Angriff auf Konzernkräfte (Fahndung).
+	EventBus.enemy_hit_by_player.emit(target)
+	EventBus.camera_shake_requested.emit(0.1)
+
+
 ## Aurels Ehrgeiz (oder null bei anderen Figuren).
 func get_ambition() -> AmbitionComponent:
 	return special_resource as AmbitionComponent
@@ -505,6 +581,7 @@ func respawn(at: Transform3D) -> void:
 	velocity = Vector3.ZERO
 	_set_reality_sight(false)
 	stop_afterimage()
+	cancel_hack()
 	damage_buff = 0.0
 	damage_buff_time_left = 0.0
 	health.revive()
@@ -658,6 +735,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	if result != Hurtbox.Result.HIT:
 		return
 	last_hit = hit
+	cancel_hack()
 	BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	if get_ambition():
 		get_ambition().on_got_hit()

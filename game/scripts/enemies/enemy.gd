@@ -34,6 +34,11 @@ var _burn_time_left: float = 0.0
 ## Rabenmal (Tahirous Schwarm): so viele Treffer machen erhöhten Schaden.
 var raven_mark_hits_left: int = 0
 var raven_mark_multiplier: float = 2.0
+## Aurels Fernzugriff: Ladefortschritt (0–1, unter 0 = keiner), Sperre bis zum
+## nächsten Zugriff und Restzeit der Waffensperre (halber Schaden).
+var hack_progress: float = -1.0
+var hack_cooldown_left: float = 0.0
+var weapon_jam_left: float = 0.0
 
 
 func _ready() -> void:
@@ -47,6 +52,8 @@ func _ready() -> void:
 	body_mesh.material_override = _material
 	hurtbox.hit_received.connect(_on_hit_received)
 	hitbox.hit_landed.connect(_on_hit_landed)
+	hitbox.damage_modifier = func(_target: Hurtbox, damage: float) -> float:
+		return damage * 0.5 if weapon_jam_left > 0.0 else damage
 	health.died.connect(_on_died)
 	health.value_changed.connect(func(_c: float, _m: float) -> void: _update_health_label())
 	_update_health_label()
@@ -58,6 +65,11 @@ func _physics_process(delta: float) -> void:
 	var world_speed := GameState.world_time_scale
 	delta *= world_speed
 	attack_cooldown_left = maxf(attack_cooldown_left - delta, 0.0)
+	hack_cooldown_left = maxf(hack_cooldown_left - delta, 0.0)
+	if weapon_jam_left > 0.0:
+		weapon_jam_left = maxf(weapon_jam_left - delta, 0.0)
+		if weapon_jam_left == 0.0:
+			_update_health_label()
 	_update_burn(delta)
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -122,6 +134,29 @@ func consume_raven_mark() -> float:
 		return 1.0
 	raven_mark_hits_left -= 1
 	return raven_mark_multiplier
+
+
+## Kann Aurel gerade auf diesen Gegner zugreifen? (Nur Konzern-Technik.)
+func can_be_hacked() -> bool:
+	return data.faction == &"corporate" and not health.is_dead and hack_cooldown_left <= 0.0
+
+
+## Ladebalken des Zugriffs über dem Gegner (unter 0 = ausblenden).
+func set_hack_progress(ratio: float) -> void:
+	hack_progress = ratio
+	_update_health_label()
+
+
+## Zugriff gelungen: Störung (taumeln), mit Waffensperre halber Schaden.
+func receive_hack(stun_time: float, jam_time: float, cooldown: float) -> void:
+	hack_progress = -1.0
+	hack_cooldown_left = cooldown
+	weapon_jam_left = jam_time
+	if health.is_dead:
+		return
+	flash()
+	state_machine.transition_to(&"stagger", {"time": stun_time, "parried": true})
+	_update_health_label()
 
 
 func is_defenseless() -> bool:
@@ -207,6 +242,9 @@ func reset_enemy() -> void:
 	attack_cooldown_left = 0.0
 	_burn_time_left = 0.0
 	raven_mark_hits_left = 0
+	hack_progress = -1.0
+	hack_cooldown_left = 0.0
+	weapon_jam_left = 0.0
 	health.revive()
 	visible = true
 	collision_shape.set_deferred(&"disabled", false)
@@ -254,5 +292,11 @@ func _update_health_label() -> void:
 	var ratio := health.get_ratio()
 	var filled := roundi(ratio * 10.0)
 	var mark := "  ◆ Rabenmal" if raven_mark_hits_left > 0 else ""
-	health_label.text = "%s%s\n%s" % [data.display_name, mark, "■".repeat(filled) + "□".repeat(10 - filled)]
-	health_label.visible = not health.is_dead and ratio < 1.0
+	if weapon_jam_left > 0.0:
+		mark += "  ⌀ Waffe gesperrt"
+	var text := "%s%s\n%s" % [data.display_name, mark, "■".repeat(filled) + "□".repeat(10 - filled)]
+	if hack_progress >= 0.0:
+		var loaded := roundi(hack_progress * 10.0)
+		text += "\nZugriff " + "▮".repeat(loaded) + "▯".repeat(10 - loaded)
+	health_label.text = text
+	health_label.visible = not health.is_dead and (ratio < 1.0 or hack_progress >= 0.0 or weapon_jam_left > 0.0)

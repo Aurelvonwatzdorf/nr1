@@ -316,6 +316,28 @@ tests/       Headless-Rauchtests
   Plätze stellen; der Stadt-Test prüft, dass nichts in einem Haus steckt.
 - Beim Erzeugen von Knoten mit Kollision **erst Position setzen, dann
   `add_child()`**, sonst steht die Kollision kurz im Weltmittelpunkt.
+- **Mechanik-Studie 1** (Notizen in `docs/mechaniken/`):
+  - **Wucht**: `AttackData` hat `windup_turn_factor`, `poise_max_damage`/
+    `poise_start`/`poise_end` (Anteil der Schlagzeit; Treffer bis zu diesem
+    Schaden unterbrechen nicht, `PlayerAttackState.withstands()`), `hitstop`,
+    `kick_strength` (`CameraRig.kick()`), `startup_cancel_cost` (Ausholen per
+    Ausweichen abbrechen). Schwerer Grundschlag und Zweihand-Hammer
+    (`war_hammer`, Waffenschmied 500) nutzen das.
+  - **Implantate (Schwarzmarkt)**: `grants_dash` (Schubknoten, 600:
+    Zustand `Dash`, Strg in der Luft einmal pro Sprung oder beim Rennen statt
+    der Rolle), `grants_wall_run` (Haftsehnen, 700: Zustand `WallRun`,
+    `Player.try_start_wall_run()` aus Move), `grants_afterimage`
+    (Nachhallkern, 900: Treffer in den I-Frames → `Hurtbox.hit_evaded` →
+    `GameState.world_time_scale` 0,25 für 2,5 s, 20 Fokus, 6 s Abklingzeit).
+    Werte in `CharacterData` (Gruppen Schubsprung/Wandlauf/Nachhall).
+  - **Welt-Tempo**: Gegner und NPCs multiplizieren `delta` mit
+    `GameState.world_time_scale` und bewegen sich über
+    `WorldTime.move_slowed()`. Die Spielfigur bleibt schnell. Nicht
+    `Engine.time_scale` benutzen (das gehört dem Hitstop).
+  - **Fernzugriff** (Aurel, Taste F, Insider-Ast `aurel_hack_disrupt`,
+    `aurel_hack_jam`): anvisierte Konzern-Wache ≤ 15 m, 1 s laden (Treffer
+    bricht ab), 40 Ehrgeiz + 10 Fokus, Wache taumelt 1,5 s; mit Waffensperre
+    8 s halber Schaden (`Enemy.weapon_jam_left`). Zählt für die Fahndung wie ein Angriff.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -621,7 +643,7 @@ gleicht → Ausbruch → Aufwachen am Fangort.
 | `reality_sight` | Q | Y |
 | `interact` | E | X |
 | `heal` | R | Steuerkreuz runter |
-| `call_spirit` | F (Tahirous Raben) | Steuerkreuz hoch |
+| `call_spirit` | F (Tahirou: Raben, Aurel: Fernzugriff) | Steuerkreuz hoch |
 | `inventory` | I | Back/View |
 | `skills` | K | Steuerkreuz links |
 | `map` | M (Karte groß/klein) | Steuerkreuz rechts |
@@ -677,6 +699,8 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
     Geisterwelt (erste Lichtung mit Ältestem und Tor zurück)
   - M8.4 Geisterwelt-Level ausbauen (Wege, Orte, eigene Wesen, Rafas Bereich)
   - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)
+- ✅ **Mechanik-Studie 1**: Wucht (schwere Waffen, Zweihand-Hammer), Schubsprung,
+  Wandlauf, Nachhall (Zeitlupe), Fernzugriff (Aurel hackt Konzern-Wachen).
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),

@@ -642,7 +642,7 @@ func _run() -> void:
 
 	# Fähigkeiten: Punkte durch Level-Up, Reihenfolge, Story-Sperre
 	var tree_data := player.character_data.skill_tree
-	_check(tree_data != null and tree_data.branches.size() == 3 and tree_data.skills.size() == 9, "Aurel hat einen Baum mit 3 Ästen und 9 Fähigkeiten")
+	_check(tree_data != null and tree_data.branches.size() == 3 and tree_data.skills.size() == 11, "Aurel hat einen Baum mit 3 Ästen und 11 Fähigkeiten")
 	var hunger := tree_data.get_skill(&"aurel_hunger")
 	var chain := tree_data.get_skill(&"aurel_chain_strikes")
 	var summit := tree_data.get_skill(&"aurel_summit")
@@ -1043,6 +1043,55 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	slow_guard.attack_cooldown_left = 0.0
 	GameState.inventory.remove(&"echo_core")
 	player.afterimage_cooldown_left = 0.0
+
+	# Fernzugriff (Aurel, F): Konzern-Wache anvisieren, 1 s laden, sie taumelt
+	var hack_guard := slow_guard
+	hack_guard.reset_enemy()
+	await _frames(3)
+	player.health.revive()
+	player.global_position = hack_guard.global_position + Vector3(0.0, 0.05, 6.0)
+	player.velocity = Vector3.ZERO
+	await _frames(3)
+	GameState.unlocked_skills.clear()
+	player.lock_on.set_target(hack_guard)
+	player.get_ambition().add(60.0)
+	player.focus.refill()
+	_check(not player.start_hack(), "Ohne Fähigkeit kein Fernzugriff")
+	GameState.unlocked_skills.append(&"aurel_hack_disrupt")
+	hack_guard.attack_cooldown_left = 100.0
+	var ambition_before_hack := player.get_ambition().current
+	await _tap(&"call_spirit")
+	_check(player.hack_target == hack_guard and hack_guard.hack_progress >= 0.0, "F: Fernzugriff lädt hoch (Balken über der Wache)")
+	await _frames(70)
+	_check(hack_guard.state_machine.get_current_state_name() == &"stagger" and player.hack_target == null, "Nach 1 s: Wache taumelt (Störung)")
+	_check(player.get_ambition().current <= ambition_before_hack - 39.0 and hack_guard.hack_cooldown_left > 10.0, "Zugriff kostet 40 Ehrgeiz, danach Sperre für diese Wache")
+	_check(not player.start_hack(), "Gleiche Wache nicht sofort wieder")
+	# Treffer beim Laden bricht ab
+	hack_guard.hack_cooldown_left = 0.0
+	player.get_ambition().add(60.0)
+	player.focus.refill()
+	_check(player.start_hack(), "Zweiter Zugriff startet")
+	await _frames(10)
+	var hack_hit := HitData.new()
+	hack_hit.damage = 5.0
+	player.hurtbox.receive_hit(hack_hit)
+	await _frames(2)
+	_check(player.hack_target == null and hack_guard.hack_progress < 0.0, "Treffer beim Laden bricht den Zugriff ab")
+	await _frames(30)
+	# Waffensperre: halber Schaden für 8 s
+	GameState.unlocked_skills.append(&"aurel_hack_jam")
+	player.health.revive()
+	player.get_ambition().add(60.0)
+	player.focus.refill()
+	player.start_hack()
+	await _frames(70)
+	_check(hack_guard.weapon_jam_left > 7.0 and is_equal_approx(hack_guard.hitbox.damage_modifier.call(player.hurtbox, 18.0), 9.0), "Waffensperre: Wache macht 8 s nur halben Schaden")
+	GameState.unlocked_skills.clear()
+	player.lock_on.set_target(null)
+	hack_guard.reset_enemy()
+	player.global_position = Vector3(0.0, 0.05, 2.0)
+	player.velocity = Vector3.ZERO
+	await _frames(5)
 
 
 ## Drückt eine Taste kurz. Die Figur sieht den Druck im nächsten Physik-Frame,

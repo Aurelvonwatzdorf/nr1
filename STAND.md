@@ -5,6 +5,15 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **Mechanik-Studie 1** (`/mechanik-studie`, Notizen in `docs/mechaniken/`),
+  alles gebaut und im Rauchtest geprüft:
+  - Wucht: schwere Schläge mit Ausholen, nicht unterbrechbar durch leichte
+    Treffer, stärkerer Hitstop, Kamera-Ruck; Zweihand-Hammer beim Waffenschmied.
+  - Schwarzmarkt-Implantate: Schubknoten (Schubsprung), Haftsehnen
+    (Wandlauf), Nachhallkern (Zeitlupe beim Ausweichen im letzten Moment).
+  - Aurel: Fernzugriff (F) und Waffensperre im Insider-Ast.
+  - Am Mac noch zu prüfen: Gefühl/Tempo von Wandlauf und Schubsprung in den
+    Gassen, Nachhall-Bildeffekt, Hammer-Ausholen.
 - **M8.3 Einladung der Geister**: Am Schrein der alten Geister (Westrand von
   Santo Santiago, ✧) erscheinen ab Spiritualität 3 Geister, die Zeit steht
   still, „Mit ihnen gehen“ führt in eine erste Geisterwelt (Lichtung, Der

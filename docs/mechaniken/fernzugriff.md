@@ -1,6 +1,6 @@
 # Fernzugriff (Gegner hacken)
 
-- **Status:** Idee
+- **Status:** gebaut (Störung + Waffensperre; Fehlbefehl kommt später)
 - **Vorbild (nur Inspiration):** Hacken von Gegnern aus der Ferne
   (z. B. Cyberpunk 2077, Watch Dogs). Keine Programme, Namen oder Werte übernommen.
 - **Für wen:** Aurel (Ast **Insider**), nur gegen Konzern-Technik
@@ -21,7 +21,7 @@ nach freigeschalteter Stufe etwas:
   gleiche Rolle: „die eigene Besonderheit einsetzen“.
 - Kostet **Ehrgeiz** und Fokus: Wer aggressiv kämpft, kann öfter hacken.
 - Wirkt nur auf `faction == &"corporate"`. Gegen Geister und Wesen nutzlos.
-- Hacken zählt in Santo Santiago zur Fahndung (+8, wie ein Schuss in der Nähe).
+- Hacken zählt in Santo Santiago zur Fahndung wie ein Angriff auf Konzernkräfte (+12).
 
 ## Eigene Startwerte (zum Feintunen)
 | Wert | Start | Begründung |
@@ -46,5 +46,6 @@ nach freigeschalteter Stufe etwas:
   taumelt die Wache, Ehrgeiz −40; Treffer während des Ladens bricht ab.
 
 ## Offene Fragen an den Nutzer
-- Soll es drei Stufen geben oder erst nur „Störung“?
+- Gebaut sind „Fernzugriff“ (Störung) und „Waffensperre“ im Insider-Ast.
+  „Fehlbefehl“ braucht Gegner, die einander angreifen können: später.
 - Darf Aurel später auch Technik in der Welt hacken (Türen, Kameras)?
