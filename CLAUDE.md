@@ -66,6 +66,11 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
 - **Nie** fremden Code, fremde Assets, Namen, Texte oder Daten übernehmen; immer
   eigene Umsetzung in GDScript. Lizenzen/Nutzungsbedingungen beachten.
 - Für den eigenen Quellcode **kein** REA nötig (normale Werkzeuge genügen).
+- **Mechanik-Studie** (`/mechanik-studie <A>, <B>, …`, Skill in
+  `.claude/skills/mechanik-studie/`): automatischer Ablauf Vorbild → eigene
+  Notiz in `docs/mechaniken/` → eine Rückfrage (welche bauen) → bauen, testen,
+  speichern. Stil-Vorlagen in `docs/stil/`. Fremden Code (auch dekompiliert)
+  nie „umcoden“/übersetzen – Nutzer wurde das erklärt.
 
 ---
 
