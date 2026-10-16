@@ -82,6 +82,14 @@ func _process(delta: float) -> void:
 	_update_shake(delta)
 
 
+## Kamera sofort auf einen Punkt richten (z. B. für Screenshots und Szenen).
+func look_at_point(point: Vector3, pitch_degrees: float = -12.0) -> void:
+	var to_point := point - _target.global_position
+	_yaw = atan2(-to_point.x, -to_point.z)
+	_pitch = deg_to_rad(pitch_degrees)
+	global_position = _target.global_position + Vector3.UP * height_offset
+
+
 ## Kamera wackeln lassen. Mehrere Aufrufe addieren sich (max. 1).
 func shake(strength: float) -> void:
 	_trauma = minf(_trauma + strength, 1.0)

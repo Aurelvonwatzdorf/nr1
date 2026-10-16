@@ -47,8 +47,9 @@ GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
   Commit, nächster Schritt, offene Fragen. Am Ende jeder Arbeitsrunde aktualisieren.
 - **Godot-Version:** überall 4.7.x (Cloud: 4.7.2). Auf dem Mac keine andere
   Hauptversion öffnen, sonst schreibt der Editor Dateien in neuem Format um.
-- **Visuelles** (Farben, Effekte, Ruckeln) kann nur der Mac prüfen: Die Cloud
-  läuft ohne Bild. Solche Prüfungen dem Nutzer bzw. der Terminal-Sitzung überlassen.
+- **Visuelles**: Die Cloud kann mit `screenshots.sh` grob selbst prüfen
+  (einfacher Grafikmodus). Feinheiten (echte Farben, Leuchten, Ruckeln) prüft
+  der Mac; dessen Bilder liegen nach einem Push in `screenshots/mac/`.
 - **Vor jeder Entscheidung den Nutzer fragen**, ob es passt (Wunsch des Nutzers).
 - **Fragen als anklickbare Optionen:** Kurze, nicht komplexe Fragen an den
   Nutzer immer mit dem Auswahl-Werkzeug stellen (AskUserQuestion: 2 bis 4
@@ -86,6 +87,17 @@ Ein Befehl für alles (Mac, Linux, Cloud), vom Ordner `nr1` aus:
 Es sucht Godot über `$GODOT`, dann `godot` im PATH, dann
 `/Applications/Godot.app` (Mac). Einzeln geht es weiterhin mit
 `godot --headless --path game res://tests/<name>.tscn`.
+
+**Screenshots:** `./game/tools/screenshots.sh` (oder `SHOT=schrein …` für einzelne)
+fährt feste Orte ab (`game/tools/screenshot_tour.gd`, Liste `SHOTS`) und speichert
+Bilder nach `screenshots/mac/` (echte Grafik) bzw. `screenshots/cloud/`
+(Cloud: Xvfb + OpenGL, einfacherer Grafikmodus, ca. 4–5 Min.). **Damit kann die
+Cloud-Sitzung die Grafik selbst ansehen** (Bilder mit dem Read-Werkzeug öffnen).
+Nach optischen Änderungen Screenshots machen und prüfen. Neue Orte in `SHOTS`
+eintragen. Kamera ausrichten: `CameraRig.look_at_point()`.
+
+**GitHub Actions** (`.github/workflows/tests.yml`): Bei jedem Push auf den
+Spiel-Branch laufen alle Tests auf GitHub (Haken oder Kreuz am Commit).
 
 **Cloud:** Der SessionStart-Hook (`.claude/hooks/session-start.sh`, eingetragen in
 `.claude/settings.json`) lädt beim Start den offiziellen Godot-4.7.2-Build von
