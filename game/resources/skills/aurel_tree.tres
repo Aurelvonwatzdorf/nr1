@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="SkillTreeData" format=3]
+[gd_resource type="Resource" script_class="SkillTreeData" format=3 uid="uid://dxbxgsnmtphwe"]
 
-[ext_resource type="Script" path="res://scripts/skills/skill_tree_data.gd" id="1_tree"]
-[ext_resource type="Script" path="res://scripts/skills/skill_data.gd" id="2_skill"]
+[ext_resource type="Script" uid="uid://b57fa1ocw08w7" path="res://scripts/skills/skill_tree_data.gd" id="1_tree"]
+[ext_resource type="Script" uid="uid://c10q8auac3w2p" path="res://scripts/skills/skill_data.gd" id="2_skill"]
 
 [sub_resource type="Resource" id="Skill_aurel_hunger"]
 script = ExtResource("2_skill")
@@ -9,9 +9,6 @@ id = &"aurel_hunger"
 display_name = "Hunger"
 description = "Ehrgeiz wächst 50 % schneller."
 branch = "Aufstieg"
-requires = Array[StringName]([])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_chain_strikes"]
 script = ExtResource("2_skill")
@@ -20,8 +17,6 @@ display_name = "Kettenschläge"
 description = "Jeder weitere leichte Schlag einer Kombo macht +10 % Schaden (bis +30 %)."
 branch = "Aufstieg"
 requires = Array[StringName]([&"aurel_hunger"])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_summit"]
 script = ExtResource("2_skill")
@@ -39,9 +34,6 @@ id = &"aurel_sparks"
 display_name = "Funkenschlag"
 description = "Ab halbem Ehrgeiz machen Treffer +5 Feuerschaden."
 branch = "Glut"
-requires = Array[StringName]([])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_embers"]
 script = ExtResource("2_skill")
@@ -50,8 +42,6 @@ display_name = "Glutnarben"
 description = "Treffer setzen Gegner in Brand: 3 Schaden pro Sekunde für 3 Sekunden."
 branch = "Glut"
 requires = Array[StringName]([&"aurel_sparks"])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_wildfire"]
 script = ExtResource("2_skill")
@@ -69,9 +59,6 @@ id = &"aurel_badge"
 display_name = "Firmenausweis"
 description = "Konzern-Gegner bemerken dich erst später (40 % geringere Sichtweite)."
 branch = "Insider"
-requires = Array[StringName]([])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_weak_spots"]
 script = ExtResource("2_skill")
@@ -80,8 +67,6 @@ display_name = "Schwachstellenwissen"
 description = "+15 % Schaden gegen Konzern-Gegner."
 branch = "Insider"
 requires = Array[StringName]([&"aurel_badge"])
-story_flag = &""
-story_hint = ""
 
 [sub_resource type="Resource" id="Skill_aurel_takeover"]
 script = ExtResource("2_skill")

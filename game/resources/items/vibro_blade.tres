@@ -1,19 +1,7 @@
-[gd_resource type="Resource" script_class="ItemData" format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dj0tfmtdtu74"]
 
-[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
-[ext_resource type="Script" path="res://scripts/combat/attack_data.gd" id="2_attack"]
-
-[sub_resource type="Resource" id="Attack_light"]
-script = ExtResource("2_attack")
-display_name = "Vibroschnitt"
-animation_name = &"attack_light"
-damage = 18
-stamina_cost = 14
-startup_time = 0.12
-active_time = 0.14
-recovery_time = 0.26
-lunge_speed = 3.2
-knockback = 2.0
+[ext_resource type="Script" uid="uid://3s0njpdx577o" path="res://scripts/items/item_data.gd" id="1_item"]
+[ext_resource type="Script" uid="uid://xhhu8hy2lygs" path="res://scripts/combat/attack_data.gd" id="2_attack"]
 
 [sub_resource type="Resource" id="Attack_heavy"]
 script = ExtResource("2_attack")
@@ -27,6 +15,16 @@ recovery_time = 0.45
 lunge_speed = 5.0
 knockback = 5.0
 
+[sub_resource type="Resource" id="Attack_light"]
+script = ExtResource("2_attack")
+display_name = "Vibroschnitt"
+damage = 18
+stamina_cost = 14
+startup_time = 0.12
+active_time = 0.14
+recovery_time = 0.26
+lunge_speed = 3.2
+
 [resource]
 script = ExtResource("1_item")
 id = &"vibro_blade"
@@ -34,6 +32,6 @@ display_name = "Vibroklinge"
 description = "Vom Schwarzmarkt. Eine Klinge, die so schnell schwingt, dass sie durch Rüstung schneidet. Schnell und tödlich."
 kind = 2
 color = Color(0.3, 0.9, 1, 1)
-weapon_length = 1.2
 light_attack = SubResource("Attack_light")
 heavy_attack = SubResource("Attack_heavy")
+weapon_length = 1.2
