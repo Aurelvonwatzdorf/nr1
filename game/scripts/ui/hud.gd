@@ -28,6 +28,10 @@ var companion_label: Label
 ## Fahndung als Sterne (nur sichtbar, wenn man gesucht wird).
 var wanted_label: Label
 var _companion_tween: Tween
+## Großer Regionsname beim Betreten (Titelkarte).
+var region_title: Label
+var region_subtitle: Label
+var _region_tween: Tween
 var _message_tween: Tween
 
 
@@ -111,6 +115,28 @@ func _create_reality_labels() -> void:
 	companion_label.add_theme_constant_override(&"outline_size", 6)
 	companion_label.modulate.a = 0.0
 	add_child(companion_label)
+	region_title = Label.new()
+	region_title.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	region_title.position = Vector2(-500, 150)
+	region_title.size = Vector2(1000, 70)
+	region_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	region_title.add_theme_font_size_override(&"font_size", 54)
+	region_title.add_theme_color_override(&"font_color", Color(1.0, 0.95, 0.85))
+	region_title.add_theme_color_override(&"font_outline_color", Color(0, 0, 0, 0.85))
+	region_title.add_theme_constant_override(&"outline_size", 10)
+	region_title.modulate.a = 0.0
+	add_child(region_title)
+	region_subtitle = Label.new()
+	region_subtitle.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	region_subtitle.position = Vector2(-500, 222)
+	region_subtitle.size = Vector2(1000, 40)
+	region_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	region_subtitle.add_theme_font_size_override(&"font_size", 22)
+	region_subtitle.add_theme_color_override(&"font_color", Color(0.85, 0.85, 0.8))
+	region_subtitle.add_theme_color_override(&"font_outline_color", Color(0, 0, 0, 0.85))
+	region_subtitle.add_theme_constant_override(&"outline_size", 6)
+	region_subtitle.modulate.a = 0.0
+	add_child(region_subtitle)
 
 
 ## In Spiegelrealitäten: Verankerung anzeigen und das HUD verblassen lassen.
@@ -157,6 +183,21 @@ func show_raven_gift(gift_name: String, text: String) -> void:
 	_raven_tween.tween_property(raven_label, "modulate:a", 1.0, 0.3)
 	_raven_tween.tween_interval(3.5)
 	_raven_tween.tween_property(raven_label, "modulate:a", 0.0, 0.8)
+
+
+## Titelkarte: Regionsname groß, darunter die Epoche (bzw. „Neu entdeckt“).
+func show_region_title(title: String, subtitle: String) -> void:
+	region_title.text = "— %s —" % title
+	region_subtitle.text = subtitle
+	if _region_tween and _region_tween.is_valid():
+		_region_tween.kill()
+	_region_tween = create_tween().set_parallel()
+	for label: Label in [region_title, region_subtitle]:
+		label.modulate.a = 0.0
+		_region_tween.tween_property(label, "modulate:a", 1.0, 0.8)
+	_region_tween.chain().tween_interval(3.0)
+	_region_tween.chain().tween_property(region_title, "modulate:a", 0.0, 1.2)
+	_region_tween.parallel().tween_property(region_subtitle, "modulate:a", 0.0, 1.2)
 
 
 ## Kurze Meldung in der Bildschirmmitte, die von selbst verschwindet.

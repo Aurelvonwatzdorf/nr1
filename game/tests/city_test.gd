@@ -85,6 +85,14 @@ func _run() -> void:
 	var shrine: SpiritualPressureSource = city.get_node("SpiritPlaces/ShrineWest")
 	var shrine_at := Vector2(shrine.global_position.x, shrine.global_position.z)
 	_check(generator.is_free(shrine_at, 5.0) and shrine.required_spirituality == 3, "Geisterschrein steht frei am Stadtrand (Spiritualität 3 nötig)")
+	var south_gate := city.get_node("Gates/SouthGate") as TravelGate
+	_check(generator.is_free(Vector2(south_gate.global_position.x, south_gate.global_position.z), 4.0) \
+		and south_gate.target_scene.ends_with("continent.tscn"), "Südtor steht frei und führt auf den Kontinent")
+	south_gate.change_scene = false
+	south_gate.interact(player)
+	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.z > 240.0, "Durch das Südtor: Ankunft vor der Stadt")
+	GameState.has_pending_spawn = false
+	GameState.pending_message = ""
 	await _frames(60)
 	_check(player.is_on_floor() and player.global_position.y > -0.5, "Spielfigur steht auf dem Marktplatz")
 	var npcs_on_floor := true

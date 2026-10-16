@@ -25,7 +25,8 @@ static func apply(material: BaseMaterial3D, outline: bool = true) -> void:
 	material.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
 	material.specular_mode = BaseMaterial3D.SPECULAR_TOON
 	var transparent := material.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED
-	if outline and not transparent and material.next_pass == null:
+	# Meta "no_outline": z. B. Gelände, dort sähe ein Umriss falsch aus.
+	if outline and not transparent and material.next_pass == null and not material.has_meta(&"no_outline"):
 		material.next_pass = make_outline()
 
 

@@ -54,6 +54,8 @@ func _update_view() -> void:
 	if minimap and player:
 		_center = Vector2(player.global_position.x, player.global_position.z)
 		_angle = player.camera_rig.rotation.y
+		if map_data and map_data.minimap_scale > 0.0:
+			_scale = map_data.minimap_scale
 	elif map_data:
 		_center = map_data.bounds.get_center()
 		_scale = minf(size.x / map_data.bounds.size.x, size.y / map_data.bounds.size.y) * 0.95

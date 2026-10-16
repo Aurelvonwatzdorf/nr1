@@ -6,7 +6,7 @@ extends Node3D
 enum Kind {
 	MARKET, MERCHANT, SERVICE, CORPORATE_TOWER, BARRACKS, ANCHOR_MIRROR,
 	CHURCH, MOSQUE, SYNAGOGUE, HOUSE_OF_SILENCE, MISSION, MEMORY_REMNANT,
-	BLACK_MARKET, SPIRIT_SHRINE,
+	BLACK_MARKET, SPIRIT_SHRINE, LANDMARK, SETTLEMENT, MOUNTAIN_TEMPLE, CITY_GATE,
 }
 
 ## Symbol (kurzer Text), Farbe und Name in der Legende je Art.
@@ -25,6 +25,10 @@ const STYLE: Dictionary[Kind, Array] = {
 	Kind.MEMORY_REMNANT: ["✦", Color(0.75, 0.55, 1.0), "Deine Erinnerungen"],
 	Kind.BLACK_MARKET: ["¤", Color(0.85, 0.35, 1.0), "Schwarzmarkt"],
 	Kind.SPIRIT_SHRINE: ["✧", Color(0.6, 0.9, 1.0), "Geisterort"],
+	Kind.LANDMARK: ["△", Color(0.95, 0.85, 0.6), "Wahrzeichen"],
+	Kind.SETTLEMENT: ["◎", Color(0.8, 0.9, 0.7), "Siedlung"],
+	Kind.MOUNTAIN_TEMPLE: ["Bt", Color(1.0, 0.55, 0.45), "Bergtempel"],
+	Kind.CITY_GATE: ["»", Color(0.7, 0.8, 1.0), "Stadttor"],
 }
 
 @export var kind: Kind = Kind.SERVICE

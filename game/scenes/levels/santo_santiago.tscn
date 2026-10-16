@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" path="res://scenes/world/small_house.tscn" id="26_house"]
 [ext_resource type="Script" path="res://scripts/systems/wanted_system.gd" id="27_wanted"]
 [ext_resource type="PackedScene" path="res://scenes/world/spirit_shrine.tscn" id="28_shrine"]
+[ext_resource type="Script" path="res://scripts/world/travel_gate.gd" id="29_gate"]
 [ext_resource type="Resource" path="res://resources/items/short_sword.tres" id="item_short_sword"]
 [ext_resource type="Resource" path="res://resources/items/war_hammer.tres" id="item_war_hammer"]
 [ext_resource type="Resource" path="res://resources/items/battle_staff.tres" id="item_battle_staff"]
@@ -102,7 +103,7 @@ script = ExtResource("6_map_data")
 [node name="City" type="Node3D" parent="." node_paths=PackedStringArray("map_data", "keep_clear")]
 script = ExtResource("4_city")
 layout = ExtResource("5_layout")
-keep_clear = [NodePath("../AnchorMirrors"), NodePath("../NPCs"), NodePath("../Enemies"), NodePath("../Pickups"), NodePath("../StreetCrossing"), NodePath("../SpiritPlaces")]
+keep_clear = [NodePath("../AnchorMirrors"), NodePath("../NPCs"), NodePath("../Enemies"), NodePath("../Pickups"), NodePath("../StreetCrossing"), NodePath("../SpiritPlaces"), NodePath("../Gates")]
 map_data = NodePath("../MapData")
 
 [node name="AnchorMirrors" type="Node3D" parent="."]
@@ -138,6 +139,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 44)
 
 [node name="ShrineWest" parent="SpiritPlaces" instance=ExtResource("28_shrine")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -158, 0, -8)
+
+[node name="Gates" type="Node3D" parent="."]
+
+[node name="SouthGate" type="Area3D" parent="Gates"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 159)
+script = ExtResource("29_gate")
+target_scene = "res://scenes/levels/continent.tscn"
+target_position = Vector3(0, 6, 252)
+target_yaw_degrees = 180.0
+arrival_message = "Du verlässt die Stadt. Vor dir liegt der Kontinent Aurion."
+prompt = "Die Stadt verlassen (Kontinent)"
+metadata/clear_radius = 8.0
 
 [node name="NPCs" type="Node3D" parent="."]
 

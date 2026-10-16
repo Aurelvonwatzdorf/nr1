@@ -109,6 +109,8 @@ var equipped_weapon: StringName = &""
 var equipped_firearm: StringName = &""
 ## IDs bereits aufgehobener Gegenstände in der Welt.
 var collected_pickups: Array[StringName] = []
+## Entdeckte Regionen des Kontinents (ContinentRegion.id).
+var discovered_regions: Array[StringName] = []
 
 ## Moral-Gedächtnis (unsichtbar für den Spieler).
 var moral: MoralMemory = MoralMemory.new()
@@ -325,6 +327,7 @@ func reset() -> void:
 	checkpoint_scene = ""
 	moral.from_array([])
 	collected_pickups.clear()
+	discovered_regions.clear()
 	mission_states.clear()
 	dead_npcs.clear()
 	skill_points = 0
@@ -360,6 +363,7 @@ func to_dict() -> Dictionary:
 		"skills": unlocked_skills.map(func(id: StringName) -> String: return String(id)),
 		"story_flags": story_flags.map(func(id: StringName) -> String: return String(id)),
 		"dead_npcs": dead_npcs.map(func(id: StringName) -> String: return String(id)),
+		"discovered_regions": discovered_regions.map(func(id: StringName) -> String: return String(id)),
 	}
 
 
@@ -402,6 +406,8 @@ func from_dict(data: Dictionary) -> void:
 		story_flags.append(StringName(str(id)))
 	for id: Variant in data.get("dead_npcs", []):
 		dead_npcs.append(StringName(str(id)))
+	for id: Variant in data.get("discovered_regions", []):
+		discovered_regions.append(StringName(str(id)))
 	var missions: Dictionary = data.get("missions", {})
 	for key: String in missions:
 		mission_states[StringName(key)] = int(missions[key])

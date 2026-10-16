@@ -22,7 +22,7 @@ echo "Godot: $("$godot_bin" --version 2>/dev/null | head -n 1)"
 log_dir="$(mktemp -d)"
 failed=0
 
-echo "1/4 Import und Skriptfehler …"
+echo "1/5 Import und Skriptfehler …"
 # Der erste Import nach einem Godot-Wechsel bricht manchmal ab; dann einmal neu.
 if ! "$godot_bin" --headless --path . --import >"$log_dir/import.log" 2>&1; then
 	"$godot_bin" --headless --path . --import >"$log_dir/import.log" 2>&1
@@ -37,8 +37,8 @@ else
 fi
 
 step=2
-for test in smoke_test city_test reality_test; do
-	echo "$step/4 $test …"
+for test in smoke_test city_test reality_test continent_test; do
+	echo "$step/5 $test …"
 	"$godot_bin" --headless --path . "res://tests/$test.tscn" >"$log_dir/$test.log" 2>&1
 	code=$?
 	if [ $code -eq 0 ]; then

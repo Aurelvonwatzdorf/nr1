@@ -8,6 +8,8 @@ extends Node
 @export var bounds: Rect2 = Rect2(-50, -50, 100, 100)
 ## Name der Gegend, wird auf der großen Karte angezeigt.
 @export var area_name: String = ""
+## Maßstab der Minimap (Pixel pro Meter). 0 = Standard der Minimap.
+@export var minimap_scale: float = 0.0
 
 ## Flächen: {"points": PackedVector2Array, "color": Color, "label": String,
 ## "center": Vector2, "radius": float}. Früher eingetragen = weiter unten
@@ -17,6 +19,11 @@ var shapes: Array[Dictionary] = []
 
 func _enter_tree() -> void:
 	add_to_group(&"map_data")
+
+
+## Alles entfernen (z. B. um die Karte nach einer Entdeckung neu einzutragen).
+func clear() -> void:
+	shapes.clear()
 
 
 func add_rect(rect: Rect2, color: Color, label: String = "") -> void:
