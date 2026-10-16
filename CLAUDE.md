@@ -34,6 +34,10 @@ GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
   Andere Branches nur nach Rückfrage benutzen oder zusammenführen.
 - **Vor dem Arbeiten** `git pull`, **nach jedem grünen Schritt** committen und
   `git push`. Nie ungepushte Arbeit liegen lassen.
+- **Ein Befehl zum Speichern:** `./game/tools/speichern.sh "Nachricht"` macht
+  Tests → commit → pull (merge) → bei neuen Änderungen Tests nochmal → push.
+  Bei rotem Test oder Konflikt wird nichts hochgeladen. Der Nutzer benutzt das
+  am Mac; Claude darf es ebenfalls nutzen.
 - **Immer nur eine Sitzung gleichzeitig** am Spiel arbeiten lassen, sonst gibt es
   Konflikte. Gibt es doch einen Konflikt: zusammenführen (merge), nicht
   überschreiben, und den Nutzer fragen, wenn beide Seiten dieselbe Logik ändern.

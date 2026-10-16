@@ -12,6 +12,7 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 - **Zusammenarbeit Browser und Terminal** eingerichtet:
   - Regeln in `CLAUDE.md`, REA-Skill mit Regeln.
   - Test-Skript `./game/tools/run_tests.sh`.
+  - Speichern mit einem Befehl: `./game/tools/speichern.sh "Nachricht"`.
   - Cloud-Start-Hook (Godot in ca. 3 s statt Bauen aus dem Quellcode).
 
 ## Testversion
