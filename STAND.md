@@ -14,6 +14,10 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   - Test-Skript `./game/tools/run_tests.sh`.
   - Cloud-Start-Hook (Godot in ca. 3 s statt Bauen aus dem Quellcode).
 
+## Testversion
+- Spiritualität startet mindestens auf Stufe 3 (`test_start_spirituality`),
+  damit der Nutzer den Schrein ohne langes Beten testen kann.
+
 ## Noch vom Nutzer zu prüfen (nur am Mac sichtbar)
 - Wie sehen der Grau-Effekt der angehaltenen Zeit, die Geister und die
   Geisterwelt aus? Passen Farben und Leuchten?

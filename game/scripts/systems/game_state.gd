@@ -14,6 +14,9 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 ## aufgefüllt, damit man alles kaufen und ausprobieren kann. 0 = aus.
 ## Für die fertige Version auf 0 setzen. (In den Tests aus.)
 var test_start_money: int = 5000
+## Testversion: Spiritualität beim Laden eines Levels mindestens auf diese Stufe
+## heben (spart langes Beten). Für die fertige Version auf 0 setzen.
+var test_start_spirituality: int = 3
 
 ## Bei neuem Spiel die Charakterauswahl zeigen? (Im Rauchtest aus.)
 var ask_character_on_new_game: bool = true

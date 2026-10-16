@@ -34,6 +34,9 @@ func _enter_tree() -> void:
 	# Testversion: genug Startgeld zum Ausprobieren (siehe GameState).
 	if GameState.money < GameState.test_start_money:
 		GameState.money = GameState.test_start_money
+	if GameState.stats.spirituality < GameState.test_start_spirituality:
+		GameState.stats.spirituality = GameState.test_start_spirituality
+		GameState.spirit_experience = 0
 
 
 func _ready() -> void:
