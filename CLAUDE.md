@@ -58,7 +58,8 @@ GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
 
 ### REA (Reverse-Engineering-Skill)
 `.claude/skills/reverse-engineer-anything/` (aus morluto/rea, MIT-Lizenz). Auf
-dem Mac mit `npx rea-agents setup` eingerichtet. Regeln für dieses Projekt:
+dem Mac mit `npx rea-agents setup` eingerichtet; Ghidra 12.1.x (für REA nötig, Java 21+)
+holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew hat kein Ghidra mehr). Regeln für dieses Projekt:
 - Nur zum **Verstehen**, wie eine Mechanik grundsätzlich funktioniert (z. B. wie
   ein Spiel eine Kamera oder ein Kampfsystem löst), oder zum Untersuchen
   **eigener** Exporte (z. B. warum ein eigener Build ruckelt).
