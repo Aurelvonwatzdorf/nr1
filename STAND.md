@@ -14,6 +14,10 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   - Test-Skript `./game/tools/run_tests.sh`.
   - Speichern mit einem Befehl: `./game/tools/speichern.sh "Nachricht"`.
   - Cloud-Start-Hook (Godot in ca. 3 s statt Bauen aus dem Quellcode).
+  - Screenshots per Befehl: `./game/tools/screenshots.sh` (Cloud sieht jetzt Bilder).
+  - Tests auf GitHub bei jedem Push (GitHub Actions).
+- Nutzer-Entscheidung Design: zuerst **Figuren mit Animationen** (freie Pakete,
+  z. B. Quaternius, KayKit, Mixamo). Noch nicht begonnen.
 
 ## Testversion
 - Spiritualität startet mindestens auf Stufe 3 (`test_start_spirituality`),
