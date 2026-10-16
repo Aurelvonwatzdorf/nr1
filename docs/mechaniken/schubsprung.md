@@ -1,6 +1,6 @@
 # Schubsprung (Dash)
 
-- **Status:** Idee
+- **Status:** gebaut
 - **Vorbild (nur Inspiration):** Kurze Schub-Sprints aus Action-Spielen
   (z. B. Cyberpunk 2077, Devil May Cry, Hades). Keine Werte übernommen.
 - **Für wen:** beide (Implantat vom Schwarzmarkt)

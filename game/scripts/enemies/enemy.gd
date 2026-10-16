@@ -54,12 +54,15 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# Nachhall: Die Welt läuft langsamer, die Spielfigur nicht.
+	var world_speed := GameState.world_time_scale
+	delta *= world_speed
 	attack_cooldown_left = maxf(attack_cooldown_left - delta, 0.0)
 	_update_burn(delta)
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	state_machine.physics_update(delta)
-	move_and_slide()
+	WorldTime.move_slowed(self, world_speed)
 
 
 ## Die Spielfigur, falls sie lebt und da ist.

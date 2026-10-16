@@ -12,6 +12,8 @@ func physics_update(delta: float) -> void:
 	if try_start_combat_action():
 		return
 	player.try_jump()
+	if player.try_start_wall_run():
+		return
 	var direction := player.get_move_direction()
 	if direction == Vector3.ZERO:
 		state_machine.transition_to(&"idle")

@@ -17,7 +17,7 @@ func try_start_combat_action() -> bool:
 	if not player.is_input_enabled() or not player.stamina.can_act():
 		return false
 	if Input.is_action_just_pressed(&"dodge"):
-		state_machine.transition_to(&"dodge")
+		state_machine.transition_to(&"dash" if player.can_dash() else &"dodge")
 		return true
 	if Input.is_action_pressed(&"block"):
 		state_machine.transition_to(&"block")

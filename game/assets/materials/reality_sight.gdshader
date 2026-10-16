@@ -10,6 +10,8 @@ uniform float distortion : hint_range(0.0, 1.0) = 0.0;
 uniform float pressure : hint_range(0.0, 1.0) = 0.0;
 // Angehaltene Zeit: Die Welt erstarrt in kühlem Grau, nur ein feiner Schimmer bleibt.
 uniform float time_stop : hint_range(0.0, 1.0) = 0.0;
+// Nachhall: Die Welt wird langsam, Ränder kühl und nachgezogen wie ein Echo.
+uniform float afterimage : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 tint : source_color = vec3(0.45, 0.85, 1.0);
 
 void fragment() {
@@ -42,6 +44,15 @@ void fragment() {
 		float rim = smoothstep(0.4, 0.8, length(uv - 0.5));
 		frozen = mix(frozen, vec3(0.65, 0.92, 1.0) * 0.6, rim * 0.5);
 		result = mix(result, frozen, time_stop * 0.85);
+	}
+	if (afterimage > 0.0) {
+		vec2 to_center = (uv - 0.5);
+		float rim = smoothstep(0.2, 0.75, length(to_center));
+		vec3 echo = (texture(screen_texture, uv - to_center * 0.02).rgb
+			+ texture(screen_texture, uv - to_center * 0.04).rgb) * 0.5;
+		vec3 cool = mix(echo, vec3(dot(echo, vec3(0.299, 0.587, 0.114))) * vec3(0.7, 0.8, 1.05), 0.5);
+		result = mix(result, cool, rim * afterimage * 0.8);
+		result *= 1.0 - rim * afterimage * 0.25;
 	}
 	COLOR = vec4(result, 1.0);
 }

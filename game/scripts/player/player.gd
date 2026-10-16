@@ -44,6 +44,14 @@ var spiritual_pressure: float = 0.0
 var _pressure_source_noticed: SpiritualPressureSource
 ## Schon in der Luft nachgesprungen? (Doppelsprung mit Cyberbeinen.)
 var _air_jump_used: bool = false
+## Schubsprung: schon in dieser Luftphase benutzt? Zeit bis zum nächsten.
+var air_dash_used: bool = false
+var dash_cooldown_left: float = 0.0
+## Wandlauf: kurze Sperre nach dem Ende (siehe PlayerWallRunState).
+var wall_run_cooldown_left: float = 0.0
+## Nachhall: Restzeit der verlangsamten Welt (Echtzeit) und Sperre bis zum nächsten.
+var afterimage_left: float = 0.0
+var afterimage_cooldown_left: float = 0.0
 
 
 func _ready() -> void:
@@ -58,6 +66,7 @@ func _ready() -> void:
 	_update_weapon_visual()
 	health.died.connect(_on_died)
 	hurtbox.hit_received.connect(_on_hit_received)
+	hurtbox.hit_evaded.connect(_on_hit_evaded)
 	lock_on.target_changed.connect(camera_rig.set_lock_target)
 	hitbox.hit_landed.connect(_on_hit_landed)
 	hurtbox.hit_filter = _filter_incoming_hit
@@ -74,6 +83,11 @@ func _physics_process(delta: float) -> void:
 	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit") and get_ravens():
 		call_raven_swarm()
 	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
+	dash_cooldown_left = maxf(dash_cooldown_left - delta, 0.0)
+	wall_run_cooldown_left = maxf(wall_run_cooldown_left - delta, 0.0)
+	_update_afterimage(delta)
+	if is_on_floor():
+		air_dash_used = false
 	if is_input_enabled() and Input.is_action_just_pressed(&"reality_sight"):
 		start_reality_sight()
 	if reality_sight_left > 0.0:
@@ -146,6 +160,70 @@ func try_jump() -> bool:
 	stamina.consume(character_data.jump_stamina_cost)
 	velocity.y = character_data.jump_velocity
 	animator.play(&"jump", 0.35)
+	return true
+
+
+## Schubsprung statt Rolle? Nur mit Implantat: in der Luft (einmal pro Sprung)
+## oder am Boden beim Rennen in eine Richtung. Im Stand bleibt die Rolle.
+func can_dash() -> bool:
+	if dash_cooldown_left > 0.0 or not GameState.inventory.has_permanent_flag(&"grants_dash"):
+		return false
+	if not is_on_floor():
+		return not air_dash_used
+	return Input.is_action_pressed(&"sprint") and get_move_direction() != Vector3.ZERO
+
+
+## Nachhall (Implantat): Weicht man einem Gegnerschlag in den I-Frames aus,
+## läuft die Welt kurz langsamer. Kostet Fokus, danach Abklingzeit.
+func _on_hit_evaded(hit: HitData) -> void:
+	if not hit.source is Enemy or afterimage_cooldown_left > 0.0 or afterimage_left > 0.0:
+		return
+	if not state_machine.get_current_state_name() in [&"dodge", &"dash"]:
+		return
+	if not GameState.inventory.has_permanent_flag(&"grants_afterimage"):
+		return
+	if not focus.try_spend(character_data.afterimage_focus_cost):
+		return
+	start_afterimage()
+
+
+func start_afterimage() -> void:
+	afterimage_left = character_data.afterimage_duration
+	afterimage_cooldown_left = character_data.afterimage_cooldown
+	GameState.world_time_scale = character_data.afterimage_world_speed
+	EventBus.camera_shake_requested.emit(0.15)
+
+
+func stop_afterimage() -> void:
+	afterimage_left = 0.0
+	GameState.world_time_scale = 1.0
+
+
+func _update_afterimage(delta: float) -> void:
+	afterimage_cooldown_left = maxf(afterimage_cooldown_left - delta, 0.0)
+	if afterimage_left > 0.0:
+		afterimage_left -= delta
+		if afterimage_left <= 0.0:
+			stop_afterimage()
+
+
+## Wandlauf starten? Nur mit Implantat, in der Luft, rennend, schräg an einer
+## senkrechten Wand und schnell genug an ihr entlang (frontal reicht das Tempo nicht).
+func try_start_wall_run() -> bool:
+	if is_on_floor() or not is_on_wall() or wall_run_cooldown_left > 0.0 \
+			or not is_input_enabled() or not Input.is_action_pressed(&"sprint") or not stamina.can_act() \
+			or not GameState.inventory.has_permanent_flag(&"grants_wall_run"):
+		return false
+	var wall_normal := get_wall_normal()
+	if absf(wall_normal.y) > 0.3:
+		return false
+	wall_normal.y = 0.0
+	wall_normal = wall_normal.normalized()
+	var input := get_move_direction()
+	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
+	if input.dot(-wall_normal) < 0.1 or horizontal.length() < character_data.wall_run_min_speed:
+		return false
+	state_machine.transition_to(&"wall_run", {"normal": wall_normal, "direction": horizontal})
 	return true
 
 
@@ -426,6 +504,7 @@ func respawn(at: Transform3D) -> void:
 	global_transform = at
 	velocity = Vector3.ZERO
 	_set_reality_sight(false)
+	stop_afterimage()
 	damage_buff = 0.0
 	damage_buff_time_left = 0.0
 	health.revive()
@@ -620,5 +699,6 @@ func _on_hit_landed(target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> v
 
 func _on_died() -> void:
 	lock_on.set_target(null)
+	stop_afterimage()
 	state_machine.transition_to(&"dead")
 	EventBus.player_died.emit(self)

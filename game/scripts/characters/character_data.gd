@@ -41,6 +41,32 @@ extends Resource
 @export var dodge_iframe_start: float = 0.05
 @export var dodge_iframe_end: float = 0.35
 
+@export_group("Schubsprung (Implantat)")
+## Strecke in Metern und Dauer des Schubsprungs.
+@export var dash_distance: float = 6.0
+@export var dash_duration: float = 0.2
+@export var dash_stamina_cost: float = 15.0
+@export var dash_iframe_start: float = 0.05
+@export var dash_iframe_end: float = 0.15
+## Pause bis zum nächsten Schubsprung (Sekunden).
+@export var dash_cooldown: float = 0.6
+
+@export_group("Wandlauf (Implantat)")
+@export var wall_run_max_time: float = 1.2
+@export var wall_run_min_speed: float = 5.0
+@export var wall_run_stamina_per_second: float = 25.0
+## Anteil der Schwerkraft beim Wandlauf (langsames Absinken).
+@export var wall_run_gravity_factor: float = 0.15
+## Absprung von der Wand: so schnell weg von ihr (m/s).
+@export var wall_jump_push: float = 6.0
+
+@export_group("Nachhall (Implantat)")
+@export var afterimage_focus_cost: float = 20.0
+## Tempo der Welt während des Nachhalls (0.25 = ein Viertel).
+@export var afterimage_world_speed: float = 0.25
+@export var afterimage_duration: float = 2.5
+@export var afterimage_cooldown: float = 6.0
+
 @export_group("Realitätsblick")
 ## Fokus-Kosten und Dauer des Realitätsblicks (Taste Q).
 @export var reality_sight_cost: float = 15.0

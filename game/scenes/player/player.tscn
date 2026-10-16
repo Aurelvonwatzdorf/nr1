@@ -20,6 +20,8 @@
 [ext_resource type="Script" path="res://scripts/player/states/block_state.gd" id="18_block"]
 [ext_resource type="Script" path="res://scripts/player/interaction_detector.gd" id="19_interaction"]
 [ext_resource type="Script" path="res://scripts/player/states/use_item_state.gd" id="20_use_item"]
+[ext_resource type="Script" path="res://scripts/player/states/dash_state.gd" id="21_dash"]
+[ext_resource type="Script" path="res://scripts/player/states/wall_run_state.gd" id="22_wall_run"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -166,6 +168,12 @@ script = ExtResource("11_move")
 
 [node name="Dodge" type="Node" parent="StateMachine"]
 script = ExtResource("12_dodge")
+
+[node name="Dash" type="Node" parent="StateMachine"]
+script = ExtResource("21_dash")
+
+[node name="WallRun" type="Node" parent="StateMachine"]
+script = ExtResource("22_wall_run")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("13_attack")

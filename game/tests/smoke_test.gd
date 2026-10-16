@@ -896,6 +896,154 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	var hammer := ItemDatabase.get_item(&"war_hammer")
 	_check(hammer != null and hammer.heavy_attack.poise_max_damage >= 30.0 and hammer.heavy_attack.damage >= 60.0, "Zweihand-Hammer: schwerer Schlag mit Wucht")
 
+	# Schubsprung (Implantat): in der Luft waagerecht, einmal pro Sprung
+	player.health.revive()
+	player.stamina.refill()
+	player.global_position = Vector3(20.0, 0.05, -20.0)
+	player.velocity = Vector3.ZERO
+	player.rotation = Vector3.ZERO
+	await _frames(10)
+	player.camera_rig.look_at_point(player.global_position + Vector3(0.0, 0.0, -10.0))
+	await _tap(&"jump")
+	await _frames(10)
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() == &"dodge", "Ohne Schubknoten: in der Luft normale Rolle")
+	await _frames(80)
+	GameState.inventory.add(&"thrust_node")
+	player.stamina.refill()
+	player.dash_cooldown_left = 0.0
+	await _tap(&"jump")
+	await _frames(10)
+	var dash_start := player.global_position
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() == &"dash", "Schubknoten: Strg in der Luft = Schubsprung")
+	var dash_peak_drop := 0.0
+	for i in 12:
+		await get_tree().physics_frame
+		dash_peak_drop = maxf(dash_peak_drop, dash_start.y - player.global_position.y)
+	var dash_moved := player.global_position - dash_start
+	dash_moved.y = 0.0
+	_check(dash_moved.length() > 4.5 and dash_peak_drop < 0.2, "Schubsprung: ca. 6 m waagerecht ohne Absinken (%.1f m)" % dash_moved.length())
+	player.dash_cooldown_left = 0.0
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() != &"dash", "Nur ein Schubsprung pro Sprung")
+	await _frames(80)
+	player.stamina.refill()
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() == &"dodge", "Am Boden im Stand bleibt die Rolle")
+	await _frames(50)
+	player.stamina.refill()
+	Input.action_press(&"move_forward")
+	Input.action_press(&"sprint")
+	await _frames(10)
+	await _tap(&"dodge")
+	_check(player.state_machine.get_current_state_name() == &"dash", "Rennen + Strg = Schubsprung am Boden")
+	Input.action_release(&"sprint")
+	Input.action_release(&"move_forward")
+	GameState.inventory.remove(&"thrust_node")
+	await _frames(40)
+
+	# Wandlauf (Implantat): rennend schräg an die Wand springen
+	var wall := StaticBody3D.new()
+	wall.collision_layer = PhysicsLayers.WORLD
+	var wall_shape := CollisionShape3D.new()
+	var wall_box := BoxShape3D.new()
+	wall_box.size = Vector3(1.0, 8.0, 30.0)
+	wall_shape.shape = wall_box
+	wall.add_child(wall_shape)
+	wall.position = Vector3(27.0, 4.0, -15.0)
+	arena.add_child(wall)
+	for with_tendons: bool in [false, true]:
+		if with_tendons:
+			GameState.inventory.add(&"grip_tendons")
+		player.health.revive()
+		player.stamina.refill()
+		player.global_position = Vector3(23.0, 0.05, -4.0)
+		player.velocity = Vector3.ZERO
+		player.rotation = Vector3.ZERO
+		await _frames(5)
+		player.camera_rig.look_at_point(player.global_position + Vector3(0.0, 0.0, -10.0))
+		Input.action_press(&"sprint")
+		Input.action_press(&"move_forward")
+		Input.action_press(&"move_right")
+		await _frames(12)
+		await _tap(&"jump")
+		var saw_wall_run := false
+		var height_on_wall := 0.0
+		for i in 70:
+			await get_tree().physics_frame
+			if player.state_machine.get_current_state_name() == &"wall_run":
+				saw_wall_run = true
+				height_on_wall = player.global_position.y
+		if with_tendons:
+			_check(saw_wall_run and height_on_wall > 0.8, "Haftsehnen: Figur läuft an der Wand entlang (Höhe %.1f)" % height_on_wall)
+		else:
+			_check(not saw_wall_run, "Ohne Haftsehnen kein Wandlauf")
+		Input.action_release(&"move_right")
+		Input.action_release(&"move_forward")
+		Input.action_release(&"sprint")
+		await _frames(60)
+	_check(player.state_machine.get_current_state_name() != &"wall_run" and player.is_on_floor(), "Wandlauf endet (Zeit/Wand zu Ende), Figur landet")
+	# Absprung von der Wand
+	player.stamina.refill()
+	player.global_position = Vector3(23.0, 0.05, -4.0)
+	player.velocity = Vector3.ZERO
+	await _frames(5)
+	player.camera_rig.look_at_point(player.global_position + Vector3(0.0, 0.0, -10.0))
+	Input.action_press(&"sprint")
+	Input.action_press(&"move_forward")
+	Input.action_press(&"move_right")
+	await _frames(12)
+	await _tap(&"jump")
+	for i in 70:
+		await get_tree().physics_frame
+		if player.state_machine.get_current_state_name() == &"wall_run":
+			break
+	await _frames(5)
+	Input.action_release(&"move_right")
+	await _tap(&"jump")
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() != &"wall_run" and player.velocity.x < -3.0 and player.velocity.y > 3.0, "Leertaste: Absprung weg von der Wand (vx %.1f)" % player.velocity.x)
+	Input.action_release(&"move_forward")
+	Input.action_release(&"sprint")
+	GameState.inventory.remove(&"grip_tendons")
+	await _frames(90)
+	wall.queue_free()
+	player.camera_rig.set_roll(0.0)
+
+	# Nachhall (Implantat): im letzten Moment ausweichen verlangsamt die Welt
+	var slow_guard: Enemy = arena.get_node("Enemies/Guard1")
+	var evade_hit := HitData.new()
+	evade_hit.damage = 15.0
+	evade_hit.source = slow_guard
+	for with_core: bool in [false, true]:
+		if with_core:
+			GameState.inventory.add(&"echo_core")
+		player.health.revive()
+		player.stamina.refill()
+		player.focus.refill()
+		player.state_machine.transition_to(&"dodge")
+		await _frames(6)
+		player.hurtbox.receive_hit(evade_hit)
+		if with_core:
+			_check(GameState.world_time_scale < 0.3 and player.focus.current <= player.focus.max_value - 19.0, "Nachhallkern: Ausweichen in den I-Frames verlangsamt die Welt (20 Fokus)")
+		else:
+			_check(is_equal_approx(GameState.world_time_scale, 1.0), "Ohne Nachhallkern bleibt die Welt normal")
+		await _frames(30)
+	slow_guard.attack_cooldown_left = 10.0
+	await _frames(30)
+	_check(slow_guard.attack_cooldown_left > 9.8, "Gegner laufen im Nachhall langsamer (Rest %.2f)" % slow_guard.attack_cooldown_left)
+	var focus_after_first := player.focus.current
+	player.state_machine.transition_to(&"dodge")
+	await _frames(6)
+	player.hurtbox.receive_hit(evade_hit)
+	_check(player.focus.current > focus_after_first - 1.0, "Nachhall hat eine Abklingzeit")
+	await _frames(120)
+	_check(is_equal_approx(GameState.world_time_scale, 1.0), "Nach 2,5 s läuft die Welt wieder normal")
+	slow_guard.attack_cooldown_left = 0.0
+	GameState.inventory.remove(&"echo_core")
+	player.afterimage_cooldown_left = 0.0
+
 
 ## Drückt eine Taste kurz. Die Figur sieht den Druck im nächsten Physik-Frame,
 ## deshalb zwei Frames halten, bevor losgelassen wird.

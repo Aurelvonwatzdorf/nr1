@@ -73,6 +73,8 @@ var current_scene: String = ""
 var spiritual_pressure: float = 0.0
 ## Hält die Zeit gerade an (Geister laden ein)? Wird nicht gespeichert.
 var time_stopped: bool = false
+## Tempo der Welt (Gegner, NPCs); unter 1 beim Nachhall. Die Spielfigur bleibt schnell. Nicht gespeichert.
+var world_time_scale: float = 1.0
 ## Spiritualitäts-Erfahrung bis zur nächsten Stufe (durch Beten/Einkehr).
 var spirit_experience: int = 0
 ## Wann man zuletzt an welchem Ort gebetet hat (Millisekunden). Nicht gespeichert.
@@ -315,6 +317,7 @@ func reset() -> void:
 	wanted_level = 0.0
 	spirit_experience = 0
 	time_stopped = false
+	world_time_scale = 1.0
 	_prayer_times.clear()
 	is_captured = false
 	return_scene = ""

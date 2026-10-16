@@ -1,6 +1,6 @@
 # Wandlauf
 
-- **Status:** Idee
+- **Status:** gebaut
 - **Vorbild (nur Inspiration):** Wandlaufen aus Bewegungs-Spielen
   (z. B. Titanfall, Prince of Persia, Ghostrunner). Keine Werte übernommen.
 - **Für wen:** beide (Implantat, Erweiterung der Cyberbeine)
@@ -28,7 +28,7 @@ Die Ausdauer läuft dabei leer. Ist sie alle, fällt man herunter.
 | Ausdauer | 25 pro Sekunde | wie Sprint, etwas mehr |
 | Absinken | Schwerkraft × 0,15 | spürbar, nicht schwebend |
 | Absprung | 6 m/s weg + Sprunghöhe | erreicht die Wand gegenüber |
-| Preis Schwarzmarkt | 700 Geld | benötigt Cyberbeine |
+| Preis Schwarzmarkt | 700 Geld | eigenständig (ohne Cyberbeine) |
 
 ## Umsetzung im Projekt
 - Neuer Zustand `WallRun` (`scripts/player/states/wall_run_state.gd`, Name
@@ -37,7 +37,7 @@ Die Ausdauer läuft dabei leer. Ist sie alle, fällt man herunter.
 - Wandnormale aus `get_wall_normal()`, Laufrichtung = Wand-Tangente.
 - `PlayerAnimator.play_wall_run(side)` (Platzhalter: Figur kippt zur Wand),
   `CameraRig` neigt sich leicht.
-- Neues Implantat `ItemData` (PERMANENT), braucht Cyberbeine.
+- Neues Implantat „Haftsehnen“ (`grip_tendons`, PERMANENT, 700 Geld), wirkt auch ohne Cyberbeine.
 - Test im Rauchtest: Testwand in der Arena, Spieler rennt schräg hin und
   springt → Zustand `wall_run`, Höhe fällt kaum; nach 1,2 s oder ohne
   Ausdauer → fällt; Sprung → Geschwindigkeit weg von der Wand.

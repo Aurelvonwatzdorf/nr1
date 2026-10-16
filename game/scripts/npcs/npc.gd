@@ -82,6 +82,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var world_speed := GameState.world_time_scale
+	delta *= world_speed
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	if health.is_dead:
@@ -93,7 +95,7 @@ func _physics_process(delta: float) -> void:
 		walk_towards(global_position + away.normalized() * 5.0, flee_speed, delta)
 	else:
 		_npc_physics(delta)
-	move_and_slide()
+	WorldTime.move_slowed(self, world_speed)
 
 
 ## Für Unterklassen: Bewegung pro Physik-Frame (Standard: herumlaufen wie in

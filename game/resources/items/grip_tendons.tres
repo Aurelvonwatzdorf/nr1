@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_data.gd" id="1_item"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"grip_tendons"
+display_name = "Haftsehnen (Implantat)"
+description = "Cyborg-Implantat vom Schwarzmarkt: künstliche Sehnen und Haftsohlen. Rennend schräg an eine Wand springen und an ihr entlanglaufen; Leertaste springt ab."
+kind = 1
+color = Color(0.55, 1, 0.75, 1)
+grants_wall_run = true

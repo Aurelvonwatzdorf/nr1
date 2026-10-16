@@ -1,6 +1,6 @@
 # Nachhall (Zeit verlangsamen)
 
-- **Status:** Idee
+- **Status:** gebaut
 - **Vorbild (nur Inspiration):** Cyber-Implantate, die die Zeit dehnen
   (z. B. Cyberpunk 2077), und das „perfekte Ausweichen“ aus Action-Spielen.
   Keine Werte oder Namen übernommen.

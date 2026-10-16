@@ -50,6 +50,12 @@ enum Kind {
 @export var grants_radar: bool = false
 ## Erlaubt einen zweiten Sprung in der Luft (Cyberbeine).
 @export var grants_double_jump: bool = false
+## Schubsprung: in der Luft und beim Rennen ein kurzer Stoß statt der Rolle.
+@export var grants_dash: bool = false
+## Wandlauf: rennend an Wänden entlanglaufen.
+@export var grants_wall_run: bool = false
+## Nachhall: Ausweichen im letzten Moment verlangsamt die Welt.
+@export var grants_afterimage: bool = false
 
 @export_group("Nahkampfwaffe")
 @export var light_attack: AttackData

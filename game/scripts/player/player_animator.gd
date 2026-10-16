@@ -106,6 +106,45 @@ func play_attack(attack: AttackData) -> void:
 		lean.tween_property(visual_root, "rotation:x", 0.0, attack.recovery_time)
 
 
+## Schubsprung: Figur streckt sich nach vorn, kurzer Lichtschweif bleibt zurück.
+func play_dash(duration: float) -> void:
+	if _travel(&"dash"):
+		return
+	_placeholder_tween(Vector3(0.75, 0.85, 1.5), duration)
+	if visual_root == null:
+		return
+	var trail := MeshInstance3D.new()
+	var mesh := CapsuleMesh.new()
+	mesh.radius = 0.3
+	mesh.height = 1.6
+	trail.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color(0.4, 0.9, 1.0, 0.45)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	trail.material_override = material
+	var parent: Node = visual_root.get_tree().current_scene
+	if parent == null:
+		parent = visual_root
+	parent.add_child(trail)
+	trail.global_position = visual_root.global_position + Vector3.UP * 0.9
+	var tween := trail.create_tween()
+	tween.tween_property(material, "albedo_color:a", 0.0, 0.3)
+	tween.tween_callback(trail.queue_free)
+
+
+## Wandlauf: Figur kippt zur Wand (side: -1 = Wand links, 1 = rechts, 0 = gerade).
+func play_wall_run(side: float) -> void:
+	if _travel(&"wall_run" if side != 0.0 else &"move") or visual_root == null:
+		return
+	if side == 0.0:
+		visual_root.rotation.z = 0.0
+		return
+	_kill_tween()
+	_tween = create_tween()
+	_tween.tween_property(visual_root, "rotation:z", deg_to_rad(-18.0 * side), 0.12)
+
+
 ## Wucht hält einen Treffer aus: kurzes helles Aufleuchten statt Taumeln.
 func play_poise_flash() -> void:
 	var material := body_mesh.material_override as StandardMaterial3D if body_mesh else null

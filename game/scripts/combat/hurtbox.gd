@@ -10,6 +10,8 @@ extends Area3D
 enum Result { IGNORED, HIT, BLOCKED, PARRIED }
 
 signal hit_received(hit: HitData, result: Result)
+## Ein Treffer prallte an der Unverwundbarkeit ab (z. B. Ausweichen im letzten Moment).
+signal hit_evaded(hit: HitData)
 
 @export var health: HealthComponent
 ## Treffer vom eigenen Team werden ignoriert (z. B. &"player", &"enemy").
@@ -30,7 +32,10 @@ func _ready() -> void:
 
 ## Wird von einer Hitbox aufgerufen. Gibt zurück, was aus dem Treffer wurde.
 func receive_hit(hit: HitData) -> Result:
-	if invulnerable or (health and health.is_dead):
+	if health and health.is_dead:
+		return Result.IGNORED
+	if invulnerable:
+		hit_evaded.emit(hit)
 		return Result.IGNORED
 	var result := Result.HIT
 	if hit_filter.is_valid():

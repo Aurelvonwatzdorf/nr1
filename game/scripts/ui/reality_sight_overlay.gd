@@ -8,6 +8,7 @@ var _rect: ColorRect
 var _material: ShaderMaterial
 var _tween: Tween
 var _time_stop: float = 0.0
+var _afterimage: float = 0.0
 
 
 func _ready() -> void:
@@ -18,6 +19,7 @@ func _ready() -> void:
 	_material.set_shader_parameter(&"distortion", 0.0)
 	_material.set_shader_parameter(&"pressure", 0.0)
 	_material.set_shader_parameter(&"time_stop", 0.0)
+	_material.set_shader_parameter(&"afterimage", 0.0)
 	_rect = ColorRect.new()
 	_rect.material = _material
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -36,7 +38,11 @@ func _process(delta: float) -> void:
 	_material.set_shader_parameter(&"distortion", distortion)
 	_material.set_shader_parameter(&"pressure", GameState.spiritual_pressure)
 	_material.set_shader_parameter(&"time_stop", _time_stop)
-	if distortion > 0.0 or GameState.spiritual_pressure > 0.0 or _time_stop > 0.0:
+	# Nachhall: schnell ein, weich aus.
+	var slowed := GameState.world_time_scale < 1.0
+	_afterimage = move_toward(_afterimage, 1.0 if slowed else 0.0, delta * (6.0 if slowed else 2.0))
+	_material.set_shader_parameter(&"afterimage", _afterimage)
+	if distortion > 0.0 or GameState.spiritual_pressure > 0.0 or _time_stop > 0.0 or _afterimage > 0.0:
 		visible = true
 	elif not GameState.reality_sight_active and (_tween == null or not _tween.is_valid()):
 		visible = false

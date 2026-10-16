@@ -37,6 +37,11 @@ var _trauma: float = 0.0
 var _shake_time: float = 0.0
 ## Ruck in eine Richtung (schwere Treffer), klingt schnell ab.
 var _kick: Vector3 = Vector3.ZERO
+## Normales Sichtfeld (beim ersten FOV-Stoß gemerkt) und dessen Tween.
+var _base_fov: float = -1.0
+var _fov_tween: Tween
+## Neigung zur Seite (Wandlauf), weich angeglichen.
+var _roll_target: float = 0.0
 
 
 func _ready() -> void:
@@ -82,6 +87,7 @@ func _process(delta: float) -> void:
 	var target_position := _target.get_global_transform_interpolated().origin + Vector3.UP * height_offset
 	global_position = global_position.lerp(target_position, 1.0 - exp(-follow_speed * delta))
 	_update_shake(delta)
+	camera.rotation.z = lerpf(camera.rotation.z, _roll_target, 1.0 - exp(-8.0 * delta))
 	_kick = _kick.lerp(Vector3.ZERO, 1.0 - exp(-12.0 * delta / maxf(Engine.time_scale, 0.001)))
 	global_position += _kick
 
@@ -97,6 +103,22 @@ func look_at_point(point: Vector3, pitch_degrees: float = -12.0) -> void:
 ## Kamera wackeln lassen. Mehrere Aufrufe addieren sich (max. 1).
 func shake(strength: float) -> void:
 	_trauma = minf(_trauma + strength, 1.0)
+
+
+## Kamera seitlich neigen (Grad, 0 = gerade), z. B. beim Wandlauf.
+func set_roll(degrees: float) -> void:
+	_roll_target = deg_to_rad(degrees)
+
+
+## Sichtfeld kurz weiten (z. B. Schubsprung) und wieder zurück.
+func punch_fov(extra_degrees: float, duration: float) -> void:
+	if _base_fov < 0.0:
+		_base_fov = camera.fov
+	if _fov_tween and _fov_tween.is_valid():
+		_fov_tween.kill()
+	_fov_tween = create_tween()
+	_fov_tween.tween_property(camera, "fov", _base_fov + extra_degrees, duration * 0.25)
+	_fov_tween.tween_property(camera, "fov", _base_fov, duration * 0.75)
 
 
 ## Kurzer Ruck in eine Richtung (z. B. schwerer Treffer in Schlagrichtung).
