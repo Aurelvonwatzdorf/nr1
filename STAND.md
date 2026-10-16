@@ -18,6 +18,12 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 - Wie sehen der Grau-Effekt der angehaltenen Zeit, die Geister und die
   Geisterwelt aus? Passen Farben und Leuchten?
 
+## Gerade: Warten auf den Nutzer
+- Nutzer stellt auf GitHub den Spiel-Branch als Standard ein und testet M8.3
+  am Mac. Erst nach seiner Rückmeldung mit M8.4 weitermachen.
+- Der alte REA-Branch `claude/funny-goodall-e0rf8b` bleibt bestehen (Wunsch des
+  Nutzers), wird aber nicht benutzt.
+
 ## Nächster Schritt
 - **M8.4 Geisterwelt ausbauen**: mehr Wege und Orte, eigene Geisterwesen
   (friedliche und gefährliche), ein Bereich, in dem Rafa lebt (noch nicht
