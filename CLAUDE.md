@@ -27,9 +27,10 @@ Das Repository enthält zwei Dinge:
 Der Nutzer arbeitet mit zwei Claude-Code-Sitzungen am selben Projekt: im
 Browser (Cloud) und im Terminal auf seinem Mac. Gemeinsamer Stand ist **nur
 GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
-- **Branch fürs Spiel:** `claude/youthful-ptolemy-6ekfbs`. Achtung: Der
-  Standard-Branch auf GitHub ist ein Video-Branch. Darum beim Klonen den Branch
-  angeben: `git clone -b claude/youthful-ptolemy-6ekfbs https://github.com/aurelvonwatzdorf/nr1`.
+- **Branch fürs Spiel:** `claude/youthful-ptolemy-6ekfbs`. Der Nutzer stellt ihn
+  auf GitHub als Standard-Branch ein (vorher war es ein Video-Branch). Zur
+  Sicherheit beim Klonen trotzdem den Branch angeben:
+  `git clone -b claude/youthful-ptolemy-6ekfbs https://github.com/aurelvonwatzdorf/nr1`.
   Andere Branches nur nach Rückfrage benutzen oder zusammenführen.
 - **Vor dem Arbeiten** `git pull`, **nach jedem grünen Schritt** committen und
   `git push`. Nie ungepushte Arbeit liegen lassen.
@@ -45,6 +46,10 @@ GitHub** (Branch unten) plus diese Datei. Die Chats wissen nichts voneinander.
 - **Visuelles** (Farben, Effekte, Ruckeln) kann nur der Mac prüfen: Die Cloud
   läuft ohne Bild. Solche Prüfungen dem Nutzer bzw. der Terminal-Sitzung überlassen.
 - **Vor jeder Entscheidung den Nutzer fragen**, ob es passt (Wunsch des Nutzers).
+- **Fragen als anklickbare Optionen:** Kurze, nicht komplexe Fragen an den
+  Nutzer immer mit dem Auswahl-Werkzeug stellen (AskUserQuestion: 2 bis 4
+  Optionen, die empfohlene zuerst mit „(Empfohlen)“). Nur lange oder komplexe
+  Fragen als normalen Text stellen.
 
 ### REA (Reverse-Engineering-Skill)
 `.claude/skills/reverse-engineer-anything/` (aus morluto/rea, MIT-Lizenz). Auf
