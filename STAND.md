@@ -5,6 +5,11 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **R1 Erste spielbare Fassung**: Hauptmenü (Weiterspielen, Neues Spiel,
+  Steuerung, Beenden), Pausenmenü „Zum Hauptmenü“, echte Mac-App mit
+  `./game/tools/mac_app_bauen.sh` (ohne Testgeld/-spiritualität, eigener
+  Spielstand). In der Cloud gebaut und geprüft (gepacktes Spiel startet ohne
+  Fehler). Am Mac noch auszuprobieren: Start der App, Grafik, Tempo.
 - **K1 Kontinent „Aurion“** (freie Hand vom Nutzer, Design in
   `docs/welt/KONTINENT.md`): neun Regionen als „Zeitinseln“ mit eigener Epoche,
   Bauweise, Pflanzen, Bewohnern, Nebelstimmung. Santo Santiago (Zukunft), Die

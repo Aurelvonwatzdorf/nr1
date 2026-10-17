@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Spiegelrealitäten (Arbeitstitel)"
 config/description="Third-Person-Action-RPG in den Spiegelrealitäten der Konzerne."
-run/main_scene="res://scenes/levels/corporate_tower.tscn"
+run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
@@ -190,3 +190,4 @@ common/physics_interpolation=true
 [rendering]
 
 anti_aliasing/quality/msaa_3d=2
+textures/vram_compression/import_etc2_astc=true

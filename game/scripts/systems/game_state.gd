@@ -10,12 +10,16 @@ const CHARACTER_PATHS: Dictionary[StringName, String] = {
 	&"tahirou": "res://resources/characters/tahirou.tres",
 }
 
+## Erste Szene eines neuen Spiels (Der Konzernturm).
+const START_SCENE := "res://scenes/levels/corporate_tower.tscn"
+
 ## Testversion: Beim Start wird das Geld mindestens auf diesen Betrag
 ## aufgefüllt, damit man alles kaufen und ausprobieren kann. 0 = aus.
-## Für die fertige Version auf 0 setzen. (In den Tests aus.)
+## Gilt nur im Editor; die fertige Mac-App setzt es in _ready() auf 0.
+## (In den Tests aus.)
 var test_start_money: int = 5000
 ## Testversion: Spiritualität beim Laden eines Levels mindestens auf diese Stufe
-## heben (spart langes Beten). Für die fertige Version auf 0 setzen.
+## heben (spart langes Beten). Wie oben nur im Editor.
 var test_start_spirituality: int = 3
 
 ## Bei neuem Spiel die Charakterauswahl zeigen? (Im Rauchtest aus.)
@@ -127,6 +131,13 @@ var memories: int = 0:
 
 
 ## Wählt eine Figur anhand ihrer ID (wird ab M4 vom Auswahlbildschirm genutzt).
+func _ready() -> void:
+	# Fertige Version (exportierte App): keine Testhilfen.
+	if not OS.is_debug_build():
+		test_start_money = 0
+		test_start_spirituality = 0
+
+
 func select_character(id: StringName) -> bool:
 	if not CHARACTER_PATHS.has(id):
 		push_warning("Unbekannte Figur: %s" % id)

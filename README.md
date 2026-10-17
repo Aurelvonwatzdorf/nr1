@@ -91,6 +91,7 @@ godot --headless --path game res://tests/reality_test.tscn # Spiegelrealität
 - ⬜ **M7**: Spiegelrealitäten, „Konzernturm“, Adam
 - 🟨 **M8**: Geisterwelt: Gebet ✅, spiritueller Druck ✅, Einladung mit angehaltener Zeit ✅, Geisterwelt ausbauen, Rituale
 - ✅ **K1**: Kontinent Aurion mit neun Regionen (Zeitinseln), Südtor von Santo Santiago
+- ✅ **R1**: Erste spielbare Fassung (Hauptmenü, Mac-App: `./game/tools/mac_app_bauen.sh`)
 - ⬜ **M9**: Rafa & Daniel
 - ⬜ **M10**: Caspar & Schulden-Assassinen
 - ⬜ **M11+**: Weitere Regionen und Epochen, Gehege der Schweine, Spiegelstadt

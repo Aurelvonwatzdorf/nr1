@@ -80,11 +80,19 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
   (Warnung `untyped_declaration` ist aktiv, keine untypisierten Variablen).
 - **Renderer:** Forward+.
 - **Projektordner:** `game/` (dort liegt `project.godot`).
-- **Hauptszene:** `res://scenes/levels/corporate_tower.tscn` (Der Konzernturm,
-  Spielstart). Nach dem Bruch geht es nach `santo_santiago.tscn`; mit Spielstand
-  wechselt das Spiel direkt in die gespeicherte Welt. Das Südtor von Santo
-  Santiago führt auf den Kontinent (`continent.tscn`). „Neues Spiel“ startet immer
-  in der Hauptszene. Testarena und `test_reality.tscn` bleiben zum Ausprobieren.
+- **Hauptszene:** `res://scenes/ui/main_menu.tscn` (`MainMenu`: Weiterspielen,
+  Neues Spiel, Steuerung, Beenden). Ein neues Spiel beginnt in
+  `GameState.START_SCENE` = `corporate_tower.tscn` (Der Konzernturm). Nach dem
+  Bruch geht es nach `santo_santiago.tscn`; „Weiterspielen“ lädt den Spielstand
+  und wechselt in die gespeicherte Welt. Das Südtor von Santo Santiago führt auf
+  den Kontinent (`continent.tscn`). Pausenmenü hat „Zum Hauptmenü“. Testarena und
+  `test_reality.tscn` bleiben zum Ausprobieren (F6 auf einer Szene startet direkt).
+- **Fertige Mac-App:** `./game/tools/mac_app_bauen.sh` (holt beim ersten Mal die
+  Export-Vorlagen, ~1,3 GB) baut `build/Spiegelrealitäten.app` (Vorlage „macOS“ in
+  `game/export_presets.cfg`, universal, ad-hoc signiert) und startet sie. `build/`
+  steht in `.gitignore`. In der App (`OS.is_debug_build()` = false) sind die
+  Testhilfen aus (`test_start_money`/`test_start_spirituality` = 0) und der
+  Spielstand heißt `user://spielstand.json` (getrennt vom Editor-Spielstand).
 
 ### Prüfen (vor jedem „fertig“)
 Ein Befehl für alles (Mac, Linux, Cloud), vom Ordner `nr1` aus:
@@ -403,11 +411,11 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
   Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
   Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
   Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung). Preise vorläufig in der Level-Szene.
-- **Testversion**: `GameState.test_start_money` (5000) füllt beim Laden eines
-  Levels das Geld mindestens auf diesen Betrag auf, damit man alles kaufen und
-  testen kann. **Für die fertige Version auf 0 setzen.** Die Tests schalten es aus.
-  Ebenso hebt `GameState.test_start_spirituality` (3) die Spiritualität beim
-  Laden mindestens auf Stufe 3 (spart langes Beten). **Fertige Version: 0.**
+- **Testversion** (nur im Editor): `GameState.test_start_money` (5000) füllt beim
+  Laden eines Levels das Geld mindestens auf diesen Betrag auf, damit man alles
+  kaufen und testen kann. Ebenso hebt `GameState.test_start_spirituality` (3) die
+  Spiritualität mindestens auf Stufe 3. **Die fertige Mac-App setzt beides
+  automatisch auf 0.** Die Tests schalten es aus.
 - **Zwei Währungen**: **Erinnerungen** (zum Leveln, gehen beim Tod verloren) und
   **Geld** (zum Kaufen, bleibt beim Tod erhalten). Caspar verleiht Geld.
 - Beim Tod verliert man die Währung **„Erinnerungen“**. Man kann sie an der
@@ -720,6 +728,7 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Mittelalter, Altes Ägypten, Gegenwart, Reiterclans, Schreine …), Straßen,
   Fluss, Wahrzeichen, Bewohner, Entdecken mit Titelkarte, Südtor-Übergang,
   Kontinent-Test, Skill `/region-ausbau`.
+- ✅ **R1**: Erste spielbare Fassung: Hauptmenü, Mac-App per Skript, ohne Testhilfen.
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),

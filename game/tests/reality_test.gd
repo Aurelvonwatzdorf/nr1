@@ -6,6 +6,7 @@ const REALITY := preload("res://scenes/levels/test_reality.tscn")
 const TOWER := preload("res://scenes/levels/corporate_tower.tscn")
 const MIRROR_CITY := preload("res://scenes/levels/mirror_city_reality.tscn")
 const SPIRIT_WORLD := preload("res://scenes/levels/spirit_world.tscn")
+const MAIN_MENU := preload("res://scenes/ui/main_menu.tscn")
 
 var _failures: int = 0
 
@@ -78,6 +79,7 @@ func _run() -> void:
 
 	reality.queue_free()
 	await _frames(3)
+	await _test_main_menu()
 	await _test_tower()
 	await _test_mirror_city()
 	await _test_spirit_world()
@@ -85,6 +87,28 @@ func _run() -> void:
 	print("")
 	print("REALITÄTSTEST: %s" % ("BESTANDEN" if _failures == 0 else "%d FEHLER" % _failures))
 	get_tree().quit(0 if _failures == 0 else 1)
+
+
+## Hauptmenü: Weiterspielen nur mit Spielstand, Neues Spiel löscht ihn.
+func _test_main_menu() -> void:
+	SaveSystem.delete_save()
+	var menu := MAIN_MENU.instantiate() as MainMenu
+	menu.change_scene = false
+	add_child(menu)
+	await _frames(2)
+	_check(menu.continue_button.disabled and not menu.new_game_button.disabled, "Hauptmenü: ohne Spielstand kein „Weiterspielen“")
+	menu.queue_free()
+	GameState.money = 77
+	SaveSystem.save_game()
+	menu = MAIN_MENU.instantiate() as MainMenu
+	menu.change_scene = false
+	add_child(menu)
+	await _frames(2)
+	_check(not menu.continue_button.disabled, "Hauptmenü: mit Spielstand geht „Weiterspielen“")
+	menu.start_new_game()
+	_check(not SaveSystem.has_save() and GameState.money == 0, "Hauptmenü: Neues Spiel beginnt frisch")
+	menu.queue_free()
+	await _frames(2)
 
 
 ## Der Konzernturm (Spielstart): Aufbau, Tutorial, Hinweise, Adam, Zusammenbruch.
@@ -95,8 +119,9 @@ func _test_tower() -> void:
 	add_child(tower)
 	await _frames(5)
 	var player: Player = tower.get_node("Player")
-	_check(get_tree().get_first_node_in_group(&"reality") == tower and ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/levels/corporate_tower.tscn",
-		"Das Spiel beginnt im Konzernturm")
+	_check(get_tree().get_first_node_in_group(&"reality") == tower and GameState.START_SCENE == "res://scenes/levels/corporate_tower.tscn"
+		and ProjectSettings.get_setting("application/run/main_scene") == MainMenu.SCENE,
+		"Das Spiel startet im Hauptmenü, ein neues Spiel im Konzernturm")
 	_check(tower.get_node("Clues").get_child_count() == 3 and tower.get_node("Enemies").get_child_count() == 3, "Turm: 3 Risse, 3 Wachen")
 	var adam: Adam = tower.get_node("NPCs/Adam")
 	_check(not adam.visible, "Adam ist noch nicht da")

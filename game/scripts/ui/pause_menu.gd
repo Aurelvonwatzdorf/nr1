@@ -1,10 +1,11 @@
 class_name PauseMenu
 extends GameMenu
-## Pausenmenü (Esc): Fortsetzen, Speichern, Beenden.
+## Pausenmenü (Esc): Fortsetzen, Speichern, Neues Spiel, Hauptmenü, Beenden.
 
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
 @onready var new_game_button: Button = %NewGameButton
+@onready var main_menu_button: Button = %MainMenuButton
 @onready var quit_button: Button = %QuitButton
 @onready var status_label: Label = %StatusLabel
 
@@ -14,6 +15,7 @@ func _ready() -> void:
 	resume_button.pressed.connect(close)
 	save_button.pressed.connect(_on_save_pressed)
 	new_game_button.pressed.connect(_on_new_game_pressed)
+	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
 
 
@@ -39,8 +41,15 @@ func _on_new_game_pressed() -> void:
 	SaveSystem.delete_save()
 	GameState.reset()
 	close()
-	# Neues Spiel beginnt immer in der Startszene (dem Konzernturm).
-	get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+	# Neues Spiel beginnt immer im Konzernturm.
+	get_tree().change_scene_to_file(GameState.START_SCENE)
+
+
+## Zurück ins Hauptmenü (vorher speichern, damit nichts verloren geht).
+func _on_main_menu_pressed() -> void:
+	SaveSystem.save_game()
+	close()
+	get_tree().change_scene_to_file(MainMenu.SCENE)
 
 
 func _on_save_pressed() -> void:

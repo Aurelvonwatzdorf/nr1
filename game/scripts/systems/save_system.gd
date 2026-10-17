@@ -13,6 +13,9 @@ var auto_load_enabled: bool = true
 
 
 func _ready() -> void:
+	# Die fertige App hat einen eigenen Spielstand, getrennt vom Testen im Editor.
+	if not OS.is_debug_build():
+		save_path = "user://spielstand.json"
 	EventBus.anchor_mirror_rested.connect(func(_m: Node3D, _p: Player) -> void: save_game())
 
 
