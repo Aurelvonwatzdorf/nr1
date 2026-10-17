@@ -175,7 +175,10 @@ tests/       Headless-Rauchtests
   `_send_action()` statt `_tap()` benutzen.
 - **Speichern**: Alles, was ein Neustart überleben soll, gehört in `GameState` und
   in dessen `to_dict()`/`from_dict()`/`reset()`. Geladen wird in
-  `test_arena.gd::_enter_tree()`, also vor allen `_ready()`. Der Rauchtest nutzt
+  `Level._enter_tree()`, also vor allen `_ready()`, aber **nur einmal pro
+  Spielsitzung** (`SaveSystem.session_loaded`; „Weiterspielen“ lädt bewusst neu,
+  `restore_pending` setzt die Figur an den Rastplatz). Weltwechsel (Tore, Risse)
+  behalten den Stand im Speicher, sonst springt man an den gespeicherten Ort zurück. Der Rauchtest nutzt
   einen eigenen Spielstand (`user://smoke_test_save.json`).
 - **Moral**: `GameState.moral.record(id, tugend, wert, text)`; jede Tat-ID zählt
   einmal. Tugenden siehe `MoralMemory.VIRTUES`.

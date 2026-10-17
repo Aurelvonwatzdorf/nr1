@@ -5,6 +5,9 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **Fehler behoben:** Südtor führte zurück zum Marktplatz statt auf den
+  Kontinent (Weltwechsel lud den alten Spielstand neu). Jetzt wird nur einmal
+  pro Sitzung geladen; Test in `reality_test`.
 - **R1 Erste spielbare Fassung**: Hauptmenü (Weiterspielen, Neues Spiel,
   Steuerung, Beenden), Pausenmenü „Zum Hauptmenü“, echte Mac-App mit
   `./game/tools/mac_app_bauen.sh` (ohne Testgeld/-spiritualität, eigener

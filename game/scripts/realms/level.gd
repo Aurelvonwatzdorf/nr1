@@ -16,14 +16,19 @@ var _loaded_save: bool = false
 func _enter_tree() -> void:
 	# Vor allen _ready()-Aufrufen laden, damit Figur, Gegenstände und Stats
 	# gleich mit den gespeicherten Daten starten.
-	if SaveSystem.auto_load_enabled:
-		_loaded_save = SaveSystem.load_game()
-		# Gespeichert wurde in einer anderen Welt (z. B. in einer Spiegelrealität)?
-		# Dann dorthin wechseln.
-		if _loaded_save and GameState.current_scene != "" and GameState.current_scene != scene_file_path \
-				and get_tree().current_scene == self and ResourceLoader.exists(GameState.current_scene):
-			get_tree().change_scene_to_file.call_deferred(GameState.current_scene)
-			return
+	# Nur beim ersten Level nach dem Start (bzw. nach „Weiterspielen“) laden;
+	# bei einem Weltwechsel ist der aktuelle Stand schon im Speicher.
+	if SaveSystem.auto_load_enabled and not SaveSystem.session_loaded:
+		SaveSystem.load_game()
+	_loaded_save = SaveSystem.restore_pending
+	# Gespeichert wurde in einer anderen Welt (z. B. in einer Spiegelrealität)?
+	# Dann dorthin wechseln.
+	if _loaded_save and GameState.current_scene != "" and GameState.current_scene != scene_file_path \
+			and get_tree().current_scene == self and ResourceLoader.exists(GameState.current_scene):
+		get_tree().change_scene_to_file.call_deferred(GameState.current_scene)
+		return
+	SaveSystem.restore_pending = false
+	SaveSystem.session_loaded = true
 	if scene_file_path != "":
 		GameState.current_scene = scene_file_path
 	# Eine angehaltene Zeit endet mit dem Weltwechsel.

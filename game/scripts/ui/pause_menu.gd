@@ -40,6 +40,7 @@ func _on_opened() -> void:
 func _on_new_game_pressed() -> void:
 	SaveSystem.delete_save()
 	GameState.reset()
+	SaveSystem.restore_pending = false
 	close()
 	# Neues Spiel beginnt immer im Konzernturm.
 	get_tree().change_scene_to_file(GameState.START_SCENE)

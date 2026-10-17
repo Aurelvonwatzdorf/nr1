@@ -67,6 +67,8 @@ func continue_game() -> void:
 func start_new_game() -> void:
 	SaveSystem.delete_save()
 	GameState.reset()
+	SaveSystem.session_loaded = true
+	SaveSystem.restore_pending = false
 	_go(GameState.START_SCENE)
 
 

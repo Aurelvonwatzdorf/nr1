@@ -109,6 +109,26 @@ func _test_main_menu() -> void:
 	_check(not SaveSystem.has_save() and GameState.money == 0, "Hauptmenü: Neues Spiel beginnt frisch")
 	menu.queue_free()
 	await _frames(2)
+	# Weltwechsel (z. B. Südtor): der Stand im Speicher gilt, kein Neuladen
+	# des alten Spielstands (sonst landet man wieder am alten Ort).
+	GameState.current_scene = "res://scenes/levels/santo_santiago.tscn"
+	GameState.money = 77
+	SaveSystem.save_game()
+	GameState.money = 5
+	SaveSystem.auto_load_enabled = true
+	SaveSystem.session_loaded = true
+	SaveSystem.restore_pending = false
+	var level := REALITY.instantiate() as RealityLevel
+	level.exit_scene = ""
+	add_child(level)
+	await _frames(2)
+	_check(GameState.money == 5 and GameState.current_scene == level.scene_file_path,
+		"Weltwechsel lädt den alten Spielstand nicht neu")
+	level.queue_free()
+	SaveSystem.auto_load_enabled = false
+	SaveSystem.delete_save()
+	GameState.reset()
+	await _frames(2)
 
 
 ## Der Konzernturm (Spielstart): Aufbau, Tutorial, Hinweise, Adam, Zusammenbruch.

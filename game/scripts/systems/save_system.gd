@@ -10,6 +10,11 @@ const SAVE_VERSION := 1
 var save_path: String = "user://savegame.json"
 ## Beim Start automatisch laden? (Im Rauchtest aus.)
 var auto_load_enabled: bool = true
+## Ist der Spielstand schon im Speicher? Dann lädt ein Weltwechsel (Tor, Riss …)
+## nicht noch einmal von der Festplatte, sonst springt man an den alten Ort zurück.
+var session_loaded: bool = false
+## Gerade geladen: Das nächste Level setzt die Figur an den Rastplatz.
+var restore_pending: bool = false
 
 
 func _ready() -> void:
@@ -39,6 +44,8 @@ func load_game() -> bool:
 		push_error("Spielstand ist beschädigt.")
 		return false
 	GameState.from_dict(data)
+	session_loaded = true
+	restore_pending = true
 	return true
 
 

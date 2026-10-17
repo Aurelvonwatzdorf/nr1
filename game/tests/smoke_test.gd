@@ -850,6 +850,7 @@ func _run() -> void:
 	tahirou.queue_free()
 	await _frames(3)
 	SaveSystem.auto_load_enabled = true
+	SaveSystem.session_loaded = false  # wie ein frischer Spielstart
 	var loaded_arena := ARENA.instantiate()
 	add_child(loaded_arena)
 	await _frames(5)
