@@ -5,6 +5,11 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **Web-Version** (Nutzer hat gerade nur das iPhone): GitHub Actions baut sie bei
+  jedem Push und stellt sie auf https://aurelvonwatzdorf.github.io/nr1/ .
+  Nutzer muss einmalig Pages → Source „GitHub Actions“ einschalten. In Chromium
+  im iPhone-Format geprüft: Menü, Figurenwahl, Konzernturm mit Touch-Knöpfen.
+  Offen: echte Leistung in Safari auf dem iPhone 13 Pro.
 - **R2 iPhone (Nutzer-Wunsch)**: Touch-Steuerung (Stick, Knöpfe, Wischen,
   „Zurück“ in Menüs), Mobile-Einstellungen, App-Symbol, Xcode-Projekt per
   `./game/tools/iphone_bauen.sh`. Export in der Cloud geprüft. **Offen:** auf

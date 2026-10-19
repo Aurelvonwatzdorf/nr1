@@ -270,6 +270,12 @@ func _apply_touch_layout(enabled: bool) -> void:
 		label.size = Vector2(300, 32)
 	money_label.position = Vector2(24, 396)
 	memories_label.position = Vector2(24, 428)
+	# Oben rechts liegen die kleinen Knöpfe: Verankerung und Fahndung nach links.
+	for label: Label in [reality_label, wanted_label]:
+		label.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	reality_label.position = Vector2(24, 466)
+	wanted_label.position = Vector2(24, 536)
 
 
 func bind_player(player: Player) -> void:

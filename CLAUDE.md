@@ -99,6 +99,13 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
   iPhone anschließen, ▶). Auf Handys gelten Projekt-Overrides `.mobile`
   (Stretch `canvas_items`/`expand`, kein MSAA, Mobile-Renderer, Querformat).
   App-Symbol: `assets/icons/app_icon.png` (`config/icon`, auch für die Mac-App).
+- **Web-Version (Browser, auch iPhone-Safari):** Vorlage „Web“ (ohne Threads,
+  daher ohne Spezial-Header auf GitHub Pages lauffähig, Compatibility-Renderer,
+  Overrides `.web` wie `.mobile`). `.github/workflows/web.yml` baut bei jedem Push
+  und stellt sie auf https://aurelvonwatzdorf.github.io/nr1/ (einmalig in den
+  Repo-Einstellungen Pages → Source „GitHub Actions“ wählen). Lokal prüfen:
+  `build/web` mit `python3 -m http.server` ausliefern und mit Playwright/Chromium
+  im iPhone-Format (hasTouch) öffnen.
 - **Touch-Steuerung** (`TouchControls` in `game_ui.tscn`, Ebene 20): an, wenn
   `GameState.touch_controls` (`enable_touch_controls()`, automatisch bei
   `OS.has_feature("mobile")`/Touchscreen; entfernt dabei die Maustasten aus den
@@ -106,7 +113,8 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
   Stick (ganz außen = rennen), rechts Knöpfe, Wischen dreht die Kamera
   (`CameraRig.add_look()`). Knöpfe senden echte `InputEventAction`s
   (`Input.parse_input_event`). In Menüs nur „Zurück“ (= Esc). HUD blendet die
-  Tastatur-Zeile aus und rückt Geld/Erinnerungen nach links oben. Test in
+  Tastatur-Zeile aus und rückt Geld/Erinnerungen, Verankerung und Fahndung
+  nach links. Test in
   `reality_test` (`screen_size_override`, weil headless winzig ist), Bild
   `06_iphone_steuerung`.
 
@@ -749,7 +757,8 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Kontinent-Test, Skill `/region-ausbau`.
 - ✅ **R1**: Erste spielbare Fassung: Hauptmenü, Mac-App per Skript, ohne Testhilfen.
 - 🟨 **R2**: iPhone: Touch-Steuerung, Mobile-Einstellungen, Xcode-Projekt per
-  Skript, App-Symbol. Noch nicht auf einem echten iPhone geprüft (Leistung!).
+  Skript, App-Symbol, Web-Version auf GitHub Pages (im Browser in iPhone-Größe
+  geprüft). Noch nicht auf einem echten iPhone geprüft (Leistung!).
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),
