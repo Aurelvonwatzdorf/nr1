@@ -93,6 +93,22 @@ holt `./game/tools/ghidra_einrichten.sh` automatisch nach `~/Tools` (Homebrew ha
   steht in `.gitignore`. In der App (`OS.is_debug_build()` = false) sind die
   Testhilfen aus (`test_start_money`/`test_start_spirituality` = 0) und der
   Spielstand heißt `user://spielstand.json` (getrennt vom Editor-Spielstand).
+  Gemeinsamer Vorlagen-Download: `game/tools/vorlagen_holen.sh`.
+- **iPhone:** `./game/tools/iphone_bauen.sh` (optional `TEAM_ID=…`) baut mit der
+  Vorlage „iOS“ ein Xcode-Projekt nach `build/ios/` und öffnet Xcode (Team wählen,
+  iPhone anschließen, ▶). Auf Handys gelten Projekt-Overrides `.mobile`
+  (Stretch `canvas_items`/`expand`, kein MSAA, Mobile-Renderer, Querformat).
+  App-Symbol: `assets/icons/app_icon.png` (`config/icon`, auch für die Mac-App).
+- **Touch-Steuerung** (`TouchControls` in `game_ui.tscn`, Ebene 20): an, wenn
+  `GameState.touch_controls` (`enable_touch_controls()`, automatisch bei
+  `OS.has_feature("mobile")`/Touchscreen; entfernt dabei die Maustasten aus den
+  Spielaktionen, weil Tippen auch einen Mausklick erzeugt). Links schwebender
+  Stick (ganz außen = rennen), rechts Knöpfe, Wischen dreht die Kamera
+  (`CameraRig.add_look()`). Knöpfe senden echte `InputEventAction`s
+  (`Input.parse_input_event`). In Menüs nur „Zurück“ (= Esc). HUD blendet die
+  Tastatur-Zeile aus und rückt Geld/Erinnerungen nach links oben. Test in
+  `reality_test` (`screen_size_override`, weil headless winzig ist), Bild
+  `06_iphone_steuerung`.
 
 ### Prüfen (vor jedem „fertig“)
 Ein Befehl für alles (Mac, Linux, Cloud), vom Ordner `nr1` aus:
@@ -732,6 +748,8 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   Fluss, Wahrzeichen, Bewohner, Entdecken mit Titelkarte, Südtor-Übergang,
   Kontinent-Test, Skill `/region-ausbau`.
 - ✅ **R1**: Erste spielbare Fassung: Hauptmenü, Mac-App per Skript, ohne Testhilfen.
+- 🟨 **R2**: iPhone: Touch-Steuerung, Mobile-Einstellungen, Xcode-Projekt per
+  Skript, App-Symbol. Noch nicht auf einem echten iPhone geprüft (Leistung!).
 - ⬜ **M9**: Rafa (Prüfung, Kampf, Bitte), Daniel.
 - ⬜ **M10**: Caspar & Schulden-Assassinen, weitere Missionen.
 - ⬜ **M11+**: weitere Regionen/Epochen, „Gehege der Schweine“ (Mastmutter),

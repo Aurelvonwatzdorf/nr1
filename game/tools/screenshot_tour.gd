@@ -15,6 +15,7 @@ const SHOTS: Array[Array] = [
 	["03_santo_santiago_markt", "res://scenes/levels/santo_santiago.tscn", &"_setup_default"],
 	["04_schrein_der_alten_geister", "res://scenes/levels/santo_santiago.tscn", &"_setup_shrine"],
 	["05_geisterwelt_lichtung", "res://scenes/levels/spirit_world.tscn", &"_setup_spirit_world"],
+	["06_iphone_steuerung", "res://scenes/levels/santo_santiago.tscn", &"_setup_touch"],
 ]
 
 ## Kontinent: Name, Region (für Nebel), Ziel (x, z), Kamera-Versatz (x, Höhe über Boden, z).
@@ -117,6 +118,11 @@ func _continent_tour(only: String) -> int:
 
 func _setup_default(_level: Level) -> void:
 	pass
+
+
+## Wie auf dem iPhone: Touch-Knöpfe eingeblendet.
+func _setup_touch(_level: Level) -> void:
+	GameState.enable_touch_controls()
 
 
 func _setup_reality_sight(level: Level) -> void:

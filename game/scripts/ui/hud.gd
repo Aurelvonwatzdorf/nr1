@@ -33,6 +33,8 @@ var region_title: Label
 var region_subtitle: Label
 var _region_tween: Tween
 var _message_tween: Tween
+## Ist die Anordnung für die Touch-Steuerung (iPhone) aktiv?
+var _touch_layout: bool = false
 
 
 func _ready() -> void:
@@ -77,6 +79,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if GameState.touch_controls != _touch_layout:
+		_apply_touch_layout(GameState.touch_controls)
 	pause_label.visible = _player != null and not _player.camera_rig.is_capturing and not GameState.is_menu_open()
 	_update_reality()
 	_update_wanted()
@@ -253,6 +257,21 @@ func _on_player_respawned(_player_node: Player) -> void:
 
 
 ## Verbindet die Balken mit den Komponenten der Spielfigur.
+## Auf dem iPhone: keine Tastatur-Hilfezeile, Geld und Erinnerungen nach links
+## oben, damit die Knöpfe unten rechts frei liegen.
+func _apply_touch_layout(enabled: bool) -> void:
+	_touch_layout = enabled
+	($ControlsLabel as Label).visible = not enabled
+	if not enabled:
+		return
+	for label: Label in [money_label, memories_label]:
+		label.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		label.size = Vector2(300, 32)
+	money_label.position = Vector2(24, 396)
+	memories_label.position = Vector2(24, 428)
+
+
 func bind_player(player: Player) -> void:
 	_player = player
 	name_label.text = player.character_data.display_name

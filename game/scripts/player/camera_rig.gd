@@ -59,7 +59,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_capturing and event is InputEventMouseMotion and _lock_target == null:
+	# Auf dem Touchscreen dreht das Wischen die Kamera (TouchControls), nicht die Maus.
+	if is_capturing and event is InputEventMouseMotion and _lock_target == null and not GameState.touch_controls:
 		var motion := event as InputEventMouseMotion
 		_yaw -= motion.relative.x * mouse_sensitivity
 		_pitch -= motion.relative.y * mouse_sensitivity
@@ -137,6 +138,13 @@ func _update_shake(delta: float) -> void:
 
 
 ## Drehung links/rechts als Basis, um Eingaben relativ zur Kamera umzurechnen.
+## Kamera um einen Winkel drehen (Wischen auf dem Touchscreen).
+func add_look(amount: Vector2) -> void:
+	if _lock_target == null:
+		_yaw -= amount.x
+		_pitch -= amount.y
+
+
 func get_yaw_basis() -> Basis:
 	return Basis(Vector3.UP, _yaw)
 

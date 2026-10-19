@@ -22,6 +22,9 @@ var test_start_money: int = 5000
 ## heben (spart langes Beten). Wie oben nur im Editor.
 var test_start_spirituality: int = 3
 
+## Bildschirm-Steuerung (iPhone/iPad). Wird in _ready() erkannt.
+var touch_controls: bool = false
+
 ## Bei neuem Spiel die Charakterauswahl zeigen? (Im Rauchtest aus.)
 var ask_character_on_new_game: bool = true
 
@@ -136,6 +139,21 @@ func _ready() -> void:
 	if not OS.is_debug_build():
 		test_start_money = 0
 		test_start_spirituality = 0
+	if OS.has_feature("mobile") or DisplayServer.is_touchscreen_available():
+		enable_touch_controls()
+
+
+## Bildschirm-Steuerung einschalten. Ein Tippen erzeugt auch einen Mausklick
+## (für Menüs); damit der nicht zugleich angreift oder blockt, verlieren die
+## Spielaktionen ihre Maustasten.
+func enable_touch_controls() -> void:
+	touch_controls = true
+	for action: StringName in InputMap.get_actions():
+		if String(action).begins_with("ui_"):
+			continue
+		for event: InputEvent in InputMap.action_get_events(action):
+			if event is InputEventMouseButton:
+				InputMap.action_erase_event(action, event)
 
 
 func select_character(id: StringName) -> bool:

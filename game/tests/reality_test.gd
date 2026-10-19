@@ -80,6 +80,7 @@ func _run() -> void:
 	reality.queue_free()
 	await _frames(3)
 	await _test_main_menu()
+	await _test_touch_controls()
 	await _test_tower()
 	await _test_mirror_city()
 	await _test_spirit_world()
@@ -128,6 +129,69 @@ func _test_main_menu() -> void:
 	SaveSystem.auto_load_enabled = false
 	SaveSystem.delete_save()
 	GameState.reset()
+	await _frames(2)
+
+
+## Touch-Steuerung (iPhone): Knopf, Stick und Wischen lösen dieselben Aktionen aus.
+func _test_touch_controls() -> void:
+	GameState.reset()
+	GameState.enable_touch_controls()
+	var level := REALITY.instantiate() as RealityLevel
+	level.exit_scene = ""
+	add_child(level)
+	await _frames(3)
+	var touch := level.get_node("GameUI/TouchControls") as TouchControls
+	touch.screen_size_override = Vector2(1600, 900)
+	var player: Player = level.get_node("Player")
+	_check(touch.visible, "Touch: Steuerung ist sichtbar")
+	await _touch(0, touch.button_center(&"attack_light"), true)
+	_check(Input.is_action_pressed(&"attack_light"), "Touch: Schlag-Knopf drückt „Angriff“")
+	await _touch(0, touch.button_center(&"attack_light"), false)
+	_check(not Input.is_action_pressed(&"attack_light"), "Touch: Loslassen lässt den Angriff los")
+	var size := touch.screen_size_override
+	var stick := Vector2(size.x * 0.15, size.y * 0.8)
+	await _touch(1, stick, true)
+	await _drag(1, stick + Vector2(100, 0), Vector2(100, 0))
+	var move := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_back")
+	_check(move.x > 0.9 and Input.is_action_pressed(&"sprint"), "Touch: Stick ganz nach rechts = laufen und rennen")
+	await _touch(1, stick + Vector2(100, 0), false)
+	_check(Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_back") == Vector2.ZERO, "Touch: Stick loslassen hält an")
+	var yaw_before := player.camera_rig.get_yaw_basis()
+	var look := Vector2(size.x * 0.55, size.y * 0.3)
+	await _touch(2, look, true)
+	await _drag(2, look + Vector2(100, 0), Vector2(100, 0))
+	await _touch(2, look + Vector2(100, 0), false)
+	_check(not player.camera_rig.get_yaw_basis().is_equal_approx(yaw_before), "Touch: Wischen dreht die Kamera")
+	# Menü auf (Karte), dann „Zurück“ tippen: Menü schließt sich wie mit Esc.
+	await _touch(3, touch.button_center(&"map"), true)
+	await _touch(3, touch.button_center(&"map"), false)
+	var map_open := GameState.is_menu_open()
+	await _touch(4, touch.button_center(&"menu"), true)
+	await _touch(4, touch.button_center(&"menu"), false)
+	_check(map_open and not GameState.is_menu_open(), "Touch: Karte-Knopf öffnet, „Zurück“ schließt das Menü")
+	_check(InputMap.action_get_events(&"attack_light").all(func(e: InputEvent) -> bool: return not e is InputEventMouseButton),
+		"Touch: Tippen löst keinen Maus-Angriff aus")
+	level.queue_free()
+	GameState.touch_controls = false
+	InputMap.load_from_project_settings()
+	await _frames(2)
+
+
+func _touch(index: int, position: Vector2, pressed: bool) -> void:
+	var event := InputEventScreenTouch.new()
+	event.index = index
+	event.position = position
+	event.pressed = pressed
+	Input.parse_input_event(event)
+	await _frames(2)
+
+
+func _drag(index: int, position: Vector2, relative: Vector2) -> void:
+	var event := InputEventScreenDrag.new()
+	event.index = index
+	event.position = position
+	event.relative = relative
+	Input.parse_input_event(event)
 	await _frames(2)
 
 

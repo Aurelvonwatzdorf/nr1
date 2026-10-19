@@ -22,34 +22,8 @@ fi
 echo "== 1. Neuesten Stand holen =="
 git pull --ff-only || echo "   (Holen ging nicht, ich baue den Stand, der hier liegt.)"
 
-# z. B. „4.7.2.stable.official.ed1daf0bf“ → Ordner „4.7.2.stable“, Tag „4.7.2-stable“
-full_version="$("$godot_bin" --version 2>/dev/null | head -n 1)"
-version="$(echo "$full_version" | cut -d. -f1-4)"
-tag="$(echo "$version" | sed 's/\.\([a-z]*\)$/-\1/')"
-if [ "$(uname)" = "Darwin" ]; then
-	template_dir="$HOME/Library/Application Support/Godot/export_templates/$version"
-else
-	template_dir="$HOME/.local/share/godot/export_templates/$version"
-fi
-
-echo "== 2. Export-Vorlagen für Godot $version =="
-if [ -f "$template_dir/macos.zip" ]; then
-	echo "   schon da"
-else
-	echo "   Lade einmalig ca. 1,3 GB herunter, das dauert ein paar Minuten …"
-	tmp="$(mktemp -d)"
-	url="https://github.com/godotengine/godot/releases/download/$tag/Godot_v${tag}_export_templates.tpz"
-	if ! curl -fL --progress-bar -o "$tmp/templates.tpz" "$url"; then
-		echo "   FEHLER: Download fehlgeschlagen ($url)"
-		rm -rf "$tmp"
-		exit 1
-	fi
-	unzip -o -q "$tmp/templates.tpz" "templates/macos.zip" "templates/version.txt" -d "$tmp"
-	mkdir -p "$template_dir"
-	cp "$tmp/templates/macos.zip" "$tmp/templates/version.txt" "$template_dir/"
-	rm -rf "$tmp"
-	echo "   fertig"
-fi
+echo "== 2. Export-Vorlagen =="
+./game/tools/vorlagen_holen.sh "$godot_bin" macos || exit 1
 
 echo "== 3. Spiel bauen =="
 mkdir -p build

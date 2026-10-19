@@ -5,6 +5,11 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **R2 iPhone (Nutzer-Wunsch)**: Touch-Steuerung (Stick, Knöpfe, Wischen,
+  „Zurück“ in Menüs), Mobile-Einstellungen, App-Symbol, Xcode-Projekt per
+  `./game/tools/iphone_bauen.sh`. Export in der Cloud geprüft. **Offen:** auf
+  echtem iPhone testen (Leistung von Stadt/Kontinent, Größe der Knöpfe,
+  Mobile-Renderer). Tutorial-Hinweise im Konzernturm nennen noch Tasten.
 - **Fehler behoben:** Südtor führte zurück zum Marktplatz statt auf den
   Kontinent (Weltwechsel lud den alten Spielstand neu). Jetzt wird nur einmal
   pro Sitzung geladen; Test in `reality_test`.
