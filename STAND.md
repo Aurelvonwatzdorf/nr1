@@ -75,10 +75,11 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   Nutzers), wird aber nicht benutzt.
 
 ## Nächster Schritt
-- **M8.4 Geisterwelt ausbauen**: mehr Wege und Orte, eigene Geisterwesen
-  (friedliche und gefährliche), ein Bereich, in dem Rafa lebt (noch nicht
-  betretbar, das kommt mit M9).
-- Vorher den Nutzer fragen: Wünsche zu Aussehen und Wesen der Geisterwelt?
+- **Entscheidung des Nutzers:** als Nächstes **Figuren & Animationen** (freie
+  Modelle, z. B. Quaternius/KayKit, statt Kapseln; Laufen/Schlagen/Rollen über
+  `PlayerAnimator`). **Nur auf Zuruf** – erst anfangen, wenn der Nutzer es sagt.
+- Offen beim Nutzer: GitHub Pages einschalten (Settings → Pages → Source
+  „GitHub Actions“), dann Web-Workflow neu starten.
 
 ## Offene Fragen an den Nutzer
 - Siehe `CLAUDE.md`, Abschnitt 9 (u. a. Ritual-Gegenstände, Bergtempel,
