@@ -452,6 +452,10 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - Level-Up mit Attributen, Waffen mit Skalierung, Ausrüstung.
 - Harte, aber faire Gegner, Bosse mit mehreren Phasen.
 
+**Look (vom Nutzer bestätigt, Details in `docs/stil/STIL.md`):** dunkler, gedämpfte
+Farben und Nebel; nur Neon, Gold, kaltes Blau, Augen und Magie leuchten.
+Tahirou: normale Locken; Aurel: Locs.
+
 **Stil:** Mischung aus **japanischem**, **mongolischem** und **Cyberpunk**-Stil in
 einem **ernsthaften, animierten Look**: stilisiert und gezeichnet wirkend
 (Cel-Shading, weiche Farbflächen, klare Silhouetten), wie moderne
@@ -604,7 +608,10 @@ Eigener Kampfstil und eigener Fähigkeitenbaum je Figur. Freischaltung über
 - **Caspar**: Geldverleiher. Gibt Kredite, man kann sich bei ihm verschulden.
   Zahlt man nicht zurück, schickt er immer wieder **Assassinen**, und je länger
   die Schulden offen sind, desto stärker werden sie.
-  - **Aussehen**: mindestens ein **Goldzahn**, eine **große Nase**.
+  - **Aussehen** (Nutzer-Entscheidung): **ein Kobold** im Stil eines
+    Gangsterbosses (Nadelstreifen, Hut, Goldzähne, Ringe). Kräftige Nase, aber
+    nicht gekrümmt oder überzeichnet. Kobolde sind ein ganzes Volk mit vielen
+    Rollen, nicht „die Geldleute“ (siehe `docs/stil/STIL.md`).
   - **Charakter**: geschäftstüchtig, berechnend, freundlich, solange man zahlt,
     gnadenlos, wenn nicht.
   - **Religion**: keine bestimmte (nicht jüdisch, damit er kein antisemitisches

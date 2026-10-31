@@ -75,6 +75,10 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   Nutzers), wird aber nicht benutzt.
 
 ## Nächster Schritt
+- **Stil festgelegt** (`docs/stil/STIL.md`, 18 Referenzbilder): dunkler Look,
+  Tahirou Locken, Aurel Locs, Caspar als Kobold, Spiegeljäger-Entwürfe
+  abgelehnt. **Jetzt:** Tahirou mit Higgsfield (Figurenblatt → 3D → Skelett →
+  Animationen), Kosten vorher dem Nutzer nennen.
 - **Entscheidung des Nutzers:** als Nächstes **Figuren & Animationen** (freie
   Modelle, z. B. Quaternius/KayKit, statt Kapseln; Laufen/Schlagen/Rollen über
   `PlayerAnimator`). **Nur auf Zuruf** – erst anfangen, wenn der Nutzer es sagt.
