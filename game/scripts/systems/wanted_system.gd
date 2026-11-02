@@ -24,6 +24,8 @@ const HUNTER_DATA := preload("res://resources/enemies/mirror_hunter.tres")
 @export var hit_gain: float = 12.0
 @export var kill_gain: float = 25.0
 @export var shot_gain: float = 8.0
+## Ein Zeuge hat die Wache gerufen.
+@export var witness_gain: float = 6.0
 @export var decay_per_second: float = 6.0
 @export var hunter_count: int = 2
 ## So lange vor dem Erscheinen der Spiegeljäger flackern die Spiegel (Flucht möglich).
@@ -47,6 +49,7 @@ var _reinforcement_waves: int = 0
 
 
 func _ready() -> void:
+	add_to_group(&"wanted_system")
 	GameState.wanted_level = 0.0
 	GameState.is_captured = false
 	EventBus.enemy_hit_by_player.connect(func(enemy: Enemy) -> void:

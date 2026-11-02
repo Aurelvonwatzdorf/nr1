@@ -8,8 +8,8 @@ const CITIZEN_SCENE := preload("res://scenes/npcs/citizen.tscn")
 @export var city: CityGenerator
 ## Wie viele Einwohner je Viertel (CityDistrict.id → Anzahl).
 @export var counts: Dictionary[StringName, int] = {
-	&"corporate": 6, &"market": 8, &"christian": 6, &"muslim": 6,
-	&"jewish": 6, &"atheist": 6, &"slum": 8,
+	&"corporate": 8, &"market": 14, &"christian": 9, &"muslim": 9,
+	&"jewish": 9, &"atheist": 9, &"slum": 12,
 }
 @export var seed: int = 11
 ## Zusätzliche Kulissen-Passanten (siehe CrowdBackdrop) erzeugen?

@@ -62,6 +62,8 @@ signal equipment_changed
 signal shot_fired(from: Vector3)
 ## Lärm (Kampf, Schüsse, Ablenkung): Gegner im Umkreis gehen nachsehen.
 signal noise_made(position: Vector3, radius: float)
+## Die Spielfigur hat jemanden angegriffen (Bürger sehen es, fliehen, melden es).
+signal violence_seen(position: Vector3, against_corporate: bool)
 
 ## Wegpunkt auf der Karte gesetzt oder gelöscht.
 signal map_waypoint_changed

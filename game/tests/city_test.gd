@@ -156,6 +156,26 @@ func _run() -> void:
 			if scale_x > 0.0 and Vector2(origin.x, origin.z).distance_to(Vector2(player.global_position.x, player.global_position.z)) < CrowdBackdrop.HIDE_NEAR - 1.0:
 				near_hidden = false
 		_check(near_hidden, "Kulissen-Passanten in der Nähe der Spielfigur ausgeblendet")
+	# Stadtvolk: Bürger fliehen vor Gewalt, Zeugen rufen die Wache (außer man steht dicht bei ihnen).
+	var witness_system := city.get_node("WantedSystem") as WantedSystem
+	var witness := citizens[0] as Citizen
+	var shy := citizens[1] as Citizen
+	for c: Citizen in [witness, shy]:
+		c.report_chance = 1.0
+	var scene_at := player.global_position + Vector3(0.0, 0.0, 6.0)
+	witness.global_position = scene_at + Vector3(8.0, 0.0, 0.0)
+	shy.global_position = player.global_position + Vector3(1.5, 0.0, 0.0)
+	await _frames(2)
+	var wanted_before := GameState.wanted_level
+	EventBus.violence_seen.emit(scene_at, true)
+	await _frames(2)
+	_check(witness.is_fleeing() and witness.is_reporting(), "Stadtvolk: Zeuge flieht vor Gewalt und will die Wache rufen")
+	for i in 270:
+		await get_tree().physics_frame
+		shy.global_position = player.global_position + Vector3(1.5, 0.0, 0.0)
+	_check(is_equal_approx(GameState.wanted_level, wanted_before + witness_system.witness_gain), "Stadtvolk: ein Zeuge ruft die Wache (+%d), der eingeschüchterte schweigt" % witness_system.witness_gain)
+	witness_system._set_wanted(0.0)
+	_check(citizens.size() >= 65, "Stadtvolk: mehr Einwohner (%d)" % citizens.size())
 	# Beten / stille Einkehr: alle vier Häuser wirken gleich auf die Spiritualität
 	var spots := get_tree().get_nodes_in_group(&"prayer_spots")
 	var spot_ids: Array[StringName] = []

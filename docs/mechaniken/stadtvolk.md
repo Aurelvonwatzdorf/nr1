@@ -1,6 +1,9 @@
 # Stadtvolk (Menschenmengen und ihre Reaktion auf Gewalt)
 
-- **Status:** Idee
+- **Status:** teilweise gebaut: 70 Einwohner + Kulissen-Passanten, Flucht vor
+  Gewalt (`EventBus.violence_seen`, 15 m), Zeugen (30 %) rufen nach 4 s die Wache
+  (Fahndung +6), außer die Figur steht ≤ 4 m bei ihnen. Offen: Zuschauen,
+  Verstecken, Gruppen-Gespräche, Moral für Bedrohen, Rückkehr zur Normalität.
 - **Vorbild (nur Inspiration):** Dichte Menschenmengen und Panik bei Schüssen in
   Cyberpunk 2077 (und GTA). Keine Werte oder Verhaltenslisten übernommen.
 - **Für wen:** Welt (Santo Santiago, Städte auf dem Kontinent)

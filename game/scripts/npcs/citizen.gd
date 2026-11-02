@@ -73,6 +73,40 @@ func setup(id: StringName, quarter: StringName, rng: RandomNumberGenerator) -> v
 	display_name = names[rng.randi() % names.size()]
 
 
+## Zeuge: Sieht ein Bürger einen Angriff auf Konzernkräfte, ruft er manchmal nach
+## kurzer Zeit die Wache (Fahndung). Steht die Spielfigur dann dicht bei ihm,
+## traut er sich nicht.
+@export_range(0.0, 1.0) var report_chance: float = 0.3
+const REPORT_RADIUS := 20.0
+const REPORT_DELAY := 4.0
+const INTIMIDATE_RADIUS := 4.0
+var _reporting: bool = false
+
+
+func _on_violence_seen(position: Vector3, against_corporate: bool) -> void:
+	super._on_violence_seen(position, against_corporate)
+	if not against_corporate or _reporting or health.is_dead \
+			or global_position.distance_to(position) > REPORT_RADIUS or _roam_rng.randf() >= report_chance:
+		return
+	_reporting = true
+	await get_tree().create_timer(REPORT_DELAY, false).timeout
+	_reporting = false
+	if not is_inside_tree() or health.is_dead:
+		return
+	var player := get_tree().get_first_node_in_group(&"player") as Node3D
+	if player and player.global_position.distance_to(global_position) <= INTIMIDATE_RADIUS:
+		_shout("…")
+		return
+	var wanted := get_tree().get_first_node_in_group(&"wanted_system") as WantedSystem
+	if wanted:
+		_shout("Wache! Hierher!")
+		wanted.add_wanted(wanted.witness_gain)
+
+
+func is_reporting() -> bool:
+	return _reporting
+
+
 func talk(_player: Player, dialogue: DialogueBox) -> void:
 	var lines: Array = LINES.get(home_quarter, LINES[&"market"])
 	await dialogue.ask(display_name, lines[_roam_rng.randi() % lines.size()])

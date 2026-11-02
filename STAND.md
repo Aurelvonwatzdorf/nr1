@@ -8,12 +8,16 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Alles hier
 liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwerfen).
 - Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung); Sprungfeder,
-  Wandketten; viele Figuren günstig (ferne NPCs seltener, Kulissen-Passanten).
+  Wandketten; viele Figuren günstig (ferne NPCs seltener, Kulissen-Passanten);
+  Stadtvolk (70 Einwohner, Flucht vor Gewalt, Zeugen rufen die Wache).
 - Bemerkt (alt, nicht angefasst): Im HUD überlappt unten rechts „Erinnerungen“
   die Tastenzeile (Screenshot 03_santo_santiago_markt).
 - Entscheidungen (Autopilot, vorläufig):
   - Fahndung: Gotteshäuser sind (noch) keine Zuflucht; Streifen/Sperren/Drohnen
     warten auf Fahrzeuge bzw. eigene Gegner.
+  - Stadt in Stücken bauen und Silhouetten (Schritt 3) zurückgestellt: großer,
+    riskanter Umbau des Stadt-Generators; erst wenn die Stadt größer wird.
+  - Zeugen: 30 % melden, nach 4 s, Einschüchtern durch Nähe (≤ 4 m) statt eigener Taste.
   - Sprungfeder: Mit dem Implantat springt man am Boden erst beim Loslassen
     (sonst ginge Laden nicht); kurzer Sprung (Tippen = flach) entfällt dann.
 
@@ -41,7 +45,7 @@ liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwer
      Figuren günstig, Silhouetten, Stadt in Stücken bauen (Tor lädt schon im Hintergrund ✅)
   4. Schleichen ✅: `EnemyPerception`, Erledigen, Schattenhaut (offen: Körper
      tragen/verstecken, eigener Tarn-Shader)
-  5. Stadtleben: Stadtvolk, Fahndung in Stufen ✅ (teilweise)
+  5. Stadtleben: Stadtvolk ✅ (teilweise), Fahndung in Stufen ✅ (teilweise)
   6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz
   7. Implantat-System: Körpergrenze (Design-Frage!), Ärztin, Musterblick,
      Zeitdehnung, Arm-Implantate, Wurfklingen

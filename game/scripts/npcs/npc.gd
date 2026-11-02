@@ -58,6 +58,8 @@ var _roam_rng := RandomNumberGenerator.new()
 ## Weit weg von der Spielfigur rechnet ein NPC nur jeden `FAR_TICK`-ten Frame
 ## (mit der aufgelaufenen Zeit) – spart Leistung bei vielen Leuten.
 const FAR_DISTANCE := 60.0
+## Bis zu diesem Abstand laufen NPCs vor Gewalt weg.
+const VIOLENCE_FLEE_RADIUS := 15.0
 const FAR_TICK := 6
 var _far_delta: float = 0.0
 var _far_frame: int = 0
@@ -88,6 +90,7 @@ func _ready() -> void:
 	_far_frame = _roam_rng.randi() % FAR_TICK
 	name_label.visibility_range_end = 30.0
 	EventBus.shot_fired.connect(_on_shot_fired)
+	EventBus.violence_seen.connect(_on_violence_seen)
 
 
 func _physics_process(delta: float) -> void:
@@ -268,6 +271,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	_flee_from = hit.source.global_position if hit.source else global_position
 	_shout("Hilfe!")
 	if _last_hit_by_player:
+		EventBus.violence_seen.emit(global_position, false)
 		GameState.moral.record(StringName("hurt_%s" % npc_id), &"mercy", -3,
 			"%s ohne Grund angegriffen" % display_name)
 
@@ -295,6 +299,14 @@ func _on_shot_fired(from: Vector3) -> void:
 	_flee_from = from
 	if _roam_rng.randf() < 0.4:
 		_shout("Er schießt!")
+
+
+## Gewalt in der Nähe: weglaufen (Unterklassen können mehr tun, z. B. melden).
+func _on_violence_seen(position: Vector3, _against_corporate: bool) -> void:
+	if health.is_dead or _talking or global_position.distance_to(position) > VIOLENCE_FLEE_RADIUS:
+		return
+	_flee_time_left = flee_time
+	_flee_from = position
 
 
 ## Kurzer Ausruf über dem Kopf.

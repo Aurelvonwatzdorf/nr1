@@ -223,6 +223,11 @@ tests/       Headless-Rauchtests
   `keep_clear` reservieren mit Meta `clear_radius` mehr Platz. Einwohner (`Citizen`, `CitizenSpawner` im Level) wohnen
   in einem Viertel (Konzernangestellte im Konzernviertel usw.), sagen
   Alltagssätze aus ihrem Viertel; IDs `citizen_<viertel>_<n>` zählen fürs Moral-Gedächtnis.
+- **Stadtvolk**: 70 Einwohner (`CitizenSpawner.counts`). `EventBus.violence_seen
+  (position, against_corporate)` (Treffer der Spielfigur auf Gegner/NPCs):
+  NPCs ≤ 15 m fliehen; `Citizen` ist mit `report_chance` (0,3) Zeuge und ruft nach
+  4 s die Wache (`WantedSystem.witness_gain` +6, Gruppe `wanted_system`), außer
+  die Spielfigur steht ≤ 4 m bei ihm.
 - **Viele Figuren**: `NPC` rechnet weiter als 60 m von der Spielfigur nur jeden
   6. Physik-Frame (mit aufgelaufenem `delta`, `WorldTime.move_slowed()` mit
   Faktor 6). `CrowdBackdrop` (MultiMeshInstance3D neben „Citizens“, erzeugt vom

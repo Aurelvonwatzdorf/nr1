@@ -326,6 +326,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	last_hit = hit
 	if hit.source is Player:
 		EventBus.enemy_hit_by_player.emit(self)
+		EventBus.violence_seen.emit(global_position, data.faction == &"corporate")
 	flash()
 	if result == Hurtbox.Result.HIT:
 		BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
