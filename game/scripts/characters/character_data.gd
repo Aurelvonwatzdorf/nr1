@@ -32,6 +32,15 @@ extends Resource
 ## Startgeschwindigkeit nach oben beim Springen (Leertaste).
 @export var jump_velocity: float = 6.0
 @export var jump_stamina_cost: float = 8.0
+## Beschleunigung in der Luft (am Boden `acceleration`): wenig Lenken, Schwung bleibt.
+@export var air_acceleration: float = 9.0
+## So lange nach dem Verlassen einer Kante darf man noch vom Boden abspringen.
+@export var coyote_time: float = 0.12
+## So lange wird ein zu früh gedrückter Sprung gemerkt (z. B. kurz vor der Landung).
+@export var jump_buffer_time: float = 0.12
+## Lässt man die Sprungtaste beim Steigen los, wird das Steigen damit malgenommen
+## (kurz tippen = flacher Sprung).
+@export_range(0.0, 1.0) var jump_release_factor: float = 0.5
 
 @export_group("Ausweichrolle")
 @export var dodge_speed: float = 9.0

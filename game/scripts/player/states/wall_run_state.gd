@@ -81,6 +81,7 @@ func _along_wall(direction: Vector3) -> Vector3:
 
 func _wall_jump() -> void:
 	var data := player.character_data
+	player.consume_jump_input()
 	player.stamina.consume(data.jump_stamina_cost)
 	var push := _normal * data.wall_jump_push + _tangent * _speed * 0.6
 	player.velocity = Vector3(push.x, data.jump_velocity, push.z)

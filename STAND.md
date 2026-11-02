@@ -13,7 +13,28 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   Spiritualität), Erinnerungsspiegel (fremde Erinnerungen in Schichten
   Bild/Klang/Wahrheit), Steppenross, Spiegeljäger sehen durch Tarnung,
   Ringschloss-Minispiel, Stiller Radiosender mit Geisterstimmen.
-  **Wartet auf die Auswahl des Nutzers**, was gebaut wird.
+  **Nutzer hat alle 16 Pakete gewählt.** Gebaut ist bisher Schritt 1:
+  Luftsteuerung (Koyote-Zeit, Sprung-Puffer, kurzer/langer Sprung,
+  weniger Lenken in der Luft, Doppelsprung lenkt neu).
+  **Bau-Reihenfolge** (wegen Abhängigkeiten, je Schritt testen + speichern):
+  1. Bewegung: Luftsteuerung ✅, Aufschwung, Fallschaden/Abrollen, Gleitschritt
+     (braucht Ducken-Taste), Sprungfeder, Aufschlag
+  2. Tastenbelegung entscheiden (Ducken, Nachladen, Scannen, aktives Implantat,
+     Fahrzeug rufen; Gamepad fast voll) → Rückfrage an den Nutzer
+  3. Leistung: Grafikstufen, Detailstufen (vor mehr Grafik/Figuren)
+  4. Schleichen: `EnemyPerception` → Erledigen → Schattenhaut
+  5. Stadtleben: Stadtvolk, Fahndung in Stufen
+  6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz
+  7. Implantat-System: Körpergrenze (Design-Frage!), Ärztin, Musterblick,
+     Zeitdehnung, Arm-Implantate, Wurfklingen
+  8. Schusswaffen, Gütestufen/Aufsätze, Attribut-Schwellen
+  9. Tageszeit/Wetter, vertikale Stadt, Grafik-Stimmung (Regen, Neon, Hologramme, Glitches)
+  10. Ton: Klangwelt, Musik nach Lage
+  11. Fahrzeuge → Verkehr, Radio
+  12. Ruf, Kleidung, Gespräche unter Zeitdruck, Vermittler, Erinnerungsspiegel
+  13. UI-Stil, Fotomodus (nach den Figuren-Modellen)
+  Offene Fragen stehen am Ende jeder Notiz; vor jeder großen Design-Entscheidung
+  fragen.
 - **Web-Version** (Nutzer hat gerade nur das iPhone): GitHub Actions baut sie bei
   jedem Push und stellt sie auf https://aurelvonwatzdorf.github.io/nr1/ .
   Nutzer muss einmalig Pages → Source „GitHub Actions“ einschalten. In Chromium

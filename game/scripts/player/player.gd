@@ -53,6 +53,11 @@ var spiritual_pressure: float = 0.0
 var _pressure_source_noticed: SpiritualPressureSource
 ## Schon in der Luft nachgesprungen? (Doppelsprung mit Cyberbeinen.)
 var _air_jump_used: bool = false
+## Luftsteuerung: Restzeit für den Sprung nach dem Verlassen einer Kante,
+## gemerkter Sprung-Druck und ob das Steigen noch abgebrochen werden darf.
+var _coyote_left: float = 0.0
+var _jump_buffer_left: float = 0.0
+var _jump_rising: bool = false
 ## Schubsprung: schon in dieser Luftphase benutzt? Zeit bis zum nächsten.
 var air_dash_used: bool = false
 var dash_cooldown_left: float = 0.0
@@ -102,6 +107,7 @@ func _physics_process(delta: float) -> void:
 	dash_cooldown_left = maxf(dash_cooldown_left - delta, 0.0)
 	wall_run_cooldown_left = maxf(wall_run_cooldown_left - delta, 0.0)
 	_update_afterimage(delta)
+	_update_jump_timers(delta)
 	if is_on_floor():
 		air_dash_used = false
 	if is_input_enabled() and Input.is_action_just_pressed(&"reality_sight"):
@@ -161,22 +167,54 @@ func get_facing_direction() -> Vector3:
 	return -global_basis.z
 
 
-## Springen (Leertaste), nur vom Boden aus. Gibt true zurück, wenn gesprungen wurde.
-## In der Luft geht ein zweiter Sprung, wenn man Cyberbeine besitzt.
+## Springen (Leertaste), vom Boden aus oder kurz nach dem Verlassen einer Kante.
+## Ein zu früh gedrückter Sprung wird kurz gemerkt. In der Luft geht ein zweiter
+## Sprung, wenn man Cyberbeine besitzt. Gibt true zurück, wenn gesprungen wurde.
 func try_jump() -> bool:
 	if is_on_floor():
 		_air_jump_used = false
-	if not is_input_enabled() or not Input.is_action_just_pressed(&"jump") or not stamina.can_act():
+	if not is_input_enabled() or _jump_buffer_left <= 0.0 or not stamina.can_act():
 		return false
-	if not is_on_floor():
+	if not is_on_floor() and _coyote_left <= 0.0:
 		if _air_jump_used or not GameState.inventory.has_permanent_flag(&"grants_double_jump"):
 			return false
 		_air_jump_used = true
 		animator.play_double_jump()
+		# Der zweite Sprung gibt die Richtung neu vor.
+		var direction := get_move_direction()
+		if direction != Vector3.ZERO:
+			var speed := maxf(Vector3(velocity.x, 0.0, velocity.z).length(), character_data.walk_speed)
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+	consume_jump_input()
 	stamina.consume(character_data.jump_stamina_cost)
 	velocity.y = character_data.jump_velocity
+	_jump_rising = true
 	animator.play(&"jump", 0.35)
 	return true
+
+
+## Gemerkten Sprung und Kanten-Puffer verwerfen (z. B. nach einem Wandsprung).
+func consume_jump_input() -> void:
+	_jump_buffer_left = 0.0
+	_coyote_left = 0.0
+
+
+func _update_jump_timers(delta: float) -> void:
+	if is_on_floor():
+		_coyote_left = character_data.coyote_time
+	else:
+		_coyote_left = maxf(_coyote_left - delta, 0.0)
+	_jump_buffer_left = maxf(_jump_buffer_left - delta, 0.0)
+	if is_input_enabled() and Input.is_action_just_pressed(&"jump"):
+		_jump_buffer_left = character_data.jump_buffer_time
+	# Kurz tippen = flacher Sprung: Loslassen beim Steigen bremst einmal ab.
+	if _jump_rising:
+		if velocity.y <= 0.0:
+			_jump_rising = false
+		elif not Input.is_action_pressed(&"jump"):
+			velocity.y *= character_data.jump_release_factor
+			_jump_rising = false
 
 
 ## Schubsprung statt Rolle? Nur mit Implantat: in der Luft (einmal pro Sprung)
@@ -251,7 +289,8 @@ func apply_gravity(delta: float) -> void:
 ## Beschleunigt die waagerechte Geschwindigkeit sanft auf das Ziel.
 func accelerate_to(target_velocity: Vector3, delta: float) -> void:
 	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
-	horizontal = horizontal.move_toward(target_velocity, character_data.acceleration * delta)
+	var rate := character_data.acceleration if is_on_floor() else character_data.air_acceleration
+	horizontal = horizontal.move_toward(target_velocity, rate * delta)
 	velocity.x = horizontal.x
 	velocity.z = horizontal.z
 

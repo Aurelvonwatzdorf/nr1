@@ -1,6 +1,8 @@
 # Luftsteuerung und Feinschliff der Sprung-Implantate
 
-- **Status:** Idee
+- **Status:** teilweise gebaut (Koyote-Zeit, Sprung-Puffer, Sprunghöhe je nach
+  Tastendruck, Luft-Beschleunigung, Doppelsprung gibt Richtung neu vor).
+  Offen: Sprungfeder, Wandketten-Bonus.
 - **Vorbild (nur Inspiration):** Bewegung in der Luft und die Bein-Implantate in
   Cyberpunk 2077 (zweiter Sprung bzw. aufladbarer Sprung, Luftstoß). Keine Werte
   oder Namen übernommen.

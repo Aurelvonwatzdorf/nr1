@@ -141,14 +141,41 @@ func _run() -> void:
 	await _frames(40)
 	player.stamina.refill()
 	var floor_y := player.global_position.y
-	await _tap(&"jump")
+	await _hold(&"jump", 30)
 	var max_y := floor_y
 	for i in 20:
 		await get_tree().physics_frame
 		max_y = maxf(max_y, player.global_position.y)
-	_check(max_y > floor_y + 0.8, "Leertaste springt (Höhe %.2f)" % (max_y - floor_y))
+	_check(max_y > floor_y + 1.5, "Leertaste gehalten springt hoch (Höhe %.2f)" % (max_y - floor_y))
 	await _frames(60)
 	_check(player.is_on_floor(), "Figur landet wieder")
+
+	# Luftsteuerung: kurz tippen = flacher Sprung, Kanten-Puffer, gemerkter Sprung
+	player.stamina.refill()
+	await _tap(&"jump")
+	var hop_y := floor_y
+	for i in 40:
+		await get_tree().physics_frame
+		hop_y = maxf(hop_y, player.global_position.y)
+	_check(hop_y > floor_y + 0.2 and hop_y < max_y - 0.5, "Kurz getippt = flacher Sprung (Höhe %.2f)" % (hop_y - floor_y))
+	await _frames(40)
+	player.stamina.refill()
+	# Kurz nach dem Verlassen der Kante zählt der Sprung noch als Bodensprung.
+	player._coyote_left = player.character_data.coyote_time
+	player.global_position.y += 0.6
+	await _hold(&"jump", 30)
+	_check(player.velocity.y > 0.0 or player.global_position.y > floor_y + 1.0, "Kanten-Puffer: Sprung kurz nach der Kante geht")
+	await _frames(80)
+	player.stamina.refill()
+	player.global_position.y += 0.4
+	await _frames(12)
+	await _hold(&"jump", 30)
+	var buffered_y := floor_y
+	for i in 40:
+		await get_tree().physics_frame
+		buffered_y = maxf(buffered_y, player.global_position.y)
+	_check(buffered_y > floor_y + 1.0, "Gemerkter Sprung: kurz vor der Landung gedrückt springt beim Aufkommen (Höhe %.2f)" % (buffered_y - floor_y))
+	await _frames(80)
 
 	# Doppelsprung nur mit Cyberbeinen
 	var single_peak := floor_y + 2.0
@@ -156,9 +183,8 @@ func _run() -> void:
 		if with_legs:
 			GameState.inventory.add(&"cyber_legs")
 		player.stamina.refill()
-		await _tap(&"jump")
-		await _frames(12)
-		await _tap(&"jump")
+		await _hold(&"jump", 12)
+		await _hold(&"jump", 30)
 		var peak := floor_y
 		for i in 40:
 			await get_tree().physics_frame
@@ -968,7 +994,7 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 		Input.action_press(&"move_forward")
 		Input.action_press(&"move_right")
 		await _frames(12)
-		await _tap(&"jump")
+		Input.action_press(&"jump")
 		var saw_wall_run := false
 		var height_on_wall := 0.0
 		for i in 70:
@@ -980,6 +1006,7 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 			_check(saw_wall_run and height_on_wall > 0.8, "Haftsehnen: Figur läuft an der Wand entlang (Höhe %.1f)" % height_on_wall)
 		else:
 			_check(not saw_wall_run, "Ohne Haftsehnen kein Wandlauf")
+		Input.action_release(&"jump")
 		Input.action_release(&"move_right")
 		Input.action_release(&"move_forward")
 		Input.action_release(&"sprint")
@@ -995,11 +1022,12 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	Input.action_press(&"move_forward")
 	Input.action_press(&"move_right")
 	await _frames(12)
-	await _tap(&"jump")
+	Input.action_press(&"jump")
 	for i in 70:
 		await get_tree().physics_frame
 		if player.state_machine.get_current_state_name() == &"wall_run":
 			break
+	Input.action_release(&"jump")
 	await _frames(5)
 	Input.action_release(&"move_right")
 	await _tap(&"jump")
@@ -1101,6 +1129,14 @@ func _tap(action: StringName) -> void:
 	await get_tree().physics_frame
 	Input.action_press(action)
 	await _frames(2)
+	Input.action_release(action)
+
+
+## Hält eine Taste für eine Anzahl Physik-Frames gedrückt (z. B. voller Sprung).
+func _hold(action: StringName, frames: int) -> void:
+	await get_tree().physics_frame
+	Input.action_press(action)
+	await _frames(frames)
 	Input.action_release(action)
 
 

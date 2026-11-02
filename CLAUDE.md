@@ -388,6 +388,12 @@ tests/       Headless-Rauchtests
     `aurel_hack_jam`): anvisierte Konzern-Wache ≤ 15 m, 1 s laden (Treffer
     bricht ab), 40 Ehrgeiz + 10 Fokus, Wache taumelt 1,5 s; mit Waffensperre
     8 s halber Schaden (`Enemy.weapon_jam_left`). Zählt für die Fahndung wie ein Angriff.
+- **Luftsteuerung** (Mechanik-Studie 2): `CharacterData.air_acceleration` (9,
+  Boden 30), `coyote_time`/`jump_buffer_time` (0,12 s), `jump_release_factor`
+  (0,5: Sprungtaste beim Steigen loslassen = flacher Sprung). Sprung-Eingabe
+  wird in `Player._update_jump_timers()` gemerkt; wer selbst springt (z. B.
+  Wandsprung), ruft `Player.consume_jump_input()`. Im Rauchtest volle Sprünge
+  mit `_hold(&"jump", 30)`, nicht `_tap()`.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
