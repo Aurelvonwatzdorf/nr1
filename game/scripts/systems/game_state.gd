@@ -93,6 +93,9 @@ var _prayer_times: Dictionary[StringName, int] = {}
 var wanted_level: float = 0.0
 ## Gerade von Spiegeljägern gefangen (bis man ausbricht).
 var is_captured: bool = false
+## Fahndung: Mitte und Radius des Suchkreises (0 = keiner). Nicht gespeichert.
+var wanted_search_center: Vector3 = Vector3.ZERO
+var wanted_search_radius: float = 0.0
 ## Wo man nach dem Ausbruch aus einer Gefangenen-Realität aufwacht.
 var return_scene: String = ""
 var return_transform: Transform3D = Transform3D.IDENTITY

@@ -275,7 +275,12 @@ tests/       Headless-Rauchtests
   `GameState.wanted_level` (0–100, HUD: 5 Sterne) steigen; nach 15 s Ruhe und ohne
   Jäger in der Nähe sinkt sie. Bei 100 erscheinen 2 Spiegeljäger
   (`resources/enemies/mirror_hunter.tres`, `EnemyData.captures`) auf der Straße.
-  Ihr letzter Treffer tötet nicht: `EventBus.player_captured` → man wacht in
+  **Stufen** (`WantedSystem.get_stage()`, 0–5): ab Stufe 2 Suchkreis
+  (`GameState.wanted_search_center/radius`, 60/90/120 m, gestrichelt auf Karte
+  und Minimap) und Verstärkung (2 Wachen, ab Stufe 4 zwei weitere, Gruppe
+  `wanted_reinforcements`); Sinken (`can_decay()`) nur nach Ruhezeit je Stufe,
+  ungesehen von Konzernkräften und außerhalb des Kreises; vor den Jägern 6 s
+  Vorwarnung (`hunter_warning_time`). Ihr letzter Treffer tötet nicht: `EventBus.player_captured` → man wacht in
   einer **Kopie genau des Fangorts** auf (`mirror_city_reality.tscn`,
   `MirrorCityReality`): gleiche Stadt (gleicher Seed + dieselben freien Stellen,
   `CityGenerator.extra_clear_circles`, `GameState.capture_clear_circles`), aber

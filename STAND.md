@@ -4,6 +4,14 @@ Diese Datei sagt jeder neuen Claude-Sitzung (Browser oder Terminal), wo es
 weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
+## Autopilot-Runde (Branch `autopilot`, Sicherungspunkt Tag `vor-autopilot`)
+Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Alles hier
+liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwerfen).
+- Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung).
+- Entscheidungen (Autopilot, vorläufig):
+  - Fahndung: Gotteshäuser sind (noch) keine Zuflucht; Streifen/Sperren/Drohnen
+    warten auf Fahrzeuge bzw. eigene Gegner.
+
 ## Zuletzt erledigt
 - **Mechanik-Studie 2: Cyberpunk 2077 als Vorbild** (nur Notizen, noch nichts
   gebaut): 48 eigene Mechanik-Notizen in 10 Bereichen, Übersicht und
@@ -27,7 +35,7 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
      Figuren günstig, Silhouetten, Stadt in Stücken bauen (Tor lädt schon im Hintergrund ✅)
   4. Schleichen ✅: `EnemyPerception`, Erledigen, Schattenhaut (offen: Körper
      tragen/verstecken, eigener Tarn-Shader)
-  5. Stadtleben: Stadtvolk, Fahndung in Stufen
+  5. Stadtleben: Stadtvolk, Fahndung in Stufen ✅ (teilweise)
   6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz
   7. Implantat-System: Körpergrenze (Design-Frage!), Ärztin, Musterblick,
      Zeitdehnung, Arm-Implantate, Wurfklingen

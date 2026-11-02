@@ -247,9 +247,25 @@ func _run() -> void:
 	punch.source = player
 	guard.hurtbox.receive_hit(punch)
 	_check(GameState.wanted_level > 0.0 and wanted.get_stars() == 1, "Wache angreifen: Fahndung steigt (1 Stern)")
+	_check(wanted.get_stage() == 1 and GameState.wanted_search_radius == 0.0, "Stufe 1: noch kein Suchkreis")
+	wanted.add_wanted(20.0)
+	await _frames(3)
+	_check(wanted.get_stage() == 2 and is_equal_approx(GameState.wanted_search_radius, 60.0) and wanted.reinforcements.size() == 2,
+		"Stufe 2: Suchkreis 60 m, zwei Wachen Verstärkung")
+	_check(wanted.reinforcements.all(func(g: Enemy) -> bool: return generator.is_free(Vector2(g.global_position.x, g.global_position.z))),
+		"Verstärkung taucht auf der Straße auf")
+	# Sinken nur außerhalb des Suchkreises.
+	wanted._calm_time = 100.0
+	GameState.wanted_search_center = player.global_position
+	_check(not wanted.can_decay(), "Im Suchkreis sinkt die Fahndung nicht")
+	GameState.wanted_search_center = player.global_position + Vector3(200.0, 0.0, 0.0)
+	_check(wanted.can_decay(), "Außerhalb des Suchkreises (und ungesehen) sinkt sie")
+	wanted.hunter_warning_time = 0.3
 	wanted.add_wanted(100.0)
 	await _frames(3)
-	_check(wanted.hunters.size() == 2 and wanted.hunters[0].data.captures, "Volle Fahndung: zwei Spiegeljäger erscheinen")
+	_check(wanted.hunters.is_empty(), "Volle Fahndung: erst Vorwarnung, noch keine Jäger")
+	await _frames(30)
+	_check(wanted.hunters.size() == 2 and wanted.hunters[0].data.captures, "Nach der Vorwarnung: zwei Spiegeljäger erscheinen")
 	var free_spawn := true
 	for hunter in wanted.hunters:
 		free_spawn = free_spawn and generator.is_free(Vector2(hunter.global_position.x, hunter.global_position.z))
@@ -263,7 +279,7 @@ func _run() -> void:
 	player.hurtbox.receive_hit(final_blow)
 	await _frames(3)
 	_check(captured.size() == 1 and not player.health.is_dead, "Besiegt von Spiegeljägern: gefangen statt tot")
-	_check(GameState.wanted_level == 0.0 and wanted.hunters.is_empty() and GameState.return_scene != "", "Fahndung vorbei, Rückkehrort gemerkt")
+	_check(GameState.wanted_level == 0.0 and wanted.hunters.is_empty() and wanted.reinforcements.is_empty() and GameState.return_scene != "", "Fahndung vorbei (Jäger und Verstärkung weg), Rückkehrort gemerkt")
 	_check(GameState.capture_district == &"corporate" and not GameState.capture_clear_circles.is_empty(), "Fangort gemerkt: Konzernviertel")
 	# Die Spiegelrealität baut genau dieselbe Stadt (gleiche Häuser).
 	var mirror := (load("res://scenes/levels/mirror_city_reality.tscn") as PackedScene).instantiate() as MirrorCityReality

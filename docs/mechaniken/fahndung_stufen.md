@@ -1,6 +1,11 @@
 # Fahndung in Stufen (Zeugen, Suchgebiet, anrückende Kräfte, Spiegeljäger)
 
-- **Status:** Idee (baut auf der gebauten Fahndung M7.4 auf)
+- **Status:** teilweise gebaut: Stufen 1–5, Suchkreis (60/90/120 m, Karte und
+  Minimap), Sinken nur ungesehen und außerhalb des Kreises, Verstärkung (2 Wachen
+  ab Stufe 2, 2 weitere ab Stufe 4), Wachen in 40 m gehen nachsehen, 6 s
+  Vorwarnung vor den Spiegeljägern. Offen: Zeugen (kommt mit Stadtvolk),
+  Streifen (Fahrzeuge), Sperren, Drohnen, Kameras, Verstecke, Zuflucht in
+  Gotteshäusern (Frage an den Nutzer).
 - **Vorbild (nur Inspiration):** Fahndungssystem mit anrückender Polizei in
   Cyberpunk 2077 (und GTA). Keine Werte, Stufen-Namen oder Symbole übernommen.
 - **Für wen:** Welt (Santo Santiago), Konzernkräfte

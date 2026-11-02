@@ -107,6 +107,7 @@ func _draw() -> void:
 				draw_colored_polygon(points, shape["color"])
 		if not minimap:
 			_draw_labels(map_data, to_screen)
+	_draw_search_circle(to_screen)
 	_draw_route(to_screen, player)
 	_draw_markers(to_screen)
 	if GameState.inventory.has_radar():
@@ -177,6 +178,18 @@ func _draw_route(to_screen: Callable, player: Player) -> void:
 	var pin := PackedVector2Array([at + Vector2(0, -11), at + Vector2(8, 0), at + Vector2(0, 11), at + Vector2(-8, 0)])
 	draw_colored_polygon(pin, ROUTE_COLOR)
 	draw_polyline(pin + PackedVector2Array([pin[0]]), Color(0, 0, 0), 2.0)
+
+
+## Fahndung: gestrichelter Suchkreis, in dem die Wachen suchen.
+func _draw_search_circle(to_screen: Callable) -> void:
+	if GameState.wanted_search_radius <= 0.0:
+		return
+	var center: Vector2 = to_screen.call(Vector2(GameState.wanted_search_center.x, GameState.wanted_search_center.z))
+	var radius := GameState.wanted_search_radius * _scale
+	var dashes := 32
+	for i in dashes:
+		var start := TAU * i / dashes
+		draw_arc(center, radius, start, start + TAU / dashes * 0.55, 4, Color(1.0, 0.35, 0.3, 0.85), 2.5)
 
 
 ## Radar (gekauft auf dem Schwarzmarkt): Gegner als rote Punkte.

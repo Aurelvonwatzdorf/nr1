@@ -6,6 +6,14 @@ extends Node
 ## - Ist sie voll, kommen zwei Spiegeljäger. Wer von ihnen besiegt wird, stirbt
 ##   nicht, sondern wird in eine Spiegelrealität gesperrt (`capture_scene`).
 ## - Hält man sich eine Weile ruhig und ist kein Jäger in der Nähe, sinkt sie.
+## Stufen (Mechanik-Studie 2, `fahndung_stufen.md`):
+##   1 Gesehen (bis 19): Wachen in der Nähe gehen nachsehen.
+##   2 Gesucht (bis 39): Suchkreis 60 m, 2 Wachen Verstärkung suchen ihn ab.
+##   3 (bis 69): Suchkreis 90 m. (Später: Streifen mit Fahrzeugen.)
+##   4 (bis 99): Suchkreis 120 m, 2 weitere Wachen. (Später: Sperren, Drohnen.)
+##   5 (100): Vorwarnung, dann Spiegeljäger.
+## Sinken nur, wenn keine Konzernkraft einen sieht, lange genug Ruhe ist und man
+## (ab Stufe 2) außerhalb des Suchkreises ist.
 
 const ENEMY_SCENE := preload("res://scenes/enemies/enemy.tscn")
 const HUNTER_DATA := preload("res://resources/enemies/mirror_hunter.tres")
@@ -16,13 +24,26 @@ const HUNTER_DATA := preload("res://resources/enemies/mirror_hunter.tres")
 @export var hit_gain: float = 12.0
 @export var kill_gain: float = 25.0
 @export var shot_gain: float = 8.0
-## So lange muss man sich ruhig verhalten, bevor die Fahndung sinkt (Sekunden).
-@export var calm_delay: float = 15.0
 @export var decay_per_second: float = 6.0
 @export var hunter_count: int = 2
+## So lange vor dem Erscheinen der Spiegeljäger flackern die Spiegel (Flucht möglich).
+@export var hunter_warning_time: float = 6.0
+## Je Stufe (0–5): Radius des Suchkreises und nötige Ruhezeit.
+const STAGE_SEARCH_RADIUS: Array[float] = [0.0, 0.0, 60.0, 90.0, 120.0, 120.0]
+const STAGE_CALM_TIME: Array[float] = [15.0, 10.0, 15.0, 15.0, 25.0, 25.0]
+## Verstärkung: so viele Wachen ab Stufe 2 bzw. 4.
+const REINFORCEMENTS_STAGE_2 := 2
+const REINFORCEMENTS_STAGE_4 := 2
+## In diesem Umkreis um eine Tat gehen Konzernwachen nachsehen.
+const ALERT_RADIUS := 40.0
 
 var hunters: Array[Enemy] = []
+var reinforcements: Array[Enemy] = []
 var _calm_time: float = 0.0
+## Restzeit der Vorwarnung (unter 0 = keine läuft).
+var _hunter_warning_left: float = -1.0
+## Wie viele Verstärkungswellen in dieser Fahndung schon kamen.
+var _reinforcement_waves: int = 0
 
 
 func _ready() -> void:
@@ -40,6 +61,14 @@ func _ready() -> void:
 
 func add_wanted(amount: float) -> void:
 	_calm_time = 0.0
+	var player := _player()
+	if player:
+		GameState.wanted_search_center = player.global_position
+		# Konzernwachen in der Nähe gehen nachsehen.
+		for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+			var enemy := node as Enemy
+			if enemy and enemy.data.faction == &"corporate" and not enemy.health.is_dead:
+				enemy.perception.hear(player.global_position, ALERT_RADIUS)
 	_set_wanted(GameState.wanted_level + amount)
 
 
@@ -47,17 +76,129 @@ func get_stars() -> int:
 	return ceili(GameState.wanted_level / 20.0)
 
 
+## Fahndungsstufe 0–5 (siehe oben).
+func get_stage() -> int:
+	var level := GameState.wanted_level
+	if level <= 0.0:
+		return 0
+	if level < 20.0:
+		return 1
+	if level < 40.0:
+		return 2
+	if level < 70.0:
+		return 3
+	if level < 100.0:
+		return 4
+	return 5
+
+
+## Darf die Fahndung gerade sinken? (genug Ruhe, außerhalb des Suchkreises, kein Jäger nah)
+func can_decay() -> bool:
+	var stage := get_stage()
+	if stage == 0 or _calm_time < STAGE_CALM_TIME[stage] or _hunter_near(35.0):
+		return false
+	var player := _player()
+	if player and GameState.wanted_search_radius > 0.0:
+		var offset := player.global_position - GameState.wanted_search_center
+		offset.y = 0.0
+		if offset.length() < GameState.wanted_search_radius:
+			return false
+	return true
+
+
 func _physics_process(delta: float) -> void:
 	hunters = hunters.filter(func(hunter: Enemy) -> bool: return is_instance_valid(hunter) and not hunter.health.is_dead)
-	if GameState.wanted_level >= 100.0 and hunters.is_empty() and not GameState.is_captured:
-		_spawn_hunters()
+	reinforcements = reinforcements.filter(func(guard: Enemy) -> bool: return is_instance_valid(guard))
 	_calm_time += delta
-	if _calm_time >= calm_delay and GameState.wanted_level > 0.0 and not _hunter_near(35.0):
+	var stage := get_stage()
+	GameState.wanted_search_radius = STAGE_SEARCH_RADIUS[stage]
+	if stage > 0 and _seen_by_corporate():
+		_calm_time = 0.0
+		var player := _player()
+		if player:
+			GameState.wanted_search_center = player.global_position
+	_update_hunter_warning(delta)
+	if stage >= 2 and _reinforcement_waves == 0:
+		_spawn_reinforcements(REINFORCEMENTS_STAGE_2)
+	if stage >= 4 and _reinforcement_waves == 1:
+		_spawn_reinforcements(REINFORCEMENTS_STAGE_4)
+	if can_decay():
 		# Getarnt (Schattenhaut) verliert man die Verfolger doppelt so schnell.
 		var decay := decay_per_second * (2.0 if GameState.player_camouflaged else 1.0)
 		_set_wanted(GameState.wanted_level - decay * delta)
 		if GameState.wanted_level <= 0.0:
 			_dismiss_hunters()
+			_dismiss_reinforcements()
+
+
+## Volle Fahndung: erst flackern die Spiegel (Zeit zur Flucht), dann kommen die Jäger.
+func _update_hunter_warning(delta: float) -> void:
+	if GameState.wanted_level < 100.0 or not hunters.is_empty() or GameState.is_captured:
+		_hunter_warning_left = -1.0
+		return
+	if _hunter_warning_left < 0.0:
+		_hunter_warning_left = hunter_warning_time
+		EventBus.message_requested.emit("Die Spiegel flackern … die Spiegeljäger kommen.")
+		EventBus.camera_shake_requested.emit(0.25)
+	_hunter_warning_left -= delta
+	if _hunter_warning_left <= 0.0:
+		_hunter_warning_left = -1.0
+		_spawn_hunters()
+
+
+## Sieht gerade eine Konzernkraft die Spielfigur?
+func _seen_by_corporate() -> bool:
+	for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+		var enemy := node as Enemy
+		if enemy and enemy.data.faction == &"corporate" and not enemy.health.is_dead \
+				and not enemy.is_incapacitated() and enemy.perception.sees_player:
+			return true
+	return false
+
+
+## Verstärkung: Wachen erscheinen auf der Straße am Rand des Suchkreises und suchen ihn ab.
+func _spawn_reinforcements(count: int) -> void:
+	_reinforcement_waves += 1
+	var player := _player()
+	if player == null:
+		return
+	var center := GameState.wanted_search_center
+	for i in count:
+		var at := _street_point(Vector2(center.x, center.z) + Vector2.from_angle(TAU * (i + 0.5) / count) * 30.0, 25.0)
+		var guard := ENEMY_SCENE.instantiate() as Enemy
+		guard.position = Vector3(at.x, 0.2, at.y)
+		guard.add_to_group(&"wanted_reinforcements")
+		get_parent().add_child(guard)
+		guard.perception.hear(center, INF)
+		reinforcements.append(guard)
+	EventBus.message_requested.emit("Konzernwachen durchsuchen die Gegend.")
+
+
+func _dismiss_reinforcements() -> void:
+	for guard in reinforcements:
+		if is_instance_valid(guard):
+			guard.queue_free()
+	reinforcements.clear()
+	_reinforcement_waves = 0
+	GameState.wanted_search_radius = 0.0
+
+
+## Nächster freier Straßenpunkt bei `near`, mindestens `min_distance` von der Spielfigur.
+func _street_point(near: Vector2, min_distance: float) -> Vector2:
+	var player := _player()
+	if city == null or city.waypoints.is_empty() or player == null:
+		return near
+	var origin := Vector2(player.global_position.x, player.global_position.z)
+	var best := near
+	var best_score := INF
+	for point: Vector2 in city.waypoints:
+		if point.distance_to(origin) < min_distance:
+			continue
+		var score := point.distance_to(near)
+		if score < best_score:
+			best_score = score
+			best = point
+	return best
 
 
 func _set_wanted(value: float) -> void:
@@ -143,6 +284,7 @@ func _on_player_captured(player: Player) -> void:
 		GameState.capture_clear_circles = city.get_keep_clear_circles()
 	_set_wanted(0.0)
 	_dismiss_hunters()
+	_dismiss_reinforcements()
 	EventBus.message_requested.emit("Die Spiegeljäger haben dich erwischt …")
 	EventBus.camera_shake_requested.emit(0.7)
 	if capture_scene == "":
