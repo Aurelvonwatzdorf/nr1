@@ -53,6 +53,17 @@ extends Resource
 @export var mantle_duration: float = 0.45
 @export var mantle_stamina_cost: float = 6.0
 
+@export_group("Gleitschritt und Ducken")
+## Rutschen aus dem Sprint: Starttempo = Sprinttempo × dieser Wert, bremst bis Gehtempo.
+@export var slide_speed_factor: float = 1.3
+@export var slide_duration: float = 0.7
+@export var slide_stamina_cost: float = 12.0
+@export var slide_cooldown: float = 0.4
+## Körperhöhe beim Rutschen und beim Ducken (stehend 1,8 m).
+@export var slide_height: float = 0.9
+@export var crouch_height: float = 1.1
+@export var crouch_speed: float = 2.2
+
 @export_group("Fallschaden")
 ## Bis zu dieser Fallhöhe (Meter) passiert nichts.
 @export var fall_safe_height: float = 5.0

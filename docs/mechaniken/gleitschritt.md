@@ -1,6 +1,7 @@
 # Gleitschritt (Rutschen aus dem Sprint)
 
-- **Status:** Idee
+- **Status:** gebaut (Rutschen, Ducken, Gamepad B halten, Touch-Knopf „Duck.“).
+  Offen: Gleitstoß-Bonus, Schlaghöhen (`AttackData.height`).
 - **Vorbild (nur Inspiration):** Rutschen beim Sprinten in Cyberpunk 2077 (auch
   Titanfall, Apex). Keine Werte oder Namen übernommen.
 - **Für wen:** beide (Grundbewegung, keine Freischaltung nötig)

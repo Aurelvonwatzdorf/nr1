@@ -76,6 +76,25 @@ func play_mantle(duration: float, vault: bool) -> void:
 	_tween.parallel().tween_property(visual_root, "rotation:x", 0.0, duration * 0.5)
 
 
+## Ducken/Rutschen: Körper niedriger (1 = stehend). Platzhalter: Körper und
+## Visier rücken nach unten und werden gestaucht.
+func set_body_height_ratio(ratio: float) -> void:
+	if animation_tree:
+		animation_tree.set(&"parameters/crouch/blend_amount", 1.0 - ratio)
+		return
+	if visual_root == null:
+		return
+	for child: Node in visual_root.get_children():
+		var mesh := child as MeshInstance3D
+		if mesh == null:
+			continue
+		if not mesh.has_meta(&"stand_y"):
+			mesh.set_meta(&"stand_y", mesh.position.y)
+		mesh.position.y = float(mesh.get_meta(&"stand_y")) * ratio
+		if mesh == body_mesh:
+			mesh.scale.y = ratio
+
+
 ## Schuss: kurzer Leuchtstrahl vom Lauf bis zum Einschlag, Mündungsblitz.
 func play_shot(from: Vector3, to: Vector3) -> void:
 	var length := from.distance_to(to)

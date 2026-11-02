@@ -9,6 +9,14 @@ func enter(_msg: Dictionary = {}) -> void:
 
 func physics_update(delta: float) -> void:
 	player.apply_gravity(delta)
+	# C beim Rennen = Gleitschritt, sonst ducken.
+	if player.is_input_enabled() and Input.is_action_pressed(&"crouch") and player.can_slide():
+		state_machine.transition_to(&"slide")
+		return
+	if player.is_on_floor() and (player.is_crouched() \
+			or (player.is_input_enabled() and Input.is_action_pressed(&"crouch"))):
+		state_machine.transition_to(&"crouch")
+		return
 	if try_start_combat_action():
 		return
 	if player.try_mantle():

@@ -16,6 +16,7 @@ const BUTTONS := [
 	[&"dodge", "Ausw.", "br", Vector2(-150, -310), 48.0],
 	[&"jump", "Sprung", "br", Vector2(-290, -250), 48.0],
 	[&"block", "Block", "br", Vector2(-430, -150), 44.0],
+	[&"crouch", "Duck.", "br", Vector2(-430, -290), 40.0],
 	[&"lock_on", "Ziel", "br", Vector2(-50, -330), 36.0],
 	[&"interact", "E", "tr", Vector2(-60, 70), 34.0],
 	[&"reality_sight", "Q", "tr", Vector2(-140, 70), 34.0],

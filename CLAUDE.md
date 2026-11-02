@@ -403,6 +403,19 @@ tests/       Headless-Rauchtests
   (v²/2g), nicht aus Positionen, damit Versetzen nie als Sturz zählt. Ab 5 m
   8 Leben/m, ab 18 m tödlich (Cyberbeine 24 m), Ausweichen ≤ 0,25 s vor der
   Landung = Abrollen (halber Schaden, kein Taumeln), ab 8 m Taumeln.
+- **Gleitschritt und Ducken** (Zustände `Slide`, `Crouch`, Aktion `crouch` = C):
+  C beim Rennen (`Player.can_slide()`) = rutschen, sonst ducken (halten).
+  `Player.set_body_height()` ändert Kollision und Hurtbox (eigene Kopien der
+  Formen), Bild über `PlayerAnimator.set_body_height_ratio()`; aufstehen nur mit
+  Platz (`can_stand_up()`), Move/Idle wechseln nach `Crouch`, solange
+  `is_crouched()`.
+- **Gamepad Tippen/Halten** (Nutzer-Entscheidung): Autoload `PadTapHold`
+  (`scripts/systems/pad_tap_hold.gd`, Tabelle `PAIRS`): Tippen löst beim
+  Loslassen aus, Halten ab 0,25 s. B = Ausweichen/Ducken. Später X =
+  Interagieren/Nachladen, R3 = Lock-on/Scannen, Steuerkreuz hoch halten =
+  aktives Implantat. Knöpfe in `PAIRS` **nicht** zusätzlich in die Input-Map
+  eintragen. Tastatur: C Ducken, T Nachladen, G aktives Implantat, Tab/
+  Mittelklick halten = Scannen. Im Rauchtest `_pad_button()`.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,
@@ -706,7 +719,8 @@ gleicht → Ausbruch → Aufwachen am Fangort.
 | `look_*` | Maus | rechter Stick |
 | `sprint` | Shift (halten) | L3 (halten) |
 | `jump` | Leertaste | A |
-| `dodge` | Strg (still stehen = Rückwärtsschritt) | B |
+| `dodge` | Strg (still stehen = Rückwärtsschritt) | B tippen (beim Loslassen, `PadTapHold`) |
+| `crouch` | C (halten; beim Rennen = Gleitschritt) | B halten (`PadTapHold`) |
 | `attack_light` | Linksklick | RB |
 | `attack_heavy` | Shift + Linksklick (im Code) | RT |
 | `block` | Rechtsklick | LB |

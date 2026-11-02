@@ -16,12 +16,13 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   **Nutzer hat alle 16 Pakete gewählt.** Gebaut ist bisher Schritt 1:
   Luftsteuerung (Koyote-Zeit, Sprung-Puffer, kurzer/langer Sprung,
   weniger Lenken in der Luft, Doppelsprung lenkt neu), Aufschwung (Kanten
-  hochziehen/überspringen), Fallschaden mit Abrollen.
+  hochziehen/überspringen), Fallschaden mit Abrollen, Gleitschritt und Ducken
+  (C; Gamepad B halten; Touch „Duck.“).
   **Bau-Reihenfolge** (wegen Abhängigkeiten, je Schritt testen + speichern):
-  1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt
+  1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt ✅
      (braucht Ducken-Taste), Sprungfeder, Aufschlag
-  2. Tastenbelegung entscheiden (Ducken, Nachladen, Scannen, aktives Implantat,
-     Fahrzeug rufen; Gamepad fast voll) → Rückfrage an den Nutzer
+  2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
+     Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
   3. Leistung: Grafikstufen, Detailstufen (vor mehr Grafik/Figuren)
   4. Schleichen: `EnemyPerception` → Erledigen → Schattenhaut
   5. Stadtleben: Stadtvolk, Fahndung in Stufen

@@ -58,6 +58,10 @@ var _air_jump_used: bool = false
 var _coyote_left: float = 0.0
 var _jump_buffer_left: float = 0.0
 var _jump_rising: bool = false
+## Gleitschritt: Sperre bis zum nächsten Rutschen.
+var slide_cooldown_left: float = 0.0
+## Höhe der Figur im Stehen (aus der Szene) für Ducken/Rutschen.
+var _standing_height: float = 1.8
 ## Fallschaden: Restzeit, in der eine Landung als Abrollen zählt.
 var _roll_window_left: float = 0.0
 ## Schubsprung: schon in dieser Luftphase benutzt? Zeit bis zum nächsten.
@@ -78,6 +82,12 @@ func _ready() -> void:
 		character_data = GameState.selected_character
 	assert(character_data != null, "Player braucht eine CharacterData (Inspector).")
 	add_to_group(&"player")
+	# Eigene Kopien der Formen, damit Ducken nur diese Figur verändert.
+	var body_shape := $CollisionShape3D as CollisionShape3D
+	body_shape.shape = body_shape.shape.duplicate()
+	var hurt_shape := $Hurtbox/CollisionShape3D as CollisionShape3D
+	hurt_shape.shape = hurt_shape.shape.duplicate()
+	_standing_height = (body_shape.shape as CapsuleShape3D).height
 	_apply_character_data()
 	GameState.stats.changed.connect(_apply_stats)
 	GameState.inventory.changed.connect(_apply_stats)
@@ -107,6 +117,7 @@ func _physics_process(delta: float) -> void:
 	_update_hack(delta)
 	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
 	dash_cooldown_left = maxf(dash_cooldown_left - delta, 0.0)
+	slide_cooldown_left = maxf(slide_cooldown_left - delta, 0.0)
 	wall_run_cooldown_left = maxf(wall_run_cooldown_left - delta, 0.0)
 	_update_afterimage(delta)
 	_update_jump_timers(delta)
@@ -288,6 +299,46 @@ func _on_landed(fall_speed: float) -> void:
 	if not rolled and not health.is_dead and height >= data.fall_stagger_height:
 		last_hit = null
 		state_machine.transition_to(&"hurt", {"time": data.fall_stagger_time})
+
+
+## Körperhöhe setzen (Ducken, Rutschen); 0 = wieder stehend. Füße bleiben unten.
+func set_body_height(height: float) -> void:
+	if height <= 0.0:
+		height = _standing_height
+	for path: NodePath in [^"CollisionShape3D", ^"Hurtbox/CollisionShape3D"]:
+		var holder := get_node(path) as CollisionShape3D
+		(holder.shape as CapsuleShape3D).height = height
+		holder.position.y = height * 0.5
+	animator.set_body_height_ratio(height / _standing_height)
+
+
+## Niedriger als im Stehen (z. B. nach dem Rutschen unter einem Hindernis)?
+func is_crouched() -> bool:
+	return get_body_height() < _standing_height - 0.01
+
+
+func get_body_height() -> float:
+	return ((($CollisionShape3D as CollisionShape3D).shape) as CapsuleShape3D).height
+
+
+## Ist über der Figur Platz zum Aufstehen?
+func can_stand_up() -> bool:
+	var room := PhysicsShapeQueryParameters3D.new()
+	var capsule := CapsuleShape3D.new()
+	capsule.radius = 0.38
+	capsule.height = _standing_height
+	room.shape = capsule
+	room.transform = Transform3D(Basis.IDENTITY, global_position + Vector3.UP * (_standing_height * 0.5 + 0.02))
+	room.collision_mask = PhysicsLayers.WORLD
+	room.exclude = [get_rid()]
+	return get_world_3d().direct_space_state.intersect_shape(room, 1).is_empty()
+
+
+## Gleitschritt starten? Nur am Boden, beim Rennen in eine Richtung.
+func can_slide() -> bool:
+	return is_on_floor() and slide_cooldown_left <= 0.0 and stamina.can_act() \
+		and Input.is_action_pressed(&"sprint") and get_move_direction() != Vector3.ZERO \
+		and Vector3(velocity.x, 0.0, velocity.z).length() > character_data.walk_speed
 
 
 ## Gemerkten Sprung und Kanten-Puffer verwerfen (z. B. nach einem Wandsprung).
@@ -717,6 +768,7 @@ func rest() -> void:
 func respawn(at: Transform3D) -> void:
 	global_transform = at
 	velocity = Vector3.ZERO
+	set_body_height(0.0)
 	_set_reality_sight(false)
 	stop_afterimage()
 	cancel_hack()

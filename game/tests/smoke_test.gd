@@ -1087,6 +1087,70 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 		box.queue_free()
 		await _frames(30)
 
+	# Gleitschritt: rennen + C = rutschen, flach unter einer Stange hindurch
+	var bar := StaticBody3D.new()
+	bar.collision_layer = PhysicsLayers.WORLD
+	var bar_shape := CollisionShape3D.new()
+	var bar_box := BoxShape3D.new()
+	bar_box.size = Vector3(4.0, 0.6, 0.6)
+	bar_shape.shape = bar_box
+	bar.add_child(bar_shape)
+	bar.position = Vector3(20.0, 1.5, -27.0)
+	arena.add_child(bar)
+	player.health.revive()
+	player.stamina.refill()
+	player.state_machine.transition_to(&"idle")
+	player.global_position = Vector3(20.0, 0.05, -21.0)
+	player.velocity = Vector3.ZERO
+	player.rotation = Vector3.ZERO
+	await _frames(5)
+	player.camera_rig.look_at_point(player.global_position + Vector3(0.0, 0.0, -10.0))
+	Input.action_press(&"move_forward")
+	Input.action_press(&"sprint")
+	await _frames(25)
+	var slide_stamina := player.stamina.current
+	await _tap(&"crouch")
+	_check(player.state_machine.get_current_state_name() == &"slide" \
+		and player.stamina.current <= slide_stamina - 11.0 and player.get_body_height() < 1.0, "Gleitschritt: rennen + C rutscht flach (Ausdauer −12)")
+	await _frames(50)
+	Input.action_release(&"sprint")
+	Input.action_release(&"move_forward")
+	await _frames(20)
+	_check(player.global_position.z < -27.5, "Gleitschritt: unter der 1,2-m-Stange hindurch (z %.1f)" % player.global_position.z)
+	_check(not player.is_crouched() and player.state_machine.get_current_state_name() in [&"idle", &"move"], "Gleitschritt endet, Figur steht wieder auf")
+	bar.queue_free()
+
+	# Ducken: C halten = langsam und niedrig, loslassen = aufstehen
+	player.stamina.refill()
+	player.state_machine.transition_to(&"idle")
+	player.global_position = Vector3(20.0, 0.05, -22.0)
+	player.velocity = Vector3.ZERO
+	await _frames(10)
+	Input.action_press(&"crouch")
+	await _frames(3)
+	_check(player.state_machine.get_current_state_name() == &"crouch" and absf(player.get_body_height() - 1.1) < 0.05, "Ducken: C halten = geduckt (Höhe 1,1)")
+	Input.action_press(&"move_forward")
+	await _frames(30)
+	var crouch_speed := Vector3(player.velocity.x, 0.0, player.velocity.z).length()
+	_check(crouch_speed > 1.5 and crouch_speed < 2.4, "Ducken: langsam gehen (%.1f m/s)" % crouch_speed)
+	Input.action_release(&"move_forward")
+	Input.action_release(&"crouch")
+	await _frames(3)
+	_check(player.state_machine.get_current_state_name() != &"crouch" and not player.is_crouched(), "Ducken: loslassen = aufstehen")
+
+	# Gamepad B: tippen = Ausweichen, halten = Ducken
+	await _frames(20)
+	player.stamina.refill()
+	await _pad_button(JOY_BUTTON_B, 3)
+	await _frames(2)
+	_check(player.state_machine.get_current_state_name() == &"dodge", "Gamepad: B tippen = Ausweichen")
+	await _frames(50)
+	await _pad_button(JOY_BUTTON_B, 30, func() -> void:
+		_check(player.state_machine.get_current_state_name() == &"crouch", "Gamepad: B halten = Ducken"))
+	await _frames(5)
+	_check(player.state_machine.get_current_state_name() != &"crouch", "Gamepad: B loslassen = aufstehen")
+	await _frames(20)
+
 	# Fallschaden: bis 5 m nichts, 12 m kostet Leben, Abrollen halbiert es
 	var data := player.character_data
 	for drop: Array in [[4.0, false], [12.0, false], [12.0, true]]:
@@ -1215,6 +1279,23 @@ func _hold(action: StringName, frames: int) -> void:
 	Input.action_press(action)
 	await _frames(frames)
 	Input.action_release(action)
+
+
+## Drückt einen Gamepad-Knopf als echtes Ereignis für einige Physik-Frames
+## (für PadTapHold). `while_held` läuft kurz vor dem Loslassen.
+func _pad_button(button: JoyButton, frames: int, while_held: Callable = Callable()) -> void:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button
+	event.pressed = true
+	Input.parse_input_event(event)
+	await _frames(frames)
+	if while_held.is_valid():
+		while_held.call()
+	event = InputEventJoypadButton.new()
+	event.button_index = button
+	event.pressed = false
+	Input.parse_input_event(event)
+	await _frames(1)
 
 
 ## Schickt eine echte Eingabe (für Menüs, die auf _unhandled_input hören).
