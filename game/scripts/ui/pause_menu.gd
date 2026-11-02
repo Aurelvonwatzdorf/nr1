@@ -1,10 +1,11 @@
 class_name PauseMenu
 extends GameMenu
-## Pausenmenü (Esc): Fortsetzen, Speichern, Neues Spiel, Hauptmenü, Beenden.
+## Pausenmenü (Esc): Fortsetzen, Speichern, Grafikstufe, Neues Spiel, Hauptmenü, Beenden.
 
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
 @onready var new_game_button: Button = %NewGameButton
+@onready var graphics_button: Button = %GraphicsButton
 @onready var main_menu_button: Button = %MainMenuButton
 @onready var quit_button: Button = %QuitButton
 @onready var status_label: Label = %StatusLabel
@@ -14,6 +15,9 @@ func _ready() -> void:
 	super._ready()
 	resume_button.pressed.connect(close)
 	save_button.pressed.connect(_on_save_pressed)
+	graphics_button.pressed.connect(func() -> void:
+		GraphicsSettings.cycle_tier()
+		_update_graphics_text())
 	new_game_button.pressed.connect(_on_new_game_pressed)
 	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
@@ -33,7 +37,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_opened() -> void:
 	status_label.text = ""
+	_update_graphics_text()
 	resume_button.grab_focus()
+
+
+func _update_graphics_text() -> void:
+	graphics_button.text = "Grafik: %s (umschalten)" % GraphicsSettings.get_tier_name()
 
 
 ## Spielstand löschen und von vorn beginnen.

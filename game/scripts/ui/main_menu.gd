@@ -10,7 +10,8 @@ const CONTROLS := [
 	["WASD", "Laufen (Shift: rennen)"],
 	["Maus", "Kamera"],
 	["Leertaste", "Springen"],
-	["Strg", "Ausweichen"],
+	["Strg", "Ausweichen (kurz vor der Landung: abrollen)"],
+	["C", "Ducken (beim Rennen: Gleitschritt)"],
 	["Linksklick", "Angriff (mit Shift: schwerer Angriff)"],
 	["Rechtsklick", "Blocken / Parieren"],
 	["Tab / Mittelklick", "Gegner anvisieren"],
@@ -21,6 +22,7 @@ const CONTROLS := [
 	["F", "Raben (Tahirou) / Fernzugriff (Aurel)"],
 	["I / K / M", "Inventar / Fähigkeiten / Karte"],
 	["Esc", "Pause"],
+	["F3", "Bildrate anzeigen"],
 ]
 
 ## Szenen wechseln? (Im Test aus.)
@@ -146,6 +148,10 @@ func _build_menu() -> void:
 	controls_button = _menu_button("Steuerung", func() -> void:
 		_menu_box.visible = false
 		_controls_panel.visible = true)
+	var graphics_button := _menu_button("Grafik: " + GraphicsSettings.get_tier_name(), Callable())
+	graphics_button.pressed.connect(func() -> void:
+		GraphicsSettings.cycle_tier()
+		graphics_button.text = "Grafik: " + GraphicsSettings.get_tier_name())
 	quit_button = _menu_button("Beenden", func() -> void: get_tree().quit())
 
 
@@ -155,7 +161,8 @@ func _menu_button(text: String, action: Callable) -> Button:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.custom_minimum_size = Vector2(320, 52)
 	button.add_theme_font_size_override(&"font_size", 26)
-	button.pressed.connect(action)
+	if action.is_valid():
+		button.pressed.connect(action)
 	_menu_box.add_child(button)
 	return button
 

@@ -23,7 +23,8 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
      Aufschlag ✅; offen: Sprungfeder (Frage: statt Cyberbeinen?), Wandketten
   2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
-  3. Leistung: Grafikstufen, Detailstufen (vor mehr Grafik/Figuren)
+  3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise; offen: viele
+     Figuren günstig, Laden am Tor im Hintergrund, Silhouetten
   4. Schleichen: `EnemyPerception` → Erledigen → Schattenhaut
   5. Stadtleben: Stadtvolk, Fahndung in Stufen
   6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz

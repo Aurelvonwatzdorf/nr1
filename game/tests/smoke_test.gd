@@ -855,6 +855,7 @@ func _run() -> void:
 	await _frames(5)
 
 	await _test_movement_and_combat_mechanics(arena, player)
+	await _test_graphics_tiers(arena)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
@@ -1290,6 +1291,36 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	player.velocity = Vector3.ZERO
 	await _frames(5)
+
+
+## Grafikstufen: Schatten, Umgebungsverdeckung, Sichtweiten und Bildrate je Stufe.
+func _test_graphics_tiers(arena: Node) -> void:
+	var original := GraphicsSettings.tier
+	var light := _find_first(arena, "DirectionalLight3D") as DirectionalLight3D
+	var world := _find_first(arena, "WorldEnvironment") as WorldEnvironment
+	var probe := MeshInstance3D.new()
+	probe.mesh = BoxMesh.new()
+	probe.visibility_range_end = 100.0
+	arena.add_child(probe)
+	GraphicsSettings.set_tier(GraphicsSettings.Tier.BATTERY, false)
+	_check(Engine.max_fps == 30 and light.directional_shadow_max_distance <= 25.0 \
+		and not world.environment.ssao_enabled and is_equal_approx(probe.visibility_range_end, 60.0),
+		"Grafik Akku: 30 Bilder/s, Schatten 25 m, keine SSAO, Sichtweite × 0,6")
+	GraphicsSettings.set_tier(GraphicsSettings.Tier.BEAUTIFUL, false)
+	_check(Engine.max_fps == 0 and light.directional_shadow_max_distance > 25.0 \
+		and is_equal_approx(probe.visibility_range_end, 100.0), "Grafik Schön: alles wieder wie in der Szene")
+	GraphicsSettings.set_tier(original, false)
+	probe.queue_free()
+
+
+func _find_first(root: Node, type_name: String) -> Node:
+	if root.is_class(type_name):
+		return root
+	for child: Node in root.get_children():
+		var found := _find_first(child, type_name)
+		if found:
+			return found
+	return null
 
 
 ## Drückt eine Taste kurz. Die Figur sieht den Druck im nächsten Physik-Frame,

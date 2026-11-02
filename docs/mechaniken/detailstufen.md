@@ -1,6 +1,10 @@
 # Detailstufen und Leistungsstufen (Mac, iPhone, Web)
 
-- **Status:** Idee
+- **Status:** teilweise gebaut: Stufen Akku/Ausgewogen/Schön (Autoload
+  `GraphicsSettings`, Knopf im Haupt- und Pausenmenü, F3-Anzeige), Renderauflösung,
+  Bildrate, Schattenweite, SSAO, Detail-Sichtweiten. Offen: Lichter-Budget,
+  Pflanzen-Sichtweite (lohnt sich erst bei mehr Pflanzen), Silhouetten für ferne
+  Häuser, Umrisse je Stufe.
 - **Vorbild (nur Inspiration):** Detailstufen (LOD) und Grafikstufen großer
   Open-World-Spiele wie Cyberpunk 2077. Eigene Lösung mit Godot-Werkzeugen.
 - **Für wen:** Technik

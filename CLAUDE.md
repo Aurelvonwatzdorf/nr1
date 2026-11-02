@@ -408,6 +408,13 @@ tests/       Headless-Rauchtests
   `GroundSlam` (senkrecht 22 m/s), `Player.release_ground_slam()` trifft alle
   fremden Hurtboxes im Umkreis 3,5 m (30 + 2/m Fallhöhe), eigener Fallschaden
   erst über 15 m (`apply_fall_damage()`). Werte in `CharacterData`.
+- **Grafikstufen** (Autoload `GraphicsSettings`): Akku/Ausgewogen/Schön, pro
+  Gerät in `user://einstellungen.cfg` (nicht im Spielstand). Standard: Handy/Web
+  Akku, Mac Schön. `Level._ready()` ruft `apply_to_scene(self)`: Schattenweite
+  (Höchstwert je Stufe), SSAO, `visibility_range_end` × Detailfaktor (Original
+  als Meta). Dazu Renderauflösung und `Engine.max_fps`. Knopf „Grafik: …“ im
+  Haupt- und Pausenmenü, **F3** zeigt Bildrate/Zeichenaufrufe. Neue teure Effekte
+  (Regen, Neon, Nebel) fragen die Stufe über `GraphicsSettings.tier` ab.
 - **Gleitschritt und Ducken** (Zustände `Slide`, `Crouch`, Aktion `crouch` = C):
   C beim Rennen (`Player.can_slide()`) = rutschen, sonst ducken (halten).
   `Player.set_body_height()` ändert Kollision und Hurtbox (eigene Kopien der

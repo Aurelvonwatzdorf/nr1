@@ -22,6 +22,7 @@ EventBus="*res://scripts/systems/event_bus.gd"
 GameState="*res://scripts/systems/game_state.gd"
 SaveSystem="*res://scripts/systems/save_system.gd"
 PadTapHold="*res://scripts/systems/pad_tap_hold.gd"
+GraphicsSettings="*res://scripts/systems/graphics_settings.gd"
 
 [debug]
 
@@ -31,11 +32,11 @@ gdscript/warnings/untyped_declaration=1
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/handheld/orientation=4
 window/stretch/mode.mobile="canvas_items"
 window/stretch/aspect.mobile="expand"
 window/stretch/mode.web="canvas_items"
 window/stretch/aspect.web="expand"
-window/handheld/orientation=4
 
 [input]
 
@@ -200,7 +201,7 @@ common/physics_interpolation=true
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 anti_aliasing/quality/msaa_3d=2
 anti_aliasing/quality/msaa_3d.mobile=0
 anti_aliasing/quality/msaa_3d.web=0
-textures/vram_compression/import_etc2_astc=true
