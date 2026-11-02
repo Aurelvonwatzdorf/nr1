@@ -1,6 +1,6 @@
 # Aufschwung (Kanten greifen, Hochziehen, Klettern)
 
-- **Status:** Idee
+- **Status:** gebaut (Hochziehen und Darübersetzen; Festhalten/Hangeln offen)
 - **Vorbild (nur Inspiration):** Hochziehen an Kanten in Cyberpunk 2077 (auch
   Dying Light, Elden Ring). Keine Werte oder Animationen übernommen.
 - **Für wen:** beide (Grundbewegung)

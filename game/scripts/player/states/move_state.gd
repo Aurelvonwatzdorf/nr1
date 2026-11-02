@@ -11,6 +11,8 @@ func physics_update(delta: float) -> void:
 	player.apply_gravity(delta)
 	if try_start_combat_action():
 		return
+	if player.try_mantle():
+		return
 	player.try_jump()
 	if player.try_start_wall_run():
 		return

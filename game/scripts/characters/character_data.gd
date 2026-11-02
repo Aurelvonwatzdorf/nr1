@@ -42,6 +42,17 @@ extends Resource
 ## (kurz tippen = flacher Sprung).
 @export_range(0.0, 1.0) var jump_release_factor: float = 0.5
 
+@export_group("Aufschwung (Kanten)")
+## Kanten bis zu dieser Höhe über den Füßen überspringt man im Laufen ohne Halt.
+@export var vault_max_height: float = 1.1
+## Bis zu dieser Höhe zieht man sich hoch (Sprung gedrückt oder in der Luft dagegen laufen).
+@export var mantle_max_height: float = 2.3
+## Darunter ist es keine Kante, sondern nur eine Stufe.
+@export var mantle_min_height: float = 0.25
+@export var vault_duration: float = 0.25
+@export var mantle_duration: float = 0.45
+@export var mantle_stamina_cost: float = 6.0
+
 @export_group("Ausweichrolle")
 @export var dodge_speed: float = 9.0
 @export var dodge_duration: float = 0.5

@@ -1040,6 +1040,53 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	wall.queue_free()
 	player.camera_rig.set_roll(0.0)
 
+	# Aufschwung: hohe Kante mit Sprung hochziehen, niedrige im Laufen überspringen
+	for box_height: float in [1.6, 0.8]:
+		var box := StaticBody3D.new()
+		box.collision_layer = PhysicsLayers.WORLD
+		var box_shape := CollisionShape3D.new()
+		var box_size := BoxShape3D.new()
+		box_size.size = Vector3(4.0, box_height, 3.0)
+		box_shape.shape = box_size
+		box.add_child(box_shape)
+		box.position = Vector3(20.0, box_height * 0.5, -27.5)
+		arena.add_child(box)
+		player.health.revive()
+		player.stamina.refill()
+		player.global_position = Vector3(20.0, 0.05, -22.0)
+		player.velocity = Vector3.ZERO
+		player.rotation = Vector3.ZERO
+		await _frames(5)
+		player.camera_rig.look_at_point(player.global_position + Vector3(0.0, 0.0, -10.0))
+		var tall := box_height > player.character_data.vault_max_height
+		Input.action_press(&"move_forward")
+		if not tall:
+			Input.action_press(&"sprint")
+		var saw_mantle := false
+		var stopped := false
+		for i in 90:
+			await get_tree().physics_frame
+			if tall and i == 40:
+				Input.action_press(&"jump")
+			if player.state_machine.get_current_state_name() == &"mantle":
+				saw_mantle = true
+			elif not tall and not saw_mantle and player.global_position.z < -24.0 \
+					and Vector3(player.velocity.x, 0.0, player.velocity.z).length() < 1.0:
+				stopped = true
+			if saw_mantle and player.state_machine.get_current_state_name() != &"mantle":
+				break
+		Input.action_release(&"jump")
+		Input.action_release(&"sprint")
+		Input.action_release(&"move_forward")
+		await _frames(10)
+		var on_top := absf(player.global_position.y - box_height) < 0.2 and player.global_position.z < -26.0
+		if tall:
+			_check(saw_mantle and on_top, "Aufschwung: an 1,6-m-Kante hochgezogen (y %.2f)" % player.global_position.y)
+		else:
+			_check(saw_mantle and on_top and not stopped, "Aufschwung: 0,8-m-Kante im Lauf übersprungen (y %.2f)" % player.global_position.y)
+		box.queue_free()
+		await _frames(30)
+
 	# Nachhall (Implantat): im letzten Moment ausweichen verlangsamt die Welt
 	var slow_guard: Enemy = arena.get_node("Enemies/Guard1")
 	var evade_hit := HitData.new()

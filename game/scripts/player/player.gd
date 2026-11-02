@@ -194,6 +194,67 @@ func try_jump() -> bool:
 	return true
 
 
+## Aufschwung: Liegt vor der Figur eine Kante in passender Höhe, darüber setzen
+## (niedrig, im Laufen) oder hochziehen (hoch: Sprung gedrückt oder in der Luft
+## dagegen laufen). Gibt true zurück, wenn der Zustand „Mantle“ startet.
+func try_mantle() -> bool:
+	if not is_input_enabled() or not stamina.can_act():
+		return false
+	var direction := get_move_direction()
+	if direction == Vector3.ZERO:
+		return false
+	direction = Vector3(direction.x, 0.0, direction.z).normalized()
+	var data := character_data
+	var ledge := find_ledge(direction)
+	if ledge.is_empty():
+		return false
+	var height: float = ledge["height"]
+	var vault := height <= data.vault_max_height
+	if is_on_floor():
+		# Niedrige Kanten im Laufen, hohe nur mit Sprung.
+		if vault:
+			if Vector3(velocity.x, 0.0, velocity.z).length() < data.walk_speed * 0.5:
+				return false
+		elif _jump_buffer_left <= 0.0:
+			return false
+	state_machine.transition_to(&"mantle", {"target": ledge["target"], "vault": vault and is_on_floor()})
+	return true
+
+
+## Sucht eine Kante vor der Figur. Leer, wenn keine passt; sonst „height“
+## (über den Füßen) und „target“ (wo die Füße oben stehen werden).
+func find_ledge(direction: Vector3) -> Dictionary:
+	var data := character_data
+	var space := get_world_3d().direct_space_state
+	var feet := global_position
+	# Von oben vor der Figur nach unten: Wo ist eine begehbare Fläche?
+	var probe := feet + direction * 0.75
+	var down := PhysicsRayQueryParameters3D.create(probe + Vector3.UP * (data.mantle_max_height + 0.1),
+		probe + Vector3.UP * data.mantle_min_height, PhysicsLayers.WORLD, [get_rid()])
+	var top := space.intersect_ray(down)
+	if top.is_empty() or (top["normal"] as Vector3).y < 0.7:
+		return {}
+	var height: float = (top["position"] as Vector3).y - feet.y
+	# Es muss eine senkrechte Wand sein (keine Rampe): knapp unter der Kante nach vorn.
+	var wall_origin := feet + Vector3.UP * maxf(height - 0.15, 0.1)
+	var forward := PhysicsRayQueryParameters3D.create(wall_origin, wall_origin + direction * 0.9,
+		PhysicsLayers.WORLD, [get_rid()])
+	var wall := space.intersect_ray(forward)
+	if wall.is_empty() or absf((wall["normal"] as Vector3).y) > 0.3:
+		return {}
+	# Oben muss die ganze Figur Platz haben.
+	var target: Vector3 = top["position"] + Vector3.UP * 0.05
+	var shape := ($CollisionShape3D as CollisionShape3D).shape
+	var room := PhysicsShapeQueryParameters3D.new()
+	room.shape = shape
+	room.transform = Transform3D(Basis.IDENTITY, target + Vector3.UP * 0.95)
+	room.collision_mask = PhysicsLayers.WORLD
+	room.exclude = [get_rid()]
+	if not space.intersect_shape(room, 1).is_empty():
+		return {}
+	return {"height": height, "target": target}
+
+
 ## Gemerkten Sprung und Kanten-Puffer verwerfen (z. B. nach einem Wandsprung).
 func consume_jump_input() -> void:
 	_jump_buffer_left = 0.0

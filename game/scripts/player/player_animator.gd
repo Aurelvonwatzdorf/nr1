@@ -62,6 +62,20 @@ func play_double_jump() -> void:
 	tween.chain().tween_callback(ring.queue_free)
 
 
+## Aufschwung: Platzhalter streckt sich (Hochziehen) bzw. duckt sich (Darübersetzen)
+## und kippt kurz nach vorn.
+func play_mantle(duration: float, vault: bool) -> void:
+	if _travel(&"vault" if vault else &"mantle") or visual_root == null:
+		return
+	_kill_tween()
+	_tween = create_tween()
+	var squash := Vector3(1.1, 0.75, 1.1) if vault else Vector3(0.85, 1.2, 0.85)
+	_tween.tween_property(visual_root, "scale", squash, duration * 0.5)
+	_tween.parallel().tween_property(visual_root, "rotation:x", deg_to_rad(-20.0), duration * 0.5)
+	_tween.tween_property(visual_root, "scale", Vector3.ONE, duration * 0.5)
+	_tween.parallel().tween_property(visual_root, "rotation:x", 0.0, duration * 0.5)
+
+
 ## Schuss: kurzer Leuchtstrahl vom Lauf bis zum Einschlag, Mündungsblitz.
 func play_shot(from: Vector3, to: Vector3) -> void:
 	var length := from.distance_to(to)
@@ -264,5 +278,6 @@ func _kill_tween() -> void:
 	_tween = null
 	if visual_root:
 		visual_root.scale = Vector3.ONE
+		visual_root.rotation.x = 0.0
 	if weapon_pivot:
 		weapon_pivot.rotation = Vector3.ZERO
