@@ -64,6 +64,12 @@ extends Resource
 @export var crouch_height: float = 1.1
 @export var crouch_speed: float = 2.2
 
+@export_group("Lautlos erledigen")
+## E kurz = betäuben (dauert länger), E so lange halten = töten (schneller).
+@export var takedown_hold_time: float = 0.4
+@export var takedown_stun_time: float = 2.0
+@export var takedown_kill_time: float = 1.0
+
 @export_group("Aufschlag (Implantat)")
 ## Nur so hoch über dem Boden möglich (nicht aus einem normalen Hüpfer).
 @export var slam_min_height: float = 3.0

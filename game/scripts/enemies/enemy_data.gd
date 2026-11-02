@@ -27,9 +27,10 @@ extends Resource
 @export var lose_radius: float = 18.0
 ## Sichtkegel nach vorn (ganzer Winkel in Grad). Dahinter sieht er nichts.
 @export var view_angle: float = 110.0
-## So nah merkt er es immer, auch von hinten (stehend / geduckt).
+## So nah merkt er es immer, auch von hinten (stehend / geduckt: erst bei
+## Berührung, damit man sich zum lautlosen Erledigen anschleichen kann).
 @export var near_radius: float = 2.5
-@export var near_radius_crouched: float = 1.2
+@export var near_radius_crouched: float = 0.7
 ## Geduckt sieht er die Spielfigur nur auf diesen Anteil der Sichtweite.
 @export_range(0.0, 1.0) var crouch_sight_factor: float = 0.6
 ## So lange dauert das Bemerken ganz nah bzw. am Rand der Sichtweite (Sekunden).
@@ -56,6 +57,8 @@ extends Resource
 ## Spiegeljäger: Wer von ihm besiegt wird, stirbt nicht, sondern wird in eine
 ## Spiegelrealität gesperrt.
 @export var captures: bool = false
+## Lässt er sich von hinten lautlos erledigen (betäuben/töten)?
+@export var can_be_taken_down: bool = true
 
 @export_group("Darstellung")
 @export var placeholder_color: Color = Color(0.35, 0.38, 0.45)

@@ -44,7 +44,7 @@ func setup(owner_enemy: Enemy) -> void:
 func update(delta: float) -> void:
 	var player := enemy.get_player()
 	sees_player = false
-	if player == null or enemy.health.is_dead:
+	if player == null or enemy.health.is_dead or enemy.is_incapacitated():
 		_fade(delta)
 		_update_indicator()
 		return
@@ -144,7 +144,7 @@ func _is_running(player: Player) -> bool:
 func _update_indicator() -> void:
 	if _indicator == null or not _indicator.is_inside_tree():
 		return
-	var show := awareness > 0.01 and not enemy.health.is_dead
+	var show := awareness > 0.01 and not enemy.health.is_dead and not enemy.is_incapacitated()
 	if show and enemy.get_tree().current_scene is RealityLevel:
 		show = GameState.reality_sight_active
 	_indicator.visible = show

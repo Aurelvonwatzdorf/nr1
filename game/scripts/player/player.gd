@@ -58,6 +58,10 @@ var _air_jump_used: bool = false
 var _coyote_left: float = 0.0
 var _jump_buffer_left: float = 0.0
 var _jump_rising: bool = false
+## Lautloses Erledigen: Gegner, der gerade von hinten erreichbar ist (sonst null).
+var takedown_target: Enemy
+const TAKEDOWN_PROMPT := "Betäuben · E halten: Töten"
+
 ## Gleitschritt: Sperre bis zum nächsten Rutschen.
 var slide_cooldown_left: float = 0.0
 ## Höhe der Figur im Stehen (aus der Szene) für Ducken/Rutschen.
@@ -107,7 +111,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_input_enabled() and Input.is_action_just_pressed(&"lock_on"):
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
-	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
+	_update_takedown_target()
+	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and takedown_target \
+			and state_machine.get_current_state_name() in [&"idle", &"move", &"crouch"]:
+		state_machine.transition_to(&"takedown", {"enemy": takedown_target})
+	elif is_input_enabled() and Input.is_action_just_pressed(&"interact") and can_interact():
 		interaction_detector.current.interact(self)
 	if is_input_enabled() and Input.is_action_just_pressed(&"call_spirit"):
 		if get_ravens():
@@ -315,6 +323,29 @@ func set_body_height(height: float) -> void:
 		(holder.shape as CapsuleShape3D).height = height
 		holder.position.y = height * 0.5
 	animator.set_body_height_ratio(height / _standing_height)
+
+
+## Sucht einen ahnungslosen Gegner direkt vor der Figur, den man von hinten
+## erledigen kann, und zeigt dann den Hinweis an.
+func _update_takedown_target() -> void:
+	var best: Enemy = null
+	if state_machine.get_current_state_name() in [&"idle", &"move", &"crouch"] and is_on_floor():
+		var best_distance := INF
+		for node: Node in get_tree().get_nodes_in_group(&"enemies"):
+			var enemy := node as Enemy
+			if enemy == null or not enemy.can_be_taken_down_by(self):
+				continue
+			var distance := global_position.distance_to(enemy.global_position)
+			if distance < best_distance:
+				best_distance = distance
+				best = enemy
+	if best == takedown_target:
+		return
+	takedown_target = best
+	if best:
+		EventBus.interaction_prompt_changed.emit(TAKEDOWN_PROMPT)
+	else:
+		EventBus.interaction_prompt_changed.emit(interaction_detector.current.prompt if interaction_detector.current else "")
 
 
 ## Niedriger als im Stehen (z. B. nach dem Rutschen unter einem Hindernis)?

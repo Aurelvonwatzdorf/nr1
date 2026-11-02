@@ -26,6 +26,7 @@
 [ext_resource type="Script" path="res://scripts/player/states/slide_state.gd" id="24_slide"]
 [ext_resource type="Script" path="res://scripts/player/states/crouch_state.gd" id="25_crouch"]
 [ext_resource type="Script" path="res://scripts/player/states/ground_slam_state.gd" id="26_ground_slam"]
+[ext_resource type="Script" path="res://scripts/player/states/takedown_state.gd" id="27_takedown"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -190,6 +191,9 @@ script = ExtResource("25_crouch")
 
 [node name="GroundSlam" type="Node" parent="StateMachine"]
 script = ExtResource("26_ground_slam")
+
+[node name="Takedown" type="Node" parent="StateMachine"]
+script = ExtResource("27_takedown")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("13_attack")

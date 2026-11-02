@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_return_state.gd" id="11_return"]
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_dead_state.gd" id="12_dead"]
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_search_state.gd" id="13_search"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_grabbed_state.gd" id="14_grabbed"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_unconscious_state.gd" id="15_unconscious"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.45
@@ -117,6 +119,12 @@ script = ExtResource("10_stagger")
 
 [node name="Search" type="Node" parent="StateMachine"]
 script = ExtResource("13_search")
+
+[node name="Grabbed" type="Node" parent="StateMachine"]
+script = ExtResource("14_grabbed")
+
+[node name="Unconscious" type="Node" parent="StateMachine"]
+script = ExtResource("15_unconscious")
 
 [node name="Return" type="Node" parent="StateMachine"]
 script = ExtResource("11_return")

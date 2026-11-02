@@ -420,6 +420,15 @@ tests/       Headless-Rauchtests
   Getroffen = sofort alarmiert. Chase verliert die Figur nach 4 s ohne Sicht oder
   außerhalb `lose_radius`. „?“/„!“ über dem Kopf; in `RealityLevel` nur mit
   Realitätsblick sichtbar. Spiegeljäger sind beim Erscheinen alarmiert.
+- **Lautlos erledigen** (Spieler-Zustand `Takedown`, Gegner `Grabbed`/
+  `Unconscious`): `Player._update_takedown_target()` sucht ahnungslose Gegner
+  ≤ 1,6 m im Rückenwinkel ±60° (`Enemy.can_be_taken_down_by()`), Hinweis über
+  `interaction_prompt_changed`; E hat dann Vorrang vor Interactables. E kurz =
+  betäuben (`knock_out()`, 60 % Erinnerungen + Geld), E ≥ 0,4 s halten = töten
+  (`silent_kill()`, Lärm 4 m). **Moral (Nutzer):** Töten von hinten neutral,
+  Bewusstlose töten = −6 „Schwache schützen“ (`Enemy._on_died()`). Geduckt
+  bemerken Gegner einen erst bei 0,7 m, stehend bei 2,5 m. Spiegeljäger:
+  `can_be_taken_down = false`.
 - **Grafikstufen** (Autoload `GraphicsSettings`): Akku/Ausgewogen/Schön, pro
   Gerät in `user://einstellungen.cfg` (nicht im Spielstand). Standard: Handy/Web
   Akku, Mac Schön. `Level._ready()` ruft `apply_to_scene(self)`: Schattenweite

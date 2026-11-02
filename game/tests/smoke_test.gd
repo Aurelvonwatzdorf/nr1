@@ -857,6 +857,7 @@ func _run() -> void:
 	await _test_movement_and_combat_mechanics(arena, player)
 	await _test_graphics_tiers(arena)
 	await _test_perception(arena, player)
+	await _test_takedown(arena, player)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
@@ -1346,6 +1347,76 @@ func _test_perception(arena: Node, player: Player) -> void:
 	guard.reset_enemy()
 	player.global_position = Vector3(20.0, 0.05, -22.0)
 	await _frames(10)
+
+
+## Lautlos erledigen: betäuben (E kurz), töten (E halten), Moral nur bei Wehrlosen.
+func _test_takedown(arena: Node, player: Player) -> void:
+	var guard: Enemy = arena.get_node("Enemies/Guard1")
+	var defenseless_id := StringName("kill_defenseless_%s" % guard.get_path())
+	player.health.revive()
+	player.state_machine.transition_to(&"idle")
+	# Von vorn geht es nicht.
+	guard.reset_enemy()
+	await _frames(2)
+	var facing := guard.get_facing_direction()
+	player.global_position = guard.global_position + facing * 1.2 + Vector3(0.0, 0.05, 0.0)
+	await _frames(2)
+	_check(player.takedown_target == null, "Erledigen: von vorn nicht möglich")
+	# Betäuben: geduckt hinter der Wache (stehend würde sie es im Nahbereich merken), E kurz.
+	player.global_position = guard.global_position - facing * 6.0 + Vector3(0.0, 0.05, 0.0)
+	Input.action_press(&"crouch")
+	await _frames(5)
+	guard.reset_enemy()
+	player.global_position = guard.global_position - facing * 1.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	_check(player.takedown_target == guard, "Erledigen: hinter der ahnungslosen Wache möglich")
+	var memories_before := GameState.memories
+	await _send_action(&"interact")
+	_check(player.state_machine.get_current_state_name() == &"takedown" \
+		and guard.state_machine.get_current_state_name() == &"grabbed", "Erledigen: E packt die Wache")
+	await _frames(int(player.character_data.takedown_stun_time * 60.0) + 10)
+	_check(guard.is_unconscious() and not guard.health.is_dead and GameState.memories > memories_before \
+		and not GameState.moral.has_deed(defenseless_id), "Erledigen: E kurz = betäubt (bewusstlos, Erinnerungen, Moral unverändert)")
+	_check(not guard.is_targetable(), "Erledigen: Bewusstlose sind nicht anvisierbar")
+	# Einen Bewusstlosen töten = einen Wehrlosen töten.
+	var finisher := HitData.new()
+	finisher.damage = 9999.0
+	finisher.source = player
+	guard.hurtbox.receive_hit(finisher)
+	await _frames(2)
+	_check(guard.health.is_dead and GameState.moral.has_deed(defenseless_id), "Moral: einen Bewusstlosen zu töten zählt (Schwache schützen −6)")
+	for i in range(GameState.moral.deeds.size() - 1, -1, -1):
+		if GameState.moral.deeds[i]["id"] == String(defenseless_id):
+			GameState.moral.deeds.remove_at(i)
+	# Töten: E halten, neutral.
+	player.global_position = guard.global_position - facing * 6.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	guard.reset_enemy()
+	player.global_position = guard.global_position - facing * 1.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	var deeds_before: int = GameState.moral.deeds.size()
+	Input.action_press(&"interact")
+	await _frames(int(player.character_data.takedown_kill_time * 60.0) + 15)
+	Input.action_release(&"interact")
+	_check(guard.health.is_dead and GameState.moral.deeds.size() == deeds_before, "Erledigen: E halten = lautlos getötet (Moral neutral)")
+	# Getroffen beim Packen: die Wache reißt sich los.
+	player.global_position = guard.global_position - facing * 6.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	guard.reset_enemy()
+	player.global_position = guard.global_position - facing * 1.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(5)
+	await _send_action(&"interact")
+	var grabbed_ok := guard.state_machine.get_current_state_name() == &"grabbed"
+	var interrupt := HitData.new()
+	interrupt.damage = 5.0
+	player.hurtbox.receive_hit(interrupt)
+	await _frames(3)
+	Input.action_release(&"crouch")
+	_check(grabbed_ok and guard.perception.alerted and guard.state_machine.get_current_state_name() != &"grabbed", "Erledigen: Treffer beim Packen → Wache reißt sich los, alarmiert")
+	guard.reset_enemy()
+	player.health.revive()
+	player.global_position = Vector3(20.0, 0.05, -22.0)
+	await _frames(20)
 
 
 ## Grafikstufen: Schatten, Umgebungsverdeckung, Sichtweiten und Bildrate je Stufe.

@@ -1,6 +1,10 @@
 # Erledigen (lautlos: tödlich oder betäuben)
 
-- **Status:** Idee
+- **Status:** gebaut (geduckt von hinten: E = betäuben 2 s, E halten = töten 1 s,
+  Treffer bricht ab, Bewusstlose liegen 5 Min.). **Nutzer-Entscheidung Moral:**
+  Töten von hinten ist neutral; nur einen Wehrlosen (Bewusstlosen) zu töten zählt
+  (−6 „Schwache schützen“). Offen: Körper tragen/verstecken, Wachen finden
+  Körper, Fahndung nur bei Zeugen.
 - **Vorbild (nur Inspiration):** Gegner von hinten greifen und wahlweise töten
   oder ausschalten in Cyberpunk 2077 (auch Dishonored). Keine Animationen/Namen.
 - **Für wen:** beide; Moral-Gedächtnis

@@ -33,7 +33,7 @@ Rennen, Kämpfen und Schießen in der Nähe machen Lärm und holen Gegner herbei
 | Höhe geduckt | 1,1 m | hinter Kisten verschwinden |
 | Sichtkegel Gegner | 110° nach vorn | Rücken ist eine Lücke |
 | Sichtweite stehend / geduckt | 10 m / 6 m | heutige `detection_radius` = 10 |
-| Rundum-Wahrnehmung (Nähe) | 2,5 m / geduckt 1,2 m | direkt daneben merkt jeder |
+| Rundum-Wahrnehmung (Nähe) | 2,5 m / geduckt 0,7 m | stehend merkt es jeder, geduckt erst bei Berührung (sonst kein Erledigen) |
 | Verdacht füllen | 1,2 s auf 6 m, schneller je näher | Zeit zum Reagieren |
 | Verdacht leeren | 4 s | Gegner vergessen nicht sofort |
 | Suchen an letzter Stelle | 8 s | dann zurück auf Posten |

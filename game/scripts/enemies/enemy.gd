@@ -39,6 +39,13 @@ var raven_mark_multiplier: float = 2.0
 var hack_progress: float = -1.0
 var hack_cooldown_left: float = 0.0
 var weapon_jam_left: float = 0.0
+## Lautloses Erledigen: Reichweite, Rückenwinkel, Anteil der Erinnerungen
+## beim Betäuben, Lärm beim Töten.
+const TAKEDOWN_RANGE := 1.6
+const TAKEDOWN_BACK_ANGLE := 60.0
+const TAKEDOWN_STUN_REWARD := 0.6
+const TAKEDOWN_KILL_NOISE := 4.0
+
 ## Sichtkegel, Verdacht und Lärm (Schleichgang).
 var perception: EnemyPerception
 
@@ -167,7 +174,57 @@ func receive_hack(stun_time: float, jam_time: float, cooldown: float) -> void:
 
 
 func is_defenseless() -> bool:
-	return state_machine.get_current_state_name() == &"stagger"
+	return state_machine.get_current_state_name() in [&"stagger", &"unconscious"]
+
+
+## Gepackt oder bewusstlos: nimmt nichts wahr und tut nichts.
+func is_incapacitated() -> bool:
+	return state_machine.get_current_state_name() in [&"grabbed", &"unconscious"]
+
+
+func is_unconscious() -> bool:
+	return state_machine.get_current_state_name() == &"unconscious"
+
+
+## Kann die Spielfigur ihn gerade von hinten erledigen? (ahnungslos, im Rückenwinkel, nah)
+func can_be_taken_down_by(player: Player) -> bool:
+	if not data.can_be_taken_down or health.is_dead or is_incapacitated() or perception.alerted:
+		return false
+	var offset := player.global_position - global_position
+	offset.y = 0.0
+	if offset.length() > TAKEDOWN_RANGE or offset.length() < 0.01:
+		return false
+	return rad_to_deg((-get_facing_direction()).angle_to(offset.normalized())) <= TAKEDOWN_BACK_ANGLE
+
+
+## Lautloses Erledigen: gepackt werden.
+func start_grabbed() -> void:
+	state_machine.transition_to(&"grabbed")
+
+
+## Packen abgebrochen (z. B. Spielfigur getroffen): sofort alarmiert.
+func break_free(player: Player) -> void:
+	if state_machine.get_current_state_name() == &"grabbed":
+		perception.alert(player.global_position)
+		state_machine.transition_to(&"stagger", {"time": 0.4})
+
+
+## Betäubt: liegt bewusstlos, gibt einen Teil der Erinnerungen.
+func knock_out() -> void:
+	GameState.memories += int(data.memories_reward * TAKEDOWN_STUN_REWARD)
+	GameState.money += data.money_reward
+	state_machine.transition_to(&"unconscious")
+
+
+## Lautlos getötet: zählt wie ein normaler Tod (Belohnung, Fahndung), ist aber leise.
+func silent_kill(player: Player) -> void:
+	var hit := HitData.new()
+	hit.source = player
+	hit.direction = get_facing_direction()
+	last_hit = hit
+	BloodEffect.spawn(self, hit.direction, 1.5)
+	EventBus.noise_made.emit(global_position, TAKEDOWN_KILL_NOISE)
+	health.take_damage(health.current)
 
 
 ## Zögern (z. B. aus Furcht): nächster Angriff kommt später.
@@ -204,7 +261,7 @@ func get_facing_direction() -> Vector3:
 
 ## Für Lock-on: Kann man ihn gerade anvisieren?
 func is_targetable() -> bool:
-	return not health.is_dead
+	return not health.is_dead and not is_unconscious()
 
 
 ## Für Lock-on: Punkt, auf den gezielt wird (Brusthöhe).
@@ -269,11 +326,14 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	last_hit = hit
 	if hit.source is Player:
 		EventBus.enemy_hit_by_player.emit(self)
-	if hit.source is Node3D:
-		perception.alert((hit.source as Node3D).global_position)
 	flash()
 	if result == Hurtbox.Result.HIT:
 		BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
+	# Bewusstlose bleiben liegen (wer sie trotzdem tötet, tötet einen Wehrlosen).
+	if is_unconscious():
+		return
+	if hit.source is Node3D:
+		perception.alert((hit.source as Node3D).global_position)
 	state_machine.transition_to(&"stagger", {"time": data.stagger_time})
 
 
@@ -286,6 +346,11 @@ func _on_hit_landed(_hurtbox: Hurtbox, _hit: HitData, result: Hurtbox.Result) ->
 
 
 func _on_died() -> void:
+	# Moral: Einen Wehrlosen (Bewusstlosen) zu töten zählt (Nutzer-Entscheidung:
+	# lautlos von hinten töten ist neutral, Wehrlose töten nicht).
+	if is_unconscious() and last_hit and last_hit.source is Player:
+		GameState.moral.record(StringName("kill_defenseless_%s" % get_path()), &"protection", -6,
+			"Einen wehrlosen, bewusstlosen Gegner getötet")
 	GameState.memories += data.memories_reward
 	GameState.money += data.money_reward
 	state_machine.transition_to(&"dead")
