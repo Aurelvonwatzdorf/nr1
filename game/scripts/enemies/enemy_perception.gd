@@ -52,6 +52,8 @@ func update(delta: float) -> void:
 	var distance := enemy.global_position.distance_to(player.global_position)
 	var crouched := player.is_crouched()
 	var near := data.near_radius_crouched if crouched else data.near_radius
+	if _hidden_by_camouflage(player):
+		near = minf(near, player.character_data.camouflage_detect_radius)
 	if distance <= near:
 		sees_player = true
 		_notice(player, 1.0)
@@ -60,7 +62,7 @@ func update(delta: float) -> void:
 		var sight := get_sight_range(player)
 		var notice_time := lerpf(data.notice_time_near, data.notice_time_far, clampf(distance / sight, 0.0, 1.0))
 		_notice(player, delta / maxf(notice_time, 0.05))
-	elif distance <= data.hear_running_radius and _is_running(player):
+	elif distance <= data.hear_running_radius and _is_running(player) and not _hidden_by_camouflage(player):
 		_notice(player, delta / 0.6)
 	else:
 		_fade(delta)
@@ -69,6 +71,8 @@ func update(delta: float) -> void:
 
 ## Liegt die Spielfigur im Sichtkegel, in Sichtweite und ohne Wand dazwischen?
 func can_see(player: Player) -> bool:
+	if _hidden_by_camouflage(player):
+		return false
 	var offset := player.global_position - enemy.global_position
 	offset.y = 0.0
 	var distance := offset.length()
@@ -134,6 +138,11 @@ func _fade(delta: float) -> void:
 	if alerted:
 		return
 	awareness = maxf(awareness - delta / maxf(enemy.data.forget_time, 0.05), 0.0)
+
+
+## Schattenhaut täuscht normale Gegner, nicht Spiegeljäger und Geister.
+func _hidden_by_camouflage(player: Player) -> bool:
+	return player.is_camouflaged() and not enemy.data.sees_camouflage
 
 
 func _is_running(player: Player) -> bool:

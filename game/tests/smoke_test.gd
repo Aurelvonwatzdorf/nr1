@@ -858,6 +858,7 @@ func _run() -> void:
 	await _test_graphics_tiers(arena)
 	await _test_perception(arena, player)
 	await _test_takedown(arena, player)
+	await _test_camouflage(arena, player)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
@@ -1417,6 +1418,48 @@ func _test_takedown(arena: Node, player: Player) -> void:
 	player.health.revive()
 	player.global_position = Vector3(20.0, 0.05, -22.0)
 	await _frames(20)
+
+
+## Schattenhaut: G tarnt (Fokus, Abklingzeit), Wachen sehen nichts, Jäger schon.
+func _test_camouflage(arena: Node, player: Player) -> void:
+	var guard: Enemy = arena.get_node("Enemies/Guard1")
+	player.health.revive()
+	player.focus.refill()
+	player.state_machine.transition_to(&"idle")
+	await _tap(&"ability")
+	_check(not player.is_camouflaged(), "Schattenhaut: ohne Implantat keine Tarnung")
+	GameState.inventory.add(&"shadow_skin")
+	var focus_before := player.focus.current
+	await _tap(&"ability")
+	_check(player.is_camouflaged() and GameState.player_camouflaged and player.focus.current <= focus_before - 19.0, "Schattenhaut: G tarnt (−20 Fokus)")
+	guard.reset_enemy()
+	await _frames(2)
+	player.global_position = guard.global_position + guard.get_facing_direction() * 4.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(90)
+	_check(not guard.perception.alerted and guard.perception.awareness < 0.05, "Schattenhaut: Wache sieht die getarnte Figur 4 m vor sich nicht")
+	var hunter_sees := guard.data.duplicate() as EnemyData
+	var original_data := guard.data
+	hunter_sees.sees_camouflage = true
+	guard.data = hunter_sees
+	await _frames(90)
+	_check(guard.perception.alerted, "Schattenhaut: Spiegeljäger (sees_camouflage) sehen hindurch")
+	guard.data = original_data
+	guard.reset_enemy()
+	player.stop_camouflage()
+	await _tap(&"ability")
+	_check(not player.is_camouflaged(), "Schattenhaut: Abklingzeit verhindert sofortiges Neutarnen")
+	player.camouflage_cooldown_left = 0.0
+	player.focus.refill()
+	await _tap(&"ability")
+	await _tap(&"attack_light")
+	await _frames(3)
+	_check(not player.is_camouflaged(), "Schattenhaut: Angreifen beendet die Tarnung")
+	await _frames(60)
+	GameState.inventory.remove(&"shadow_skin")
+	player.camouflage_cooldown_left = 0.0
+	guard.reset_enemy()
+	player.global_position = Vector3(20.0, 0.05, -22.0)
+	await _frames(10)
 
 
 ## Grafikstufen: Schatten, Umgebungsverdeckung, Sichtweiten und Bildrate je Stufe.

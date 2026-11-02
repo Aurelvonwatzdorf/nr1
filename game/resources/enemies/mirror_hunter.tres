@@ -20,4 +20,5 @@ attack_cooldown = 0.9
 stagger_time = 0.25
 captures = true
 can_be_taken_down = false
+sees_camouflage = true
 placeholder_color = Color(0.12, 0.14, 0.2, 1)

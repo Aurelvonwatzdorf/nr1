@@ -23,6 +23,7 @@ const BUTTONS := [
 	[&"heal", "R", "tr", Vector2(-220, 70), 34.0],
 	[&"call_spirit", "F", "tr", Vector2(-300, 70), 34.0],
 	[&"fire", "V", "tr", Vector2(-380, 70), 34.0],
+	[&"ability", "G", "tr", Vector2(-460, 70), 34.0],
 	[&"map", "Karte", "tr", Vector2(-60, 160), 34.0],
 	[&"inventory", "Inv.", "tr", Vector2(-140, 160), 34.0],
 	[&"skills", "Fäh.", "tr", Vector2(-220, 160), 34.0],

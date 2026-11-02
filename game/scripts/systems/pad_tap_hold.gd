@@ -9,6 +9,7 @@ const HOLD_TIME := 0.25
 ## Gamepad-Knopf → [Aktion beim Tippen, Aktion beim Halten].
 const PAIRS: Dictionary[int, Array] = {
 	JOY_BUTTON_B: [&"dodge", &"crouch"],
+	JOY_BUTTON_DPAD_UP: [&"call_spirit", &"ability"],
 }
 ## So viele Physik-Frames bleibt eine getippte Aktion gedrückt (sonst sieht
 ## `is_action_just_pressed` sie evtl. nicht).

@@ -53,7 +53,9 @@ func _physics_process(delta: float) -> void:
 		_spawn_hunters()
 	_calm_time += delta
 	if _calm_time >= calm_delay and GameState.wanted_level > 0.0 and not _hunter_near(35.0):
-		_set_wanted(GameState.wanted_level - decay_per_second * delta)
+		# Getarnt (Schattenhaut) verliert man die Verfolger doppelt so schnell.
+		var decay := decay_per_second * (2.0 if GameState.player_camouflaged else 1.0)
+		_set_wanted(GameState.wanted_level - decay * delta)
 		if GameState.wanted_level <= 0.0:
 			_dismiss_hunters()
 

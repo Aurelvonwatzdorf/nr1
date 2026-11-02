@@ -71,6 +71,8 @@ var stats: PlayerStats = PlayerStats.new()
 var inventory: Inventory = Inventory.new()
 ## Ist gerade der Realitätsblick an? (Setzt die Spielfigur.)
 var reality_sight_active: bool = false
+## Schattenhaut aktiv (nicht gespeichert).
+var player_camouflaged: bool = false
 ## Zu tief verankert: Der Realitätsblick geht nicht (bis zum nächsten Rasten).
 var reality_sight_blocked: bool = false
 ## Level (Szenenpfad), in dem man zuletzt war; wird gespeichert, damit man nach

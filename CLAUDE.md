@@ -429,6 +429,14 @@ tests/       Headless-Rauchtests
   Bewusstlose töten = −6 „Schwache schützen“ (`Enemy._on_died()`). Geduckt
   bemerken Gegner einen erst bei 0,7 m, stehend bei 2,5 m. Spiegeljäger:
   `can_be_taken_down = false`.
+- **Aktive Implantate** (Aktion `ability`, Taste G, Gamepad Steuerkreuz hoch
+  halten über `PadTapHold`, tippen = `call_spirit`; Touch „G“):
+  `Player.use_active_implant()`. Bisher **Schattenhaut** (`shadow_skin`,
+  `grants_camouflage`, Schwarzmarkt 1400): 5 s, 20 Fokus, 25 s Abklingzeit,
+  `GameState.player_camouflaged`. `EnemyPerception` sieht getarnte Figuren nicht
+  (nur ≤ 2 m), außer `EnemyData.sees_camouflage` (Spiegeljäger). Angriff/Schuss/
+  Aufschlag/Erledigen beenden die Tarnung, erster Treffer × 1,5; Fahndung sinkt
+  getarnt doppelt so schnell.
 - **Grafikstufen** (Autoload `GraphicsSettings`): Akku/Ausgewogen/Schön, pro
   Gerät in `user://einstellungen.cfg` (nicht im Spielstand). Standard: Handy/Web
   Akku, Mac Schön. `Level._ready()` ruft `apply_to_scene(self)`: Schattenweite
@@ -498,7 +506,7 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - **Großer Markt**: Händler (Tränke, Kraftampulle), Waffenschmied (Kurzschwert,
   Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
   Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
-  Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung, Schubknoten, Haftsehnen, Nachhallkern, Aufschlag). Preise vorläufig in der Level-Szene.
+  Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung, Schubknoten, Haftsehnen, Nachhallkern, Aufschlag, Schattenhaut). Preise vorläufig in der Level-Szene.
 - **Testversion** (nur im Editor): `GameState.test_start_money` (5000) füllt beim
   Laden eines Levels das Geld mindestens auf diesen Betrag auf, damit man alles
   kaufen und testen kann. Ebenso hebt `GameState.test_start_spirituality` (3) die
@@ -762,7 +770,8 @@ gleicht → Ausbruch → Aufwachen am Fangort.
 | `reality_sight` | Q | Y |
 | `interact` | E | X |
 | `heal` | R | Steuerkreuz runter |
-| `call_spirit` | F (Tahirou: Raben, Aurel: Fernzugriff) | Steuerkreuz hoch |
+| `call_spirit` | F (Tahirou: Raben, Aurel: Fernzugriff) | Steuerkreuz hoch tippen |
+| `ability` | G (aktives Implantat, z. B. Schattenhaut) | Steuerkreuz hoch halten |
 | `inventory` | I | Back/View |
 | `skills` | K | Steuerkreuz links |
 | `map` | M (Karte groß/klein) | Steuerkreuz rechts |

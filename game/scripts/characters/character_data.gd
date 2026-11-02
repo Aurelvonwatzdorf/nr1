@@ -70,6 +70,15 @@ extends Resource
 @export var takedown_stun_time: float = 2.0
 @export var takedown_kill_time: float = 1.0
 
+@export_group("Schattenhaut (Implantat)")
+@export var camouflage_duration: float = 5.0
+@export var camouflage_focus_cost: float = 20.0
+@export var camouflage_cooldown: float = 25.0
+## Getarnt bemerken Gegner einen nur noch so nah.
+@export var camouflage_detect_radius: float = 2.0
+## Erster Treffer aus der Tarnung macht so viel mehr Schaden.
+@export var camouflage_strike_bonus: float = 1.5
+
 @export_group("Aufschlag (Implantat)")
 ## Nur so hoch über dem Boden möglich (nicht aus einem normalen Hüpfer).
 @export var slam_min_height: float = 3.0

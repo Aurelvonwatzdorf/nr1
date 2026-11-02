@@ -58,6 +58,11 @@ var _air_jump_used: bool = false
 var _coyote_left: float = 0.0
 var _jump_buffer_left: float = 0.0
 var _jump_rising: bool = false
+## Schattenhaut: Restzeit, Sperre und ob der nächste Treffer den Bonus bekommt.
+var camouflage_left: float = 0.0
+var camouflage_cooldown_left: float = 0.0
+var _camouflage_strike_left: float = 0.0
+
 ## Lautloses Erledigen: Gegner, der gerade von hinten erreichbar ist (sonst null).
 var takedown_target: Enemy
 const TAKEDOWN_PROMPT := "Betäuben · E halten: Töten"
@@ -112,6 +117,9 @@ func _physics_process(delta: float) -> void:
 	if is_input_enabled() and Input.is_action_just_pressed(&"lock_on"):
 		lock_on.toggle(-camera_rig.camera.global_basis.z)
 	_update_takedown_target()
+	if is_input_enabled() and Input.is_action_just_pressed(&"ability"):
+		use_active_implant()
+	_update_camouflage(delta)
 	if is_input_enabled() and Input.is_action_just_pressed(&"interact") and takedown_target \
 			and state_machine.get_current_state_name() in [&"idle", &"move", &"crouch"]:
 		state_machine.transition_to(&"takedown", {"enemy": takedown_target})
@@ -346,6 +354,62 @@ func _update_takedown_target() -> void:
 		EventBus.interaction_prompt_changed.emit(TAKEDOWN_PROMPT)
 	else:
 		EventBus.interaction_prompt_changed.emit(interaction_detector.current.prompt if interaction_detector.current else "")
+
+
+## Aktives Implantat (G, Gamepad: Steuerkreuz hoch halten). Bisher: Schattenhaut.
+func use_active_implant() -> bool:
+	if GameState.inventory.has_permanent_flag(&"grants_camouflage"):
+		return start_camouflage()
+	EventBus.message_requested.emit("Kein aktives Implantat eingebaut")
+	return false
+
+
+## Schattenhaut: kurz fast unsichtbar. Kostet Fokus, lange Abklingzeit.
+func start_camouflage() -> bool:
+	var data := character_data
+	if camouflage_left > 0.0:
+		return false
+	if camouflage_cooldown_left > 0.0:
+		EventBus.message_requested.emit("Schattenhaut lädt noch (%d s)" % ceili(camouflage_cooldown_left))
+		return false
+	if not focus.try_spend(data.camouflage_focus_cost):
+		EventBus.message_requested.emit("Zu wenig Fokus")
+		return false
+	camouflage_left = data.camouflage_duration
+	camouflage_cooldown_left = data.camouflage_cooldown
+	_set_camouflaged(true)
+	return true
+
+
+## Tarnung beenden. `strike` = durch einen eigenen Angriff (Bonus für den ersten Treffer).
+func stop_camouflage(strike: bool = false) -> void:
+	if camouflage_left <= 0.0:
+		return
+	camouflage_left = 0.0
+	if strike:
+		_camouflage_strike_left = 1.0
+	_set_camouflaged(false)
+
+
+func is_camouflaged() -> bool:
+	return camouflage_left > 0.0
+
+
+func _set_camouflaged(active: bool) -> void:
+	GameState.player_camouflaged = active
+	animator.set_camouflage_visual(active)
+
+
+func _update_camouflage(delta: float) -> void:
+	camouflage_cooldown_left = maxf(camouflage_cooldown_left - delta, 0.0)
+	_camouflage_strike_left = maxf(_camouflage_strike_left - delta, 0.0)
+	if camouflage_left > 0.0:
+		camouflage_left -= delta
+		if camouflage_left <= 0.0:
+			camouflage_left = 0.01
+			stop_camouflage()
+		elif state_machine.get_current_state_name() in [&"attack", &"ground_slam", &"takedown"]:
+			stop_camouflage(true)
 
 
 ## Niedriger als im Stehen (z. B. nach dem Rutschen unter einem Hindernis)?
@@ -772,6 +836,7 @@ func fire_firearm() -> bool:
 		_fire_cooldown_left = 0.5
 		return false
 	_fire_cooldown_left = gun.fire_cooldown
+	stop_camouflage(true)
 	var origin := global_position + Vector3.UP * 1.4
 	var direction := -camera_rig.camera.global_basis.z
 	if lock_on.target:
@@ -852,6 +917,7 @@ func respawn(at: Transform3D) -> void:
 	global_transform = at
 	velocity = Vector3.ZERO
 	set_body_height(0.0)
+	stop_camouflage()
 	_set_reality_sight(false)
 	stop_afterimage()
 	cancel_hack()
@@ -912,6 +978,9 @@ func _setup_special_resource() -> void:
 
 ## Schaden je Ziel anpassen (Kombo, Funken, Schwachstellen).
 func _modify_outgoing_damage(target: Hurtbox, damage: float) -> float:
+	if _camouflage_strike_left > 0.0:
+		damage *= character_data.camouflage_strike_bonus
+		_camouflage_strike_left = 0.0
 	var ambition := get_ambition()
 	var attack_state := state_machine.current_state as PlayerAttackState
 	if GameState.has_skill(&"aurel_chain_strikes") and attack_state and not attack_state.is_heavy():
@@ -1009,6 +1078,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 		return
 	last_hit = hit
 	cancel_hack()
+	stop_camouflage()
 	BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))
 	if get_ambition():
 		get_ambition().on_got_hit()

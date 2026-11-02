@@ -1,6 +1,8 @@
 # Schattenhaut (Tarnung durch Lichtbrechung)
 
-- **Status:** Idee
+- **Status:** gebaut (Implantat `shadow_skin`, Schwarzmarkt 1400, Taste G /
+  Gamepad Steuerkreuz hoch halten / Touch „G“; Platzhalter-Optik: fast durchsichtig).
+  Offen: eigener Verzerrungs-Shader (Mac) bzw. Umriss (iPhone/Web), Geister immun.
 - **Vorbild (nur Inspiration):** Optische Tarnung als Implantat in Cyberpunk 2077
   (auch Crysis). Keine Namen, Werte oder Effekte übernommen.
 - **Für wen:** beide; Implantat (Haut) vom Schwarzmarkt bzw. Implantat-Arzt

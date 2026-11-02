@@ -20,6 +20,8 @@ const CONTROLS := [
 	["E", "Benutzen / Sprechen"],
 	["R", "Heiltrank"],
 	["F", "Raben (Tahirou) / Fernzugriff (Aurel)"],
+	["G", "Aktives Implantat (z. B. Schattenhaut)"],
+	["E (geduckt hinter Gegner)", "Betäuben, halten: lautlos töten"],
 	["I / K / M", "Inventar / Fähigkeiten / Karte"],
 	["Esc", "Pause"],
 	["F3", "Bildrate anzeigen"],

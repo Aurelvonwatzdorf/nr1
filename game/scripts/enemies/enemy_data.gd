@@ -59,6 +59,8 @@ extends Resource
 @export var captures: bool = false
 ## Lässt er sich von hinten lautlos erledigen (betäuben/töten)?
 @export var can_be_taken_down: bool = true
+## Sieht durch die Schattenhaut-Tarnung (Spiegeljäger, Geister).
+@export var sees_camouflage: bool = false
 
 @export_group("Darstellung")
 @export var placeholder_color: Color = Color(0.35, 0.38, 0.45)

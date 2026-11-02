@@ -58,6 +58,8 @@ enum Kind {
 @export var grants_afterimage: bool = false
 ## Aufschlag: in der Luft schwerer Angriff = Sturz mit Flächenschlag.
 @export var grants_ground_slam: bool = false
+## Schattenhaut: aktives Implantat (G), kurz fast unsichtbar.
+@export var grants_camouflage: bool = false
 
 @export_group("Nahkampfwaffe")
 @export var light_attack: AttackData

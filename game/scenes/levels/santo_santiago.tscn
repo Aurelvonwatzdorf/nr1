@@ -43,6 +43,7 @@
 [ext_resource type="Resource" path="res://resources/items/cyber_legs.tres" id="item_cyber_legs"]
 [ext_resource type="Resource" path="res://resources/items/thrust_node.tres" id="item_thrust_node"]
 [ext_resource type="Resource" path="res://resources/items/impact_frame.tres" id="item_impact_frame"]
+[ext_resource type="Resource" path="res://resources/items/shadow_skin.tres" id="item_shadow_skin"]
 [ext_resource type="Resource" path="res://resources/items/grip_tendons.tres" id="item_grip_tendons"]
 [ext_resource type="Resource" path="res://resources/items/echo_core.tres" id="item_echo_core"]
 
@@ -253,8 +254,8 @@ label = "Waffenschmied am Markt"
 [node name="BlackMarket" parent="NPCs" instance=ExtResource("10_npc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 91)
 script = ExtResource("11_merchant")
-stock = Array[Resource]([ExtResource("item_pistol"), ExtResource("item_pistol_ammo"), ExtResource("item_vibro_blade"), ExtResource("item_radar_system"), ExtResource("item_leg_servos"), ExtResource("item_dermal_plating"), ExtResource("item_neuro_booster"), ExtResource("item_heart_pump"), ExtResource("item_cyber_legs"), ExtResource("item_thrust_node"), ExtResource("item_grip_tendons"), ExtResource("item_echo_core"), ExtResource("item_impact_frame")])
-prices = Array[int]([250, 30, 300, 200, 220, 260, 240, 180, 280, 600, 700, 900, 750])
+stock = Array[Resource]([ExtResource("item_pistol"), ExtResource("item_pistol_ammo"), ExtResource("item_vibro_blade"), ExtResource("item_radar_system"), ExtResource("item_leg_servos"), ExtResource("item_dermal_plating"), ExtResource("item_neuro_booster"), ExtResource("item_heart_pump"), ExtResource("item_cyber_legs"), ExtResource("item_thrust_node"), ExtResource("item_grip_tendons"), ExtResource("item_echo_core"), ExtResource("item_impact_frame"), ExtResource("item_shadow_skin")])
+prices = Array[int]([250, 30, 300, 200, 220, 260, 240, 180, 280, 600, 700, 900, 750, 1400])
 greeting = "Leise. Hier fragt keiner, woher etwas kommt. Und du fragst auch nicht."
 npc_id = &"city_black_market"
 display_name = "Schwarzhändler"

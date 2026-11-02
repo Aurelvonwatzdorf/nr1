@@ -16,6 +16,7 @@ extends Node
 @export var body_mesh: MeshInstance3D
 
 var _tween: Tween
+var _camouflaged: bool = false
 
 
 ## Spielt eine benannte Animation (idle, move, dodge …).
@@ -288,8 +289,22 @@ func set_locomotion_blend(ratio: float) -> void:
 
 
 ## Zeigt die Unverwundbarkeit (I-Frames) beim Testen: Figur wird halbdurchsichtig.
-func set_invulnerable_visual(active: bool) -> void:
+## Schattenhaut: Figur fast durchsichtig (eigener Shader folgt; Platzhalter: Alpha).
+func set_camouflage_visual(active: bool) -> void:
+	_camouflaged = active
 	if body_mesh == null:
+		return
+	var material := body_mesh.material_override as StandardMaterial3D
+	if material:
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if active else BaseMaterial3D.TRANSPARENCY_DISABLED
+		material.albedo_color.a = 0.12 if active else 1.0
+		material.next_pass = null if active else ToonStyle.make_outline()
+	if weapon_pivot:
+		weapon_pivot.visible = not active
+
+
+func set_invulnerable_visual(active: bool) -> void:
+	if body_mesh == null or _camouflaged:
 		return
 	var material := body_mesh.material_override as StandardMaterial3D
 	if material:
