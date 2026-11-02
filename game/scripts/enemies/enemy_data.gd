@@ -25,6 +25,22 @@ extends Resource
 @export var detection_radius: float = 10.0
 ## Ist die Spielfigur weiter weg als das, gibt er auf und kehrt zurück.
 @export var lose_radius: float = 18.0
+## Sichtkegel nach vorn (ganzer Winkel in Grad). Dahinter sieht er nichts.
+@export var view_angle: float = 110.0
+## So nah merkt er es immer, auch von hinten (stehend / geduckt).
+@export var near_radius: float = 2.5
+@export var near_radius_crouched: float = 1.2
+## Geduckt sieht er die Spielfigur nur auf diesen Anteil der Sichtweite.
+@export_range(0.0, 1.0) var crouch_sight_factor: float = 0.6
+## So lange dauert das Bemerken ganz nah bzw. am Rand der Sichtweite (Sekunden).
+@export var notice_time_near: float = 0.3
+@export var notice_time_far: float = 1.5
+## So lange braucht der Verdacht, um ganz zu verschwinden.
+@export var forget_time: float = 4.0
+## So lange sucht er an der letzten bekannten Stelle, bevor er zurückgeht.
+@export var search_time: float = 8.0
+## Rennen hört er in diesem Umkreis.
+@export var hear_running_radius: float = 6.0
 
 @export_group("Kampf")
 @export var attack: AttackData

@@ -1,6 +1,8 @@
 # Schleichgang (Ducken, leise sein, Sichtkegel)
 
-- **Status:** Idee
+- **Status:** gebaut (Ducken, `EnemyPerception` mit Sichtkegel/Sichtstrahl/Verdacht,
+  Lärm, Suchen-Zustand, „?“/„!“ über dem Kopf, in Realitäten nur im Realitätsblick).
+  Offen: Nacht/Nebel verkürzt die Sicht (kommt mit Tageszeit/Wetter).
 - **Vorbild (nur Inspiration):** Schleichen/Ducken in Cyberpunk 2077 (auch
   Dishonored, Metal Gear). Keine Werte, Symbole oder Namen übernommen.
 - **Für wen:** beide; Grundlage für Lautlos-Erledigen (siehe `erledigen.md`),

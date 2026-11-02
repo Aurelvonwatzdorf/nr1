@@ -410,6 +410,16 @@ tests/       Headless-Rauchtests
   `GroundSlam` (senkrecht 22 m/s), `Player.release_ground_slam()` trifft alle
   fremden Hurtboxes im Umkreis 3,5 m (30 + 2/m Fallhöhe), eigener Fallschaden
   erst über 15 m (`apply_fall_damage()`). Werte in `CharacterData`.
+- **Wahrnehmung der Gegner** (`EnemyPerception`, im Code als Kind „Perception“
+  erzeugt, `Enemy.perception`): Sichtkegel (`EnemyData.view_angle`, 110°;
+  Spiegeljäger 360°), Sichtweite `get_detection_radius()` (geduckt × 0,6),
+  Sichtstrahl gegen die Welt, ganz nah (2,5 m / geduckt 1,2 m) immer. Verdacht
+  `awareness` 0–1 füllt sich je nach Abstand in 0,3–1,5 s, sinkt in 4 s; bei 1
+  `alerted` → `Chase`. Ab 0,5 oder bei Lärm (`EventBus.noise_made`, Schüsse 25 m,
+  Treffer 12 m, Rennen 6 m) → Zustand `Search` (hingehen, 8 s umsehen, zurück).
+  Getroffen = sofort alarmiert. Chase verliert die Figur nach 4 s ohne Sicht oder
+  außerhalb `lose_radius`. „?“/„!“ über dem Kopf; in `RealityLevel` nur mit
+  Realitätsblick sichtbar. Spiegeljäger sind beim Erscheinen alarmiert.
 - **Grafikstufen** (Autoload `GraphicsSettings`): Akku/Ausgewogen/Schön, pro
   Gerät in `user://einstellungen.cfg` (nicht im Spielstand). Standard: Handy/Web
   Akku, Mac Schön. `Level._ready()` ruft `apply_to_scene(self)`: Schattenweite

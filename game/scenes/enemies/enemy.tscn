@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_stagger_state.gd" id="10_stagger"]
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_return_state.gd" id="11_return"]
 [ext_resource type="Script" path="res://scripts/enemies/states/enemy_dead_state.gd" id="12_dead"]
+[ext_resource type="Script" path="res://scripts/enemies/states/enemy_search_state.gd" id="13_search"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.45
@@ -113,6 +114,9 @@ script = ExtResource("9_attack")
 
 [node name="Stagger" type="Node" parent="StateMachine"]
 script = ExtResource("10_stagger")
+
+[node name="Search" type="Node" parent="StateMachine"]
+script = ExtResource("13_search")
 
 [node name="Return" type="Node" parent="StateMachine"]
 script = ExtResource("11_return")

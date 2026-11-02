@@ -996,6 +996,7 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 
 ## Eigener Treffer: kurzer Hitstop und leichtes Wackeln, stärker bei viel Schaden.
 func _on_hit_landed(target: Hurtbox, hit: HitData, _result: Hurtbox.Result) -> void:
+	EventBus.noise_made.emit(global_position, EnemyPerception.HIT_NOISE_RADIUS)
 	if get_ambition():
 		get_ambition().on_hit_landed()
 	var enemy := target.owner as Enemy

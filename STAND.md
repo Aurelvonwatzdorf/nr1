@@ -25,7 +25,7 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
   3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise; offen: viele
      Figuren günstig, Silhouetten, Stadt in Stücken bauen (Tor lädt schon im Hintergrund ✅)
-  4. Schleichen: `EnemyPerception` → Erledigen → Schattenhaut
+  4. Schleichen: `EnemyPerception` ✅ → Erledigen → Schattenhaut
   5. Stadtleben: Stadtvolk, Fahndung in Stufen
   6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz
   7. Implantat-System: Körpergrenze (Design-Frage!), Ärztin, Musterblick,

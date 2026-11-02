@@ -39,6 +39,8 @@ var raven_mark_multiplier: float = 2.0
 var hack_progress: float = -1.0
 var hack_cooldown_left: float = 0.0
 var weapon_jam_left: float = 0.0
+## Sichtkegel, Verdacht und Lärm (Schleichgang).
+var perception: EnemyPerception
 
 
 func _ready() -> void:
@@ -57,6 +59,10 @@ func _ready() -> void:
 	health.died.connect(_on_died)
 	health.value_changed.connect(func(_c: float, _m: float) -> void: _update_health_label())
 	_update_health_label()
+	perception = EnemyPerception.new()
+	perception.name = "Perception"
+	add_child(perception)
+	perception.setup(self)
 	state_machine.start(self)
 
 
@@ -73,6 +79,7 @@ func _physics_process(delta: float) -> void:
 	_update_burn(delta)
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	perception.update(delta)
 	state_machine.physics_update(delta)
 	WorldTime.move_slowed(self, world_speed)
 
@@ -252,6 +259,7 @@ func reset_enemy() -> void:
 	_kill_pose_tween()
 	model.rotation = Vector3.ZERO
 	set_telegraph(false)
+	perception.reset()
 	state_machine.transition_to(&"idle")
 
 
@@ -261,6 +269,8 @@ func _on_hit_received(hit: HitData, result: Hurtbox.Result) -> void:
 	last_hit = hit
 	if hit.source is Player:
 		EventBus.enemy_hit_by_player.emit(self)
+	if hit.source is Node3D:
+		perception.alert((hit.source as Node3D).global_position)
 	flash()
 	if result == Hurtbox.Result.HIT:
 		BloodEffect.spawn(self, hit.direction, clampf(hit.damage / 15.0, 0.6, 2.0))

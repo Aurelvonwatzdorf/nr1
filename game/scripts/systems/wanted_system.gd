@@ -106,6 +106,10 @@ func _spawn_hunters() -> void:
 		hunter.add_to_group(&"mirror_hunters")
 		get_parent().add_child(hunter)
 		hunters.append(hunter)
+		# Jäger wissen, wen sie suchen.
+		var target := hunter.get_player()
+		if target:
+			hunter.perception.alert(target.global_position)
 	EventBus.camera_shake_requested.emit(0.3)
 
 

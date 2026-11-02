@@ -255,10 +255,10 @@ func _run() -> void:
 	# Gegner bemerkt, verfolgt und greift an
 	var guard: Enemy = arena.get_node("Enemies/Guard1")
 	player.health.revive()
-	player.global_position = guard.global_position + Vector3(0.0, 0.05, 3.0)
+	player.global_position = guard.global_position + guard.get_facing_direction() * 3.0 + Vector3(0.0, 0.05, 0.0)
 	player.rotation = Vector3.ZERO
-	await _frames(10)
-	_check(guard.state_machine.get_current_state_name() in [&"chase", &"attack"], "Gegner bemerkt die Spielfigur")
+	await _frames(40)
+	_check(guard.state_machine.get_current_state_name() in [&"chase", &"attack"], "Gegner bemerkt die Spielfigur (vor ihm)")
 	var hp_before := player.health.current
 	var saw_attack := false
 	for i in 300:
@@ -856,6 +856,7 @@ func _run() -> void:
 
 	await _test_movement_and_combat_mechanics(arena, player)
 	await _test_graphics_tiers(arena)
+	await _test_perception(arena, player)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
@@ -1291,6 +1292,60 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	player.global_position = Vector3(0.0, 0.05, 2.0)
 	player.velocity = Vector3.ZERO
 	await _frames(5)
+
+
+## Schleichgang: Sichtkegel, Ducken, Verdacht, Lärm, Sichtstrahl.
+func _test_perception(arena: Node, player: Player) -> void:
+	var guard: Enemy = arena.get_node("Enemies/Guard1")
+	var facing := guard.get_facing_direction()
+	var side := facing.cross(Vector3.UP)
+	player.health.revive()
+	player.state_machine.transition_to(&"idle")
+	guard.reset_enemy()
+	await _frames(2)
+	facing = guard.get_facing_direction()
+	side = facing.cross(Vector3.UP)
+	# Geduckt 4 m hinter der Wache: sie merkt nichts.
+	player.global_position = guard.global_position - facing * 4.0 + Vector3(0.0, 0.05, 0.0)
+	player.velocity = Vector3.ZERO
+	Input.action_press(&"crouch")
+	await _frames(120)
+	_check(not guard.perception.alerted and guard.state_machine.get_current_state_name() == &"idle", "Schleichen: geduckt hinter der Wache bleibt man unbemerkt")
+	Input.action_release(&"crouch")
+	await _frames(5)
+	# Stehend 4 m vor ihr (Aurels Firmenausweis: Sichtweite 6 m): Verdacht wächst, dann Alarm.
+	guard.reset_enemy()
+	player.global_position = guard.global_position + facing * 4.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(20)
+	var rising: bool = guard.perception.awareness > 0.05 and not guard.perception.alerted
+	await _frames(90)
+	_check(rising and guard.perception.alerted, "Schleichen: vor der Wache steigt der Verdacht, dann Alarm")
+	# Wand dazwischen: keine Sicht.
+	guard.reset_enemy()
+	var wall := StaticBody3D.new()
+	wall.collision_layer = PhysicsLayers.WORLD
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(4.0, 4.0, 0.4)
+	shape.shape = box
+	wall.add_child(shape)
+	arena.add_child(wall)
+	wall.global_position = guard.global_position + facing * 3.0 + Vector3.UP * 2.0
+	wall.look_at(wall.global_position + facing, Vector3.UP)
+	player.global_position = guard.global_position + facing * 5.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(90)
+	_check(not guard.perception.alerted and guard.perception.awareness < 0.05, "Schleichen: hinter einer Wand sieht die Wache nichts")
+	wall.queue_free()
+	# Lärm in 15 m (z. B. Schuss): Wache geht nachsehen.
+	guard.reset_enemy()
+	player.global_position = guard.global_position - facing * 20.0 + side * 10.0 + Vector3(0.0, 0.05, 0.0)
+	await _frames(2)
+	EventBus.noise_made.emit(guard.global_position + side * 15.0, 25.0)
+	await _frames(5)
+	_check(guard.state_machine.get_current_state_name() == &"search", "Schleichen: Lärm in der Nähe → Wache sucht")
+	guard.reset_enemy()
+	player.global_position = Vector3(20.0, 0.05, -22.0)
+	await _frames(10)
 
 
 ## Grafikstufen: Schatten, Umgebungsverdeckung, Sichtweiten und Bildrate je Stufe.

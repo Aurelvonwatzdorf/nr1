@@ -8,9 +8,11 @@ func enter(_msg: Dictionary = {}) -> void:
 
 
 func physics_update(delta: float) -> void:
-	var player := enemy.get_player()
-	if player and enemy.distance_to_node(player) <= enemy.get_detection_radius():
+	if enemy.perception.alerted:
 		state_machine.transition_to(&"chase")
+		return
+	if enemy.perception.wants_to_investigate:
+		state_machine.transition_to(&"search")
 		return
 	var offset := enemy.home_transform.origin - enemy.global_position
 	offset.y = 0.0
