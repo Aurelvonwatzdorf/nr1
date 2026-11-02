@@ -64,6 +64,19 @@ extends Resource
 @export var crouch_height: float = 1.1
 @export var crouch_speed: float = 2.2
 
+@export_group("Aufschlag (Implantat)")
+## Nur so hoch über dem Boden möglich (nicht aus einem normalen Hüpfer).
+@export var slam_min_height: float = 3.0
+@export var slam_fall_speed: float = 22.0
+@export var slam_damage: float = 30.0
+## Zusatzschaden je Meter Fallhöhe.
+@export var slam_damage_per_meter: float = 2.0
+@export var slam_radius: float = 3.5
+@export var slam_stamina_cost: float = 25.0
+## Bis zu dieser Höhe nimmt man selbst keinen Fallschaden.
+@export var slam_safe_height: float = 15.0
+@export var slam_recovery_time: float = 0.35
+
 @export_group("Fallschaden")
 ## Bis zu dieser Fallhöhe (Meter) passiert nichts.
 @export var fall_safe_height: float = 5.0

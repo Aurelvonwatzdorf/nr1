@@ -95,6 +95,33 @@ func set_body_height_ratio(ratio: float) -> void:
 			mesh.scale.y = ratio
 
 
+## Aufschlag: Druckring am Boden in der Größe der Trefferfläche.
+func play_ground_slam(radius: float) -> void:
+	if visual_root == null:
+		return
+	var ring := MeshInstance3D.new()
+	var mesh := TorusMesh.new()
+	mesh.inner_radius = 0.8
+	mesh.outer_radius = 1.0
+	ring.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color(0.75, 0.9, 1.0)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	ring.material_override = material
+	var parent: Node = visual_root.get_tree().current_scene
+	if parent == null:
+		parent = visual_root
+	parent.add_child(ring)
+	ring.global_position = visual_root.global_position + Vector3.UP * 0.1
+	ring.scale = Vector3(0.3, 1.0, 0.3)
+	var tween := ring.create_tween().set_parallel()
+	tween.tween_property(ring, "scale", Vector3(radius, 1.0, radius), 0.25)
+	tween.tween_property(material, "albedo_color:a", 0.0, 0.4)
+	tween.chain().tween_callback(ring.queue_free)
+	_placeholder_tween(Vector3(1.25, 0.6, 1.25), 0.35)
+
+
 ## Schuss: kurzer Leuchtstrahl vom Lauf bis zum Einschlag, Mündungsblitz.
 func play_shot(from: Vector3, to: Vector3) -> void:
 	var length := from.distance_to(to)

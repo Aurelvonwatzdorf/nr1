@@ -403,6 +403,11 @@ tests/       Headless-Rauchtests
   (v²/2g), nicht aus Positionen, damit Versetzen nie als Sturz zählt. Ab 5 m
   8 Leben/m, ab 18 m tödlich (Cyberbeine 24 m), Ausweichen ≤ 0,25 s vor der
   Landung = Abrollen (halber Schaden, kein Taumeln), ab 8 m Taumeln.
+- **Aufschlag** (Implantat `impact_frame`, `grants_ground_slam`, Schwarzmarkt
+  750): in der Luft ab 3 m über dem Boden schwerer Angriff → Zustand
+  `GroundSlam` (senkrecht 22 m/s), `Player.release_ground_slam()` trifft alle
+  fremden Hurtboxes im Umkreis 3,5 m (30 + 2/m Fallhöhe), eigener Fallschaden
+  erst über 15 m (`apply_fall_damage()`). Werte in `CharacterData`.
 - **Gleitschritt und Ducken** (Zustände `Slide`, `Crouch`, Aktion `crouch` = C):
   C beim Rennen (`Player.can_slide()`) = rutschen, sonst ducken (halten).
   `Player.set_body_height()` ändert Kollision und Hurtbox (eigene Kopien der
@@ -465,7 +470,7 @@ Kampf inspiriert von Soulslikes (nur Inspiration):
 - **Großer Markt**: Händler (Tränke, Kraftampulle), Waffenschmied (Kurzschwert,
   Kampfstab), Heilerin. **Schwarzmarkt** am Platz der Senke: Pistole + Munition,
   Vibroklinge, Radarsystem, Cyborg-Implantate (Beinservos, Dermalpanzerung,
-  Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung). Preise vorläufig in der Level-Szene.
+  Neuroverstärker, Herzpumpe, Cyberbeine = Doppelsprung, Schubknoten, Haftsehnen, Nachhallkern, Aufschlag). Preise vorläufig in der Level-Szene.
 - **Testversion** (nur im Editor): `GameState.test_start_money` (5000) füllt beim
   Laden eines Levels das Geld mindestens auf diesen Betrag auf, damit man alles
   kaufen und testen kann. Ebenso hebt `GameState.test_start_spirituality` (3) die

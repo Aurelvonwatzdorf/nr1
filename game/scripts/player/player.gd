@@ -276,14 +276,19 @@ func find_ledge(direction: Vector3) -> Dictionary:
 ## z. B. an den Rastplatz, zählt so nie als Sturz). Kurz vorher Ausweichen
 ## gedrückt = Abrollen.
 func _on_landed(fall_speed: float) -> void:
-	if fall_speed <= 0.0 or health.is_dead:
-		return
-	var data := character_data
-	var height := fall_speed * fall_speed / (2.0 * gravity)
-	if height <= data.fall_safe_height:
+	# Der Aufschlag rechnet seine Fallhöhe selbst (er fällt absichtlich schnell).
+	if fall_speed <= 0.0 or health.is_dead or state_machine.get_current_state_name() == &"ground_slam":
 		return
 	var rolled := _roll_window_left > 0.0
 	_roll_window_left = 0.0
+	apply_fall_damage(fall_speed * fall_speed / (2.0 * gravity), rolled)
+
+
+## Schaden für einen Sturz aus dieser Höhe (Meter); abgerollt = halber Schaden.
+func apply_fall_damage(height: float, rolled: bool = false) -> void:
+	var data := character_data
+	if height <= data.fall_safe_height or health.is_dead:
+		return
 	var fatal_height := data.fall_fatal_height
 	if GameState.inventory.has_permanent_flag(&"grants_double_jump"):
 		fatal_height = data.fall_fatal_height_cyber_legs
@@ -339,6 +344,53 @@ func can_slide() -> bool:
 	return is_on_floor() and slide_cooldown_left <= 0.0 and stamina.can_act() \
 		and Input.is_action_pressed(&"sprint") and get_move_direction() != Vector3.ZERO \
 		and Vector3(velocity.x, 0.0, velocity.z).length() > character_data.walk_speed
+
+
+## Abstand der Füße zum Boden darunter (Meter); weit weg = INF.
+func get_height_above_ground(max_distance: float = 60.0) -> float:
+	var query := PhysicsRayQueryParameters3D.create(global_position,
+		global_position + Vector3.DOWN * max_distance, PhysicsLayers.WORLD, [get_rid()])
+	var result := get_world_3d().direct_space_state.intersect_ray(query)
+	if result.is_empty():
+		return INF
+	return global_position.y - (result["position"] as Vector3).y
+
+
+## Aufschlag (Implantat): in der Luft hoch genug über dem Boden?
+func can_ground_slam() -> bool:
+	return not is_on_floor() and GameState.inventory.has_permanent_flag(&"grants_ground_slam") \
+		and get_height_above_ground() >= character_data.slam_min_height
+
+
+## Aufschlag trifft: alle Trefferflächen im Umkreis (Gegner, Puppen, auch Bürger).
+func release_ground_slam(drop_height: float) -> void:
+	var data := character_data
+	var sphere := SphereShape3D.new()
+	sphere.radius = data.slam_radius
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = sphere
+	query.transform = Transform3D(Basis.IDENTITY, global_position + Vector3.UP * 0.5)
+	query.collision_mask = PhysicsLayers.HURTBOX
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	var damage := (data.slam_damage + drop_height * data.slam_damage_per_meter) * get_damage_multiplier()
+	for found: Dictionary in get_world_3d().direct_space_state.intersect_shape(query, 32):
+		var target := found["collider"] as Hurtbox
+		if target == null or target == hurtbox or target.team == hurtbox.team:
+			continue
+		var hit := HitData.new()
+		hit.damage = damage
+		hit.knockback = 5.0
+		hit.source = self
+		var away := target.global_position - global_position
+		away.y = 0.0
+		hit.direction = away.normalized() if away.length_squared() > 0.01 else get_facing_direction()
+		target.receive_hit(hit)
+	HitStop.apply(0.1)
+	EventBus.camera_shake_requested.emit(0.8)
+	animator.play_ground_slam(data.slam_radius)
+	if drop_height > data.slam_safe_height:
+		apply_fall_damage(drop_height)
 
 
 ## Gemerkten Sprung und Kanten-Puffer verwerfen (z. B. nach einem Wandsprung).

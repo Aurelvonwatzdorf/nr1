@@ -1181,6 +1181,34 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 		await _frames(40)
 	player.health.revive()
 
+	# Aufschlag (Implantat): in der Luft schwerer Angriff, Druckwelle, kein Fallschaden bis 15 m
+	var slam_guard: Enemy = arena.get_node("Enemies/Guard1")
+	for with_frame: bool in [false, true]:
+		if with_frame:
+			GameState.inventory.add(&"impact_frame")
+		slam_guard.reset_enemy()
+		slam_guard.global_position = Vector3(21.5, 0.05, -22.0)
+		player.health.revive()
+		player.stamina.refill()
+		player.state_machine.transition_to(&"idle")
+		player.global_position = Vector3(20.0, 10.05, -22.0)
+		player.velocity = Vector3.ZERO
+		player.reset_physics_interpolation()
+		await _frames(3)
+		var guard_hp := slam_guard.health.current
+		var slam_hp := player.health.current
+		await _tap(&"attack_heavy")
+		var saw_slam := player.state_machine.get_current_state_name() == &"ground_slam"
+		await _frames(90)
+		if with_frame:
+			_check(saw_slam and slam_guard.health.current < guard_hp - 30.0 and player.health.current >= slam_hp, "Aufschlag: aus 10 m Druckwelle trifft die Wache (−%.0f), kein eigener Fallschaden" % (guard_hp - slam_guard.health.current))
+		else:
+			_check(not saw_slam, "Ohne Implantat kein Aufschlag")
+	GameState.inventory.remove(&"impact_frame")
+	slam_guard.reset_enemy()
+	player.health.revive()
+	await _frames(20)
+
 	# Nachhall (Implantat): im letzten Moment ausweichen verlangsamt die Welt
 	var slow_guard: Enemy = arena.get_node("Enemies/Guard1")
 	var evade_hit := HitData.new()

@@ -23,6 +23,9 @@ func try_start_combat_action() -> bool:
 		state_machine.transition_to(&"block")
 		return true
 	var heavy := is_heavy_attack_pressed()
+	if heavy and player.can_ground_slam() and player.stamina.current >= player.character_data.slam_stamina_cost * 0.5:
+		state_machine.transition_to(&"ground_slam")
+		return true
 	if heavy or Input.is_action_just_pressed(&"attack_light"):
 		state_machine.transition_to(&"attack", {"heavy": heavy})
 		return true

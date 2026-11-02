@@ -56,6 +56,8 @@ enum Kind {
 @export var grants_wall_run: bool = false
 ## Nachhall: Ausweichen im letzten Moment verlangsamt die Welt.
 @export var grants_afterimage: bool = false
+## Aufschlag: in der Luft schwerer Angriff = Sturz mit Flächenschlag.
+@export var grants_ground_slam: bool = false
 
 @export_group("Nahkampfwaffe")
 @export var light_attack: AttackData

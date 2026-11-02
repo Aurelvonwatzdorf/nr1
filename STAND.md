@@ -17,10 +17,10 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   Luftsteuerung (Koyote-Zeit, Sprung-Puffer, kurzer/langer Sprung,
   weniger Lenken in der Luft, Doppelsprung lenkt neu), Aufschwung (Kanten
   hochziehen/überspringen), Fallschaden mit Abrollen, Gleitschritt und Ducken
-  (C; Gamepad B halten; Touch „Duck.“).
+  (C; Gamepad B halten; Touch „Duck.“), Implantat „Aufschlag“ (Schwarzmarkt).
   **Bau-Reihenfolge** (wegen Abhängigkeiten, je Schritt testen + speichern):
-  1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt ✅
-     (braucht Ducken-Taste), Sprungfeder, Aufschlag
+  1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt ✅,
+     Aufschlag ✅; offen: Sprungfeder (Frage: statt Cyberbeinen?), Wandketten
   2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
   3. Leistung: Grafikstufen, Detailstufen (vor mehr Grafik/Figuren)

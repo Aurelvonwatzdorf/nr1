@@ -20,6 +20,7 @@ const PATHS: Dictionary[StringName, String] = {
 	&"heart_pump": "res://resources/items/heart_pump.tres",
 	&"cyber_legs": "res://resources/items/cyber_legs.tres",
 	&"thrust_node": "res://resources/items/thrust_node.tres",
+	&"impact_frame": "res://resources/items/impact_frame.tres",
 	&"grip_tendons": "res://resources/items/grip_tendons.tres",
 	&"echo_core": "res://resources/items/echo_core.tres",
 }
