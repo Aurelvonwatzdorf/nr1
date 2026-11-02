@@ -8,7 +8,9 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Alles hier
 liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwerfen).
 - Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung); Sprungfeder,
-  Wandketten.
+  Wandketten; viele Figuren günstig (ferne NPCs seltener, Kulissen-Passanten).
+- Bemerkt (alt, nicht angefasst): Im HUD überlappt unten rechts „Erinnerungen“
+  die Tastenzeile (Screenshot 03_santo_santiago_markt).
 - Entscheidungen (Autopilot, vorläufig):
   - Fahndung: Gotteshäuser sind (noch) keine Zuflucht; Streifen/Sperren/Drohnen
     warten auf Fahrzeuge bzw. eigene Gegner.
@@ -34,7 +36,8 @@ liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwer
      Aufschlag ✅, Sprungfeder ✅, Wandketten ✅
   2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
-  3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise; offen: viele
+  3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise, viele Figuren ✅
+     (teilweise); offen: viele
      Figuren günstig, Silhouetten, Stadt in Stücken bauen (Tor lädt schon im Hintergrund ✅)
   4. Schleichen ✅: `EnemyPerception`, Erledigen, Schattenhaut (offen: Körper
      tragen/verstecken, eigener Tarn-Shader)

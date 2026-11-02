@@ -141,6 +141,21 @@ func _run() -> void:
 	_check(moved > citizens.size() * 0.6, "Einwohner laufen herum (%d von %d)" % [moved, citizens.size()])
 	_check(at_home > citizens.size() * 0.75, "Einwohner bleiben meist in ihrem Viertel (%d von %d)" % [at_home, citizens.size()])
 	_check(merchant_moved > 0.5 and merchant_max <= merchant.roam_radius + 1.0, "Händler schlendert, bleibt aber an seinem Platz (max. %.1f m)" % merchant_max)
+	# Viele Figuren günstig: Kulissen-Passanten in einem MultiMesh, ferne Bürger rechnen seltener.
+	var backdrop := city.get_node_or_null("CrowdBackdrop") as CrowdBackdrop
+	_check(backdrop != null and backdrop.get_active_count() == CrowdBackdrop.COUNT_BY_TIER[GraphicsSettings.tier], "Kulissen-Passanten: ein MultiMesh mit %d Leuten" % (backdrop.get_active_count() if backdrop else 0))
+	if backdrop:
+		var before := backdrop._positions[0]
+		await _frames(30)
+		var walked := backdrop._positions[0].distance_to(before) > 0.3
+		_check(walked, "Kulissen-Passanten laufen")
+		var near_hidden := true
+		for k in backdrop.get_active_count():
+			var origin := backdrop.multimesh.get_instance_transform(k).origin
+			var scale_x := backdrop.multimesh.get_instance_transform(k).basis.x.length()
+			if scale_x > 0.0 and Vector2(origin.x, origin.z).distance_to(Vector2(player.global_position.x, player.global_position.z)) < CrowdBackdrop.HIDE_NEAR - 1.0:
+				near_hidden = false
+		_check(near_hidden, "Kulissen-Passanten in der Nähe der Spielfigur ausgeblendet")
 	# Beten / stille Einkehr: alle vier Häuser wirken gleich auf die Spiritualität
 	var spots := get_tree().get_nodes_in_group(&"prayer_spots")
 	var spot_ids: Array[StringName] = []

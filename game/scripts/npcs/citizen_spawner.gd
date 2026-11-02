@@ -12,6 +12,8 @@ const CITIZEN_SCENE := preload("res://scenes/npcs/citizen.tscn")
 	&"jewish": 6, &"atheist": 6, &"slum": 8,
 }
 @export var seed: int = 11
+## Zusätzliche Kulissen-Passanten (siehe CrowdBackdrop) erzeugen?
+@export var crowd_backdrop: bool = true
 
 
 func _ready() -> void:
@@ -30,3 +32,8 @@ func _ready() -> void:
 			var point := city.waypoints[spots[rng.randi() % spots.size()]]
 			citizen.position = Vector3(point.x + rng.randf_range(-1.0, 1.0), 0.1, point.y + rng.randf_range(-1.0, 1.0))
 			add_child(citizen)
+	# Kulissen-Passanten (ein MultiMesh) neben den echten Bürgern, nicht darunter.
+	if crowd_backdrop:
+		var backdrop := CrowdBackdrop.new()
+		backdrop.setup(city, seed + 1)
+		get_parent().add_child.call_deferred(backdrop)

@@ -223,6 +223,11 @@ tests/       Headless-Rauchtests
   `keep_clear` reservieren mit Meta `clear_radius` mehr Platz. Einwohner (`Citizen`, `CitizenSpawner` im Level) wohnen
   in einem Viertel (Konzernangestellte im Konzernviertel usw.), sagen
   Alltagssätze aus ihrem Viertel; IDs `citizen_<viertel>_<n>` zählen fürs Moral-Gedächtnis.
+- **Viele Figuren**: `NPC` rechnet weiter als 60 m von der Spielfigur nur jeden
+  6. Physik-Frame (mit aufgelaufenem `delta`, `WorldTime.move_slowed()` mit
+  Faktor 6). `CrowdBackdrop` (MultiMeshInstance3D neben „Citizens“, erzeugt vom
+  `CitizenSpawner`, `crowd_backdrop`) = Kulissen-Passanten über das Wegenetz,
+  Anzahl je Grafikstufe, nahe der Figur ausgeblendet; keine Physik, keine Moral.
 - **NPC-Schaden**: NPCs haben eine Hurtbox (Team &"neutral"). Nur Treffer der
   Spielfigur zählen fürs Moral-Gedächtnis (Verletzen −3 Barmherzigkeit, Töten −10
   Schwache schützen, je NPC einmal). Tote stehen in `GameState.dead_npcs`.

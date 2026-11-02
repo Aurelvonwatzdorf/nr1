@@ -1,6 +1,10 @@
 # Viele Figuren günstig darstellen
 
-- **Status:** Idee
+- **Status:** teilweise gebaut: ferne NPCs (> 60 m) rechnen nur jeden 6. Frame,
+  Namensschilder bis 30 m, Kulissen-Passanten `CrowdBackdrop` (ein MultiMesh,
+  60/120/200 je Grafikstufe, ausgeblendet < 14 m und > 160 m, fliehen bei
+  Schüssen). Offen: Pool echter Bürger, die aus der Kulisse „herauswachsen“,
+  Lauf-Animation per Vertex-Textur (wenn Modelle da sind).
 - **Vorbild (nur Inspiration):** Dichte Menschenmengen in Cyberpunk 2077 (ferne
   Figuren sind einfacher als nahe). Eigene Lösung mit Godot-Mitteln.
 - **Für wen:** Technik; Stadtvolk (`stadtvolk.md`), Verkehr

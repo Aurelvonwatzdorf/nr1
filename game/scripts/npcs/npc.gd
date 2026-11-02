@@ -55,6 +55,13 @@ var _last_position: Vector3 = Vector3.ZERO
 ## Seitlicher Abstand zur Straßenmitte (damit nicht alle in einer Reihe laufen).
 var _lane: float = 0.0
 var _roam_rng := RandomNumberGenerator.new()
+## Weit weg von der Spielfigur rechnet ein NPC nur jeden `FAR_TICK`-ten Frame
+## (mit der aufgelaufenen Zeit) – spart Leistung bei vielen Leuten.
+const FAR_DISTANCE := 60.0
+const FAR_TICK := 6
+var _far_delta: float = 0.0
+var _far_frame: int = 0
+var _player_cache: Node3D
 
 
 func _ready() -> void:
@@ -78,12 +85,24 @@ func _ready() -> void:
 	_roam_rng.seed = hash(npc_id)
 	_lane = _roam_rng.randf_range(-1.2, 1.2)
 	_wait_left = _roam_rng.randf_range(0.0, 3.0)
+	_far_frame = _roam_rng.randi() % FAR_TICK
+	name_label.visibility_range_end = 30.0
 	EventBus.shot_fired.connect(_on_shot_fired)
 
 
 func _physics_process(delta: float) -> void:
 	var world_speed := GameState.world_time_scale
 	delta *= world_speed
+	# Weit weg: seltener rechnen, dafür mit der ganzen Zeit seit dem letzten Mal.
+	var steps := 1
+	if _is_far():
+		_far_delta += delta
+		_far_frame += 1
+		if _far_frame % FAR_TICK != 0:
+			return
+		delta = _far_delta
+		steps = FAR_TICK
+	_far_delta = 0.0
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	if health.is_dead:
@@ -95,7 +114,18 @@ func _physics_process(delta: float) -> void:
 		walk_towards(global_position + away.normalized() * 5.0, flee_speed, delta)
 	else:
 		_npc_physics(delta)
-	WorldTime.move_slowed(self, world_speed)
+	WorldTime.move_slowed(self, world_speed * steps)
+
+
+## Weit genug weg, um seltener zu rechnen? (Nicht beim Reden, Fliehen oder Sterben.)
+func _is_far() -> bool:
+	if _talking or _flee_time_left > 0.0 or health.is_dead:
+		return false
+	if _player_cache == null or not is_instance_valid(_player_cache):
+		_player_cache = get_tree().get_first_node_in_group(&"player") as Node3D
+		if _player_cache == null:
+			return false
+	return global_position.distance_squared_to(_player_cache.global_position) > FAR_DISTANCE * FAR_DISTANCE
 
 
 ## Für Unterklassen: Bewegung pro Physik-Frame (Standard: herumlaufen wie in
