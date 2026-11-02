@@ -1,6 +1,7 @@
 # Fallschaden, Abrollen und Aufschlag
 
-- **Status:** Idee
+- **Status:** teilweise gebaut (Fallschaden, tödlicher Sturz, Abrollen, Taumeln).
+  Offen: Implantat „Aufschlag“, kein Schaden im Wasser.
 - **Vorbild (nur Inspiration):** Fallschaden und Landeangriff aus großer Höhe in
   Cyberpunk 2077 (auch Souls-Spiele für Fallschaden). Keine Werte/Namen übernommen.
 - **Für wen:** beide; „Aufschlag“ als Implantat vom Schwarzmarkt

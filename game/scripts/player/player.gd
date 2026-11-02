@@ -58,6 +58,8 @@ var _air_jump_used: bool = false
 var _coyote_left: float = 0.0
 var _jump_buffer_left: float = 0.0
 var _jump_rising: bool = false
+## Fallschaden: Restzeit, in der eine Landung als Abrollen zählt.
+var _roll_window_left: float = 0.0
 ## Schubsprung: schon in dieser Luftphase benutzt? Zeit bis zum nächsten.
 var air_dash_used: bool = false
 var dash_cooldown_left: float = 0.0
@@ -131,7 +133,11 @@ func _physics_process(delta: float) -> void:
 			EventBus.message_requested.emit("Die Wirkung lässt nach")
 	_update_spiritual_pressure(delta)
 	state_machine.physics_update(delta)
+	var was_on_floor := is_on_floor()
+	var fall_speed := -velocity.y
 	move_and_slide()
+	if not was_on_floor and is_on_floor():
+		_on_landed(fall_speed)
 
 
 ## Darf der Spieler gerade steuern? (Nein, solange das Menü offen ist.)
@@ -255,6 +261,35 @@ func find_ledge(direction: Vector3) -> Dictionary:
 	return {"height": height, "target": target}
 
 
+## Landung: Fallhöhe aus der Aufprall-Geschwindigkeit (Versetzen der Figur,
+## z. B. an den Rastplatz, zählt so nie als Sturz). Kurz vorher Ausweichen
+## gedrückt = Abrollen.
+func _on_landed(fall_speed: float) -> void:
+	if fall_speed <= 0.0 or health.is_dead:
+		return
+	var data := character_data
+	var height := fall_speed * fall_speed / (2.0 * gravity)
+	if height <= data.fall_safe_height:
+		return
+	var rolled := _roll_window_left > 0.0
+	_roll_window_left = 0.0
+	var fatal_height := data.fall_fatal_height
+	if GameState.inventory.has_permanent_flag(&"grants_double_jump"):
+		fatal_height = data.fall_fatal_height_cyber_legs
+	EventBus.camera_shake_requested.emit(clampf(height / 15.0, 0.3, 0.9))
+	if height >= fatal_height:
+		health.take_damage(health.current)
+		return
+	var damage := (height - data.fall_safe_height) * data.fall_damage_per_meter
+	if rolled:
+		damage *= 0.5
+		animator.play(&"dodge", 0.4)
+	health.take_damage(damage)
+	if not rolled and not health.is_dead and height >= data.fall_stagger_height:
+		last_hit = null
+		state_machine.transition_to(&"hurt", {"time": data.fall_stagger_time})
+
+
 ## Gemerkten Sprung und Kanten-Puffer verwerfen (z. B. nach einem Wandsprung).
 func consume_jump_input() -> void:
 	_jump_buffer_left = 0.0
@@ -269,6 +304,9 @@ func _update_jump_timers(delta: float) -> void:
 	_jump_buffer_left = maxf(_jump_buffer_left - delta, 0.0)
 	if is_input_enabled() and Input.is_action_just_pressed(&"jump"):
 		_jump_buffer_left = character_data.jump_buffer_time
+	_roll_window_left = maxf(_roll_window_left - delta, 0.0)
+	if not is_on_floor() and is_input_enabled() and Input.is_action_just_pressed(&"dodge"):
+		_roll_window_left = character_data.fall_roll_window
 	# Kurz tippen = flacher Sprung: Loslassen beim Steigen bremst einmal ab.
 	if _jump_rising:
 		if velocity.y <= 0.0:

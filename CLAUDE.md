@@ -394,6 +394,15 @@ tests/       Headless-Rauchtests
   wird in `Player._update_jump_timers()` gemerkt; wer selbst springt (z. B.
   Wandsprung), ruft `Player.consume_jump_input()`. Im Rauchtest volle Sprünge
   mit `_hold(&"jump", 30)`, nicht `_tap()`.
+- **Aufschwung** (`PlayerMantleState`, Zustand `Mantle`): `Player.try_mantle()`
+  aus Move/Idle vor `try_jump()`. `find_ledge()` sucht per Strahl von oben eine
+  Fläche 0,25–2,3 m über den Füßen, prüft eine senkrechte Wand (keine Rampe) und
+  Platz für die Kapsel. Bis `vault_max_height` (1,1 m) im Lauf ohne Sprung,
+  höher nur mit Sprung oder in der Luft. Werte in `CharacterData` („Aufschwung“).
+- **Fallschaden** (`Player._on_landed()`): Höhe aus der Aufprall-Geschwindigkeit
+  (v²/2g), nicht aus Positionen, damit Versetzen nie als Sturz zählt. Ab 5 m
+  8 Leben/m, ab 18 m tödlich (Cyberbeine 24 m), Ausweichen ≤ 0,25 s vor der
+  Landung = Abrollen (halber Schaden, kein Taumeln), ab 8 m Taumeln.
 - **Hitstop** über `HitStop.apply(sekunden)`, **Kamerawackeln** über
   `EventBus.camera_shake_requested`. Im Rauchtest ist `HitStop.enabled = false`.
 - **Spieler-Eingabe** wird in den States per `Input.is_action_*` abgefragt, und nur,

@@ -53,6 +53,20 @@ extends Resource
 @export var mantle_duration: float = 0.45
 @export var mantle_stamina_cost: float = 6.0
 
+@export_group("Fallschaden")
+## Bis zu dieser Fallhöhe (Meter) passiert nichts.
+@export var fall_safe_height: float = 5.0
+## Schaden je Meter über der sicheren Höhe.
+@export var fall_damage_per_meter: float = 8.0
+## Ab dieser Höhe ist ein Sturz tödlich (mit Cyberbeinen höher).
+@export var fall_fatal_height: float = 18.0
+@export var fall_fatal_height_cyber_legs: float = 24.0
+## Ausweichen so kurz vor der Landung = Abrollen: halber Schaden, kein Taumeln.
+@export var fall_roll_window: float = 0.25
+## Ab dieser Höhe taumelt man nach der Landung (ohne Abrollen).
+@export var fall_stagger_height: float = 8.0
+@export var fall_stagger_time: float = 0.6
+
 @export_group("Ausweichrolle")
 @export var dodge_speed: float = 9.0
 @export var dodge_duration: float = 0.5

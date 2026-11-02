@@ -1087,6 +1087,36 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 		box.queue_free()
 		await _frames(30)
 
+	# Fallschaden: bis 5 m nichts, 12 m kostet Leben, Abrollen halbiert es
+	var data := player.character_data
+	for drop: Array in [[4.0, false], [12.0, false], [12.0, true]]:
+		var drop_height: float = drop[0]
+		var roll: bool = drop[1]
+		player.health.revive()
+		player.stamina.refill()
+		player.state_machine.transition_to(&"idle")
+		player.global_position = Vector3(20.0, drop_height + 0.05, -22.0)
+		player.velocity = Vector3.ZERO
+		player.reset_physics_interpolation()
+		var hp_before := player.health.current
+		var fall_frames := int(sqrt(2.0 * drop_height / player.gravity) * 60.0)
+		for i in fall_frames + 30:
+			await get_tree().physics_frame
+			if roll and i == fall_frames - 8:
+				Input.action_press(&"dodge")
+			if roll and i == fall_frames - 6:
+				Input.action_release(&"dodge")
+		var lost := hp_before - player.health.current
+		var expected := (drop_height - data.fall_safe_height) * data.fall_damage_per_meter
+		if drop_height <= data.fall_safe_height:
+			_check(lost < 0.1, "Fallschaden: 4 m Sturz kostet nichts")
+		elif roll:
+			_check(absf(lost - expected * 0.5) < 6.0, "Fallschaden: abgerollt halber Schaden (%.0f)" % lost)
+		else:
+			_check(absf(lost - expected) < 8.0, "Fallschaden: 12 m Sturz kostet Leben (%.0f)" % lost)
+		await _frames(40)
+	player.health.revive()
+
 	# Nachhall (Implantat): im letzten Moment ausweichen verlangsamt die Welt
 	var slow_guard: Enemy = arena.get_node("Enemies/Guard1")
 	var evade_hit := HitData.new()

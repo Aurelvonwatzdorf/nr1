@@ -15,9 +15,10 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   Ringschloss-Minispiel, Stiller Radiosender mit Geisterstimmen.
   **Nutzer hat alle 16 Pakete gewählt.** Gebaut ist bisher Schritt 1:
   Luftsteuerung (Koyote-Zeit, Sprung-Puffer, kurzer/langer Sprung,
-  weniger Lenken in der Luft, Doppelsprung lenkt neu).
+  weniger Lenken in der Luft, Doppelsprung lenkt neu), Aufschwung (Kanten
+  hochziehen/überspringen), Fallschaden mit Abrollen.
   **Bau-Reihenfolge** (wegen Abhängigkeiten, je Schritt testen + speichern):
-  1. Bewegung: Luftsteuerung ✅, Aufschwung, Fallschaden/Abrollen, Gleitschritt
+  1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt
      (braucht Ducken-Taste), Sprungfeder, Aufschlag
   2. Tastenbelegung entscheiden (Ducken, Nachladen, Scannen, aktives Implantat,
      Fahrzeug rufen; Gamepad fast voll) → Rückfrage an den Nutzer
