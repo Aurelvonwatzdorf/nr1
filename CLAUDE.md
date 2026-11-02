@@ -758,6 +758,10 @@ Open World nicht auf einmal, sondern erst eine Region komplett, dann erweitern.
   - M8.5 Ritual im Bergtempel (Gegenstände sammeln, schwerer Weg)
 - ✅ **Mechanik-Studie 1**: Wucht (schwere Waffen, Zweihand-Hammer), Schubsprung,
   Wandlauf, Nachhall (Zeitlupe), Fernzugriff (Aurel hackt Konzern-Wachen).
+- 🟨 **Mechanik-Studie 2** (Cyberpunk 2077 als Vorbild): 48 Notizen in
+  `docs/mechaniken/` (Übersicht und Reihenfolge in `README.md`), Auswahl zum
+  Bauen durch den Nutzer offen. Neue Tasten (Ducken, Nachladen, Scannen,
+  aktives Implantat) brauchen vorher eine Entscheidung zur Gamepad-Belegung.
 - ✅ **K1**: Kontinent „Aurion“: neun Regionen als Zeitinseln (Zukunft,
   Mittelalter, Altes Ägypten, Gegenwart, Reiterclans, Schreine …), Straßen,
   Fluss, Wahrzeichen, Bewohner, Entdecken mit Titelkarte, Südtor-Übergang,

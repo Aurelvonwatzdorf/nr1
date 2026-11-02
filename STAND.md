@@ -5,6 +5,15 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
 ## Zuletzt erledigt
+- **Mechanik-Studie 2: Cyberpunk 2077 als Vorbild** (nur Notizen, noch nichts
+  gebaut): 48 eigene Mechanik-Notizen in 10 Bereichen, Übersicht und
+  Bau-Reihenfolge in `docs/mechaniken/README.md`. Grenzen eingehalten: kein
+  fremder Code, keine Werte, Namen, Texte oder Assets; kein REA benutzt.
+  Auffällige eigene Ideen: Körpergrenze (Technik im Körper senkt die
+  Spiritualität), Erinnerungsspiegel (fremde Erinnerungen in Schichten
+  Bild/Klang/Wahrheit), Steppenross, Spiegeljäger sehen durch Tarnung,
+  Ringschloss-Minispiel, Stiller Radiosender mit Geisterstimmen.
+  **Wartet auf die Auswahl des Nutzers**, was gebaut wird.
 - **Web-Version** (Nutzer hat gerade nur das iPhone): GitHub Actions baut sie bei
   jedem Push und stellt sie auf https://aurelvonwatzdorf.github.io/nr1/ .
   Nutzer muss einmalig Pages → Source „GitHub Actions“ einschalten. In Chromium
