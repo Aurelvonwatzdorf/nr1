@@ -42,6 +42,15 @@ extends Resource
 ## (kurz tippen = flacher Sprung).
 @export_range(0.0, 1.0) var jump_release_factor: float = 0.5
 
+@export_group("Sprungfeder (Implantat)")
+## So lange halten bis zur vollen Ladung; kürzer als `charge_jump_min_time` = normaler Sprung.
+@export var charge_jump_time: float = 0.7
+@export var charge_jump_min_time: float = 0.15
+## Sprunghöhe bei voller Ladung (× normale Höhe).
+@export var charge_jump_height_factor: float = 2.2
+## Zusätzliche Ausdauer bei voller Ladung.
+@export var charge_jump_extra_stamina: float = 12.0
+
 @export_group("Aufschwung (Kanten)")
 ## Kanten bis zu dieser Höhe über den Füßen überspringt man im Laufen ohne Halt.
 @export var vault_max_height: float = 1.1
@@ -132,6 +141,9 @@ extends Resource
 @export var wall_run_gravity_factor: float = 0.15
 ## Absprung von der Wand: so schnell weg von ihr (m/s).
 @export var wall_jump_push: float = 6.0
+## Wandketten: jeder weitere Wandlauf ohne Bodenkontakt ist so viel schneller (höchstens `wall_chain_max`-mal).
+@export var wall_chain_bonus: float = 0.1
+@export var wall_chain_max: int = 3
 
 @export_group("Nachhall (Implantat)")
 @export var afterimage_focus_cost: float = 20.0

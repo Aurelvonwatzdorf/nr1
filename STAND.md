@@ -7,10 +7,13 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 ## Autopilot-Runde (Branch `autopilot`, Sicherungspunkt Tag `vor-autopilot`)
 Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Alles hier
 liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwerfen).
-- Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung).
+- Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung); Sprungfeder,
+  Wandketten.
 - Entscheidungen (Autopilot, vorläufig):
   - Fahndung: Gotteshäuser sind (noch) keine Zuflucht; Streifen/Sperren/Drohnen
     warten auf Fahrzeuge bzw. eigene Gegner.
+  - Sprungfeder: Mit dem Implantat springt man am Boden erst beim Loslassen
+    (sonst ginge Laden nicht); kurzer Sprung (Tippen = flach) entfällt dann.
 
 ## Zuletzt erledigt
 - **Mechanik-Studie 2: Cyberpunk 2077 als Vorbild** (nur Notizen, noch nichts
@@ -28,7 +31,7 @@ liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwer
   (C; Gamepad B halten; Touch „Duck.“), Implantat „Aufschlag“ (Schwarzmarkt).
   **Bau-Reihenfolge** (wegen Abhängigkeiten, je Schritt testen + speichern):
   1. Bewegung: Luftsteuerung ✅, Aufschwung ✅, Fallschaden/Abrollen ✅, Gleitschritt ✅,
-     Aufschlag ✅; offen: Sprungfeder (entschieden: zusätzlich zu Cyberbeinen), Wandketten
+     Aufschlag ✅, Sprungfeder ✅, Wandketten ✅
   2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
   3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise; offen: viele

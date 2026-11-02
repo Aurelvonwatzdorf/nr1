@@ -401,6 +401,11 @@ tests/       Headless-Rauchtests
   wird in `Player._update_jump_timers()` gemerkt; wer selbst springt (z. B.
   Wandsprung), ruft `Player.consume_jump_input()`. Im Rauchtest volle Sprünge
   mit `_hold(&"jump", 30)`, nicht `_tap()`.
+- **Sprungfeder** (`spring_coil`, `grants_charge_jump`, Schwarzmarkt 650,
+  zusätzlich zu Cyberbeinen): Mit Implantat springt man am Boden beim
+  **Loslassen** (`Player.charging_jump`, `_update_charge_jump()`); < 0,15 s =
+  normaler Sprung, 0,7 s = 2,2-fache Höhe. **Wandketten**: `wall_chain_count`
+  (+10 % Tempo je Wandlauf ohne Boden, max. 3).
 - **Aufschwung** (`PlayerMantleState`, Zustand `Mantle`): `Player.try_mantle()`
   aus Move/Idle vor `try_jump()`. `find_ledge()` sucht per Strahl von oben eine
   Fläche 0,25–2,3 m über den Füßen, prüft eine senkrechte Wand (keine Rampe) und

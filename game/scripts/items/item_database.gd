@@ -22,6 +22,7 @@ const PATHS: Dictionary[StringName, String] = {
 	&"thrust_node": "res://resources/items/thrust_node.tres",
 	&"impact_frame": "res://resources/items/impact_frame.tres",
 	&"shadow_skin": "res://resources/items/shadow_skin.tres",
+	&"spring_coil": "res://resources/items/spring_coil.tres",
 	&"grip_tendons": "res://resources/items/grip_tendons.tres",
 	&"echo_core": "res://resources/items/echo_core.tres",
 }

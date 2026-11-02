@@ -859,6 +859,7 @@ func _run() -> void:
 	await _test_perception(arena, player)
 	await _test_takedown(arena, player)
 	await _test_camouflage(arena, player)
+	await _test_spring_and_wall_chain(player)
 
 	# Figur aus Daten laden (Tahirou)
 	_check(GameState.select_character(&"tahirou"), "Tahirou kann gewählt werden")
@@ -1460,6 +1461,53 @@ func _test_camouflage(arena: Node, player: Player) -> void:
 	guard.reset_enemy()
 	player.global_position = Vector3(20.0, 0.05, -22.0)
 	await _frames(10)
+
+
+## Sprungfeder (aufladbarer Sprung) und Wandketten (schneller von Wand zu Wand).
+func _test_spring_and_wall_chain(player: Player) -> void:
+	player.health.revive()
+	player.state_machine.transition_to(&"idle")
+	player.global_position = Vector3(20.0, 0.05, -22.0)
+	player.velocity = Vector3.ZERO
+	GameState.inventory.add(&"spring_coil")
+	await _frames(10)
+	var floor_y := player.global_position.y
+	player.stamina.refill()
+	Input.action_press(&"jump")
+	await _frames(50)
+	_check(player.charging_jump and player.is_on_floor(), "Sprungfeder: Leertaste halten lädt, Figur bleibt am Boden")
+	Input.action_release(&"jump")
+	var charged_peak := floor_y
+	for i in 90:
+		await get_tree().physics_frame
+		charged_peak = maxf(charged_peak, player.global_position.y)
+	_check(charged_peak - floor_y > 3.5, "Sprungfeder: voll geladen springt man gut doppelt so hoch (%.1f m)" % (charged_peak - floor_y))
+	await _frames(60)
+	player.stamina.refill()
+	await _tap(&"jump")
+	var tap_peak := floor_y
+	for i in 60:
+		await get_tree().physics_frame
+		tap_peak = maxf(tap_peak, player.global_position.y)
+	_check(tap_peak - floor_y > 1.5 and tap_peak - floor_y < 2.2, "Sprungfeder: kurz getippt = normaler Sprung (%.1f m)" % (tap_peak - floor_y))
+	GameState.inventory.remove(&"spring_coil")
+	await _frames(60)
+	# Wandketten: zweiter Wandlauf ohne Bodenkontakt ist 10 % schneller.
+	var wall_run := player.state_machine.get_node("WallRun") as PlayerWallRunState
+	player.global_position = Vector3(20.0, 4.0, -22.0)
+	player.velocity = Vector3.ZERO
+	player.wall_chain_count = 0
+	await get_tree().physics_frame
+	var run_msg := {"normal": Vector3.RIGHT, "direction": Vector3.FORWARD}
+	player.state_machine.transition_to(&"wall_run", run_msg)
+	var first_speed := wall_run._speed
+	player.velocity = Vector3.ZERO
+	player.state_machine.transition_to(&"wall_run", run_msg)
+	var second_speed := wall_run._speed
+	_check(is_equal_approx(second_speed, first_speed * 1.1), "Wandketten: zweiter Wandlauf ohne Boden +10 %% (%.1f → %.1f m/s)" % [first_speed, second_speed])
+	player.state_machine.transition_to(&"idle")
+	await _frames(90)
+	_check(player.wall_chain_count == 0, "Wandketten: am Boden zurückgesetzt")
 
 
 ## Grafikstufen: Schatten, Umgebungsverdeckung, Sichtweiten und Bildrate je Stufe.

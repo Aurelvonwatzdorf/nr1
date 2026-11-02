@@ -60,6 +60,8 @@ enum Kind {
 @export var grants_ground_slam: bool = false
 ## Schattenhaut: aktives Implantat (G), kurz fast unsichtbar.
 @export var grants_camouflage: bool = false
+## Sprungfeder: Sprung am Boden halten lädt einen hohen Sprung auf.
+@export var grants_charge_jump: bool = false
 
 @export_group("Nahkampfwaffe")
 @export var light_attack: AttackData

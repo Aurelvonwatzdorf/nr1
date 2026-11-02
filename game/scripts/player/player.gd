@@ -58,6 +58,9 @@ var _air_jump_used: bool = false
 var _coyote_left: float = 0.0
 var _jump_buffer_left: float = 0.0
 var _jump_rising: bool = false
+## Sprungfeder: lädt gerade (Sprung am Boden gehalten) und wie lange schon.
+var charging_jump: bool = false
+var _charge_time: float = 0.0
 ## Schattenhaut: Restzeit, Sperre und ob der nächste Treffer den Bonus bekommt.
 var camouflage_left: float = 0.0
 var camouflage_cooldown_left: float = 0.0
@@ -78,6 +81,8 @@ var air_dash_used: bool = false
 var dash_cooldown_left: float = 0.0
 ## Wandlauf: kurze Sperre nach dem Ende (siehe PlayerWallRunState).
 var wall_run_cooldown_left: float = 0.0
+## Wandketten: Wandläufe seit dem letzten Bodenkontakt.
+var wall_chain_count: int = 0
 ## Nachhall: Restzeit der verlangsamten Welt (Echtzeit) und Sperre bis zum nächsten.
 var afterimage_left: float = 0.0
 var afterimage_cooldown_left: float = 0.0
@@ -139,6 +144,7 @@ func _physics_process(delta: float) -> void:
 	_update_jump_timers(delta)
 	if is_on_floor():
 		air_dash_used = false
+		wall_chain_count = 0
 	if is_input_enabled() and Input.is_action_just_pressed(&"reality_sight"):
 		start_reality_sight()
 	if reality_sight_left > 0.0:
@@ -207,6 +213,12 @@ func try_jump() -> bool:
 	if is_on_floor():
 		_air_jump_used = false
 	if not is_input_enabled() or _jump_buffer_left <= 0.0 or not stamina.can_act():
+		return false
+	if (is_on_floor() or _coyote_left > 0.0) and GameState.inventory.has_permanent_flag(&"grants_charge_jump"):
+		# Sprungfeder: erst laden, gesprungen wird beim Loslassen (_update_charge_jump).
+		consume_jump_input()
+		charging_jump = true
+		_charge_time = 0.0
 		return false
 	if not is_on_floor() and _coyote_left <= 0.0:
 		if _air_jump_used or not GameState.inventory.has_permanent_flag(&"grants_double_jump"):
@@ -505,6 +517,7 @@ func _update_jump_timers(delta: float) -> void:
 	_roll_window_left = maxf(_roll_window_left - delta, 0.0)
 	if not is_on_floor() and is_input_enabled() and Input.is_action_just_pressed(&"dodge"):
 		_roll_window_left = character_data.fall_roll_window
+	_update_charge_jump(delta)
 	# Kurz tippen = flacher Sprung: Loslassen beim Steigen bremst einmal ab.
 	if _jump_rising:
 		if velocity.y <= 0.0:
@@ -512,6 +525,34 @@ func _update_jump_timers(delta: float) -> void:
 		elif not Input.is_action_pressed(&"jump"):
 			velocity.y *= character_data.jump_release_factor
 			_jump_rising = false
+
+
+## Sprungfeder: laden, solange gehalten; beim Loslassen springen (kurz getippt =
+## normaler Sprung, voll geladen = `charge_jump_height_factor`-fache Höhe).
+func _update_charge_jump(delta: float) -> void:
+	if not charging_jump:
+		return
+	var data := character_data
+	if not is_on_floor() or not state_machine.get_current_state_name() in [&"idle", &"move", &"crouch"]:
+		charging_jump = false
+		animator.reset_pose()
+		return
+	if Input.is_action_pressed(&"jump") and is_input_enabled():
+		_charge_time += delta
+		animator.set_charge_visual(clampf(_charge_time / data.charge_jump_time, 0.0, 1.0))
+		return
+	charging_jump = false
+	animator.set_charge_visual(0.0)
+	var ratio := 0.0
+	if _charge_time >= data.charge_jump_min_time:
+		ratio = clampf(_charge_time / data.charge_jump_time, 0.0, 1.0)
+	stamina.consume(data.jump_stamina_cost + data.charge_jump_extra_stamina * ratio)
+	# Höhe wächst mit dem Quadrat der Startgeschwindigkeit.
+	velocity.y = data.jump_velocity * sqrt(lerpf(1.0, data.charge_jump_height_factor, ratio))
+	_jump_rising = false
+	animator.play(&"jump", 0.35)
+	if ratio > 0.5:
+		animator.play_double_jump()
 
 
 ## Schubsprung statt Rolle? Nur mit Implantat: in der Luft (einmal pro Sprung)

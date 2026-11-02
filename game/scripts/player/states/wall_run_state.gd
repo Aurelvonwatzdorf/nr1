@@ -23,6 +23,10 @@ func enter(msg: Dictionary = {}) -> void:
 	_tangent = _along_wall(direction)
 	var horizontal := Vector3(player.velocity.x, 0.0, player.velocity.z)
 	_speed = maxf(horizontal.length(), player.character_data.sprint_speed * player.get_speed_multiplier())
+	# Wandketten: von Wand zu Wand ohne Boden wird man schneller.
+	var data := player.character_data
+	_speed *= 1.0 + data.wall_chain_bonus * player.wall_chain_count
+	player.wall_chain_count = mini(player.wall_chain_count + 1, data.wall_chain_max)
 	_time = 0.0
 	_off_wall_time = 0.0
 	player.velocity.y = maxf(player.velocity.y, 0.5)

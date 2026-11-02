@@ -1,9 +1,8 @@
 # Luftsteuerung und Feinschliff der Sprung-Implantate
 
-- **Status:** teilweise gebaut (Koyote-Zeit, Sprung-Puffer, Sprunghöhe je nach
-  Tastendruck, Luft-Beschleunigung, Doppelsprung gibt Richtung neu vor).
-  Offen: Sprungfeder (**Nutzer-Entscheidung: zusätzlich** zu den Cyberbeinen,
-  nicht statt), Wandketten-Bonus.
+- **Status:** gebaut (Koyote-Zeit, Sprung-Puffer, Sprunghöhe je nach Tastendruck,
+  Luft-Beschleunigung, Doppelsprung lenkt neu, Sprungfeder `spring_coil`
+  Schwarzmarkt 650 **zusätzlich** zu den Cyberbeinen (Nutzer), Wandketten +10 %).
 - **Vorbild (nur Inspiration):** Bewegung in der Luft und die Bein-Implantate in
   Cyberpunk 2077 (zweiter Sprung bzw. aufladbarer Sprung, Luftstoß). Keine Werte
   oder Namen übernommen.

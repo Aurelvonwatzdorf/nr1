@@ -289,6 +289,15 @@ func set_locomotion_blend(ratio: float) -> void:
 
 
 ## Zeigt die Unverwundbarkeit (I-Frames) beim Testen: Figur wird halbdurchsichtig.
+## Sprungfeder: Figur geht beim Laden in die Knie (0 = normal, 1 = voll geladen).
+func set_charge_visual(ratio: float) -> void:
+	if animation_tree:
+		animation_tree.set(&"parameters/charge/blend_amount", ratio)
+		return
+	if visual_root and (_tween == null or not _tween.is_valid()):
+		visual_root.scale = Vector3(1.0 + ratio * 0.15, 1.0 - ratio * 0.25, 1.0 + ratio * 0.15)
+
+
 ## Schattenhaut: Figur fast durchsichtig (eigener Shader folgt; Platzhalter: Alpha).
 func set_camouflage_visual(active: bool) -> void:
 	_camouflaged = active
