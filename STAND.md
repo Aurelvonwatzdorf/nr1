@@ -24,7 +24,7 @@ weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
   2. Tastenbelegung ✅ entschieden: Gamepad Tippen/Halten (`PadTapHold`),
      Tastatur C/T/G/Tab halten (siehe CLAUDE.md, Abschnitt 7)
   3. Leistung: Grafikstufen ✅ (F3 misst), Detailstufen teilweise; offen: viele
-     Figuren günstig, Laden am Tor im Hintergrund, Silhouetten
+     Figuren günstig, Silhouetten, Stadt in Stücken bauen (Tor lädt schon im Hintergrund ✅)
   4. Schleichen: `EnemyPerception` → Erledigen → Schattenhaut
   5. Stadtleben: Stadtvolk, Fahndung in Stufen
   6. Hacking: Programme, Geräte/Kameras, Ringschloss, Konzernnetz

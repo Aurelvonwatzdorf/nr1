@@ -333,6 +333,8 @@ tests/       Headless-Rauchtests
   Stadttor auf dem Kontinent. Bergtempel (Kagerō, versiegeltes Tor) = Ort des
   Rituals (M8.5); „Herz des Nebelwalds“ = Druckquelle Spiritualität 5.
   Ausbau per Skill `/region-ausbau`.
+  Tore laden ihr Ziel ab 40 m im Hintergrund (`ResourceLoader.load_threaded_request`,
+  nicht im Browser) und wechseln dann mit `change_scene_to_packed`.
 - **Gezeichneter Look**: Levels rufen `ToonStyle.apply_to_tree(self)` im `_ready()`
   auf; neue Materialien im Code mit `ToonStyle.make(farbe)`.
 - **Keine `static var` in Szenen-Skripten**, die mit anderen Skripten über Kreuz

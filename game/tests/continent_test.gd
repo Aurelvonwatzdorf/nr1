@@ -116,6 +116,14 @@ func _run() -> void:
 	# Südtor führt in die Stadt (Ankunft hinter dem Tor).
 	var gate := world.find_child("CityGate", true, false) as TravelGate
 	gate.change_scene = false
+	if OS.has_feature("threads"):
+		player.global_position = gate.global_position + Vector3(0.0, 1.0, -10.0)
+		for i in 600:
+			await get_tree().physics_frame
+			if gate.is_target_preloaded():
+				break
+		_check(gate.is_target_preloaded(), "Tor lädt die Stadt im Hintergrund, wenn man sich nähert")
+		ResourceLoader.load_threaded_get(gate.target_scene)
 	gate.interact(player)
 	_check(GameState.has_pending_spawn and GameState.pending_spawn.origin.distance_to(Vector3(2, 0.3, 150)) < 0.1, "Südtor: Ankunft in Santo Santiago am Tor")
 	GameState.has_pending_spawn = false

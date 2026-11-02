@@ -1,6 +1,9 @@
 # Welt ohne Ladebildschirm (Streaming)
 
-- **Status:** Idee
+- **Status:** Schritt 1 gebaut: Tore laden die Zielwelt im Hintergrund
+  (`TravelGate.preload_radius` 40 m, nur mit Threads). Gemessen am Mac: Stadt
+  0,44 s Datei + 0,68 s Bauen, Kontinent 0,07 s + 0,88 s. Das **Bauen** ist der
+  größere Teil → Schritt 2 (Stadt in Stücken bauen) bringt am meisten.
 - **Vorbild (nur Inspiration):** Die große Stadt ohne Ladebildschirme in
   Cyberpunk 2077 (Teile der Welt werden im Hintergrund nachgeladen). Keine
   Technik übernommen; eigene Lösung mit Godot-Mitteln.

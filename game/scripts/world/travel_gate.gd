@@ -12,6 +12,10 @@ extends Interactable
 @export var build_arch: bool = true
 ## Szene wirklich wechseln? (Im Test aus.)
 var change_scene: bool = true
+## Ab diesem Abstand der Spielfigur wird die Zielwelt im Hintergrund geladen,
+## damit der Wechsel kürzer dauert (nur mit Threads, also nicht im Browser).
+@export var preload_radius: float = 40.0
+var _preload_requested: bool = false
 
 
 func _ready() -> void:
@@ -26,12 +30,31 @@ func _ready() -> void:
 		_build_arch()
 
 
+func _physics_process(_delta: float) -> void:
+	if _preload_requested or target_scene == "" or not OS.has_feature("threads"):
+		return
+	var player := get_tree().get_first_node_in_group(&"player") as Node3D
+	if player and player.global_position.distance_to(global_position) <= preload_radius:
+		_preload_requested = ResourceLoader.load_threaded_request(target_scene) == OK
+
+
+## Ist die Zielwelt schon fertig im Hintergrund geladen?
+func is_target_preloaded() -> bool:
+	return _preload_requested and ResourceLoader.load_threaded_get_status(target_scene) == ResourceLoader.THREAD_LOAD_LOADED
+
+
 func interact(player: Player) -> void:
 	GameState.has_pending_spawn = true
 	GameState.pending_spawn = Transform3D(Basis(Vector3.UP, deg_to_rad(target_yaw_degrees)), target_position)
 	GameState.pending_message = arrival_message
 	super.interact(player)
 	if change_scene and target_scene != "":
+		if _preload_requested:
+			# Fertig oder noch nicht: load_threaded_get wartet notfalls den Rest ab.
+			var packed := ResourceLoader.load_threaded_get(target_scene) as PackedScene
+			if packed:
+				get_tree().change_scene_to_packed.call_deferred(packed)
+				return
 		get_tree().change_scene_to_file.call_deferred(target_scene)
 
 
