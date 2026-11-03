@@ -1,5 +1,8 @@
 # CLAUDE.md – Projektgedächtnis
 
+> **Eingefroren:** Das Spiel geht in Unreal Engine 5.8 weiter (Repo „Wallmapu“).
+> Hier nichts mehr bauen; diese Datei und `docs/` bleiben Design-Grundlage.
+
 Diese Datei hält das komplette Design und die Arbeitsweise fest, damit jede neue
 Sitzung sofort weiß, worum es geht. **Bei jeder Design- oder Strukturänderung hier
 aktualisieren** (Roadmap-Status, offene Entscheidungen, neue Konventionen).

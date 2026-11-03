@@ -1,12 +1,18 @@
 # Stand des Projekts (Übergabe-Notiz)
 
+> **EINGEFROREN (3. November 2026):** Das Spiel wird in **Unreal Engine 5.8**
+> neu gebaut (C++ + Blueprints), Projekt und Repo **„Wallmapu“**. Diese
+> Godot-Fassung wird nicht mehr weiterentwickelt; sie bleibt als Vorlage
+> (Abläufe, Werte) und Design-Archiv (`CLAUDE.md`, `docs/`). Unfertige Arbeit
+> (Fernzugriff-Programme) liegt geparkt auf dem Branch `autopilot`.
+
 Diese Datei sagt jeder neuen Claude-Sitzung (Browser oder Terminal), wo es
 weitergeht. **Am Ende jeder Arbeitsrunde aktualisieren.** Alles Dauerhafte
 (Design, Regeln) steht in `CLAUDE.md`.
 
-## Autopilot-Runde (Branch `autopilot`, Sicherungspunkt Tag `vor-autopilot`)
-Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Alles hier
-liegt nur auf `autopilot`, bis der Nutzer entscheidet (behalten/teilweise/verwerfen).
+## Autopilot-Runde (übernommen bis „Stadtvolk“; Tag `vor-autopilot` = Stand davor)
+Der Nutzer hat für diese Runde erlaubt, ohne Rückfrage zu entscheiden. Die fertigen
+Commits sind in den Spiel-Branch übernommen (Entscheidung des Nutzers beim Umstieg).
 - Gebaut: Fahndung in Stufen (Suchkreis, Verstärkung, Vorwarnung); Sprungfeder,
   Wandketten; viele Figuren günstig (ferne NPCs seltener, Kulissen-Passanten);
   Stadtvolk (70 Einwohner, Flucht vor Gewalt, Zeugen rufen die Wache).
