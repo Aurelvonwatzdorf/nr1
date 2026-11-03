@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HackProgramData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skills/hack_program_data.gd" id="1_hack"]
+
+[resource]
+script = ExtResource("1_hack")
+id = &"blind"
+display_name = "Blendung"
+effect = 1
+required_skill = &"aurel_hack_blind"
+upload_time = 0.8
+ambition_cost = 30.0
+effect_time = 6.0
+target_cooldown = 15.0

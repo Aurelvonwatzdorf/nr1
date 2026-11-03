@@ -21,14 +21,17 @@ extends CharacterBody3D
 @onready var lock_on: LockOnComponent = $LockOnComponent
 @onready var interaction_detector: InteractionDetector = $InteractionDetector
 
-## Fernzugriff (Aurel): Reichweite, Ladezeit, Kosten und Wirkung.
+## Fernzugriff (Aurel): Reichweite und Waffensperre. Ladezeit, Kosten und Wirkung
+## stehen je Programm in `resources/hacks/` (HackProgramData).
 const HACK_RANGE := 15.0
-const HACK_UPLOAD_TIME := 1.0
-const HACK_AMBITION_COST := 40.0
-const HACK_FOCUS_COST := 10.0
-const HACK_STUN_TIME := 1.5
 const HACK_JAM_TIME := 8.0
-const HACK_COOLDOWN := 12.0
+const HACK_PROGRAMS: Array[HackProgramData] = [
+	preload("res://resources/hacks/disrupt.tres"),
+	preload("res://resources/hacks/blind.tres"),
+	preload("res://resources/hacks/overheat.tres"),
+]
+## F so lange halten = nächstes Programm wählen (statt hochzuladen).
+const HACK_SWITCH_HOLD := 0.35
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 ## Der zuletzt erlittene Treffer (für Rückstoß im Getroffen-Zustand).
@@ -86,9 +89,13 @@ var wall_chain_count: int = 0
 ## Nachhall: Restzeit der verlangsamten Welt (Echtzeit) und Sperre bis zum nächsten.
 var afterimage_left: float = 0.0
 var afterimage_cooldown_left: float = 0.0
-## Aurels Fernzugriff: Ziel, das gerade geladen wird, und Restzeit.
+## Aurels Fernzugriff: Ziel, das gerade geladen wird, Restzeit, gewähltes
+## Programm (Index in HACK_PROGRAMS) und wie lange F schon gehalten wird.
 var hack_target: Enemy
 var _hack_time_left: float = 0.0
+var hack_program_index: int = 0
+var _hack_program: HackProgramData
+var _hack_key_time: float = -1.0
 
 
 func _ready() -> void:
@@ -134,7 +141,9 @@ func _physics_process(delta: float) -> void:
 		if get_ravens():
 			call_raven_swarm()
 		elif get_ambition():
+			_hack_key_time = 0.0
 			start_hack()
+	_update_hack_key(delta)
 	_update_hack(delta)
 	_fire_cooldown_left = maxf(_fire_cooldown_left - delta, 0.0)
 	dash_cooldown_left = maxf(dash_cooldown_left - delta, 0.0)
@@ -701,13 +710,14 @@ func _find_swarm_target() -> Enemy:
 	return best
 
 
-## Aurels Fernzugriff (F, Fähigkeit „Fernzugriff“): auf die anvisierte
+## Aurels Fernzugriff (F, Insider-Ast): das gewählte Programm auf die anvisierte
 ## Konzern-Wache. Gibt false zurück, wenn es nicht geht (Meldung erklärt warum).
 func start_hack() -> bool:
 	var ambition := get_ambition()
 	if ambition == null or hack_target != null:
 		return false
-	if not GameState.has_skill(&"aurel_hack_disrupt"):
+	var program := get_hack_program()
+	if program == null:
 		EventBus.message_requested.emit("Fernzugriff erst im Fähigkeitenbaum (Insider) lernen")
 		return false
 	var target := lock_on.target as Enemy
@@ -720,13 +730,54 @@ func start_hack() -> bool:
 	if not target.can_be_hacked():
 		EventBus.message_requested.emit("Ihre Technik startet gerade neu")
 		return false
-	if ambition.current < HACK_AMBITION_COST or focus.current < HACK_FOCUS_COST:
-		EventBus.message_requested.emit("Zu wenig Ehrgeiz oder Fokus für den Zugriff")
+	if ambition.current < program.ambition_cost or focus.current < program.focus_cost:
+		EventBus.message_requested.emit("Zu wenig Ehrgeiz oder Fokus für „%s“" % program.display_name)
 		return false
 	hack_target = target
-	_hack_time_left = HACK_UPLOAD_TIME
+	_hack_program = program
+	_hack_time_left = program.upload_time
 	target.set_hack_progress(0.0)
 	return true
+
+
+## Gelernte Programme in fester Reihenfolge.
+func get_available_hack_programs() -> Array[HackProgramData]:
+	var available: Array[HackProgramData] = []
+	for program in HACK_PROGRAMS:
+		if GameState.has_skill(program.required_skill):
+			available.append(program)
+	return available
+
+
+## Das gewählte Programm (oder null, wenn noch keins gelernt ist).
+func get_hack_program() -> HackProgramData:
+	var available := get_available_hack_programs()
+	if available.is_empty():
+		return null
+	return available[hack_program_index % available.size()]
+
+
+## Nächstes gelerntes Programm wählen (F halten).
+func cycle_hack_program() -> void:
+	var available := get_available_hack_programs()
+	if available.size() <= 1:
+		return
+	hack_program_index = (hack_program_index + 1) % available.size()
+	EventBus.message_requested.emit("Fernzugriff: %s" % get_hack_program().display_name)
+
+
+## F gehalten: Hochladen abbrechen (kostet nichts) und Programm wechseln.
+func _update_hack_key(delta: float) -> void:
+	if _hack_key_time < 0.0:
+		return
+	if not Input.is_action_pressed(&"call_spirit"):
+		_hack_key_time = -1.0
+		return
+	_hack_key_time += delta
+	if _hack_key_time >= HACK_SWITCH_HOLD:
+		_hack_key_time = -1.0
+		cancel_hack()
+		cycle_hack_program()
 
 
 ## Bricht einen laufenden Zugriff ab (Treffer, Ziel weg, zu weit).
@@ -744,18 +795,22 @@ func _update_hack(delta: float) -> void:
 			or hack_target.global_position.distance_to(global_position) > HACK_RANGE:
 		cancel_hack()
 		return
+	var program := _hack_program
 	_hack_time_left -= delta
-	hack_target.set_hack_progress(1.0 - _hack_time_left / HACK_UPLOAD_TIME)
+	hack_target.set_hack_progress(1.0 - _hack_time_left / program.upload_time)
 	if _hack_time_left > 0.0:
 		return
 	var target := hack_target
 	hack_target = null
-	if not focus.try_spend(HACK_FOCUS_COST):
+	if not focus.try_spend(program.focus_cost):
 		target.set_hack_progress(-1.0)
 		return
-	get_ambition().remove(HACK_AMBITION_COST)
-	var jam := HACK_JAM_TIME if GameState.has_skill(&"aurel_hack_jam") else 0.0
-	target.receive_hack(HACK_STUN_TIME, jam, HACK_COOLDOWN)
+	get_ambition().remove(program.ambition_cost)
+	var jam := HACK_JAM_TIME if program.effect == HackProgramData.Effect.DISRUPT and GameState.has_skill(&"aurel_hack_jam") else 0.0
+	var effect_time := program.effect_time
+	if program.effect == HackProgramData.Effect.OVERHEAT and GameState.has_skill(&"aurel_embers"):
+		effect_time *= 1.5
+	target.receive_program(program, effect_time, jam)
 	# Zählt wie ein Angriff auf Konzernkräfte (Fahndung).
 	EventBus.enemy_hit_by_player.emit(target)
 	EventBus.camera_shake_requested.emit(0.1)

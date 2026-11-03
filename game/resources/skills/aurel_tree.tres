@@ -94,7 +94,23 @@ description = "Fernzugriff sperrt zusätzlich die Waffe: 8 Sekunden lang macht d
 branch = "Insider"
 requires = Array[StringName]([&"aurel_hack_disrupt"])
 
+[sub_resource type="Resource" id="Skill_aurel_hack_blind"]
+script = ExtResource("2_skill")
+id = &"aurel_hack_blind"
+display_name = "Blendung"
+description = "Neues Fernzugriff-Programm (F halten wechselt): Die Augenimplantate der Wache fallen 6 Sekunden aus. Sie verliert dich aus der Sicht und sucht an der letzten Stelle. 30 Ehrgeiz, 10 Fokus, 0,8 s hochladen."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_hack_disrupt"])
+
+[sub_resource type="Resource" id="Skill_aurel_hack_overheat"]
+script = ExtResource("2_skill")
+id = &"aurel_hack_overheat"
+display_name = "Überhitzung"
+description = "Neues Fernzugriff-Programm (F halten wechselt): Die Implantate der Wache glühen und brennen 5 Sekunden (8 Schaden pro Sekunde; mit „Glutnarben“ länger). 45 Ehrgeiz, 15 Fokus, 1,2 s hochladen."
+branch = "Insider"
+requires = Array[StringName]([&"aurel_hack_blind"])
+
 [resource]
 script = ExtResource("1_tree")
 branches = Array[String](["Aufstieg", "Glut", "Insider"])
-skills = Array[ExtResource("2_skill")]([SubResource("Skill_aurel_hunger"), SubResource("Skill_aurel_chain_strikes"), SubResource("Skill_aurel_summit"), SubResource("Skill_aurel_sparks"), SubResource("Skill_aurel_embers"), SubResource("Skill_aurel_wildfire"), SubResource("Skill_aurel_badge"), SubResource("Skill_aurel_hack_disrupt"), SubResource("Skill_aurel_hack_jam"), SubResource("Skill_aurel_weak_spots"), SubResource("Skill_aurel_takeover")])
+skills = Array[ExtResource("2_skill")]([SubResource("Skill_aurel_hunger"), SubResource("Skill_aurel_chain_strikes"), SubResource("Skill_aurel_summit"), SubResource("Skill_aurel_sparks"), SubResource("Skill_aurel_embers"), SubResource("Skill_aurel_wildfire"), SubResource("Skill_aurel_badge"), SubResource("Skill_aurel_hack_disrupt"), SubResource("Skill_aurel_hack_jam"), SubResource("Skill_aurel_hack_blind"), SubResource("Skill_aurel_hack_overheat"), SubResource("Skill_aurel_weak_spots"), SubResource("Skill_aurel_takeover")])

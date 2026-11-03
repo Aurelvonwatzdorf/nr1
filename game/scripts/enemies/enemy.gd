@@ -39,6 +39,8 @@ var raven_mark_multiplier: float = 2.0
 var hack_progress: float = -1.0
 var hack_cooldown_left: float = 0.0
 var weapon_jam_left: float = 0.0
+## Fernzugriff „Blendung“: so lange sieht er nichts.
+var blind_left: float = 0.0
 ## Lautloses Erledigen: Reichweite, Rückenwinkel, Anteil der Erinnerungen
 ## beim Betäuben, Lärm beim Töten.
 const TAKEDOWN_RANGE := 1.6
@@ -79,6 +81,7 @@ func _physics_process(delta: float) -> void:
 	delta *= world_speed
 	attack_cooldown_left = maxf(attack_cooldown_left - delta, 0.0)
 	hack_cooldown_left = maxf(hack_cooldown_left - delta, 0.0)
+	blind_left = maxf(blind_left - delta, 0.0)
 	if weapon_jam_left > 0.0:
 		weapon_jam_left = maxf(weapon_jam_left - delta, 0.0)
 		if weapon_jam_left == 0.0:
@@ -159,6 +162,26 @@ func can_be_hacked() -> bool:
 func set_hack_progress(ratio: float) -> void:
 	hack_progress = ratio
 	_update_health_label()
+
+
+## Ein Fernzugriff-Programm wirkt (siehe HackProgramData).
+func receive_program(program: HackProgramData, effect_time: float, jam_time: float) -> void:
+	match program.effect:
+		HackProgramData.Effect.DISRUPT:
+			receive_hack(effect_time, jam_time, program.target_cooldown)
+		HackProgramData.Effect.BLIND:
+			hack_progress = -1.0
+			hack_cooldown_left = program.target_cooldown
+			blind_left = effect_time
+			perception.lose_track()
+			flash()
+			_update_health_label()
+		HackProgramData.Effect.OVERHEAT:
+			hack_progress = -1.0
+			hack_cooldown_left = program.target_cooldown
+			apply_burn(program.damage_per_second, effect_time)
+			flash()
+			_update_health_label()
 
 
 ## Zugriff gelungen: Störung (taumeln), mit Waffensperre halber Schaden.
@@ -309,6 +332,7 @@ func reset_enemy() -> void:
 	hack_progress = -1.0
 	hack_cooldown_left = 0.0
 	weapon_jam_left = 0.0
+	blind_left = 0.0
 	health.revive()
 	visible = true
 	collision_shape.set_deferred(&"disabled", false)

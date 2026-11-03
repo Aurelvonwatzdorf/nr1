@@ -11,6 +11,8 @@ extends Node
 ## Lärm von Schüssen und Treffern (Meter).
 const SHOT_NOISE_RADIUS := 25.0
 const HIT_NOISE_RADIUS := 12.0
+## Geblendet (Fernzugriff) merkt er einen nur bei Berührung.
+const BLIND_NEAR_RADIUS := 0.8
 
 var enemy: Enemy
 ## Verdacht 0–1; bei 1 ist er alarmiert.
@@ -54,6 +56,8 @@ func update(delta: float) -> void:
 	var near := data.near_radius_crouched if crouched else data.near_radius
 	if _hidden_by_camouflage(player):
 		near = minf(near, player.character_data.camouflage_detect_radius)
+	if enemy.blind_left > 0.0:
+		near = minf(near, BLIND_NEAR_RADIUS)
 	if distance <= near:
 		sees_player = true
 		_notice(player, 1.0)
@@ -71,7 +75,7 @@ func update(delta: float) -> void:
 
 ## Liegt die Spielfigur im Sichtkegel, in Sichtweite und ohne Wand dazwischen?
 func can_see(player: Player) -> bool:
-	if _hidden_by_camouflage(player):
+	if _hidden_by_camouflage(player) or enemy.blind_left > 0.0:
 		return false
 	var offset := player.global_position - enemy.global_position
 	offset.y = 0.0
@@ -106,6 +110,15 @@ func hear(position: Vector3, radius: float) -> void:
 	last_known_position = position
 	wants_to_investigate = true
 	awareness = maxf(awareness, 0.5)
+
+
+## Spur verloren (z. B. geblendet): kein Alarm mehr, er sucht an der letzten Stelle.
+func lose_track() -> void:
+	if enemy.health.is_dead:
+		return
+	alerted = false
+	awareness = minf(awareness, 0.6)
+	wants_to_investigate = true
 
 
 ## Sofort alarmiert (z. B. getroffen).

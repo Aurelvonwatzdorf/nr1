@@ -18,6 +18,10 @@ func enter(_msg: Dictionary = {}) -> void:
 func physics_update(delta: float) -> void:
 	var player := enemy.get_player()
 	var perception := enemy.perception
+	if not perception.alerted and player:
+		# Spur verloren (z. B. geblendet): an der letzten Stelle suchen.
+		state_machine.transition_to(&"search")
+		return
 	_unseen_time = 0.0 if perception.sees_player else _unseen_time + delta
 	if player == null or enemy.distance_to_node(player) > enemy.data.lose_radius or _unseen_time > LOSE_SIGHT_TIME:
 		perception.alerted = false

@@ -668,7 +668,7 @@ func _run() -> void:
 
 	# Fähigkeiten: Punkte durch Level-Up, Reihenfolge, Story-Sperre
 	var tree_data := player.character_data.skill_tree
-	_check(tree_data != null and tree_data.branches.size() == 3 and tree_data.skills.size() == 11, "Aurel hat einen Baum mit 3 Ästen und 11 Fähigkeiten")
+	_check(tree_data != null and tree_data.branches.size() == 3 and tree_data.skills.size() == 13, "Aurel hat einen Baum mit 3 Ästen und 13 Fähigkeiten")
 	var hunger := tree_data.get_skill(&"aurel_hunger")
 	var chain := tree_data.get_skill(&"aurel_chain_strikes")
 	var summit := tree_data.get_skill(&"aurel_summit")
@@ -1289,6 +1289,29 @@ func _test_movement_and_combat_mechanics(arena: Node, player: Player) -> void:
 	player.start_hack()
 	await _frames(70)
 	_check(hack_guard.weapon_jam_left > 7.0 and is_equal_approx(hack_guard.hitbox.damage_modifier.call(player.hurtbox, 18.0), 9.0), "Waffensperre: Wache macht 8 s nur halben Schaden")
+	# Programme: F halten wechselt, Blendung und Überhitzung
+	GameState.unlocked_skills.append(&"aurel_hack_blind")
+	GameState.unlocked_skills.append(&"aurel_hack_overheat")
+	player.hack_program_index = 0
+	hack_guard.reset_enemy()
+	hack_guard.attack_cooldown_left = 100.0
+	await _frames(3)
+	player.get_ambition().add(100.0)
+	player.focus.refill()
+	await _hold(&"call_spirit", 30)
+	_check(player.hack_target == null and player.get_hack_program().id == &"blind", "F halten: Programm wechselt (Blendung), Hochladen abgebrochen")
+	hack_guard.perception.alert(player.global_position)
+	await _tap(&"call_spirit")
+	await _frames(60)
+	_check(hack_guard.blind_left > 4.0 and not hack_guard.perception.alerted, "Blendung: Wache sieht 6 s nichts und verliert die Spur")
+	hack_guard.hack_cooldown_left = 0.0
+	player.cycle_hack_program()
+	player.get_ambition().add(100.0)
+	player.focus.refill()
+	var overheat_hp := hack_guard.health.current
+	player.start_hack()
+	await _frames(80)
+	_check(player.get_hack_program().id == &"overheat" and hack_guard.is_burning() and hack_guard.health.current < overheat_hp, "Überhitzung: Wache brennt")
 	GameState.unlocked_skills.clear()
 	player.lock_on.set_target(null)
 	hack_guard.reset_enemy()

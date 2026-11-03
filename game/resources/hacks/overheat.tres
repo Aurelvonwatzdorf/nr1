@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="HackProgramData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skills/hack_program_data.gd" id="1_hack"]
+
+[resource]
+script = ExtResource("1_hack")
+id = &"overheat"
+display_name = "Überhitzung"
+effect = 2
+required_skill = &"aurel_hack_overheat"
+upload_time = 1.2
+ambition_cost = 45.0
+focus_cost = 15.0
+effect_time = 5.0
+damage_per_second = 8.0
+target_cooldown = 15.0
