@@ -32,8 +32,8 @@ Kein Kanalname/Logo eines echten YouTube-Kanals verwenden.
   „New composition; borrow ONLY the art style of the reference image.“
 
 ## Kling-Szenen (scenes.json, kling=1)
-Index: 0, 9, 20, 28, 33, 40, 42, 50, 66, 70, 76 und die Server-/Aktienkurs-/Megacity-Szenen
-(siehe Feld kling). Modell `kling3_0`, duration 5, 16:9, `medias:[{role:"start_image", value:<Bild-Job-ID>}]`,
+Index: 0, 9, 20, 28, 32, 38, 39, 45, 56, 60, 63, 76
+(Feld kling in scenes.json). Modell `kling3_0`, duration 5, 16:9, `medias:[{role:"start_image", value:<Bild-Job-ID>}]`,
 Prompt: ruhige, langsame Bewegung, flacher 2D-Stil bleibt erhalten, keine neuen Personen, kein Text.
 Im Schnitt: Clip abspielen, danach letztes Bild halten bis Szenenende.
 
