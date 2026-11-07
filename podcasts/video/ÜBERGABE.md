@@ -24,12 +24,29 @@ Kein Kanalname/Logo eines echten YouTube-Kanals verwenden.
 - `img/`, `clips/`, `sfx/`, `ausgabe/` sind lokal (in .gitignore). Bilder neu laden mit:
   `while read i u; do curl -sSf -o img/s$(printf %02d $i).png "$u"; done < bilder_urls.txt`
 
-## Stand
-- Fertig: Bilder 0–19 (20 von 77). Offen: Bilder 20–76, 12 Kling-Clips, Soundeffekte, Schnitt.
-- Kosten bisher ~22 Credits (Bild ≈ 1, Kling 5 s ≈ 10, Soundeffekt ≈ 0,75). Guthaben ~575.
+## Stand (07.11.2026, abends): FERTIG
+- `ausgabe/video_sauber.mp4` (ohne Text) und `ausgabe/video_sprechhilfe.mp4` (Sprecher + Zeile +
+  „nächste:“-Vorschau unten), je 1920×1080, 30 fps, AAC 48 kHz stereo, Länge 581,77 s.
+  Lange Zeilen (bis 429 Zeichen) sind in der Sprechhilfe auf Seiten à max. 3 Zeilen verteilt
+  (Zeit nach Zeichenzahl, „1/2“, „2/2“ unter dem Namen; 68 Seiten für 52 Zeilen).
+  Dazu `zeitplan.srt` (Kopie auch in `ausgabe/`). Videos liegen nur lokal (in .gitignore).
+- Alle 77 Bilder (Kontaktblätter geprüft: einheitlicher Stil, keine Schrift; Bild 34 zeigt bewusst
+  Schriftzeichen als Übersetzungssymbole), 12 Kling-Clips (`kling_job_ids.txt`, 1276×720, ohne Ton,
+  im Schnitt hochskaliert), 22 Soundeffekte (`sfx_quellen.txt`, WAVs auf −1 dBFS normalisiert).
+- Ton: `sfx_plan.json` (erzeugt von `tools/sfx_plan.py`), 43 Events, Teppich −30 dB als Schleife,
+  Effekte −20 bis −24 dB, Whoosh 0,9 s vor den Zeilen 4/12/20/28/38/46 (Höhepunkt auf dem Schnitt).
+  Gemessen: Spitze −23 dB, Mittel −46 dB, viel Platz für die Stimmen.
+- Kosten dieser Runde ≈ 179 Credits (57 Bilder, 12 Kling à 7,5 mit sound off, 24 Effekte).
+  Guthaben 399. Gesamt bisher ≈ 201.
 - **Higgsfield-Limit: max. 4 Aufträge gleichzeitig pro Konto** (sonst 429 rate_limit_reached).
-- Prompt-Zusatz, damit nicht die Straße der Vorlage kopiert wird:
-  „New composition; borrow ONLY the art style of the reference image.“
+
+## Neu bauen (Mac)
+- Werkzeuge: `brew install ffmpeg ffmpeg-full` (drawtext gibt es nur in ffmpeg-full,
+  `/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg`), `pip3 install --user Pillow`.
+- Bilder laden (s. oben), Kling-Clips: `while read i j u; do curl -sSf -o clips/kling_$(printf %02d $i).mp4 "$u"; done < kling_job_ids.txt`,
+  Effekte über die URLs in `sfx_quellen.txt` (danach WAV 48 kHz, normalisiert; siehe `tools/sfx_plan.py`).
+- `python3 tools/render_stills.py` → `python3 tools/assemble.py all` (Teilschritte: video|audio|mux|hilfe|srt).
+- `python3 tools/contact.py out.png 20 21 22 …` baut ein Kontaktblatt zum Prüfen.
 
 ## Kling-Szenen (scenes.json, kling=1)
 Index: 0, 9, 20, 28, 32, 38, 39, 45, 56, 60, 63, 76

@@ -1,0 +1,208 @@
+1
+00:00:06,000 --> 00:00:10,680
+JOSHUA: ¡Hola a todos! Bienvenidos a nuestro podcast. Yo soy Joshua…
+
+2
+00:00:10,680 --> 00:00:24,340
+AUREL: …y yo soy Aurel. Somos estudiantes de la ESBZ en Berlín, y hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.
+
+3
+00:00:24,340 --> 00:00:38,410
+JOSHUA: Vamos a ver qué se está investigando, qué son las cámaras Flock, cómo usan la IA los servicios secretos, qué hace la empresa Palantir y cuánta plata se mueve en todo este negocio.
+
+4
+00:00:38,410 --> 00:00:46,360
+AUREL: Ah, y un dato: un poco de esto también está pasando aquí en Alemania. Pero vamos por partes.
+
+5
+00:00:46,360 --> 00:00:53,900
+JOSHUA: Aurel, empecemos por la investigación. ¿Qué cosas nuevas está desarrollando la IA en el tema de vigilancia?
+
+6
+00:00:53,900 --> 00:01:10,420
+AUREL: Mira, el reconocimiento facial ya lo conoce todo el mundo. Pero la investigación va mucho más allá. Por ejemplo, el reconocimiento por la forma de caminar, o sea, la cámara te identifica aunque no se te vea la cara.
+
+7
+00:01:10,420 --> 00:01:13,060
+JOSHUA: ¿En serio? ¿Por cómo camino?
+
+8
+00:01:13,060 --> 00:01:43,460
+AUREL: Sí, cada persona tiene un paso único. Y hay algo todavía más loco: en China, según un reportaje del South China Morning Post de junio de este año, hay cámaras que miden los signos vitales de una persona, como el pulso, en unos diez segundos. Y hay empresas que venden modelos de IA que dicen poder adivinar, solo mirando tu cara, si eres emocionalmente estable o si tienes "riesgo de cometer un delito".
+
+9
+00:01:43,460 --> 00:01:48,140
+JOSHUA: Eso suena a ciencia ficción… y a ciencia muy dudosa.
+
+10
+00:01:48,140 --> 00:02:03,840
+AUREL: Exacto. Muchos científicos dicen que no se puede leer el carácter de alguien en su cara. Por eso la Unión Europea prohibió, con su ley de IA, el reconocimiento de emociones en escuelas y lugares de trabajo.
+
+11
+00:02:03,840 --> 00:02:10,150
+JOSHUA: Uff, menos mal. Imagínate una cámara en el aula que diga: "Joshua está aburrido".
+
+12
+00:02:10,150 --> 00:02:12,790
+AUREL: Esa cámara tendría mucho trabajo.
+
+13
+00:02:12,790 --> 00:02:20,330
+JOSHUA: Bueno, pasemos a Estados Unidos. Ahí hay una empresa que se llama Flock Safety. ¿Qué hace exactamente?
+
+14
+00:02:20,330 --> 00:02:38,480
+AUREL: Flock vende cámaras que leen las patentes de los autos. Las ponen en calles, barrios y estacionamientos, y la IA guarda cada auto que pasa: la patente, el color, el modelo, incluso calcomanías. Miles de policías y municipios en Estados Unidos las usan.
+
+15
+00:02:38,480 --> 00:02:44,790
+JOSHUA: O sea, si yo manejo por la ciudad, el sistema sabe por dónde pasé.
+
+16
+00:02:44,790 --> 00:03:14,370
+AUREL: Así es. Y la policía puede buscar en esa red, también entre distintas ciudades. Y ahí empezó el problema. En 2025 y 2026 salió a la luz que agencias de policía compartían esos datos con ICE, la autoridad de inmigración. Un estudio de la Universidad de Washington encontró que ocho agencias de ese estado compartieron datos con ICE en 2025, y otras diez permitían un acceso "por la puerta de atrás".
+
+17
+00:03:14,370 --> 00:03:16,600
+JOSHUA: ¿Y Flock qué dice?
+
+18
+00:03:16,600 --> 00:03:40,470
+AUREL: Que no tiene contrato con ICE y que cada ciudad decide con quién comparte. Pero muchas ciudades se asustaron igual. Según un conteo, solo en los primeros cinco meses de 2026 se cancelaron 39 contratos con Flock. Otro conteo habla de casi 150 ciudades y condados que, entre enero y agosto, cancelaron, rechazaron o apagaron las cámaras.
+
+19
+00:03:40,470 --> 00:03:44,340
+JOSHUA: Interesante. Entonces la gente sí puede frenar esto.
+
+20
+00:03:44,340 --> 00:03:49,430
+AUREL: A nivel local, sí. Eso es lo bueno de este caso.
+
+21
+00:03:49,430 --> 00:03:55,740
+JOSHUA: Ahora vamos a lo más secreto: los servicios de inteligencia. ¿Cómo usan la IA?
+
+22
+00:03:55,740 --> 00:04:13,070
+AUREL: El problema de los servicios secretos nunca fue conseguir datos. Tienen muchísimos: llamadas, mensajes, imágenes de satélite. El problema era que ninguna persona puede leer todo eso. Y ahí entra la IA: traduce, resume, busca patrones y encuentra conexiones entre personas.
+
+23
+00:04:13,070 --> 00:04:14,890
+JOSHUA: ¿Hay ejemplos concretos?
+
+24
+00:04:14,890 --> 00:04:40,390
+AUREL: Varios. La CIA probó unos trescientos proyectos de IA en un año, por ejemplo para traducir y analizar grandes cantidades de datos. La NSA, el servicio de Estados Unidos que escucha las comunicaciones, dijo en agosto de 2026 que quiere acceso a "todos" los modelos avanzados de IA. Y el GCHQ británico está metiendo agentes de IA en su defensa cibernética.
+
+25
+00:04:40,390 --> 00:04:43,850
+JOSHUA: ¿Y el caso de Microsoft que leí?
+
+26
+00:04:43,850 --> 00:05:14,650
+AUREL: Ah, sí. Según una investigación de The Guardian de 2025, la Unidad 8200 de la inteligencia israelí guardaba millones de llamadas telefónicas de palestinos en la nube de Microsoft, en servidores en Europa. Se habla de unos ocho mil terabytes. Después de la investigación, Microsoft le cortó a esa unidad el acceso a esos servicios de nube e IA, aunque Microsoft dice que no encontró pruebas de que se usara para atacar a personas.
+
+27
+00:05:14,650 --> 00:05:25,450
+JOSHUA: Lo que me impresiona es que una empresa de tecnología normal, que hace Word y Excel, de repente está en el centro de algo así.
+
+28
+00:05:25,450 --> 00:05:32,170
+AUREL: Justamente. La línea entre empresas de tecnología y servicios secretos es cada vez más delgada.
+
+29
+00:05:32,170 --> 00:05:36,440
+JOSHUA: Y eso nos lleva a Palantir. ¿Qué es Palantir?
+
+30
+00:05:36,440 --> 00:05:55,000
+AUREL: Palantir es una empresa estadounidense, cofundada por Peter Thiel. Su software junta datos de muchas fuentes distintas, como registros policiales, datos de vehículos o de teléfonos, y los muestra todos conectados. Así la policía o el ejército pueden ver redes de personas y relaciones.
+
+31
+00:05:55,000 --> 00:05:57,230
+JOSHUA: ¿Y quién lo usa?
+
+32
+00:05:57,230 --> 00:06:17,830
+AUREL: Muchísimos gobiernos. En Estados Unidos, por ejemplo, Palantir firmó un contrato de unos 10 mil millones de dólares con el Ejército. Y en 2025 ICE le dio un contrato de 30 millones para un sistema que se llama "ImmigrationOS", que ayuda a encontrar y seguir a migrantes sin papeles.
+
+33
+00:06:17,830 --> 00:06:20,060
+JOSHUA: ¿Y aquí en Alemania?
+
+34
+00:06:20,060 --> 00:06:36,990
+AUREL: También. Hessen lo usa desde 2017 con el nombre "HessenData", Baviera con "VeRA" y Renania del Norte-Westfalia con "DAR". Baden-Wurtemberg lo aprobó hace poco. Y el ministro del Interior, Dobrindt, quiere ver si se usa también en la policía federal.
+
+35
+00:06:36,990 --> 00:06:39,220
+JOSHUA: Pero hubo críticas, ¿no?
+
+36
+00:06:39,220 --> 00:07:01,450
+AUREL: Muchas. En 2023 el Tribunal Constitucional Federal dijo que las reglas de Hessen y Hamburgo para este tipo de análisis de datos violaban derechos fundamentales y tenían que cambiar. Y grupos como el Chaos Computer Club critican que la policía alemana dependa de una empresa estadounidense tan cercana al gobierno de Estados Unidos.
+
+37
+00:07:01,450 --> 00:07:04,500
+JOSHUA: ¿Y Palantir gana bien con eso?
+
+38
+00:07:04,500 --> 00:07:26,730
+AUREL: ¡Muy bien! En el último trimestre de 2025 vendió unos 1.400 millones de dólares, un setenta por ciento más que el año anterior. Y para 2026 espera unos 7.200 millones. Su jefe, Alex Karp, defiende el software y dice que incluso protege los derechos de privacidad. Pero empleados, exempleados y políticos lo critican.
+
+39
+00:07:26,730 --> 00:07:32,230
+JOSHUA: Bueno, hablemos de plata en general. ¿Qué tan grande es este mercado?
+
+40
+00:07:32,230 --> 00:07:57,730
+AUREL: Es enorme. Solo el mercado mundial de videovigilancia mueve unos 27 mil millones de dólares al año. Y la parte de IA dentro de las cámaras crece muy rápido: según la consultora MarketsandMarkets, pasa de unos 4 mil millones de dólares en 2026 a casi 11 mil millones en 2032. Eso es un crecimiento de casi dieciocho por ciento al año.
+
+41
+00:07:57,730 --> 00:07:59,960
+JOSHUA: ¿Y dónde crece más?
+
+42
+00:07:59,960 --> 00:08:25,870
+AUREL: En Asia. China es el mercado más grande: unos mil millones de dólares este año, y se espera que sean más de tres mil millones en 2031. Pero el que más rápido crece es India, con más de veinticinco por ciento al año, por todos sus proyectos de "ciudades inteligentes". Estados Unidos, Japón y el Reino Unido también crecen, pero más lento.
+
+43
+00:08:25,870 --> 00:08:28,510
+JOSHUA: ¿Y los países del Golfo?
+
+44
+00:08:28,510 --> 00:08:45,840
+AUREL: Ahí también se invierte mucho, por ejemplo en los Emiratos Árabes Unidos, donde empresas cercanas al gobierno prueban sistemas para seguir personas en eventos grandes. Y China exporta paquetes completos de "ciudad segura" a otros países, muchas veces con financiamiento incluido.
+
+45
+00:08:45,840 --> 00:08:50,520
+JOSHUA: O sea, la vigilancia es también un producto de exportación.
+
+46
+00:08:50,520 --> 00:08:56,020
+AUREL: Exacto. Y por eso es difícil frenarla: hay mucha plata en juego.
+
+47
+00:08:56,020 --> 00:08:59,480
+JOSHUA: Entonces, ¿qué nos llevamos de este episodio?
+
+48
+00:08:59,480 --> 00:09:20,900
+AUREL: Para mí, tres cosas. Primero: la tecnología avanza más rápido que las leyes. Segundo: muchas veces no son los gobiernos solos, sino empresas privadas las que construyen y controlan estos sistemas. Y tercero: sí se puede hacer algo, como muestran las ciudades que cancelaron Flock o los tribunales que pusieron límites.
+
+49
+00:09:20,900 --> 00:09:29,260
+JOSHUA: Y yo me quedo con una pregunta: ¿cuánta seguridad queremos, y cuánta libertad estamos dispuestos a dar por ella?
+
+50
+00:09:29,260 --> 00:09:32,310
+AUREL: Buena pregunta. Cuéntennos qué piensan ustedes.
+
+51
+00:09:32,310 --> 00:09:34,540
+JOSHUA: ¡Gracias por escuchar! Chao.
+
+52
+00:09:34,540 --> 00:09:36,770
+AUREL: ¡Chao, hasta la próxima!
+
