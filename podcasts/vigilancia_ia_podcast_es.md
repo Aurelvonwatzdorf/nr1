@@ -1,145 +1,141 @@
-# Ojo Digital – Episodio: "Te están mirando: vigilancia con IA y policía predictiva"
+# Podcast escolar ESBZ – "¿Quién nos está mirando? La IA y la vigilancia en el mundo"
 
-**Duración estimada:** 9–10 minutos (≈ 1.400 palabras)
-**Voces:**
-- **VALENTINA** – periodista de Buenos Aires (habla con voseo rioplatense)
-- **MATEO** – investigador en derechos digitales de Bogotá (tutea)
-
+**Duración estimada:** 9–10 minutos (≈ 1.400 palabras habladas)
+**Voces:** **JOSHUA** y **AUREL**, estudiantes de la ESBZ (Evangelische Schule Berlin Zentrum)
+**Estilo:** español latinoamericano (tuteo, sin "vosotros")
 *Estado de los datos: noviembre de 2026.*
 
 ---
 
 **[MÚSICA DE ENTRADA – 5 segundos, baja de volumen]**
 
-**VALENTINA:** ¡Hola, hola! Bienvenidos a *Ojo Digital*, el podcast donde hablamos de tecnología sin vueltas. Yo soy Valentina, desde Buenos Aires.
+**JOSHUA:** ¡Hola a todos! Bienvenidos a nuestro podcast. Yo soy Joshua…
 
-**MATEO:** Y yo soy Mateo, desde Bogotá. Hoy tenemos un tema que, la verdad, nos toca a todos: la vigilancia con inteligencia artificial. Cámaras que reconocen tu cara, algoritmos que leen tus redes y sistemas que dicen poder predecir dónde va a ocurrir un delito.
+**AUREL:** …y yo soy Aurel. Somos estudiantes de la ESBZ en Berlín, y hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.
 
-**VALENTINA:** Lo que se conoce como *predictive policing*, o policía predictiva. Suena a película de ciencia ficción, ¿no?
+**JOSHUA:** Vamos a ver qué se está investigando, qué son las cámaras Flock, cómo usan la IA los servicios secretos, qué hace la empresa Palantir y cuánta plata se mueve en todo este negocio.
 
-**MATEO:** Total. Pero ya no es ficción. Es parte de la vida diaria en muchas ciudades, también en Sudamérica.
-
----
-
-**[BLOQUE 1 – ¿De qué hablamos?]**
-
-**VALENTINA:** Arranquemos por lo básico. Mateo, ¿qué es exactamente la vigilancia con IA?
-
-**MATEO:** Mira, cámaras hay desde hace décadas. La diferencia es que antes alguien tenía que sentarse a mirar las pantallas. Ahora un software lo hace solo, las veinticuatro horas: compara caras con bases de datos, lee patentes de autos, detecta "comportamientos sospechosos" y revisa publicaciones en redes sociales.
-
-**VALENTINA:** O sea, la máquina no se cansa ni se distrae.
-
-**MATEO:** Exacto. Y eso es justamente lo que la hace tan poderosa… y tan peligrosa. Porque cuando se equivoca, se equivoca a escala.
+**AUREL:** Ah, y un dato: un poco de esto también está pasando aquí en Alemania. Pero vamos por partes.
 
 ---
 
-**[BLOQUE 2 – Ejemplos en Sudamérica]**
+**[BLOQUE 1 – ¿Qué se investiga?]**
 
-**VALENTINA:** Te cuento lo que está pasando acá en Argentina, porque es bastante fuerte. En julio de 2024 el Ministerio de Seguridad creó la Unidad de Inteligencia Artificial Aplicada a la Seguridad. Su misión oficial es "prevenir, detectar e investigar delitos" usando IA.
+**JOSHUA:** Aurel, empecemos por la investigación. ¿Qué cosas nuevas está desarrollando la IA en el tema de vigilancia?
 
-**MATEO:** ¿Y eso qué incluye en la práctica?
+**AUREL:** Mira, el reconocimiento facial ya lo conoce todo el mundo. Pero la investigación va mucho más allá. Por ejemplo, el reconocimiento por la forma de caminar, o sea, la cámara te identifica aunque no se te vea la cara.
 
-**VALENTINA:** Entre otras cosas, patrullar las redes sociales abiertas, aplicaciones y sitios de internet. Lo que se llama "ciberpatrullaje". Y en agosto de este año, Amnistía Internacional publicó un informe que se llama *Estado de vigilancia*. Ahí dice que el gobierno gastó al menos 1,2 millones de dólares entre 2024 y 2025 en tecnologías de reconocimiento facial, monitoreo de redes y vigilancia aérea con drones.
+**JOSHUA:** ¿En serio? ¿Por cómo camino?
 
-**MATEO:** ¿Y qué conclusión saca Amnistía?
+**AUREL:** Sí, cada persona tiene un paso único. Y hay algo todavía más loco: en China, según un reportaje del *South China Morning Post* de junio de este año, hay cámaras que miden los signos vitales de una persona, como el pulso, en unos diez segundos. Y hay empresas que venden modelos de IA que dicen poder adivinar, solo mirando tu cara, si eres emocionalmente estable o si tienes "riesgo de cometer un delito".
 
-**VALENTINA:** Que esto tiene un efecto disuasorio sobre la protesta. Es decir, la gente lo piensa dos veces antes de salir a marchar o de publicar una crítica, porque sabe que la pueden estar mirando. Amnistía lo describe como parte de una ola global de "tecnoautoritarismo". El Ministerio, por cierto, no respondió a las consultas de la prensa.
+**JOSHUA:** Eso suena a ciencia ficción… y a ciencia muy dudosa.
 
-**MATEO:** Ufff. ¿Y no hubo un caso judicial en Buenos Aires con el reconocimiento facial?
+**AUREL:** Exacto. Muchos científicos dicen que no se puede leer el carácter de alguien en su cara. Por eso la Unión Europea prohibió, con su ley de IA, el reconocimiento de emociones en escuelas y lugares de trabajo.
 
-**VALENTINA:** Sí, sí. La Justicia suspendió el Sistema de Reconocimiento Facial de Prófugos de la Ciudad, porque se detectaron consultas irregulares a datos de millones de personas, incluso de políticos y periodistas. Pero, según un informe de la organización Derechos Digitales de enero de 2026, varias provincias están avanzando con sistemas parecidos.
+**JOSHUA:** Uff, menos mal. Imagínate una cámara en el aula que diga: "Joshua está aburrido".
 
-**MATEO:** O sea, se cierra una puerta y se abren otras cinco.
-
-**VALENTINA:** Más o menos así.
-
-**MATEO:** En Brasil el tema también es enorme. En São Paulo, por ejemplo, hay programas con miles de cámaras conectadas con reconocimiento facial, en la ciudad y en el metro. Y en Brasil hay estudios que muestran que la gran mayoría de las personas detenidas por error con esta tecnología son personas negras.
-
-**VALENTINA:** Ahí está el problema del sesgo.
-
-**MATEO:** Claro. Si los algoritmos se entrenan con datos que no representan bien a toda la población, se equivocan más con ciertos grupos. Y en un país como Brasil, con una historia de racismo estructural, eso no es un detalle técnico. Es un problema de derechos humanos.
+**AUREL:** [risa] Esa cámara tendría mucho trabajo.
 
 ---
 
-**[BLOQUE 3 – Ejemplos en el resto del mundo]**
+**[BLOQUE 2 – Las cámaras Flock]**
 
-**VALENTINA:** Salgamos un poco de la región. ¿Qué pasa en Europa?
+**JOSHUA:** Bueno, pasemos a Estados Unidos. Ahí hay una empresa que se llama Flock Safety. ¿Qué hace exactamente?
 
-**MATEO:** En el Reino Unido es donde más se discute ahora mismo. En enero de 2026 el gobierno anunció que va a pasar de diez a más de cincuenta camionetas con reconocimiento facial en vivo, en todo el país. Y en abril, el Tribunal Superior de Londres rechazó una demanda contra la Policía Metropolitana por usar esta tecnología.
+**AUREL:** Flock vende cámaras que leen las patentes de los autos. Las ponen en calles, barrios y estacionamientos, y la IA guarda cada auto que pasa: la patente, el color, el modelo, incluso calcomanías. Miles de policías y municipios en Estados Unidos las usan.
 
-**VALENTINA:** ¿Y funciona bien?
+**JOSHUA:** O sea, si yo manejo por la ciudad, el sistema sabe por dónde pasé.
 
-**MATEO:** Bueno, ahí está el debate. Hay casos documentados de gente inocente marcada como sospechosa: un ingeniero de software detenido por una coincidencia falsa, una partera retenida después de un escaneo en un negocio… Y en Estados Unidos, hasta marzo de este año, se contaban por lo menos nueve arrestos injustos documentados por errores de reconocimiento facial.
+**AUREL:** Así es. Y la policía puede buscar en esa red, también entre distintas ciudades. Y ahí empezó el problema. En 2025 y 2026 salió a la luz que agencias de policía compartían esos datos con ICE, la autoridad de inmigración. Un estudio de la Universidad de Washington encontró que ocho agencias de ese estado compartieron datos con ICE en 2025, y otras diez permitían un acceso "por la puerta de atrás".
 
-**VALENTINA:** Me acuerdo del caso de una mujer en Detroit, que estaba embarazada de ocho meses y la detuvieron por un robo que no había cometido.
+**JOSHUA:** ¿Y Flock qué dice?
 
-**MATEO:** Porcha Woodruff, sí. En 2023. Fue un error del sistema y nadie lo verificó bien antes de ir a buscarla. Y eso es clave: muchas veces la policía trata el resultado de la máquina como si fuera una prueba, cuando en realidad es solo una pista.
+**AUREL:** Que no tiene contrato con ICE y que cada ciudad decide con quién comparte. Pero muchas ciudades se asustaron igual. Según un conteo, solo en los primeros cinco meses de 2026 se cancelaron 39 contratos con Flock. Otro conteo habla de casi 150 ciudades y condados que, entre enero y agosto, cancelaron, rechazaron o apagaron las cámaras.
 
-**VALENTINA:** Y en Asia también se está expandiendo, ¿no?
+**JOSHUA:** Interesante. Entonces la gente sí puede frenar esto.
 
-**MATEO:** Sí. Hong Kong anunció este año que va a sumar reconocimiento facial con IA a sus cámaras públicas. Y en Australia Occidental se reportó que la policía escaneó unas ciento treinta mil caras en una sola semana.
-
----
-
-**[BLOQUE 4 – Policía predictiva]**
-
-**VALENTINA:** Bueno, vamos a la parte que más me intriga: la policía predictiva. ¿Cómo funciona?
-
-**MATEO:** Hay dos tipos principales. El primero predice *lugares*: el sistema mira dónde hubo delitos en el pasado y marca en un mapa las "zonas calientes" donde supuestamente va a pasar algo pronto. Entonces mandan más patrullas ahí.
-
-**VALENTINA:** ¿Y el segundo?
-
-**MATEO:** El segundo predice *personas*. Le pone un puntaje de riesgo a alguien: qué tan probable es que cometa un delito o que vuelva a delinquir.
-
-**VALENTINA:** Eso ya me da escalofríos.
-
-**MATEO:** Y con razón. Mira lo que pasó en Estados Unidos. En Los Ángeles, la policía usó durante años un programa llamado PredPol, y lo terminó abandonando en 2020 entre críticas por falta de resultados y por discriminación. En el condado de Pasco, en Florida, la oficina del sheriff tuvo que terminar su programa después de demandas. Ese sistema hacía una lista de personas "de riesgo", incluso menores, y los agentes iban a visitarlos a sus casas una y otra vez.
-
-**VALENTINA:** ¡Sin que hubieran hecho nada!
-
-**MATEO:** Exacto. Acosados por un pronóstico.
-
-**VALENTINA:** ¿Y por qué fallan tanto estos sistemas?
-
-**MATEO:** Por algo que se llama "bucle de retroalimentación". Te lo explico con un ejemplo. Si la policía siempre patrulla más en los barrios pobres, va a registrar más delitos ahí. Esos datos entran al algoritmo, el algoritmo dice "ojo, acá hay mucho delito", y manda todavía más patrullas. Y así sigue.
-
-**VALENTINA:** O sea, el sistema no mide dónde hay delito, sino dónde mira la policía.
-
-**MATEO:** Perfecto, así es. Y mientras tanto, los delitos en otros barrios, como los de cuello blanco, quedan casi invisibles.
-
-**VALENTINA:** ¿Y en Sudamérica se usa?
-
-**MATEO:** Sí. En Chile, por ejemplo, existe un Sistema Predictivo del Delito Urbano que se alimenta con datos policiales para predecir dónde puede ocurrir un delito. Y la unidad de IA en Argentina también tiene entre sus objetivos analizar datos históricos para anticipar delitos.
-
-**VALENTINA:** ¿Y hay algún lugar donde esto esté prohibido?
-
-**MATEO:** La Unión Europea, con su ley de inteligencia artificial, prohibió desde 2025 los sistemas que predicen si una persona va a cometer un delito solamente a partir de su perfil o de sus características personales. Y el reconocimiento facial en vivo en espacios públicos quedó muy restringido, con pocas excepciones.
-
-**VALENTINA:** Pero el Reino Unido ya no está en la Unión Europea…
-
-**MATEO:** Justamente. Por eso allá el gobierno incluso lanzó un concurso para que empresas creen un mapa predictivo que junte datos de la policía, de los municipios y de los servicios sociales. Dicen que por ahora es solo investigación.
+**AUREL:** A nivel local, sí. Eso es lo bueno de este caso.
 
 ---
 
-**[BLOQUE 5 – ¿Y entonces? Conclusión]**
+**[BLOQUE 3 – Servicios secretos e IA]**
 
-**VALENTINA:** Ahora, para ser justos: hay gente que dice que esto ayuda. Por ejemplo, la policía de Dubái afirma que los delitos graves bajaron un veinticinco por ciento con su herramienta de IA.
+**JOSHUA:** Ahora vamos a lo más secreto: los servicios de inteligencia. ¿Cómo usan la IA?
 
-**MATEO:** Sí, pero ojo: ese número lo da la misma policía, no un estudio independiente. Y ese es el gran problema general. Estos sistemas son una "caja negra". Las empresas no muestran cómo funcionan, los gobiernos no publican los contratos, y la gente afectada no puede defenderse de un algoritmo que no conoce.
+**AUREL:** El problema de los servicios secretos nunca fue conseguir datos. Tienen muchísimos: llamadas, mensajes, imágenes de satélite. El problema era que ninguna persona puede leer todo eso. Y ahí entra la IA: traduce, resume, busca patrones y encuentra conexiones entre personas.
 
-**VALENTINA:** Entonces, ¿qué pedimos? ¿Prohibir todo?
+**JOSHUA:** ¿Hay ejemplos concretos?
 
-**MATEO:** Hay organizaciones que piden prohibir el reconocimiento facial masivo, como Amnistía. Pero como mínimo necesitamos tres cosas: leyes claras, transparencia sobre qué se compra y cómo se usa, y control independiente. Y siempre, siempre, una persona que revise lo que dice la máquina.
+**AUREL:** Varios. La CIA probó unos trescientos proyectos de IA en un año, por ejemplo para traducir y analizar grandes cantidades de datos. La NSA, el servicio de Estados Unidos que escucha las comunicaciones, dijo en agosto de 2026 que quiere acceso a "todos" los modelos avanzados de IA. Y el GCHQ británico está metiendo agentes de IA en su defensa cibernética.
 
-**VALENTINA:** Me quedo con una idea: la seguridad es importante, pero no puede costar nuestra libertad. Una sociedad donde todos se sienten vigilados no es más segura, es más callada.
+**JOSHUA:** ¿Y el caso de Microsoft que leí?
 
-**MATEO:** Muy bien dicho.
+**AUREL:** Ah, sí. Según una investigación de *The Guardian* de 2025, la Unidad 8200 de la inteligencia israelí guardaba millones de llamadas telefónicas de palestinos en la nube de Microsoft, en servidores en Europa. Se habla de unos ocho mil terabytes. Después de la investigación, Microsoft le cortó a esa unidad el acceso a esos servicios de nube e IA, aunque Microsoft dice que no encontró pruebas de que se usara para atacar a personas.
 
-**VALENTINA:** Y a ustedes, los que nos escuchan: ¿se sienten más seguros o más vigilados con estas cámaras? Cuéntennos en los comentarios.
+**JOSHUA:** Lo que me impresiona es que una empresa de tecnología normal, que hace Word y Excel, de repente está en el centro de algo así.
 
-**MATEO:** Gracias por acompañarnos en *Ojo Digital*. ¡Nos escuchamos en el próximo episodio!
+**AUREL:** Justamente. La línea entre empresas de tecnología y servicios secretos es cada vez más delgada.
 
-**VALENTINA:** ¡Chau, chau!
+---
+
+**[BLOQUE 4 – Palantir]**
+
+**JOSHUA:** Y eso nos lleva a Palantir. ¿Qué es Palantir?
+
+**AUREL:** Palantir es una empresa estadounidense, cofundada por Peter Thiel. Su software junta datos de muchas fuentes distintas, como registros policiales, datos de vehículos o de teléfonos, y los muestra todos conectados. Así la policía o el ejército pueden ver redes de personas y relaciones.
+
+**JOSHUA:** ¿Y quién lo usa?
+
+**AUREL:** Muchísimos gobiernos. En Estados Unidos, por ejemplo, Palantir firmó un contrato de unos 10 mil millones de dólares con el Ejército. Y en 2025 ICE le dio un contrato de 30 millones para un sistema que se llama "ImmigrationOS", que ayuda a encontrar y seguir a migrantes sin papeles.
+
+**JOSHUA:** ¿Y aquí en Alemania?
+
+**AUREL:** También. Hessen lo usa desde 2017 con el nombre "HessenData", Baviera con "VeRA" y Renania del Norte-Westfalia con "DAR". Baden-Wurtemberg lo aprobó hace poco. Y el ministro del Interior, Dobrindt, quiere ver si se usa también en la policía federal.
+
+**JOSHUA:** Pero hubo críticas, ¿no?
+
+**AUREL:** Muchas. En 2023 el Tribunal Constitucional Federal dijo que las reglas de Hessen y Hamburgo para este tipo de análisis de datos violaban derechos fundamentales y tenían que cambiar. Y grupos como el Chaos Computer Club critican que la policía alemana dependa de una empresa estadounidense tan cercana al gobierno de Estados Unidos.
+
+**JOSHUA:** ¿Y Palantir gana bien con eso?
+
+**AUREL:** ¡Muy bien! En el último trimestre de 2025 vendió unos 1.400 millones de dólares, un setenta por ciento más que el año anterior. Y para 2026 espera unos 7.200 millones. Su jefe, Alex Karp, defiende el software y dice que incluso protege los derechos de privacidad. Pero empleados, exempleados y políticos lo critican.
+
+---
+
+**[BLOQUE 5 – El negocio de la vigilancia]**
+
+**JOSHUA:** Bueno, hablemos de plata en general. ¿Qué tan grande es este mercado?
+
+**AUREL:** Es enorme. Solo el mercado mundial de videovigilancia mueve unos 27 mil millones de dólares al año. Y la parte de IA dentro de las cámaras crece muy rápido: según la consultora MarketsandMarkets, pasa de unos 4 mil millones de dólares en 2026 a casi 11 mil millones en 2032. Eso es un crecimiento de casi dieciocho por ciento al año.
+
+**JOSHUA:** ¿Y dónde crece más?
+
+**AUREL:** En Asia. China es el mercado más grande: unos mil millones de dólares este año, y se espera que sean más de tres mil millones en 2031. Pero el que más rápido crece es India, con más de veinticinco por ciento al año, por todos sus proyectos de "ciudades inteligentes". Estados Unidos, Japón y el Reino Unido también crecen, pero más lento.
+
+**JOSHUA:** ¿Y los países del Golfo?
+
+**AUREL:** Ahí también se invierte mucho, por ejemplo en los Emiratos Árabes Unidos, donde empresas cercanas al gobierno prueban sistemas para seguir personas en eventos grandes. Y China exporta paquetes completos de "ciudad segura" a otros países, muchas veces con financiamiento incluido.
+
+**JOSHUA:** O sea, la vigilancia es también un producto de exportación.
+
+**AUREL:** Exacto. Y por eso es difícil frenarla: hay mucha plata en juego.
+
+---
+
+**[CIERRE]**
+
+**JOSHUA:** Entonces, ¿qué nos llevamos de este episodio?
+
+**AUREL:** Para mí, tres cosas. Primero: la tecnología avanza más rápido que las leyes. Segundo: muchas veces no son los gobiernos solos, sino empresas privadas las que construyen y controlan estos sistemas. Y tercero: sí se puede hacer algo, como muestran las ciudades que cancelaron Flock o los tribunales que pusieron límites.
+
+**JOSHUA:** Y yo me quedo con una pregunta: ¿cuánta seguridad queremos, y cuánta libertad estamos dispuestos a dar por ella?
+
+**AUREL:** Buena pregunta. Cuéntennos qué piensan ustedes.
+
+**JOSHUA:** ¡Gracias por escuchar! Chao.
+
+**AUREL:** ¡Chao, hasta la próxima!
 
 **[MÚSICA DE SALIDA]**
 
@@ -147,15 +143,32 @@
 
 ## Fuentes
 
-- Amnistía Internacional (agosto 2026): [Argentina: el despliegue sin control de la vigilancia con IA](https://www.amnesty.org/es/latest/news/2026/08/argentina-unchecked-deployment-of-ai-driven-surveillance-reinforces-a-techno-authoritarian-infrastructure-of-social-control/)
-- AP / Local10: [Amnistía advierte sobre el abuso de tecnologías de vigilancia en Argentina](https://www.local10.com/espanol/2026/08/19/amnistia-internacional-advierte-sobre-el-abuso-de-tecnologias-de-vigilancia-en-argentina/)
-- Chequeado: [El gobierno gastó al menos US$ 1,2 millones en tecnología de vigilancia](https://chequeado.com/el-explicador/el-gobierno-gasto-al-menos-us-12-millones-en-tecnologia-de-vigilancia-que-compro-y-que-normas-lo-habilitaron/)
-- Derechos Digitales (enero 2026): [Reconocimiento facial: avanzan en varias provincias sistemas como el que la Justicia prohibió en la Ciudad](https://www.derechosdigitales.org/wp-content/uploads/2026/01/Reconocimiento-facial_-avanzan-en-varias-provincias-sistemas-como-el-que-la-Justicia-prohibio-en-la-Ciudad.pdf)
-- Diálogo Político: [IA y seguridad pública en las democracias latinoamericanas](https://dialogopolitico.org/edicion-especial-2025-democracia-artificial/inteligencia-artificial-y-seguridad-publica-en-las-democracias-latinoamericanas/)
-- Liberty: [Respuesta a la expansión del reconocimiento facial en el Reino Unido](https://www.libertyhumanrights.org.uk/issue/liberty-responds-to-government-announcement-of-major-facial-recognition-expansion/)
-- OECD AI Incidents: [Tribunal del Reino Unido respalda el uso policial del reconocimiento facial](https://oecd.ai/en/incidents/2026-04-21-f8f8) · [Hong Kong planea reconocimiento facial con IA](https://oecd.ai/en/incidents/2026-02-15-b6d9)
-- FAS: [Face Recognition Performance, Bias, and the Limits of Technical Fixes](https://fas.org/publication-term/digital-surveillance/)
-- eWeek: [Australia: la policía escaneó 130.000 caras en una semana](https://www.eweek.com/news/apac-australia-ai-facial-recognition-police-surveillance/)
-- TechInformed: [El gobierno británico apuesta por la IA para predecir delitos](https://techinformed.com/uk-government-bets-on-ai-to-predict-crime/)
-- Law & Inequality (enero 2026): [Fighting Pre-Crime? Predictive Policing Technology](https://journals.law.umn.edu/lawineq/2026/01/27/fighting-pre-crime-law-enforcement-artificial-intelligence-and-predictive-policing-technology)
-- Yahoo News: [Cómo la IA ya se usa para predecir delitos](https://uk.news.yahoo.com/how-ai-predict-crime-before-it-happens-170635378.html)
+**Investigación / China**
+- The Monexus (resumen del SCMP, junio 2026): [China: IA policial y estados fisiológicos](https://themonexus.com/articles/2026-06-11-china-ai-policing-physiological-states)
+- Envisioning: [China – vigilancia urbana con IA y exportación de "smart cities"](https://www.envisioning.com/research/substrate/china__ai-powered-urban-surveillance-and-smart-city-export)
+
+**Flock Safety**
+- NPR / WLRN (feb. 2026): [Ciudades abandonan lectores de patentes por privacidad](https://www.wlrn.org/npr-breaking-news/2026-02-17/cities-ditch-license-plate-readers-over-privacy-worries)
+- Jalopnik: [Cada vez más ciudades cancelan contratos con Flock](https://www.jalopnik.com/2276190/number-of-cities-dropped-flock-cameras-quietly-exploding/)
+- TechSpot: [Ciudades de EE. UU. desconectan Flock](https://www.techspot.com/news/111728-number-us-cities-pulling-plug-flock-safety-ai.html)
+- Truthout: [La resistencia contra Flock crece](https://truthout.org/articles/the-nationwide-resistance-against-flock-surveillance-cameras-is-gaining-steam/)
+- Flock Safety (posición de la empresa): [Why are some Flock cameras being removed](https://www.flocksafety.com/blog/why-are-some-flock-cameras-being-removed-by-cities)
+
+**Servicios secretos**
+- Nextgov (ago. 2026): [La NSA quiere acceso a "todos" los modelos de IA](https://www.nextgov.com/artificial-intelligence/2026/08/nsa-wants-access-all-ai-models-top-official-says/415672/)
+- Brennan Center: [IA y vigilancia de inteligencia sin orden judicial](https://www.brennancenter.org/our-work/analysis-opinion/ai-and-warrantless-foreign-intelligence-surveillance)
+- Privacy International: [Peligros del uso de IA por servicios de inteligencia](https://privacyinternational.org/news-analysis/5881/what-are-dangers-intelligence-agencies-using-ai-tools-surveillance)
+- Cointelegraph: [La CIA y sus "colegas" de IA](https://regional-front.cointelegraph.com/news/cia-ai-co-workers-help-intelligence-analysts)
+- Ynet: [Microsoft corta acceso a la nube a la Unidad 8200](https://www.ynetnews.com/business/article/hy8bceq3eg) · Israel Hayom: [Microsoft cuts Unit 8200 off](https://www.israelhayom.com/2025/09/25/microsoft-cuts-unit-8200-off-its-cloud-and-ai-services/)
+
+**Palantir**
+- SCMP (feb. 2026): [Palantir defiende su tecnología de vigilancia](https://www.scmp.com/news/world/united-states-canada/article/3342195/palantir-defends-surveillance-tech-us-government-contracts-boost-sales)
+- Tiger Brokers: [Ingresos de Palantir +70 %](https://www.itiger.com/news/1111865546)
+- ZDFheute: [Dobrindt prüft Einsatz von Palantir](https://www.zdfheute.de/politik/deutschland/dobrindt-polizei-software-palantir-usa-sicherheit-debatte-100.html)
+- IamExpat: [Palantir en la policía alemana](https://www.iamexpat.de/expat-info/germany-news/palantir-what-us-based-ai-surveillance-system-used-german-police)
+- CIO.de: [Der Streit um die Polizeisoftware der Zukunft](https://www.cio.de/article/4094423/der-streit-um-die-polizeisoftware-der-zukunft.html)
+
+**Mercado**
+- PR Newswire / MarketsandMarkets (mayo 2026): [IA en videovigilancia: 10.880 millones USD en 2032](https://tools.prnewswire.com/en-us/live/20813/release/20260513EN58460)
+- MarketsandMarkets: [China](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/China) · [India](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/India) · [EE. UU.](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/us)
+- Cyprus Mail (ago. 2026): [El mercado mundial de videovigilancia llega a 27 mil millones](https://cyprus-mail.com/2026/08/19/global-video-surveillance-market-reaches-27-billion-as-ai-reshapes-sector)
