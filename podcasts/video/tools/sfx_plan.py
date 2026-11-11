@@ -1,69 +1,69 @@
+# Tonplan: Musik (durchgehend) + sparsame Soundeffekte -> sfx_plan.json
+# Die Effekte hängen an Bildnamen (img), nicht an festen Sekunden: Ändern sich die Zeiten
+# (neuer Text oder "assemble.py anpassen"), wandern sie mit. Effekte sind leiser als die Stimmen
+# (Stimmen −16 LUFS; Effekte −22 bis −26 dB unter Vollpegel).
 import json, os, subprocess
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 L=json.load(open('lines.json')); T=json.load(open('timeline.json'))
-TOTAL=581.8; GAP=3.0; WPEAK=0.9  # whoosh.wav peak at ~0.9 s
+TOTAL=round(T[-1]['start']+T[-1]['dur'],3); GAP=3.0; WPEAK=0.9  # whoosh.wav: Höhepunkt bei ~0,9 s
+BLOCKS=(4,10,15,21,29,35,37)   # erste Zeile jedes Abschnitts
 def flen(f): return float(subprocess.run(['/opt/homebrew/bin/ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0',f],capture_output=True,text=True).stdout)
+S={x['img']:x for x in T}
 ev=[]
 def E(t,name,g,note,dur=None,fo=None):
     f=f'sfx/{name}.wav'; d=min(dur or flen(f), flen(f))
     e={"t":round(t,2),"file":f,"gain_db":g,"dur":round(d,2)}
     if fo: e["fade_out"]=fo
     e["note"]=note; ev.append(e)
-S=lambda k:T[k]['start']
-E(0,'intro_drone',-20,'Szene 0 / Intro: dunkle Drone unter dem Auge über der Stadt',6.0,1.5)
-E(S(3)+0.1,'daten_glitch',-24,'Szene 3 / Zeile 1: Handy, Kamera, Laptop senden Datenlinien')
-E(S(5)+0.1,'muenzen_kasse',-22,'Szene 5 / Zeile 2: Münzstapel als Treppe ("cuánta plata")',2.0,0.5)
-for li in (4,12,20,28,38,46):
-    E(L[li]['start']-WPEAK,'whoosh',-22,f'Zeile {li}: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei {L[li]["start"]} s')
-E(S(8)+0.1,'kamera_servo',-20,'Szene 8 / Zeile 5: Gesichtserkennung, Kamera schwenkt und klickt')
-E(S(9)+0.1,'schritte',-22,'Szene 9 / Zeile 5: Gangerkennung, Fußgänger läuft',4.0,1.0)
-E(S(11)+0.1,'verkehr',-24,'Szene 11 / Zeile 7: chinesische Straße bei Nacht mit Kamera',6.0,2.0)
-E(S(12)+0.1,'herzmonitor',-22,'Szene 12 / Zeile 7: Kamera misst Puls',4.0,1.0)
-E(S(13)+0.1,'daten_glitch',-22,'Szene 13 / Zeile 7: Bildschirm mit roter Warnung ("riesgo de cometer un delito")')
-E(S(17)+0.1,'schulklingel',-24,'Szene 17 / Zeile 10: Klassenzimmer mit Kamera',3.0,1.0)
-E(S(19)+3.2,'auto_vorbei',-24,'Szene 19 / Zeile 12: Vorstadtstraße mit Pickup und Flock-Kamera',5.0,1.0)
-E(S(21)+0.1,'scanner_piep',-20,'Szene 21 / Zeile 13: Kennzeichen wird gescannt')
-E(S(23)+0.1,'daten_glitch',-24,'Szene 23 / Zeile 15: Städte zu einem Netzwerk verbunden')
-E(S(24)+0.1,'papier',-20,'Szene 24 / Zeile 15: Aktenordner werden an ICE durchgereicht')
-E(S(28)+0.2,'kamera_servo',-22,'Szene 28 / Zeile 17: Kamera wird vom Mast abgebaut')
-E(S(29)+0.1,'menschenmenge',-24,'Szene 29 / Zeile 18: Bürger vor dem Rathaus',3.7,1.5)
-E(S(32)+0.1,'telefonrauschen',-24,'Szene 32 / Zeile 21: Berge aus Anrufen, Nachrichten, Satellitenbildern',3.5,1.0)
-E(S(33)+1.0,'papier',-22,'Szene 33 / Zeile 21: Analyst unter Papierbergen')
-E(S(36)+0.1,'server_brummen',-24,'Szene 36 / Zeile 23: NSA-Gebäude, Kabel zu KI-Chips',6.0,2.0)
-E(S(37)+0.6,'tastatur',-22,'Szene 37 / Zeile 23: GCHQ, KI-Agenten in der Cyberabwehr',4.0,1.0)
-E(S(38)+0.1,'server_brummen',-24,'Szene 38 / Zeile 25: Rechenzentrum in Europa (Microsoft-Cloud)',8.0,2.5)
-E(S(39)+0.9,'telefonrauschen',-24,'Szene 39 / Zeile 25: Millionen Anrufe fließen in die Cloud',4.0,1.5)
-E(S(40)+0.1,'hebel_strom_aus',-20,'Szene 40 / Zeile 25: Hebel wird umgelegt, Microsoft kappt den Zugang',1.5,0.5)
-E(S(45)+0.1,'spannung_riser',-24,'Szene 45 / Zeile 29: Palantir zieht alle Datenquellen zusammen',5.0,0.5)
-E(S(46)+2.0,'daten_glitch',-22,'Szene 46 / Zeile 29: Personennetz, Knoten leuchten rot')
-E(S(49)+0.1,'kamera_servo',-22,'Szene 49 / Zeile 31: Grenzzaun mit Suchscheinwerfern, ImmigrationOS')
-E(S(53)+0.1,'richterhammer',-20,'Szene 53 / Zeile 34: Gerichtssaal ("hubo críticas")')
-E(S(55)+0.2,'tastatur',-22,'Szene 55 / Zeile 35: Hacker vom Chaos Computer Club',4.0,1.0)
-E(S(56)+0.05,'muenzen_kasse',-22,'Szene 56 / Zeile 36: Börsenkurs steigt, Münzen fallen',2.0,0.5)
-E(S(60)+0.1,'daten_glitch',-24,'Szene 60 / Zeile 39: Kamera-Icons breiten sich auf dem Globus aus')
-E(S(61)+0.1,'spannung_riser',-24,'Szene 61 / Zeile 39: steil wachsendes Balkendiagramm',5.0,0.5)
-E(S(63)+0.1,'verkehr',-24,'Szene 63 / Zeile 41: chinesische Megacity',7.0,2.0)
-E(S(64)+0.1,'auto_vorbei',-24,'Szene 64 / Zeile 41: indische Straße mit Rikschas',5.0,1.0)
-E(S(66)+0.1,'menschenmenge',-24,'Szene 66 / Zeile 43: Stadion, Personen werden verfolgt',7.0,2.0)
-E(S(67)+1.6,'schiffshorn',-22,'Szene 67 / Zeile 43: Containerschiff exportiert Kameras',5.0,1.5)
-E(S(69)+0.1,'muenzen_kasse',-22,'Szene 69 / Zeile 45: Geld wiegt schwerer als die Taube',1.5,0.4)
-E(S(73)+0.1,'richterhammer',-22,'Szene 73 / Zeile 47: Gerichte setzen Grenzen, Kamera wird ausgesteckt')
-E(576.5,'outro_strom_aus',-20,'Szene 76 / Zeile 51: Auge schließt sich, Lichter der Stadt gehen aus; endet bei 581,5 s',5.0,1.5)
+def B(img,name,g,note,dur=None,fo=None,off=0.1):
+    if img in S: E(S[img]['start']+off,name,g,f'{img} / Zeile {S[img]["line"]}: {note}',min(dur or 99,S[img]['dur']) if dur else None,fo)
+for li in BLOCKS:
+    E(L[li]['start']-WPEAK,'whoosh',-24,f'Zeile {li}: Abschnittswechsel, Höhepunkt auf dem Schnitt')
+B('s03','daten_glitch',-26,'Handy, Kamera, Laptop senden Datenlinien')
+B('s08','kamera_servo',-24,'Gesichtserkennung')
+B('n07','daten_glitch',-26,'KI setzt ein Bild aus WLAN-Wellen zusammen')
+B('s39','telefonrauschen',-26,'Daten von Millionen Telefonen',4.0,1.5)
+B('n16','daten_glitch',-26,'ein Punkt wird bis nach Hause verfolgt')
+B('s19','auto_vorbei',-26,'Vorstadtstraße mit Kennzeichen-Kamera',4.0,1.0)
+B('s21','scanner_piep',-24,'Kennzeichen wird gescannt')
+B('n19','daten_glitch',-26,'Daten gehen an die Border Patrol')
+B('s28','kamera_servo',-24,'Kamera wird abgebaut',3.0,0.8)
+B('s29','menschenmenge',-26,'Bürger vor dem Rathaus',3.7,1.5)
+B('s32','papier',-24,'viele lose Daten')
+B('s45','spannung_riser',-26,'Palantir zieht alle Datenquellen zusammen',4.5,0.5)
+B('n22','papier',-24,'Vertrag ohne Ausschreibung')
+B('s49','kamera_servo',-24,'Grenzzaun, ImmigrationOS')
+B('n25','scanner_piep',-26,'Tablet mit Karte (ELITE)')
+B('n28','papier',-24,'Adressen sortieren')
+B('n29','daten_glitch',-26,'Datenstrom vom Krankenhaus zur Behörde')
+B('s36','server_brummen',-26,'Militäranlage',4.0,1.5)
+B('n34','scanner_piep',-24,'KI markiert ein Ziel')
+B('n39','muenzen_kasse',-24,'Vertragsgrenze steigt',2.0,0.5)
+B('n41','menschenmenge',-28,'Publikum vor der Bühne',4.0,1.5)
+B('n50','tastatur',-24,'Soldaten an Laptops',4.0,1.0)
+B('n54','server_brummen',-26,'Polizei-Server in Bayern',4.0,1.5)
+B('n58','papier',-24,'kleine Fälle')
+B('s53','richterhammer',-22,'Bundesverfassungsgericht')
+B('n60','server_brummen',-26,'Server ohne Internet',5.0,2.0)
+B('s55','tastatur',-24,'Kritiker: Code ist geheim',4.0,1.0)
+B('s56','muenzen_kasse',-24,'Umsatz steigt',2.0,0.5)
+B('s69','muenzen_kasse',-24,'Geld wiegt schwer',1.5,0.4)
+B('n71','hebel_strom_aus',-22,'Kamera wird ausgesteckt',1.5,0.5)
+B('n72','papier',-24,'Journalisten veröffentlichen Dokumente')
 ev.sort(key=lambda e:e['t'])
-# checks
-for a,b in zip(ev,ev[1:]):
-    gap=b['t']-(a['t']+a['dur'])
-    assert gap>=GAP-1e-6, (a['note'],b['note'],round(gap,2))
-assert ev[-1]['t']+ev[-1]['dur']<=TOTAL
-for e in ev: assert os.path.exists(e['file']) and e['t']>=0
-plan={"total":TOTAL,
- "min_gap_s":GAP,
- "info":"Alle WAVs 48 kHz stereo, Spitze auf -1 dBFS normalisiert; gain_db gilt relativ dazu. dur = abzuspielende Länge ab Dateianfang. Mindestlücke zwischen Ende eines Effekts und Beginn des nächsten: 3 s.",
- "bed":{"file":"sfx/teppich.wav","gain_db":-30,"loop":True,"fade_in":2,"fade_out":3},
- "events":ev}
-assert os.path.exists(plan['bed']['file'])
-open('sfx_plan.json.tmp','w').write(json.dumps(plan,ensure_ascii=False,indent=1))
-json.load(open('sfx_plan.json.tmp'))
-os.replace('sfx_plan.json.tmp','sfx_plan.json')
-print(len(ev),'events OK')
-for e in ev: print(e['t'],e['dur'],e['file'][4:],e['gain_db'])
+# Mindestabstand 3 s: Effekt, der zu dicht auf den vorigen folgt, entfällt (Whoosh hat Vorrang)
+keep=[]
+for e in ev:
+    if e['t']<6.5 or e['t']+e['dur']>TOTAL-7.5: print('entfällt (Intro/Outro gehört der Musik):',e['note']); continue
+    if keep and e['t']-(keep[-1]['t']+keep[-1]['dur'])<GAP:
+        if 'whoosh' in e['file'] and 'whoosh' not in keep[-1]['file']: print('entfällt (zu dicht):',keep[-1]['note']); keep[-1]=e
+        else: print('entfällt (zu dicht):',e['note'])
+        continue
+    keep.append(e)
+for e in keep: assert os.path.exists(e['file']), e['file']
+plan={"total":TOTAL,"min_gap_s":GAP,
+ "info":"music = eine Datei über die ganze Länge (tools/musik.py), mit Intro- und Outro-Melodie, ohne Schleife. Effekt-WAVs 48 kHz, Spitze -1 dBFS; gain_db relativ dazu; dur = Länge ab Dateianfang.",
+ "music":{"file":"sfx/musik.wav","gain_db":0,"note":"Teppich ca. -25 dBFS RMS, gleich laut von Anfang bis Ende; mit Stimmen wird alles um 6 dB abgesenkt"},
+ "events":keep}
+json.dump(plan,open('sfx_plan.json','w'),ensure_ascii=False,indent=1)
+print(len(keep),'Effekte, Gesamt',TOTAL,'s')

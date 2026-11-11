@@ -1,339 +1,239 @@
 {
- "total": 581.8,
+ "total": 568.82,
  "min_gap_s": 3.0,
- "info": "Alle WAVs 48 kHz stereo, Spitze auf -1 dBFS normalisiert; gain_db gilt relativ dazu. dur = abzuspielende Länge ab Dateianfang. Mindestlücke zwischen Ende eines Effekts und Beginn des nächsten: 3 s.",
- "bed": {
-  "file": "sfx/teppich.wav",
-  "gain_db": -30,
-  "loop": true,
-  "fade_in": 2,
-  "fade_out": 3
+ "info": "music = eine Datei über die ganze Länge (tools/musik.py), mit Intro- und Outro-Melodie, ohne Schleife. Effekt-WAVs 48 kHz, Spitze -1 dBFS; gain_db relativ dazu; dur = Länge ab Dateianfang.",
+ "music": {
+  "file": "sfx/musik.wav",
+  "gain_db": 0,
+  "note": "Teppich ca. -25 dBFS RMS, gleich laut von Anfang bis Ende; mit Stimmen wird alles um 6 dB abgesenkt"
  },
  "events": [
   {
-   "t": 0,
-   "file": "sfx/intro_drone.wav",
-   "gain_db": -20,
-   "dur": 6.0,
-   "fade_out": 1.5,
-   "note": "Szene 0 / Intro: dunkle Drone unter dem Auge über der Stadt"
-  },
-  {
-   "t": 17.61,
+   "t": 10.78,
    "file": "sfx/daten_glitch.wav",
-   "gain_db": -24,
+   "gain_db": -26,
    "dur": 3.02,
-   "note": "Szene 3 / Zeile 1: Handy, Kamera, Laptop senden Datenlinien"
+   "note": "s03 / Zeile 1: Handy, Kamera, Laptop senden Datenlinien"
   },
   {
-   "t": 31.48,
-   "file": "sfx/muenzen_kasse.wav",
-   "gain_db": -22,
-   "dur": 2.0,
-   "fade_out": 0.5,
-   "note": "Szene 5 / Zeile 2: Münzstapel als Treppe (\"cuánta plata\")"
-  },
-  {
-   "t": 45.46,
-   "file": "sfx/whoosh.wav",
-   "gain_db": -22,
-   "dur": 1.02,
-   "note": "Zeile 4: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 46.36 s"
-  },
-  {
-   "t": 54.0,
+   "t": 21.18,
    "file": "sfx/kamera_servo.wav",
-   "gain_db": -20,
-   "dur": 3.02,
-   "note": "Szene 8 / Zeile 5: Gesichtserkennung, Kamera schwenkt und klickt"
-  },
-  {
-   "t": 62.26,
-   "file": "sfx/schritte.wav",
-   "gain_db": -22,
-   "dur": 4.0,
-   "fade_out": 1.0,
-   "note": "Szene 9 / Zeile 5: Gangerkennung, Fußgänger läuft"
-  },
-  {
-   "t": 73.16,
-   "file": "sfx/verkehr.wav",
    "gain_db": -24,
-   "dur": 6.0,
-   "fade_out": 2.0,
-   "note": "Szene 11 / Zeile 7: chinesische Straße bei Nacht mit Kamera"
-  },
-  {
-   "t": 83.29,
-   "file": "sfx/herzmonitor.wav",
-   "gain_db": -22,
-   "dur": 4.0,
-   "fade_out": 1.0,
-   "note": "Szene 12 / Zeile 7: Kamera misst Puls"
-  },
-  {
-   "t": 93.43,
-   "file": "sfx/daten_glitch.wav",
-   "gain_db": -22,
    "dur": 3.02,
-   "note": "Szene 13 / Zeile 7: Bildschirm mit roter Warnung (\"riesgo de cometer un delito\")"
+   "note": "s08 / Zeile 2: Gesichtserkennung"
   },
   {
-   "t": 123.94,
-   "file": "sfx/schulklingel.wav",
+   "t": 43.83,
+   "file": "sfx/whoosh.wav",
+   "gain_db": -24,
+   "dur": 1.02,
+   "note": "Zeile 4: Abschnittswechsel, Höhepunkt auf dem Schnitt"
+  },
+  {
+   "t": 69.19,
+   "file": "sfx/daten_glitch.wav",
+   "gain_db": -26,
+   "dur": 3.02,
+   "note": "n07 / Zeile 5: KI setzt ein Bild aus WLAN-Wellen zusammen"
+  },
+  {
+   "t": 102.33,
+   "file": "sfx/telefonrauschen.wav",
+   "gain_db": -26,
+   "dur": 4.0,
+   "fade_out": 1.5,
+   "note": "s39 / Zeile 7: Daten von Millionen Telefonen"
+  },
+  {
+   "t": 119.81,
+   "file": "sfx/daten_glitch.wav",
+   "gain_db": -26,
+   "dur": 3.02,
+   "note": "n16 / Zeile 8: ein Punkt wird bis nach Hause verfolgt"
+  },
+  {
+   "t": 135.59,
+   "file": "sfx/whoosh.wav",
+   "gain_db": -24,
+   "dur": 1.02,
+   "note": "Zeile 10: Abschnittswechsel, Höhepunkt auf dem Schnitt"
+  },
+  {
+   "t": 145.7,
+   "file": "sfx/scanner_piep.wav",
+   "gain_db": -24,
+   "dur": 2.02,
+   "note": "s21 / Zeile 10: Kennzeichen wird gescannt"
+  },
+  {
+   "t": 159.36,
+   "file": "sfx/daten_glitch.wav",
+   "gain_db": -26,
+   "dur": 3.02,
+   "note": "n19 / Zeile 11: Daten gehen an die Border Patrol"
+  },
+  {
+   "t": 182.19,
+   "file": "sfx/kamera_servo.wav",
    "gain_db": -24,
    "dur": 3.0,
-   "fade_out": 1.0,
-   "note": "Szene 17 / Zeile 10: Klassenzimmer mit Kamera"
+   "fade_out": 0.8,
+   "note": "s28 / Zeile 13: Kamera wird abgebaut"
   },
   {
-   "t": 131.89,
+   "t": 190.83,
    "file": "sfx/whoosh.wav",
-   "gain_db": -22,
+   "gain_db": -24,
    "dur": 1.02,
-   "note": "Zeile 12: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 132.79 s"
+   "note": "Zeile 15: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 135.99,
-   "file": "sfx/auto_vorbei.wav",
-   "gain_db": -24,
-   "dur": 5.0,
-   "fade_out": 1.0,
-   "note": "Szene 19 / Zeile 12: Vorstadtstraße mit Pickup und Flock-Kamera"
-  },
-  {
-   "t": 149.5,
-   "file": "sfx/scanner_piep.wav",
-   "gain_db": -20,
-   "dur": 2.02,
-   "note": "Szene 21 / Zeile 13: Kennzeichen wird gescannt"
-  },
-  {
-   "t": 164.89,
-   "file": "sfx/daten_glitch.wav",
-   "gain_db": -24,
-   "dur": 3.02,
-   "note": "Szene 23 / Zeile 15: Städte zu einem Netzwerk verbunden"
-  },
-  {
-   "t": 174.75,
-   "file": "sfx/papier.wav",
-   "gain_db": -20,
-   "dur": 3.02,
-   "note": "Szene 24 / Zeile 15: Aktenordner werden an ICE durchgereicht"
-  },
-  {
-   "t": 208.73,
-   "file": "sfx/kamera_servo.wav",
-   "gain_db": -22,
-   "dur": 3.02,
-   "note": "Szene 28 / Zeile 17: Kamera wird vom Mast abgebaut"
-  },
-  {
-   "t": 220.57,
-   "file": "sfx/menschenmenge.wav",
-   "gain_db": -24,
-   "dur": 3.7,
-   "fade_out": 1.5,
-   "note": "Szene 29 / Zeile 18: Bürger vor dem Rathaus"
-  },
-  {
-   "t": 228.53,
-   "file": "sfx/whoosh.wav",
-   "gain_db": -22,
-   "dur": 1.02,
-   "note": "Zeile 20: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 229.43 s"
-  },
-  {
-   "t": 235.84,
-   "file": "sfx/telefonrauschen.wav",
-   "gain_db": -24,
-   "dur": 3.5,
-   "fade_out": 1.0,
-   "note": "Szene 32 / Zeile 21: Berge aus Anrufen, Nachrichten, Satellitenbildern"
-  },
-  {
-   "t": 242.52,
-   "file": "sfx/papier.wav",
-   "gain_db": -22,
-   "dur": 3.02,
-   "note": "Szene 33 / Zeile 21: Analyst unter Papierbergen"
-  },
-  {
-   "t": 263.49,
-   "file": "sfx/server_brummen.wav",
-   "gain_db": -24,
-   "dur": 6.0,
-   "fade_out": 2.0,
-   "note": "Szene 36 / Zeile 23: NSA-Gebäude, Kabel zu KI-Chips"
-  },
-  {
-   "t": 272.49,
-   "file": "sfx/tastatur.wav",
-   "gain_db": -22,
-   "dur": 4.0,
-   "fade_out": 1.0,
-   "note": "Szene 37 / Zeile 23: GCHQ, KI-Agenten in der Cyberabwehr"
-  },
-  {
-   "t": 283.95,
-   "file": "sfx/server_brummen.wav",
-   "gain_db": -24,
-   "dur": 8.0,
-   "fade_out": 2.5,
-   "note": "Szene 38 / Zeile 25: Rechenzentrum in Europa (Microsoft-Cloud)"
-  },
-  {
-   "t": 295.02,
-   "file": "sfx/telefonrauschen.wav",
-   "gain_db": -24,
-   "dur": 4.0,
-   "fade_out": 1.5,
-   "note": "Szene 39 / Zeile 25: Millionen Anrufe fließen in die Cloud"
-  },
-  {
-   "t": 304.48,
-   "file": "sfx/hebel_strom_aus.wav",
-   "gain_db": -20,
-   "dur": 1.5,
-   "fade_out": 0.5,
-   "note": "Szene 40 / Zeile 25: Hebel wird umgelegt, Microsoft kappt den Zugang"
-  },
-  {
-   "t": 331.27,
-   "file": "sfx/whoosh.wav",
-   "gain_db": -22,
-   "dur": 1.02,
-   "note": "Zeile 28: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 332.17 s"
-  },
-  {
-   "t": 342.73,
+   "t": 205.69,
    "file": "sfx/spannung_riser.wav",
-   "gain_db": -24,
-   "dur": 5.0,
+   "gain_db": -26,
+   "dur": 4.5,
    "fade_out": 0.5,
-   "note": "Szene 45 / Zeile 29: Palantir zieht alle Datenquellen zusammen"
+   "note": "s45 / Zeile 16: Palantir zieht alle Datenquellen zusammen"
   },
   {
-   "t": 350.81,
-   "file": "sfx/daten_glitch.wav",
-   "gain_db": -22,
+   "t": 215.07,
+   "file": "sfx/papier.wav",
+   "gain_db": -24,
    "dur": 3.02,
-   "note": "Szene 46 / Zeile 29: Personennetz, Knoten leuchten rot"
+   "note": "n22 / Zeile 17: Vertrag ohne Ausschreibung"
   },
   {
-   "t": 367.63,
+   "t": 223.12,
    "file": "sfx/kamera_servo.wav",
-   "gain_db": -22,
+   "gain_db": -24,
    "dur": 3.02,
-   "note": "Szene 49 / Zeile 31: Grenzzaun mit Suchscheinwerfern, ImmigrationOS"
+   "note": "s49 / Zeile 17: Grenzzaun, ImmigrationOS"
   },
   {
-   "t": 397.09,
-   "file": "sfx/richterhammer.wav",
-   "gain_db": -20,
+   "t": 231.18,
+   "file": "sfx/scanner_piep.wav",
+   "gain_db": -26,
    "dur": 2.02,
-   "note": "Szene 53 / Zeile 34: Gerichtssaal (\"hubo críticas\")"
+   "note": "n25 / Zeile 18: Tablet mit Karte (ELITE)"
   },
   {
-   "t": 410.53,
-   "file": "sfx/tastatur.wav",
-   "gain_db": -22,
+   "t": 252.19,
+   "file": "sfx/papier.wav",
+   "gain_db": -24,
+   "dur": 3.02,
+   "note": "n28 / Zeile 19: Adressen sortieren"
+  },
+  {
+   "t": 259.84,
+   "file": "sfx/daten_glitch.wav",
+   "gain_db": -26,
+   "dur": 3.02,
+   "note": "n29 / Zeile 19: Datenstrom vom Krankenhaus zur Behörde"
+  },
+  {
+   "t": 278.1,
+   "file": "sfx/whoosh.wav",
+   "gain_db": -24,
+   "dur": 1.02,
+   "note": "Zeile 21: Abschnittswechsel, Höhepunkt auf dem Schnitt"
+  },
+  {
+   "t": 283.28,
+   "file": "sfx/server_brummen.wav",
+   "gain_db": -26,
    "dur": 4.0,
-   "fade_out": 1.0,
-   "note": "Szene 55 / Zeile 35: Hacker vom Chaos Computer Club"
+   "fade_out": 1.5,
+   "note": "s36 / Zeile 21: Militäranlage"
   },
   {
-   "t": 421.5,
+   "t": 292.69,
+   "file": "sfx/scanner_piep.wav",
+   "gain_db": -24,
+   "dur": 2.02,
+   "note": "n34 / Zeile 22: KI markiert ein Ziel"
+  },
+  {
+   "t": 320.9,
    "file": "sfx/muenzen_kasse.wav",
-   "gain_db": -22,
+   "gain_db": -24,
    "dur": 2.0,
    "fade_out": 0.5,
-   "note": "Szene 56 / Zeile 36: Börsenkurs steigt, Münzen fallen"
+   "note": "n39 / Zeile 24: Vertragsgrenze steigt"
   },
   {
-   "t": 445.83,
+   "t": 331.3,
+   "file": "sfx/menschenmenge.wav",
+   "gain_db": -28,
+   "dur": 4.0,
+   "fade_out": 1.5,
+   "note": "n41 / Zeile 25: Publikum vor der Bühne"
+  },
+  {
+   "t": 378.52,
+   "file": "sfx/tastatur.wav",
+   "gain_db": -24,
+   "dur": 4.0,
+   "fade_out": 1.0,
+   "note": "n50 / Zeile 27: Soldaten an Laptops"
+  },
+  {
+   "t": 395.56,
    "file": "sfx/whoosh.wav",
-   "gain_db": -22,
+   "gain_db": -24,
    "dur": 1.02,
-   "note": "Zeile 38: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 446.73 s"
+   "note": "Zeile 29: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 452.33,
-   "file": "sfx/daten_glitch.wav",
+   "t": 415.18,
+   "file": "sfx/server_brummen.wav",
+   "gain_db": -26,
+   "dur": 4.0,
+   "fade_out": 1.5,
+   "note": "n54 / Zeile 30: Polizei-Server in Bayern"
+  },
+  {
+   "t": 433.56,
+   "file": "sfx/papier.wav",
    "gain_db": -24,
    "dur": 3.02,
-   "note": "Szene 60 / Zeile 39: Kamera-Icons breiten sich auf dem Globus aus"
+   "note": "n58 / Zeile 31: kleine Fälle"
   },
   {
-   "t": 465.08,
-   "file": "sfx/spannung_riser.wav",
-   "gain_db": -24,
-   "dur": 5.0,
-   "fade_out": 0.5,
-   "note": "Szene 61 / Zeile 39: steil wachsendes Balkendiagramm"
-  },
-  {
-   "t": 480.06,
-   "file": "sfx/verkehr.wav",
-   "gain_db": -24,
-   "dur": 7.0,
-   "fade_out": 2.0,
-   "note": "Szene 63 / Zeile 41: chinesische Megacity"
-  },
-  {
-   "t": 493.02,
-   "file": "sfx/auto_vorbei.wav",
-   "gain_db": -24,
-   "dur": 5.0,
-   "fade_out": 1.0,
-   "note": "Szene 64 / Zeile 41: indische Straße mit Rikschas"
-  },
-  {
-   "t": 508.61,
-   "file": "sfx/menschenmenge.wav",
-   "gain_db": -24,
-   "dur": 7.0,
-   "fade_out": 2.0,
-   "note": "Szene 66 / Zeile 43: Stadion, Personen werden verfolgt"
-  },
-  {
-   "t": 518.77,
-   "file": "sfx/schiffshorn.wav",
-   "gain_db": -22,
-   "dur": 5.0,
-   "fade_out": 1.5,
-   "note": "Szene 67 / Zeile 43: Containerschiff exportiert Kameras"
-  },
-  {
-   "t": 530.62,
-   "file": "sfx/muenzen_kasse.wav",
-   "gain_db": -22,
-   "dur": 1.5,
-   "fade_out": 0.4,
-   "note": "Szene 69 / Zeile 45: Geld wiegt schwerer als die Taube"
-  },
-  {
-   "t": 535.12,
-   "file": "sfx/whoosh.wav",
-   "gain_db": -22,
-   "dur": 1.02,
-   "note": "Zeile 46: Abschnittswechsel, Whoosh-Höhepunkt (0,9 s in der Datei) liegt auf dem Schnitt bei 536.02 s"
-  },
-  {
-   "t": 553.86,
+   "t": 445.62,
    "file": "sfx/richterhammer.wav",
    "gain_db": -22,
    "dur": 2.02,
-   "note": "Szene 73 / Zeile 47: Gerichte setzen Grenzen, Kamera wird ausgesteckt"
+   "note": "s53 / Zeile 32: Bundesverfassungsgericht"
   },
   {
-   "t": 576.5,
-   "file": "sfx/outro_strom_aus.wav",
-   "gain_db": -20,
+   "t": 456.09,
+   "file": "sfx/server_brummen.wav",
+   "gain_db": -26,
    "dur": 5.0,
-   "fade_out": 1.5,
-   "note": "Szene 76 / Zeile 51: Auge schließt sich, Lichter der Stadt gehen aus; endet bei 581,5 s"
+   "fade_out": 2.0,
+   "note": "n60 / Zeile 33: Server ohne Internet"
+  },
+  {
+   "t": 485.68,
+   "file": "sfx/whoosh.wav",
+   "gain_db": -24,
+   "dur": 1.02,
+   "note": "Zeile 35: Abschnittswechsel, Höhepunkt auf dem Schnitt"
+  },
+  {
+   "t": 508.52,
+   "file": "sfx/whoosh.wav",
+   "gain_db": -24,
+   "dur": 1.02,
+   "note": "Zeile 37: Abschnittswechsel, Höhepunkt auf dem Schnitt"
+  },
+  {
+   "t": 536.03,
+   "file": "sfx/hebel_strom_aus.wav",
+   "gain_db": -22,
+   "dur": 1.5,
+   "fade_out": 0.5,
+   "note": "n71 / Zeile 39: Kamera wird ausgesteckt"
   }
  ]
 }

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aufnahmestudio</title>
+<style>
+:root{--bg:#12181c;--panel:#1a2329;--line:#2a363e;--txt:#e8eef0;--dim:#8fa0a8;--jo:#D9A441;--au:#2FA4A0;--rec:#e5484d;--ok:#57b36a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+button{font:inherit;color:var(--txt);background:#24313a;border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+button:hover{background:#2c3c47}
+button:focus-visible{outline:2px solid #7fb7ff;outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+kbd{background:#0c1114;border:1px solid var(--line);border-radius:4px;padding:0 6px;font:12px ui-monospace,Menlo,monospace;color:var(--dim)}
+#side{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#side header{padding:14px 14px 10px;border-bottom:1px solid var(--line)}
+#side h1{font-size:16px;margin:0 0 10px}
+#filter{display:flex;gap:6px}
+#filter button{flex:1;padding:6px 4px;font-size:13px}
+#filter button[aria-pressed=true]{background:#33566b;border-color:#4d7d99}
+#count{color:var(--dim);font-size:12px;margin-top:8px}
+#list{overflow:auto;flex:1;margin:0;padding:6px;list-style:none}
+#list li{display:grid;grid-template-columns:30px 1fr auto;gap:8px;align-items:start;padding:8px;border-radius:8px;cursor:pointer;border-left:4px solid transparent}
+#list li:hover{background:#212c33}
+#list li.cur{background:#263640}
+#list li.JOSHUA{border-left-color:var(--jo)} #list li.AUREL{border-left-color:var(--au)}
+#list .nr{color:var(--dim);font-variant-numeric:tabular-nums;text-align:right}
+#list .tx{font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#list .st{font-size:12px;color:var(--dim);white-space:nowrap}
+#list .st.fav{color:var(--ok)} #list .st.has{color:var(--jo)}
+main{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto;padding:16px 22px 20px}
+#stage{position:relative;background:#000;border-radius:10px;overflow:hidden;align-self:center;width:min(100%,calc((100vh - 400px)*16/9));min-width:320px;aspect-ratio:16/9}
+video{width:100%;height:100%;display:block}
+#count3{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:150px;font-weight:700;color:#fff;text-shadow:0 4px 30px #000;background:#0006}
+#light{position:absolute;top:14px;right:14px;display:none;align-items:center;gap:8px;background:#000a;padding:6px 12px;border-radius:20px;font-weight:600}
+#light i{width:14px;height:14px;border-radius:50%;background:var(--rec);animation:bl 1s infinite}
+@keyframes bl{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){#light i{animation:none}}
+#bar{height:8px;background:#0c1114;border-radius:4px;margin-top:10px;overflow:hidden}
+#bar div{height:100%;width:0;background:var(--rec)}
+#sp{font-size:22px;font-weight:700;letter-spacing:.04em;margin-top:14px}
+#text{font-size:24px;line-height:1.4;margin:6px 0 4px;max-width:1100px}
+#next{color:var(--dim);font-size:14px;min-height:20px}
+#ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+#rec{background:var(--rec);border-color:var(--rec);font-weight:600}
+#meter{width:120px;height:10px;background:#0c1114;border-radius:5px;overflow:hidden}
+#meter div{height:100%;width:0;background:var(--ok)}
+#msg{margin-top:10px;min-height:22px;color:var(--dim)}
+#msg.err{color:#ff9a9a}
+#takes{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.take{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.take.fav{border-color:var(--ok)}
+.take span{flex:1;font-variant-numeric:tabular-nums}
+.take button{padding:4px 10px;font-size:13px}
+#help{margin-top:auto;padding-top:16px;color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<aside id="side">
+  <header>
+    <h1>Aufnahmestudio</h1>
+    <div id="filter" role="group" aria-label="Zeilen filtern">
+      <button data-f="ALLE" aria-pressed="true">alle</button>
+      <button data-f="JOSHUA" aria-pressed="false">nur JOSHUA</button>
+      <button data-f="AUREL" aria-pressed="false">nur AUREL</button>
+    </div>
+    <div id="count"></div>
+  </header>
+  <ol id="list"></ol>
+</aside>
+<main>
+  <div id="stage">
+    <video id="v" src="/video" preload="auto" playsinline muted></video>
+    <div id="count3" aria-live="assertive"></div>
+    <div id="light"><i></i>Aufnahme</div>
+  </div>
+  <div id="bar" aria-hidden="true"><div></div></div>
+  <div id="sp"></div>
+  <div id="text"></div>
+  <div id="next"></div>
+  <div id="ctl">
+    <button id="rec">● Aufnehmen <kbd>Leertaste</kbd></button>
+    <button id="play">Anhören <kbd>P</kbd></button>
+    <button id="redo">Neu <kbd>R</kbd></button>
+    <button id="okb">Übernehmen und weiter <kbd>Enter</kbd></button>
+    <span style="color:var(--dim);font-size:13px">Mikrofon</span><div id="meter" aria-hidden="true"><div></div></div>
+  </div>
+  <div id="msg" role="status"></div>
+  <div id="takes"></div>
+  <div id="help">
+    Ablauf: Zeile links wählen → <kbd>Leertaste</kbd>: das Video springt 3 s vor die Zeile und läuft stumm, Countdown 3-2-1, bei Rot sprechen.
+    Die Aufnahme endet 1,5 s nach dem Zeilenende von selbst (früher stoppen: <kbd>Leertaste</kbd>). Danach <kbd>P</kbd> anhören, <kbd>R</kbd> neu aufnehmen, <kbd>Enter</kbd> als Favorit übernehmen und zur nächsten Zeile.
+    Beim ersten Aufnehmen fragt der Browser nach dem Mikrofon: „Erlauben“ wählen.
+  </div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const v = $('#v'), COL = {JOSHUA:'var(--jo)', AUREL:'var(--au)'};
+let L = [], T = {lines:{}}, cur = 0, filter = 'ALLE', phase = 'idle';   // idle | pre | rec | saving | play
+let ctx = null, stream = null, chunks = [], capturing = false, latency = 0, raf = 0, player = null;
+
+const takesOf = i => (T.lines[i] || {takes:[], fav:null});
+const visible = () => L.filter(l => filter === 'ALLE' || l.sp === filter);
+function say(t, err){ const m = $('#msg'); m.textContent = t || ''; m.className = err ? 'err' : ''; }
+
+async function init(){
+  L = await (await fetch('/lines.json')).json();
+  T = await (await fetch('/takes.json')).json();
+  renderList(); select(0);
+  v.addEventListener('error', () => say('Das Video fehlt. Erst im Terminal: python3 tools/assemble.py all', true));
+}
+function renderList(){
+  const ol = $('#list'); ol.innerHTML = '';
+  for (const l of visible()){
+    const e = takesOf(l.i), li = document.createElement('li');
+    li.className = l.sp + (l.i === cur ? ' cur' : ''); li.dataset.i = l.i; li.tabIndex = 0;
+    const st = e.fav ? ['★ Favorit','fav'] : e.takes.length ? [e.takes.length + (e.takes.length > 1 ? ' Takes' : ' Take'),'has'] : ['offen',''];
+    li.innerHTML = `<span class="nr">${l.i}</span><span class="tx"></span><span class="st ${st[1]}">${st[0]}</span>`;
+    li.querySelector('.tx').textContent = l.text;
+    li.onclick = () => { if (phase === 'idle' || phase === 'play') select(l.i); };
+    li.onkeydown = ev => { if (ev.key === 'Enter'){ ev.stopPropagation(); li.onclick(); } };
+    ol.appendChild(li);
+  }
+  const done = L.filter(l => takesOf(l.i).fav).length;
+  $('#count').textContent = `${done} von ${L.length} Zeilen mit Favorit`;
+}
+function select(i){
+  stopAll(); cur = i; const l = L[i];
+  $('#sp').textContent = l.sp; $('#sp').style.color = COL[l.sp];
+  $('#text').textContent = l.text;
+  const n = L[i + 1]; $('#next').textContent = n ? `danach ${n.sp}: ${n.text.slice(0, 90)}${n.text.length > 90 ? '…' : ''}` : 'letzte Zeile';
+  v.currentTime = l.start; $('#bar div').style.width = '0';
+  renderList(); renderTakes(); say(`Zeile ${l.i}: ${l.dur.toFixed(1)} s geplant.`);
+  const li = document.querySelector('#list li.cur'); if (li) li.scrollIntoView({block:'nearest'});
+}
+function renderTakes(){
+  const box = $('#takes'); box.innerHTML = ''; const e = takesOf(cur);
+  for (const t of e.takes){
+    const d = document.createElement('div'); d.className = 'take' + (e.fav === t.n ? ' fav' : '');
+    const warn = t.speech_len === 0 ? ' – nichts gehört!' : t.peak_db < -32 ? ' – sehr leise' : '';
+    d.innerHTML = `<span>Take ${t.n}: ${t.speech_len.toFixed(1)} s gesprochen (geplant ${L[cur].dur.toFixed(1)} s)${warn}${e.fav === t.n ? ' ★' : ''}</span>`;
+    const b = (txt, fn) => { const x = document.createElement('button'); x.textContent = txt; x.onclick = fn; d.appendChild(x); };
+    b('anhören', () => playTake(t)); b('Favorit', () => setFav(t.n, false)); b('löschen', () => delTake(t.n));
+    box.appendChild(d);
+  }
+  const has = e.takes.length > 0;
+  $('#play').disabled = !has; $('#okb').disabled = !has; $('#redo').disabled = !has;
+}
+
+// ---------- Mikrofon
+async function mic(){
+  if (ctx) { if (ctx.state === 'suspended') await ctx.resume(); return true; }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false, channelCount:1}});
+  } catch (e) {
+    say('Kein Mikrofon: Bitte im Browser links neben der Adresse das Mikrofon für 127.0.0.1 erlauben und die Seite neu laden. (' + e.name + ')', true); return false;
+  }
+  ctx = new AudioContext({sampleRate: 48000});
+  const code = `class Tap extends AudioWorkletProcessor{process(i){const c=i[0][0];if(c)this.port.postMessage(c.slice(0));return true}}registerProcessor('tap',Tap)`;
+  await ctx.audioWorklet.addModule(URL.createObjectURL(new Blob([code], {type:'application/javascript'})));
+  const src = ctx.createMediaStreamSource(stream), node = new AudioWorkletNode(ctx, 'tap');
+  node.port.onmessage = ev => {
+    const c = ev.data; let p = 0; for (let k = 0; k < c.length; k++){ const a = Math.abs(c[k]); if (a > p) p = a; }
+    $('#meter div').style.width = Math.min(100, Math.sqrt(p) * 110) + '%';
+    if (capturing) chunks.push(c);
+  };
+  src.connect(node);                       // nicht mit den Lautsprechern verbinden (kein Echo)
+  const s = stream.getAudioTracks()[0].getSettings();
+  latency = Math.round(((s.latency || 0) + (ctx.baseLatency || 0)) * 1000);
+  return true;
+}
+
+// ---------- Aufnahme
+async function record(){
+  if (phase === 'rec' || phase === 'pre') return stopRecord(phase === 'pre');
+  if (phase === 'saving') return;
+  stopAll();
+  if (!await mic()) return;
+  const l = L[cur]; chunks = []; capturing = false; phase = 'pre';
+  v.muted = true; v.currentTime = Math.max(0, l.start - 3);
+  try { await v.play(); } catch (e) { phase = 'idle'; return say('Das Video lässt sich nicht starten.', true); }
+  $('#count3').style.display = 'flex'; say('Gleich geht es los …');
+  const tick = () => {
+    const t = v.currentTime;
+    if (phase === 'pre'){
+      if (t < l.start) $('#count3').textContent = Math.max(1, Math.ceil(l.start - t));
+      else { phase = 'rec'; capturing = true; $('#count3').style.display = 'none'; $('#light').style.display = 'flex'; say('Aufnahme läuft – sprechen!'); }
+    }
+    if (phase === 'rec'){
+      $('#bar div').style.width = Math.min(100, (t - l.start) / l.dur * 100) + '%';
+      if (t >= l.start + l.dur + 1.5 || v.ended) return stopRecord(false);
+    }
+    if (phase === 'pre' || phase === 'rec') raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+}
+async function stopRecord(cancel){
+  cancelAnimationFrame(raf); capturing = false; v.pause();
+  $('#count3').style.display = 'none'; $('#light').style.display = 'none';
+  if (cancel || !chunks.length){ phase = 'idle'; return say('Abgebrochen.'); }
+  phase = 'saving'; say('Speichere …');
+  let n = 0; for (const c of chunks) n += c.length;
+  let f = new Float32Array(n), o = 0; for (const c of chunks){ f.set(c, o); o += c.length; }
+  if (ctx.sampleRate !== 48000){            // falls der Browser eine andere Rate erzwingt: linear umrechnen
+    const m = Math.round(n * 48000 / ctx.sampleRate), g = new Float32Array(m), r = ctx.sampleRate / 48000;
+    for (let k = 0; k < m; k++){ const x = k * r, a = Math.floor(x), b = Math.min(n - 1, a + 1); g[k] = f[a] + (f[b] - f[a]) * (x - a); }
+    f = g; n = m;
+  }
+  const buf = new ArrayBuffer(44 + n * 2), d = new DataView(buf), w = (p, s) => { for (let k = 0; k < s.length; k++) d.setUint8(p + k, s.charCodeAt(k)); };
+  w(0,'RIFF'); d.setUint32(4, 36 + n * 2, true); w(8,'WAVEfmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
+  d.setUint32(24, 48000, true); d.setUint32(28, 96000, true); d.setUint16(32, 2, true); d.setUint16(34, 16, true); w(36,'data'); d.setUint32(40, n * 2, true);
+  for (let k = 0; k < n; k++){ const s = Math.max(-1, Math.min(1, f[k])); d.setInt16(44 + k * 2, s < 0 ? s * 32768 : s * 32767, true); }
+  try {
+    const r = await fetch(`/take?line=${cur}&latency=${latency}`, {method:'POST', headers:{'Content-Type':'audio/wav'}, body: buf});
+    const j = await r.json(); if (!r.ok) throw new Error(j.error);
+    T = await (await fetch('/takes.json')).json();
+    phase = 'idle'; renderList(); renderTakes();
+    say(j.speech_len === 0 ? 'Gespeichert, aber es war nichts zu hören. Mikrofon prüfen (Balken rechts).' : `Take ${j.n} gespeichert: ${j.speech_len.toFixed(1)} s gesprochen. P = anhören, R = neu, Enter = übernehmen.`, j.speech_len === 0);
+  } catch (e) { phase = 'idle'; say('Speichern fehlgeschlagen: ' + e.message, true); }
+}
+
+// ---------- Anhören, Favorit, Löschen
+function stopAll(){
+  cancelAnimationFrame(raf); capturing = false;
+  if (player){ player.pause(); player = null; }
+  if (!v.paused) v.pause();
+  $('#count3').style.display = 'none'; $('#light').style.display = 'none';
+  if (phase !== 'saving') phase = 'idle';
+}
+function latest(){ const e = takesOf(cur); return e.takes.find(t => t.n === e.fav) || e.takes[e.takes.length - 1]; }
+function playTake(t){
+  t = t || latest(); if (!t || phase === 'rec' || phase === 'pre' || phase === 'saving') return;
+  stopAll(); phase = 'play';
+  player = new Audio(`/takes/${t.file}?${Date.now()}`);
+  v.muted = true; v.currentTime = L[cur].start;
+  player.onended = () => { v.pause(); phase = 'idle'; };
+  Promise.all([v.play(), player.play()]).catch(() => say('Wiedergabe nicht möglich.', true));
+  say(`Take ${t.n} läuft …`);
+}
+async function setFav(n, go){
+  const e = takesOf(cur); n = n || (latest() || {}).n; if (!n) return;
+  const r = await fetch(`/fav?line=${cur}&take=${n}`, {method:'POST'});
+  if (!r.ok) return say('Favorit konnte nicht gespeichert werden.', true);
+  T = await (await fetch('/takes.json')).json(); renderList(); renderTakes();
+  if (go){ const vis = visible(), k = vis.findIndex(l => l.i === cur); if (vis[k + 1]) select(vis[k + 1].i); else say('Letzte Zeile dieser Auswahl – fertig!'); }
+  else say(`Take ${n} ist jetzt der Favorit.`);
+}
+async function delTake(n){
+  if (!confirm(`Take ${n} von Zeile ${cur} wirklich löschen?`)) return;
+  await fetch(`/delete?line=${cur}&take=${n}`, {method:'POST'});
+  T = await (await fetch('/takes.json')).json(); renderList(); renderTakes(); say(`Take ${n} gelöscht.`);
+}
+
+$('#rec').onclick = record; $('#play').onclick = () => playTake(); $('#redo').onclick = record; $('#okb').onclick = () => setFav(0, true);
+for (const b of document.querySelectorAll('#filter button')) b.onclick = () => {
+  filter = b.dataset.f; for (const x of document.querySelectorAll('#filter button')) x.setAttribute('aria-pressed', x === b);
+  const vis = visible(); if (!vis.some(l => l.i === cur) && vis.length) select(vis[0].i); else renderList();
+};
+document.addEventListener('keydown', ev => {
+  if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+  if (ev.code === 'Space'){ ev.preventDefault(); record(); }
+  else if (ev.key === 'p' || ev.key === 'P') playTake();
+  else if (ev.key === 'r' || ev.key === 'R'){ if (phase === 'idle' || phase === 'play') record(); }
+  else if (ev.key === 'Enter'){ ev.preventDefault(); if (phase === 'idle' || phase === 'play') setFav(0, true); }
+  else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){
+    if (phase !== 'idle' && phase !== 'play') return; ev.preventDefault();
+    const vis = visible(), k = vis.findIndex(l => l.i === cur) + (ev.key === 'ArrowDown' ? 1 : -1); if (vis[k]) select(vis[k].i);
+  }
+});
+init();
+</script>
+</body>
+</html>

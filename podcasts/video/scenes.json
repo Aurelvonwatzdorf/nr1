@@ -1,1 +1,688 @@
-[[-1, 1, 1, "A single large stylized human eye made of simple geometric shapes floating over a dark night city skyline, thin lines of light connecting windows like a network, ominous but calm"], [0, 1, 0, "Two simple faceless teenage students with headphones sitting at a desk with two microphones in a cozy small recording room, warm lamp light, bookshelf with plants"], [1, 1, 0, "Bird's-eye view of a Berlin-like city with a TV tower silhouette, small school building highlighted in warm ochre"], [1, 1, 0, "A smartphone, a street camera and a laptop arranged in a row, each emitting thin glowing lines that merge into one abstract neural network shape above them"], [2, 1, 0, "A row of four simple icons drawn as large flat objects on a wall: a magnifying glass over a face, a car license plate camera on a pole, a shadowy figure in a trench coat, a giant data cube"], [2, 1, 0, "Piles of coins and banknotes growing into a staircase made of security cameras, rising upward"], [3, 1, 0, "Map of Germany in muted teal with a few small glowing data points in different states, minimal, top-down"], [4, 1, 0, "A research laboratory with faceless scientists in white coats looking at large screens showing abstract human silhouettes with tracking boxes"], [5, 1, 0, "A face divided into a grid of measurement points and lines, facial recognition mesh drawn as clean geometric overlay, side profile"], [5, 1, 1, "Side view of a pedestrian walking on a sidewalk, their walking motion traced by a sequence of semi-transparent silhouette poses and thin skeleton lines, gait analysis"], [6, 1, 0, "Close-up of a pair of simple shoes walking, footprints behind them turning into glowing data points"], [7, 1, 0, "Chinese city street at night with lanterns and tall modern buildings, a sleek street camera on a pole in the foreground"], [7, 1, 0, "A faceless person standing in front of a camera, a small heart rate line and pulse icon floating next to them as abstract graphics"], [7, 1, 0, "A computer screen showing a simplified human head silhouette with abstract labels as colored bars, a red warning shape next to it, personality profiling concept"], [8, 1, 0, "A crystal ball sitting on top of a server rack, a skeptical faceless figure with crossed arms looking at it"], [9, 1, 0, "A human face silhouette with a big question mark inside the head, scientists' charts around it crossed out"], [9, 1, 0, "A large flat stylized blue flag with a circle of twelve yellow stars hanging in front of a modern parliament building, a red prohibition sign over a smiling and sad emoji mask"], [10, 1, 0, "Classroom with rows of desks seen from the back of the room, a small camera in the upper corner, one student slumped bored on the desk with a speech bubble containing 'zzz' shapes"], [11, 1, 0, "The same classroom camera in close-up, tiny worried sweat drops drawn next to it, humorous but restrained"], [12, 1, 0, "Wide suburban American street with single-family houses, a pickup truck and a tall black solar-powered pole camera on the roadside"], [13, 1, 1, "Close-up of a sleek black license plate reader camera on a pole with a small solar panel, cars passing by on a road below"], [13, 1, 0, "A car seen from behind with its license plate highlighted by a scanning rectangle and small floating data tags for color and model, no readable text"], [14, 1, 0, "Top-down map of a city grid with one small car leaving a glowing dotted trail through the streets, camera icons lighting up along the route"], [15, 1, 0, "Many small towns on a map connected by glowing lines into one big network, police badge icons at the nodes"], [15, 1, 0, "A stack of folders labeled with car icons being slid through a door to a government building with a large dark eagle-like emblem shape, no text"], [15, 1, 0, "A university campus building with researchers looking at charts, a small backdoor drawn in the side of a large digital database"], [16, 1, 0, "A corporate building with a smooth glass facade and a spokesperson figure at a podium with microphones"], [17, 1, 0, "A city council meeting room, faceless people raising their hands to vote, a camera icon on a big screen crossed out"], [17, 1, 1, "A worker on a ladder removing a black license plate camera from a pole at a quiet roadside, sunset"], [18, 1, 0, "Small crowd of citizens holding blank protest signs in front of a town hall, calm and determined"], [19, 1, 0, "A local town hall with a small green check mark shape floating above it"], [20, 1, 0, "Dark room with walls full of screens, a shadowy agency headquarters building at night with antennas and satellite dishes"], [21, 1, 1, "Endless towers of documents, phone call waveforms and satellite photos piling up toward the ceiling of a huge hall"], [21, 1, 0, "A tiny faceless analyst overwhelmed at a desk in front of mountains of paper"], [21, 1, 0, "An abstract AI brain shape made of nodes sorting the documents into neat glowing streams, translation symbols in different scripts as shapes"], [23, 1, 0, "A modern government campus surrounded by forest, seen from above, with a large circular parking area, many small screens inside windows glowing"], [23, 1, 0, "Large secure building with radar domes and satellite dishes, data cables leading into rows of AI chips"], [23, 1, 0, "A British-looking circular building shaped like a ring seen from above, with small robot-like AI agent icons standing guard on its roof"], [25, 1, 1, "Endless rows of server racks in a cool blue data center in a flat European landscape with windmills outside"], [25, 1, 1, "Thousands of small phone handset icons flowing like a river into a large cloud shape above a data center"], [25, 1, 0, "A big switch lever being pulled down, cutting a glowing cable that connects a cloud to a military building silhouette"], [26, 1, 0, "A friendly ordinary office laptop showing simple document and spreadsheet window shapes, a long dark shadow behind it in the shape of a spy"], [27, 1, 0, "A thin line on the ground separating a bright tech company building from a dark intelligence agency building, the line fading and blurring"], [28, 1, 0, "A large glowing crystal orb on a pedestal in a dark room, data streams swirling inside it"], [29, 1, 0, "Modern minimalist office tower in a sunny American city, abstract dark logo shape on top, no text"], [29, 1, 1, "Many separate data sources as icons, police files, cars, phones, maps, being pulled by lines into one central web graph of connected people"], [29, 1, 0, "A network graph of faceless people connected by lines on a large screen, some nodes highlighted in coral red"], [30, 1, 0, "A world map in muted colors with several countries lighting up in ochre"], [31, 1, 0, "Military tanks and soldiers in muted olive tones standing in front of giant screens showing maps and networks"], [31, 1, 0, "A border fence at night with searchlights, an operating system window floating in the sky showing map pins, migration surveillance concept, no text"], [32, 1, 0, "Brandenburg-like city gate silhouette in Berlin at dusk with a soft data overlay in the sky"], [33, 1, 0, "Map of Germany highlighting three western and southern states in ochre, small police car icons and data symbols on them"], [33, 1, 0, "German police station building with a modern server room glimpsed through a window, a minister figure at a podium in front"], [34, 1, 0, "A courtroom with judges in red robes seated high, a gavel, serious atmosphere"], [35, 1, 0, "Judges in red robes holding up a large document with a red stamp, a data cable being cut"], [35, 1, 0, "A group of hackers with laptops at a long table under colorful string lights, a speaker at a podium raising a warning hand"], [36, 1, 1, "A rising stock chart arrow climbing out of a skyscraper, coins falling around it"], [37, 1, 0, "A giant bar chart with bars growing tall, the last bar towering over the others in ochre"], [37, 1, 0, "A tech executive figure speaking calmly on a stage in front of a dark screen, faceless"], [38, 1, 0, "A huge pile of gold coins with security cameras sprouting out of it like plants"], [39, 1, 1, "A globe slowly turning, covered with thousands of tiny camera icons spreading across the continents"], [39, 1, 0, "A tall bar chart rising steeply from left to right, small camera icons on top of each bar"], [40, 1, 0, "Map of the world centered on Asia, Asia glowing brightest in warm ochre"], [41, 1, 1, "Dense futuristic Chinese megacity skyline with countless cameras on poles and rooftops"], [41, 1, 0, "Busy Indian city street with rickshaws, modern towers in the background and new smart city camera poles being installed"], [42, 1, 0, "Desert city skyline with very tall futuristic skyscrapers at golden hour, Gulf region"], [43, 1, 0, "A huge stadium event crowd seen from above, small tracking boxes floating over some people"], [43, 1, 0, "A container ship carrying boxes full of cameras and servers sailing from one continent to another on a stylized world map, finance coins traveling along"], [44, 1, 0, "A shop window displaying surveillance cameras like luxury products with price tag shapes, no text"], [45, 1, 0, "A heavy scale with a stack of money on one side outweighing a small dove on the other"], [46, 1, 0, "Two simple faceless students at desks with microphones, thinking, a small light bulb above"], [47, 1, 0, "A rocket labeled with a chip icon racing ahead of a slow turtle carrying law books"], [47, 1, 0, "Private company towers holding puppet strings over a city full of cameras"], [47, 1, 0, "A judge's gavel and a town hall with a camera being unplugged, hopeful sunrise light"], [48, 1, 0, "A balance scale with a shield on one side and a bird flying free on the other, perfectly balanced"], [49, 1, 0, "Many small phone screens with blank speech bubbles rising up like lanterns into the night sky"], [50, 1, 1, "The night city from the opening shot, the large eye slowly closing, lights in the windows switching off one by one"]]
+[
+{
+"line": -1,
+"w": 1,
+"kling": 1,
+"img": "s00",
+"prompt": ""
+},
+{
+"line": 0,
+"w": 1,
+"kling": 0,
+"img": "n01",
+"prompt": "Two teenage boys with headphones sitting at a desk with two microphones in a cozy small recording room with bookshelf and plants, one boy with short dark hair in a dark green sweater, the other boy with short brown hair in a coral hoodie, both clearly male, friendly, simple flat faceless figures"
+},
+{
+"line": 1,
+"w": 1,
+"kling": 0,
+"img": "s03",
+"prompt": ""
+},
+{
+"line": 1,
+"w": 1,
+"kling": 0,
+"img": "s31",
+"prompt": ""
+},
+{
+"line": 2,
+"w": 1,
+"kling": 0,
+"img": "s08",
+"prompt": ""
+},
+{
+"line": 2,
+"w": 1,
+"kling": 0,
+"img": "n02",
+"prompt": "A person walking alone down an ordinary quiet city street at dusk with no cameras anywhere, but faint thin translucent concentric wave rings and dotted lines pass through the air around them, suggesting invisible surveillance"
+},
+{
+"line": 3,
+"w": 1,
+"kling": 0,
+"img": "s44",
+"prompt": ""
+},
+{
+"line": 3,
+"w": 1,
+"kling": 0,
+"img": "s47",
+"prompt": ""
+},
+{
+"line": 3,
+"w": 1,
+"kling": 0,
+"img": "s06",
+"prompt": ""
+},
+{
+"line": 4,
+"w": 1,
+"kling": 0,
+"img": "n03",
+"prompt": "A small wifi router with two antennas on a shelf in a cozy cafe, soft concentric wave arcs spreading from it across the room, guests at tables as simple flat faceless figures"
+},
+{
+"line": 4,
+"w": 1,
+"kling": 0,
+"img": "s07",
+"prompt": ""
+},
+{
+"line": 5,
+"w": 1,
+"kling": 0,
+"img": "n06",
+"prompt": "A person walking through a living room with empty hands and no phone, wifi wave arcs from a router on a sideboard bouncing off the body like ripples hitting a rock"
+},
+{
+"line": 5,
+"w": 1,
+"kling": 0,
+"img": "n07",
+"prompt": "A computer monitor on a desk showing a rough glowing human shape assembled from many small wave patterns and dots, a neural network node diagram beside it, dim lab"
+},
+{
+"line": 6,
+"w": 1,
+"kling": 0,
+"img": "n09",
+"prompt": "A dark switched-off smartphone lying on a table in the foreground, while behind it a laptop, a smart speaker and a television each emit small glowing wifi arcs in a living room at night"
+},
+{
+"line": 6,
+"w": 1,
+"kling": 0,
+"img": "n10",
+"prompt": "A university researcher in a lab holding a stack of printed study pages next to a router on a test bench, calm scientific setting, measurement antennas on tripods, simple flat faceless figures"
+},
+{
+"line": 6,
+"w": 1,
+"kling": 0,
+"img": "n11",
+"prompt": "A wifi router on a desk with a large soft glowing shield shape floating in front of its wave arcs, protecting a small family silhouette behind it"
+},
+{
+"line": 7,
+"w": 1,
+"kling": 0,
+"img": "n12",
+"prompt": "Close-up of a hand holding a smartphone, a map with a location pin on the screen, small round app icon shapes floating around it each with a tiny location pin"
+},
+{
+"line": 7,
+"w": 1,
+"kling": 1,
+"img": "s39",
+"prompt": ""
+},
+{
+"line": 7,
+"w": 1,
+"kling": 0,
+"img": "n14",
+"prompt": "Interior of a government agency office at night, agents as simple flat faceless figures at desks in front of a wall screen showing a dark map covered with thousands of tiny glowing phone dots"
+},
+{
+"line": 8,
+"w": 1,
+"kling": 0,
+"img": "n15",
+"prompt": "Top-down view of a residential neighborhood with houses, gardens and streets, a small glowing phone icon dot inside almost every house, a soft selection circle drawn around one block"
+},
+{
+"line": 8,
+"w": 1,
+"kling": 0,
+"img": "n16",
+"prompt": "Top-down city map at dusk with one single glowing dot leaving a dotted trail from an office building across several streets to a small house, the house softly highlighted"
+},
+{
+"line": 8,
+"w": 1,
+"kling": 0,
+"img": "n17",
+"prompt": "An empty judge's bench in a quiet courtroom, the high chair empty, the gavel resting untouched, an unsigned blank document on the desk, evening light"
+},
+{
+"line": 9,
+"w": 1,
+"kling": 0,
+"img": "n18",
+"prompt": "Close-up of the back pocket of a pair of jeans with a smartphone sticking out, a small glowing location pin and signal arcs rising from the phone, street in the background"
+},
+{
+"line": 10,
+"w": 1,
+"kling": 0,
+"img": "s19",
+"prompt": ""
+},
+{
+"line": 10,
+"w": 1,
+"kling": 1,
+"img": "s20",
+"prompt": ""
+},
+{
+"line": 10,
+"w": 1,
+"kling": 0,
+"img": "s21",
+"prompt": ""
+},
+{
+"line": 11,
+"w": 1,
+"kling": 0,
+"img": "s23",
+"prompt": ""
+},
+{
+"line": 11,
+"w": 1,
+"kling": 0,
+"img": "s25",
+"prompt": ""
+},
+{
+"line": 11,
+"w": 1,
+"kling": 0,
+"img": "n19",
+"prompt": "A small-town police station on the left connected by a glowing data line across a desert landscape to a white and green border patrol SUV parked beside a long border fence on the right, dusk"
+},
+{
+"line": 12,
+"w": 1,
+"kling": 0,
+"img": "s22",
+"prompt": ""
+},
+{
+"line": 12,
+"w": 1,
+"kling": 0,
+"img": "n20",
+"prompt": "A large windowless data archive building with a closed main entrance at the front, and at the side a small back door standing slightly open with light spilling out, a uniformed agent figure walking toward the back door, simple flat faceless figures"
+},
+{
+"line": 13,
+"w": 1,
+"kling": 0,
+"img": "s26",
+"prompt": ""
+},
+{
+"line": 13,
+"w": 1,
+"kling": 0,
+"img": "s27",
+"prompt": ""
+},
+{
+"line": 13,
+"w": 1,
+"kling": 1,
+"img": "s28",
+"prompt": ""
+},
+{
+"line": 14,
+"w": 1,
+"kling": 0,
+"img": "s29",
+"prompt": ""
+},
+{
+"line": 15,
+"w": 1,
+"kling": 1,
+"img": "s32",
+"prompt": ""
+},
+{
+"line": 15,
+"w": 1,
+"kling": 0,
+"img": "s43",
+"prompt": ""
+},
+{
+"line": 16,
+"w": 1,
+"kling": 0,
+"img": "n21",
+"prompt": "A bright modern office with palm trees outside the window, a large monitor on a desk showing a software window with connected node icons, no cameras or hardware anywhere, a developer as a simple flat faceless figure typing"
+},
+{
+"line": 16,
+"w": 1,
+"kling": 1,
+"img": "s45",
+"prompt": ""
+},
+{
+"line": 16,
+"w": 1,
+"kling": 0,
+"img": "s46",
+"prompt": ""
+},
+{
+"line": 17,
+"w": 1,
+"kling": 0,
+"img": "n22",
+"prompt": "Two hands shaking over a signed contract on a table, a neat stack of banknotes beside it, a row of empty chairs along the wall behind, government office, no other bidders"
+},
+{
+"line": 17,
+"w": 1,
+"kling": 0,
+"img": "s49",
+"prompt": ""
+},
+{
+"line": 18,
+"w": 1,
+"kling": 0,
+"img": "n25",
+"prompt": "Close-up of two hands holding a tablet that shows a neighborhood map with several houses highlighted in coral and small pins on them, inside a parked vehicle at dawn"
+},
+{
+"line": 18,
+"w": 1,
+"kling": 0,
+"img": "n26",
+"prompt": "An open file folder on a desk with a profile card: a blank faceless head silhouette, a small house icon, a car icon and several colored data bars, no readable text"
+},
+{
+"line": 18,
+"w": 1,
+"kling": 0,
+"img": "n27",
+"prompt": "A small suburban house at dusk with a large semicircular gauge dial floating above its roof, the needle pointing high toward the ochre end, a soft scanning rectangle around the house"
+},
+{
+"line": 19,
+"w": 1,
+"kling": 0,
+"img": "n28",
+"prompt": "A clerk as a simple flat faceless figure calmly sorting envelopes and address cards into a tidy wall of pigeonholes in a plain government office"
+},
+{
+"line": 19,
+"w": 1,
+"kling": 0,
+"img": "n29",
+"prompt": "A hospital building with a medical cross on the left and a dark government agency building on the right, a wide glowing stream of small file icons flowing from the hospital to the agency"
+},
+{
+"line": 20,
+"w": 1,
+"kling": 0,
+"img": "n31",
+"prompt": "A patient as a simple flat faceless figure at the reception desk of a doctor's office handing a form on a clipboard to the receptionist, waiting room with plants"
+},
+{
+"line": 20,
+"w": 1,
+"kling": 0,
+"img": "n32",
+"prompt": "A hospital icon on the left and a tablet with a map on the right connected by a dotted line that is interrupted in the middle by a large soft question mark shape"
+},
+{
+"line": 21,
+"w": 1,
+"kling": 0,
+"img": "s48",
+"prompt": ""
+},
+{
+"line": 21,
+"w": 1,
+"kling": 0,
+"img": "s36",
+"prompt": ""
+},
+{
+"line": 22,
+"w": 1,
+"kling": 0,
+"img": "n33",
+"prompt": "A satellite in orbit above the curved Earth scanning a desert landscape with a thin light cone, a radar dish and signal waves joining into one stream of data"
+},
+{
+"line": 22,
+"w": 1,
+"kling": 0,
+"img": "n34",
+"prompt": "A large screen showing a top-down satellite view of a desert road with a small tank shape, a glowing rectangle and corner brackets marking the tank, an operator silhouette in front"
+},
+{
+"line": 22,
+"w": 1,
+"kling": 0,
+"img": "n35",
+"prompt": "Close-up of an operator's hand hovering between two large buttons on a console, one with a check mark shape and one with a cross shape, a targeting map glowing on the screen above"
+},
+{
+"line": 23,
+"w": 1,
+"kling": 0,
+"img": "n36",
+"prompt": "Aerial view of a huge five-sided government headquarters building with a central courtyard, surrounded by parking lots and a river, dusk"
+},
+{
+"line": 23,
+"w": 1,
+"kling": 0,
+"img": "n37",
+"prompt": "A stylized map of the Middle East region in muted colors on a command table, three areas softly highlighted in ochre with small target ring markers, aircraft silhouettes flying across"
+},
+{
+"line": 24,
+"w": 1,
+"kling": 0,
+"img": "n39",
+"prompt": "A contract document on a desk beside a tall growing stack of coins and banknotes, a small model of a five-sided building next to it, hand with a pen signing"
+},
+{
+"line": 24,
+"w": 1,
+"kling": 0,
+"img": "n40",
+"prompt": "A large round conference table with many small plain colored flags without symbols, officers and diplomats as simple flat faceless figures seated around it, a big screen with a map of Europe and the Atlantic"
+},
+{
+"line": 25,
+"w": 1,
+"kling": 0,
+"img": "n41",
+"prompt": "A slim man in his fifties with wild untamed curly grey hair standing up in all directions and thin rimless glasses, wearing a dark grey blazer over an open-collar white shirt, speaking with one hand raised on a stage in front of a dark screen, neutral and calm, no caricature, audience silhouettes in front"
+},
+{
+"line": 25,
+"w": 1,
+"kling": 0,
+"img": "n43",
+"prompt": "Wide view from the back of a dark auditorium toward a bright stage with one small speaker figure with curly grey hair at the center, rows of audience silhouettes"
+},
+{
+"line": 25,
+"w": 1,
+"kling": 0,
+"img": "n44",
+"prompt": "The shadow of a military drone gliding across empty desert ground and a lonely road, seen from high above, sober and quiet"
+},
+{
+"line": 26,
+"w": 1,
+"kling": 0,
+"img": "n45",
+"prompt": "A television interview setup: a slim man with wild curly grey hair and thin rimless glasses in a dark quarter-zip sweater sitting on a chair talking to an interviewer, studio camera and lights in the foreground, neutral, no caricature"
+},
+{
+"line": 26,
+"w": 1,
+"kling": 0,
+"img": "n46",
+"prompt": "An aircraft carrier at sea at dusk with jets on deck and two jets flying overhead in formation, sober documentary mood"
+},
+{
+"line": 27,
+"w": 1,
+"kling": 0,
+"img": "s74",
+"prompt": ""
+},
+{
+"line": 27,
+"w": 1,
+"kling": 0,
+"img": "n50",
+"prompt": "Soldiers as simple flat faceless figures inside a field command tent working on rugged laptops and a large map screen, radio antennas outside, dusk"
+},
+{
+"line": 28,
+"w": 1,
+"kling": 0,
+"img": "s42",
+"prompt": ""
+},
+{
+"line": 28,
+"w": 1,
+"kling": 0,
+"img": "n51",
+"prompt": "Split scene: on the left a military command screen with a battlefield map, on the right a police office screen with a city map and a people network, both screens showing the same identical software window frame"
+},
+{
+"line": 29,
+"w": 1,
+"kling": 0,
+"img": "s50",
+"prompt": ""
+},
+{
+"line": 29,
+"w": 1,
+"kling": 0,
+"img": "n52",
+"prompt": "A German police headquarters building with blue and silver police cars in front, a skyline of bank skyscrapers by a river in the background, dusk"
+},
+{
+"line": 30,
+"w": 1,
+"kling": 0,
+"img": "s51",
+"prompt": ""
+},
+{
+"line": 30,
+"w": 1,
+"kling": 0,
+"img": "n54",
+"prompt": "A Bavarian police building with blue and silver police cars, a church with twin onion domes and the Alps in the background, a server rack visible through a window"
+},
+{
+"line": 30,
+"w": 1,
+"kling": 0,
+"img": "n56",
+"prompt": "Three ordinary people side by side as simple flat faceless figures: a witness pointing, a victim holding a damaged bag, and a person calling on a phone with an emergency cross symbol, a small file folder icon floating above each"
+},
+{
+"line": 31,
+"w": 1,
+"kling": 0,
+"img": "n57",
+"prompt": "A police computer screen showing a large pie chart with a little more than one third filled in coral and the rest pale grey, an officer silhouette looking at it"
+},
+{
+"line": 31,
+"w": 1,
+"kling": 0,
+"img": "n58",
+"prompt": "A desk with thin case folders showing small icons of a bicycle, a wallet and a house key, minor property cases, a desk lamp, police office"
+},
+{
+"line": 32,
+"w": 1,
+"kling": 0,
+"img": "n59",
+"prompt": "A parliament chamber desk with a software box, a contract and a pile of euro coins and banknotes, politicians as simple flat faceless figures raising hands in the background"
+},
+{
+"line": 32,
+"w": 1,
+"kling": 0,
+"img": "s53",
+"prompt": ""
+},
+{
+"line": 32,
+"w": 1,
+"kling": 0,
+"img": "s54",
+"prompt": ""
+},
+{
+"line": 33,
+"w": 1,
+"kling": 0,
+"img": "n60",
+"prompt": "A secured server room behind a heavy door, the server racks standing on an island with a clearly unplugged network cable lying on the floor, a small globe icon crossed out on the wall"
+},
+{
+"line": 33,
+"w": 1,
+"kling": 0,
+"img": "s55",
+"prompt": ""
+},
+{
+"line": 34,
+"w": 1,
+"kling": 0,
+"img": "n63",
+"prompt": "A slim man in his mid-fifties with short dark greying hair, a high forehead and rectangular browline glasses with a dark upper rim, wearing a dark navy suit, white shirt and a blue tie with red stripes, speaking at a podium with microphones in front of a modern German ministry building with a black red gold flag, neutral and calm, no caricature, journalists in front"
+},
+{
+"line": 34,
+"w": 1,
+"kling": 0,
+"img": "n65",
+"prompt": "A woman minister in a dark blazer with shoulder-length hair at a desk in a ministry office calmly raising one hand in a refusing stop gesture, law books behind her, simple flat faceless figure"
+},
+{
+"line": 34,
+"w": 1,
+"kling": 0,
+"img": "n66",
+"prompt": "A map of Europe glowing softly in ochre with a software window shape rising from its center, the sixteen German states outlined as small tiles turning toward it"
+},
+{
+"line": 35,
+"w": 1,
+"kling": 1,
+"img": "s56",
+"prompt": ""
+},
+{
+"line": 35,
+"w": 1,
+"kling": 0,
+"img": "s57",
+"prompt": ""
+},
+{
+"line": 35,
+"w": 1,
+"kling": 0,
+"img": "s59",
+"prompt": ""
+},
+{
+"line": 36,
+"w": 1,
+"kling": 0,
+"img": "s61",
+"prompt": ""
+},
+{
+"line": 36,
+"w": 1,
+"kling": 0,
+"img": "s69",
+"prompt": ""
+},
+{
+"line": 37,
+"w": 1,
+"kling": 0,
+"img": "n67",
+"prompt": "Two teenage boys at desks with microphones in a cozy recording room, thinking, three small light bulbs floating above them, one boy with short dark hair in a dark green sweater, the other boy with short brown hair in a coral hoodie, both clearly male, simple flat faceless figures"
+},
+{
+"line": 37,
+"w": 1,
+"kling": 0,
+"img": "s18",
+"prompt": ""
+},
+{
+"line": 37,
+"w": 1,
+"kling": 0,
+"img": "n68",
+"prompt": "Three objects in a row on a plain surface: a wifi router, a smartphone and a car license plate with blank surface, each with a thin glowing data line rising from it and merging above"
+},
+{
+"line": 38,
+"w": 1,
+"kling": 0,
+"img": "s34",
+"prompt": ""
+},
+{
+"line": 38,
+"w": 1,
+"kling": 0,
+"img": "n69",
+"prompt": "A calm modern private company office tower at dusk, thin glowing data lines from the surrounding city flowing quietly into the building, engineers visible at screens through the windows, no hands, no strings"
+},
+{
+"line": 39,
+"w": 1,
+"kling": 0,
+"img": "n71",
+"prompt": "A town hall with a dome in hopeful sunrise light, in the foreground a woman as a simple flat faceless figure pulling a two-pin plug out of a correct white European wall socket mounted on a pole; one continuous black cable runs unbroken from the plug in her hand up the pole to a surveillance camera mounted above; a judge's gavel resting on a block at the left"
+},
+{
+"line": 39,
+"w": 1,
+"kling": 0,
+"img": "n72",
+"prompt": "A journalist as a simple flat faceless figure at a laptop, document pages flying out of the screen like birds toward an open window with morning light, newspapers on the desk"
+},
+{
+"line": 40,
+"w": 1,
+"kling": 0,
+"img": "n73",
+"prompt": "A dark control room seen from behind a single seated person silhouette in a chair facing a large glowing screen with a city map, we only see the back of the chair and head"
+},
+{
+"line": 41,
+"w": 1,
+"kling": 0,
+"img": "n74",
+"prompt": "A smartphone lying on a cafe table next to a coffee cup, its screen showing a large wifi arc symbol lighting up as it connects, a router with a tiny light on the shelf in the blurry background"
+},
+{
+"line": 42,
+"w": 1,
+"kling": 0,
+"img": "s75",
+"prompt": ""
+},
+{
+"line": -2,
+"w": 1,
+"kling": 1,
+"img": "n75",
+"prompt": "Night city skyline with lit windows under a dark starry sky, no eye in the sky; high above the city a single MQ-1 Predator military drone flies from left to right: long slender grey fuselage with bulbous nose, long straight narrow wings, inverted V-shaped tail fins pointing downward, rear pusher propeller, small sensor ball under the nose; a person sitting on a hill under a tree in the foreground looking up"
+}
+]
