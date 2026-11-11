@@ -13,6 +13,8 @@ last=by[-1][-1]
 for l in L:
     ks=by.get(l["i"])
     if not ks: dur[last]+=l["dur"]; continue      # Zeile ohne eigenes Bild teilt sich das vorige
+    # Wird eine Zeile kürzer gesprochen als geplant, bekommt sie weniger Bilder (jedes mind. 3 s)
+    ks=ks[:max(1,min(len(ks),int(l["dur"]//MIN)))]
     w=sum(S[k]["w"] for k in ks)
     for k in ks: dur[k]+=l["dur"]*S[k]["w"]/w
     last=ks[-1]
@@ -23,9 +25,12 @@ for k,s in enumerate(S):
         ex=dur[k]-KLING_MAX; dur[k]=KLING_MAX
         same=[j for j in (k+1,k-1) if 0<=j<len(S) and not S[j]["kling"] and S[j]["line"]==s["line"]]
         other=[j for j in (k+1,k-1) if 0<=j<len(S) and not S[j]["kling"]]
-        dur[(same or other)[0]]+=ex
+        same=[j for j in same if dur[j]>0]; other=[j for j in other if dur[j]>0]
+        if same or other: dur[(same or other)[0]]+=ex
+        else: dur[k]+=ex
 t=0; T=[]
 for k,s in enumerate(S):
+    if dur[k]<=0: continue                          # Bild entfällt (Zeile zu kurz für alle ihre Bilder)
     T.append({"k":k,"line":s["line"],"img":s["img"],"start":round(t,3),"dur":round(dur[k],3),"kling":s["kling"]}); t+=dur[k]
 json.dump(T,open('timeline.json','w'),indent=0)
 bad=[(x["k"],x["img"],x["dur"]) for x in T if x["dur"]<MIN or x["dur"]>MAX]

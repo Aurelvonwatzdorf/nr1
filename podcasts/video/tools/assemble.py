@@ -134,8 +134,7 @@ def srt():
 # ---------------------------------------------------------------- Stimmen
 def read_wav(path):
     import numpy as np
-    raw = run(['-i', path, '-f', 'f32le', '-ac', '2', '-ar', '48000', '-'], capture=False) if False else \
-        subprocess.run([FF, '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', '48000', '-'], capture_output=True).stdout
+    raw = subprocess.run([FF, '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', '48000', '-'], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).reshape(-1, 2).copy()
 
 
@@ -157,10 +156,9 @@ def clean_take(tk, out):
     a, d = tk['speech_start'], tk['speech_len']
     a0 = max(0, a - 0.04)
     pre = f'atrim={a0:.3f}:{a + d + 0.08:.3f},asetpts=PTS-STARTPTS,highpass=f=80,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=160:makeup=1'
-    r = run(['-i', src, '-af', pre + ',loudnorm=print_format=json', '-f', 'null', '-'], capture=False) if False else \
-        subprocess.run([FF, '-hide_banner', '-i', src, '-af', pre + ',loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True)
+    r = subprocess.run([FF, '-hide_banner', '-i', src, '-af', pre + ',loudnorm=print_format=json', '-f', 'null', '-'], capture_output=True, text=True)
     try:
-        meas = float(json.loads(r.stderr[r.stderr.rindex('{'):])['input_i'])
+        meas = float(json.loads(r.stderr[r.stderr.rindex('{'):r.stderr.rindex('}') + 1])['input_i'])
     except (ValueError, KeyError):
         meas = None
     gain = 0.0 if meas is None or meas < -60 else max(-20.0, min(30.0, VOICE_LUFS - meas))

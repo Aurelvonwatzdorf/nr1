@@ -12,17 +12,17 @@ ST = 'clips/kb_stand.json'
 stand = {} if '--alle' in sys.argv or not os.path.exists(ST) else json.load(open(ST))
 
 
-def job(x):
-    k = x["k"]; src = f'img/{x["img"]}.png'; out = f'clips/kb{k:03d}.mp4'
+def job(a):
+    i, x = a; k = x["k"]; src = f'img/{x["img"]}.png'; out = f'clips/kb{k:03d}.mp4'
     if x["kling"] and os.path.exists(f'clips/kling_{x["img"]}.mp4'): return None
     if not os.path.exists(src): return f'FEHLT {src}'
-    key = f'{x["img"]}|{NF[k]}|{k % 5}|{os.path.getmtime(src):.0f}'
+    key = f'{x["img"]}|{NF[i]}|{k % 5}|{os.path.getmtime(src):.0f}'
     if stand.get(str(k)) == key and os.path.exists(out): return None
-    subprocess.run([sys.executable, 'tools/kb.py', src, out + '.tmp.mp4', str(NF[k]), str(k)], check=True)
+    subprocess.run([sys.executable, 'tools/kb.py', src, out + '.tmp.mp4', str(NF[i]), str(k)], check=True)
     os.replace(out + '.tmp.mp4', out); stand[str(k)] = key
     return k
 
 
-with ThreadPoolExecutor(6) as ex: res = [r for r in ex.map(job, T) if r is not None]
+with ThreadPoolExecutor(6) as ex: res = [r for r in ex.map(job, enumerate(T)) if r is not None]
 json.dump(stand, open(ST, 'w'))
 print(len([r for r in res if isinstance(r, int)]), 'Clips gerendert;', [r for r in res if isinstance(r, str)] or 'nichts fehlt')
