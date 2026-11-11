@@ -10,409 +10,345 @@
  {
   "i": 1,
   "sp": "AUREL",
-  "text": "…y yo soy Aurel. Somos estudiantes de la ESBZ en Berlín, y hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.",
-  "words": 32,
-  "dur": 13.66,
+  "text": "…y yo soy Aurel. Hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.",
+  "words": 24,
+  "dur": 10.4,
   "start": 10.68
  },
  {
   "i": 2,
   "sp": "JOSHUA",
-  "text": "Vamos a ver qué se está investigando, qué son las cámaras Flock, cómo usan la IA los servicios secretos, qué hace la empresa Palantir y cuánta plata se mueve en todo este negocio.",
-  "words": 33,
-  "dur": 14.07,
-  "start": 24.34
+  "text": "Que hay cámaras que reconocen caras, eso ya lo sabe todo el mundo. Por eso hoy buscamos lo que casi nadie conoce: la vigilancia que no se ve.",
+  "words": 28,
+  "dur": 12.03,
+  "start": 21.08
  },
  {
   "i": 3,
   "sp": "AUREL",
-  "text": "Ah, y un dato: un poco de esto también está pasando aquí en Alemania. Pero vamos por partes.",
-  "words": 18,
-  "dur": 7.95,
-  "start": 38.41
+  "text": "Y vamos a hablar sobre todo de una empresa: Palantir. Su software lo usan policías, ejércitos… y también la policía aquí en Alemania. Pero vamos por partes.",
+  "words": 27,
+  "dur": 11.62,
+  "start": 33.11
  },
  {
   "i": 4,
   "sp": "JOSHUA",
-  "text": "Aurel, empecemos por la investigación. ¿Qué cosas nuevas está desarrollando la IA en el tema de vigilancia?",
-  "words": 17,
-  "dur": 7.54,
-  "start": 46.36
+  "text": "Empiezo con algo que me sorprendió mucho: el wifi. Investigadores del Instituto de Tecnología de Karlsruhe, aquí en Alemania, mostraron en dos mil veinticinco que se puede identificar a una persona solo con las señales de wifi.",
+  "words": 37,
+  "dur": 15.7,
+  "start": 44.73
  },
  {
   "i": 5,
   "sp": "AUREL",
-  "text": "Mira, el reconocimiento facial ya lo conoce todo el mundo. Pero la investigación va mucho más allá. Por ejemplo, el reconocimiento por la forma de caminar, o sea, la cámara te identifica aunque no se te vea la cara.",
-  "words": 39,
-  "dur": 16.52,
-  "start": 53.9
+  "text": "Y ojo: no necesitas llevar un celular. Las ondas de wifi chocan con tu cuerpo, y con eso una IA arma una especie de imagen tuya. Lo probaron con ciento noventa y siete personas y acertaron casi el cien por ciento.",
+  "words": 41,
+  "dur": 17.33,
+  "start": 60.43
  },
  {
   "i": 6,
   "sp": "JOSHUA",
-  "text": "¿En serio? ¿Por cómo camino?",
-  "words": 5,
-  "dur": 2.64,
-  "start": 70.42
+  "text": "Y funciona aunque apagues tu propio celular: basta con que haya otros aparatos conectados cerca. Pero hay que decirlo claro: es un estudio, no un sistema que ya use la policía. Los mismos investigadores piden más protección en las nuevas reglas del wifi.",
+  "words": 43,
+  "dur": 18.15,
+  "start": 77.76
  },
  {
   "i": 7,
   "sp": "AUREL",
-  "text": "Sí, cada persona tiene un paso único. Y hay algo todavía más loco: en China, según un reportaje del South China Morning Post de junio de este año, hay cámaras que miden los signos vitales de una persona, como el pulso, en unos diez segundos. Y hay empresas que venden modelos de IA que dicen poder adivinar, solo mirando tu cara, si eres emocionalmente estable o si tienes \"riesgo de cometer un delito\".",
-  "words": 73,
-  "dur": 30.4,
-  "start": 73.06
+  "text": "Lo que sí ya se usa es tu celular. Muchas aplicaciones guardan dónde estás, y esos datos se venden. Según el medio Cuatro Cero Cuatro Media, la agencia de inmigración de Estados Unidos, ICE, compró una herramienta con datos de cientos de millones de teléfonos.",
+  "words": 45,
+  "dur": 18.97,
+  "start": 95.91
  },
  {
   "i": 8,
   "sp": "JOSHUA",
-  "text": "Eso suena a ciencia ficción… y a ciencia muy dudosa.",
-  "words": 10,
-  "dur": 4.68,
-  "start": 103.46
+  "text": "Con ella pueden mirar un barrio entero, ver qué teléfonos hay y seguir a uno hasta su casa o su trabajo. Y según un documento interno de ICE, sin la orden de un juez.",
+  "words": 34,
+  "dur": 14.48,
+  "start": 114.88
  },
  {
   "i": 9,
   "sp": "AUREL",
-  "text": "Exacto. Muchos científicos dicen que no se puede leer el carácter de alguien en su cara. Por eso la Unión Europea prohibió, con su ley de IA, el reconocimiento de emociones en escuelas y lugares de trabajo.",
-  "words": 37,
-  "dur": 15.7,
-  "start": 108.14
+  "text": "O sea, nadie tiene que ponerte una cámara. Tú mismo llevas el rastreador en el bolsillo.",
+  "words": 16,
+  "dur": 7.13,
+  "start": 129.36
  },
  {
   "i": 10,
   "sp": "JOSHUA",
-  "text": "Uff, menos mal. Imagínate una cámara en el aula que diga: \"Joshua está aburrido\".",
-  "words": 14,
-  "dur": 6.31,
-  "start": 123.84
+  "text": "Y si vas en auto, tampoco te salvas. En Estados Unidos, la empresa Flock Safety vende cámaras que leen las patentes. Guardan cada auto que pasa: la patente, el color, el modelo.",
+  "words": 32,
+  "dur": 13.66,
+  "start": 136.49
  },
  {
   "i": 11,
   "sp": "AUREL",
-  "text": "Esa cámara tendría mucho trabajo.",
-  "words": 5,
-  "dur": 2.64,
-  "start": 130.15
+  "text": "Lo interesante es quién mira esos datos. La Universidad de Washington revisó los registros de ese estado. Encontró que al menos ocho policías locales compartieron sus datos directamente con la Patrulla Fronteriza.",
+  "words": 32,
+  "dur": 13.66,
+  "start": 150.15
  },
  {
   "i": 12,
   "sp": "JOSHUA",
-  "text": "Bueno, pasemos a Estados Unidos. Ahí hay una empresa que se llama Flock Safety. ¿Qué hace exactamente?",
-  "words": 17,
-  "dur": 7.54,
-  "start": 132.79
+  "text": "Y en al menos diez policías más, la Patrulla Fronteriza buscó en los datos sin que ellas lo hubieran autorizado. Como entrar por la puerta de atrás.",
+  "words": 27,
+  "dur": 11.62,
+  "start": 163.81
  },
  {
   "i": 13,
   "sp": "AUREL",
-  "text": "Flock vende cámaras que leen las patentes de los autos. Las ponen en calles, barrios y estacionamientos, y la IA guarda cada auto que pasa: la patente, el color, el modelo, incluso calcomanías. Miles de policías y municipios en Estados Unidos las usan.",
-  "words": 43,
-  "dur": 18.15,
-  "start": 140.33
+  "text": "Flock dice que cada ciudad es dueña de sus datos y decide con quién los comparte. Igual, decenas de ciudades cancelaron sus contratos.",
+  "words": 23,
+  "dur": 9.99,
+  "start": 175.43
  },
  {
   "i": 14,
   "sp": "JOSHUA",
-  "text": "O sea, si yo manejo por la ciudad, el sistema sabe por dónde pasé.",
+  "text": "Eso me parece importante: a nivel local, la gente sí puede frenar estas cosas.",
   "words": 14,
   "dur": 6.31,
-  "start": 158.48
+  "start": 185.42
  },
  {
   "i": 15,
   "sp": "AUREL",
-  "text": "Así es. Y la policía puede buscar en esa red, también entre distintas ciudades. Y ahí empezó el problema. En 2025 y 2026 salió a la luz que agencias de policía compartían esos datos con ICE, la autoridad de inmigración. Un estudio de la Universidad de Washington encontró que ocho agencias de ese estado compartieron datos con ICE en 2025, y otras diez permitían un acceso \"por la puerta de atrás\".",
-  "words": 71,
-  "dur": 29.58,
-  "start": 164.79
+  "text": "Bueno, ahora tenemos muchos datos sueltos: teléfonos, autos, registros de la policía. Falta alguien que los junte. Y ahí entra Palantir.",
+  "words": 21,
+  "dur": 9.17,
+  "start": 191.73
  },
  {
   "i": 16,
   "sp": "JOSHUA",
-  "text": "¿Y Flock qué dice?",
-  "words": 4,
-  "dur": 2.23,
-  "start": 194.37
+  "text": "Palantir es una empresa de Estados Unidos, cofundada por Peter Thiel. No fabrica cámaras. Vende el programa que conecta todo: personas, direcciones, autos, llamadas. Y lo muestra como una red en una pantalla.",
+  "words": 33,
+  "dur": 14.07,
+  "start": 200.9
  },
  {
   "i": 17,
   "sp": "AUREL",
-  "text": "Que no tiene contrato con ICE y que cada ciudad decide con quién comparte. Pero muchas ciudades se asustaron igual. Según un conteo, solo en los primeros cinco meses de 2026 se cancelaron 39 contratos con Flock. Otro conteo habla de casi 150 ciudades y condados que, entre enero y agosto, cancelaron, rechazaron o apagaron las cámaras.",
-  "words": 57,
-  "dur": 23.87,
-  "start": 196.6
+  "text": "Un ejemplo es ICE. En dos mil veinticinco le dio a Palantir un contrato de treinta millones de dólares, sin concurso, para un sistema llamado ImmigrationOS. Sirve para encontrar y seguir a migrantes que el gobierno quiere deportar.",
+  "words": 38,
+  "dur": 16.11,
+  "start": 214.97
  },
  {
   "i": 18,
   "sp": "JOSHUA",
-  "text": "Interesante. Entonces la gente sí puede frenar esto.",
-  "words": 8,
-  "dur": 3.87,
-  "start": 220.47
+  "text": "Y en enero de este año, Cuatro Cero Cuatro Media contó de otra herramienta de Palantir para ICE, llamada ELITE. Según documentos internos, muestra un mapa con posibles personas a detener, arma una ficha de cada una y da un puntaje: qué tan seguro es que viva en esa dirección.",
+  "words": 50,
+  "dur": 21.01,
+  "start": 231.08
  },
  {
   "i": 19,
   "sp": "AUREL",
-  "text": "A nivel local, sí. Eso es lo bueno de este caso.",
-  "words": 11,
-  "dur": 5.09,
-  "start": 224.34
+  "text": "Aquí hay que separar. El gobierno dice que ELITE solo ordena direcciones. Lo que sí está documentado es un acuerdo para que ICE reciba datos de casi ochenta millones de pacientes del seguro médico público, Medicaid.",
+  "words": 36,
+  "dur": 15.29,
+  "start": 252.09
  },
  {
   "i": 20,
   "sp": "JOSHUA",
-  "text": "Ahora vamos a lo más secreto: los servicios de inteligencia. ¿Cómo usan la IA?",
-  "words": 14,
-  "dur": 6.31,
-  "start": 229.43
+  "text": "O sea, vas al médico, y tu dirección puede terminar en la policía de inmigración. Si ELITE usa justo esos datos, eso está reportado, pero no confirmado.",
+  "words": 27,
+  "dur": 11.62,
+  "start": 267.38
  },
  {
   "i": 21,
   "sp": "AUREL",
-  "text": "El problema de los servicios secretos nunca fue conseguir datos. Tienen muchísimos: llamadas, mensajes, imágenes de satélite. El problema era que ninguna persona puede leer todo eso. Y ahí entra la IA: traduce, resume, busca patrones y encuentra conexiones entre personas.",
-  "words": 41,
-  "dur": 17.33,
-  "start": 235.74
+  "text": "Pero Palantir no trabaja solo con policías. Su producto más serio es para el ejército y se llama Maven.",
+  "words": 19,
+  "dur": 8.36,
+  "start": 279.0
  },
  {
   "i": 22,
   "sp": "JOSHUA",
-  "text": "¿Hay ejemplos concretos?",
-  "words": 3,
-  "dur": 1.82,
-  "start": 253.07
+  "text": "Maven junta imágenes de satélite, radares y datos de comunicaciones. La IA marca posibles objetivos, por ejemplo un tanque. Una persona los aprueba o los rechaza, y el sistema puede mandar la orden directo a las armas.",
+  "words": 37,
+  "dur": 15.7,
+  "start": 287.36
  },
  {
   "i": 23,
   "sp": "AUREL",
-  "text": "Varios. La CIA probó unos trescientos proyectos de IA en un año, por ejemplo para traducir y analizar grandes cantidades de datos. La NSA, el servicio de Estados Unidos que escucha las comunicaciones, dijo en agosto de 2026 que quiere acceso a \"todos\" los modelos avanzados de IA. Y el GCHQ británico está metiendo agentes de IA en su defensa cibernética.",
-  "words": 61,
-  "dur": 25.5,
-  "start": 254.89
+  "text": "El Pentágono mismo dice que Maven ayudó a elegir objetivos en ataques aéreos en Irak, Siria y Yemen en dos mil veinticuatro. Y según Bloomberg, un oficial contó que con Maven su equipo trabaja ochenta objetivos por hora, en vez de treinta.",
+  "words": 42,
+  "dur": 17.74,
+  "start": 303.06
  },
  {
   "i": 24,
   "sp": "JOSHUA",
-  "text": "¿Y el caso de Microsoft que leí?",
-  "words": 7,
-  "dur": 3.46,
-  "start": 280.39
+  "text": "En dos mil veinticinco, el Pentágono subió el límite del contrato a mil trescientos millones de dólares, y la OTAN compró su propia versión.",
+  "words": 24,
+  "dur": 10.4,
+  "start": 320.8
  },
  {
   "i": 25,
   "sp": "AUREL",
-  "text": "Ah, sí. Según una investigación de The Guardian de 2025, la Unidad 8200 de la inteligencia israelí guardaba millones de llamadas telefónicas de palestinos en la nube de Microsoft, en servidores en Europa. Se habla de unos ocho mil terabytes. Después de la investigación, Microsoft le cortó a esa unidad el acceso a esos servicios de nube e IA, aunque Microsoft dice que no encontró pruebas de que se usara para atacar a personas.",
-  "words": 74,
-  "dur": 30.8,
-  "start": 283.85
+  "text": "¿Y qué dice el jefe de Palantir, Alex Karp? No lo esconde. En febrero de dos mil veinticinco dijo ante sus inversionistas, y cito: «Palantir está aquí para romper esquemas y hacer que las instituciones con las que trabajamos sean las mejores del mundo y, cuando sea necesario, para asustar a los enemigos y, en ocasiones, matarlos».",
+  "words": 57,
+  "dur": 23.87,
+  "start": 331.2
  },
  {
   "i": 26,
   "sp": "JOSHUA",
-  "text": "Lo que me impresiona es que una empresa de tecnología normal, que hace Word y Excel, de repente está en el centro de algo así.",
-  "words": 25,
-  "dur": 10.8,
-  "start": 314.65
+  "text": "Y en marzo de este año, durante la guerra en Medio Oriente, dijo según el canal CNBC: «Lo que hace especial a Estados Unidos ahora mismo son nuestras capacidades letales, nuestra capacidad de hacer la guerra».",
+  "words": 36,
+  "dur": 15.29,
+  "start": 355.07
  },
  {
   "i": 27,
   "sp": "AUREL",
-  "text": "Justamente. La línea entre empresas de tecnología y servicios secretos es cada vez más delgada.",
-  "words": 15,
-  "dur": 6.72,
-  "start": 325.45
+  "text": "Para ser justos: Karp también dice que entiende a quienes no quieren estas herramientas dentro del país, y que está a favor de ponerles límites. Pero en la guerra, dice, el ejército debe poder usarlas con mucha libertad.",
+  "words": 38,
+  "dur": 16.11,
+  "start": 370.36
  },
  {
   "i": 28,
   "sp": "JOSHUA",
-  "text": "Y eso nos lleva a Palantir. ¿Qué es Palantir?",
-  "words": 9,
-  "dur": 4.27,
-  "start": 332.17
+  "text": "A mí me impresiona eso: la misma empresa que ayuda a elegir objetivos en una guerra ordena también los datos de la policía.",
+  "words": 23,
+  "dur": 9.99,
+  "start": 386.47
  },
  {
   "i": 29,
   "sp": "AUREL",
-  "text": "Palantir es una empresa estadounidense, cofundada por Peter Thiel. Su software junta datos de muchas fuentes distintas, como registros policiales, datos de vehículos o de teléfonos, y los muestra todos conectados. Así la policía o el ejército pueden ver redes de personas y relaciones.",
-  "words": 44,
-  "dur": 18.56,
-  "start": 336.44
+  "text": "Y esa policía también es la nuestra. En Alemania, Hesse usa el software de Palantir desde dos mil diecisiete. Según el diario taz, hay unas quince mil consultas al año.",
+  "words": 30,
+  "dur": 12.84,
+  "start": 396.46
  },
  {
   "i": 30,
   "sp": "JOSHUA",
-  "text": "¿Y quién lo usa?",
-  "words": 4,
-  "dur": 2.23,
-  "start": 355.0
+  "text": "Baviera lo usa desde dos mil veinticuatro. Ahí el programa busca en unos treinta y nueve millones de registros de personas, según la televisión ZDF. Y no solo de sospechosos: también puede haber testigos, víctimas o gente que llamó a emergencias.",
+  "words": 41,
+  "dur": 17.33,
+  "start": 409.3
  },
  {
   "i": 31,
   "sp": "AUREL",
-  "text": "Muchísimos gobiernos. En Estados Unidos, por ejemplo, Palantir firmó un contrato de unos 10 mil millones de dólares con el Ejército. Y en 2025 ICE le dio un contrato de 30 millones para un sistema que se llama \"ImmigrationOS\", que ayuda a encontrar y seguir a migrantes sin papeles.",
-  "words": 49,
-  "dur": 20.6,
-  "start": 357.23
+  "text": "Se dijo que era solo para delitos graves. Pero según una consulta del partido de los Verdes, en Baviera solo un poco más de un tercio de los casos fueron delitos graves.",
+  "words": 32,
+  "dur": 13.66,
+  "start": 426.63
  },
  {
   "i": 32,
   "sp": "JOSHUA",
-  "text": "¿Y aquí en Alemania?",
-  "words": 4,
-  "dur": 2.23,
-  "start": 377.83
+  "text": "Renania del Norte-Westfalia también lo usa, y Baden-Wurtemberg lo compró por veinticinco millones de euros. Pero hay límites: en dos mil veintitrés, el Tribunal Constitucional dijo que las reglas de Hesse y de Hamburgo violaban derechos fundamentales.",
+  "words": 37,
+  "dur": 15.7,
+  "start": 440.29
  },
  {
   "i": 33,
   "sp": "AUREL",
-  "text": "También. Hessen lo usa desde 2017 con el nombre \"HessenData\", Baviera con \"VeRA\" y Renania del Norte-Westfalia con \"DAR\". Baden-Wurtemberg lo aprobó hace poco. Y el ministro del Interior, Dobrindt, quiere ver si se usa también en la policía federal.",
-  "words": 40,
-  "dur": 16.93,
-  "start": 380.06
+  "text": "Las policías responden que los servidores no están conectados a internet y que ningún dato sale hacia Estados Unidos. Los críticos contestan que nadie de afuera puede revisar el código, porque es secreto.",
+  "words": 33,
+  "dur": 14.07,
+  "start": 455.99
  },
  {
   "i": 34,
   "sp": "JOSHUA",
-  "text": "Pero hubo críticas, ¿no?",
-  "words": 4,
-  "dur": 2.23,
-  "start": 396.99
+  "text": "¿Y a nivel nacional? Según taz, en junio el ministro del Interior, Alexander Dobrindt, todavía no descartaba usar Palantir en la policía federal. La ministra de Justicia está en contra, y casi todos los estados prefieren un programa europeo.",
+  "words": 39,
+  "dur": 16.52,
+  "start": 470.06
  },
  {
   "i": 35,
   "sp": "AUREL",
-  "text": "Muchas. En 2023 el Tribunal Constitucional Federal dijo que las reglas de Hessen y Hamburgo para este tipo de análisis de datos violaban derechos fundamentales y tenían que cambiar. Y grupos como el Chaos Computer Club critican que la policía alemana dependa de una empresa estadounidense tan cercana al gobierno de Estados Unidos.",
-  "words": 53,
-  "dur": 22.23,
-  "start": 399.22
+  "text": "Mientras tanto, el negocio va increíble. Solo entre julio y septiembre de este año, Palantir vendió dos mil trescientos millones de dólares. Casi el doble que un año antes.",
+  "words": 29,
+  "dur": 12.44,
+  "start": 486.58
  },
  {
   "i": 36,
   "sp": "JOSHUA",
-  "text": "¿Y Palantir gana bien con eso?",
-  "words": 6,
-  "dur": 3.05,
-  "start": 421.45
+  "text": "Y para todo dos mil veintiséis espera más de ocho mil quinientos millones. Con tanta plata en juego, es difícil que esto pare solo.",
+  "words": 24,
+  "dur": 10.4,
+  "start": 499.02
  },
  {
   "i": 37,
   "sp": "AUREL",
-  "text": "¡Muy bien! En el último trimestre de 2025 vendió unos 1.400 millones de dólares, un setenta por ciento más que el año anterior. Y para 2026 espera unos 7.200 millones. Su jefe, Alex Karp, defiende el software y dice que incluso protege los derechos de privacidad. Pero empleados, exempleados y políticos lo critican.",
-  "words": 53,
-  "dur": 22.23,
-  "start": 424.5
+  "text": "Para cerrar, nos quedamos con tres ideas. La primera: la vigilancia de hoy casi no se ve. No es solo la cámara en la esquina. Es el wifi, el celular, la patente del auto.",
+  "words": 34,
+  "dur": 14.48,
+  "start": 509.42
  },
  {
   "i": 38,
   "sp": "JOSHUA",
-  "text": "Bueno, hablemos de plata en general. ¿Qué tan grande es este mercado?",
-  "words": 12,
-  "dur": 5.5,
-  "start": 446.73
+  "text": "La segunda: los datos sueltos no son el mayor peligro. El poder lo tiene quien los junta. Y muchas veces no es un gobierno, sino una empresa privada.",
+  "words": 28,
+  "dur": 12.03,
+  "start": 523.9
  },
  {
   "i": 39,
   "sp": "AUREL",
-  "text": "Es enorme. Solo el mercado mundial de videovigilancia mueve unos 27 mil millones de dólares al año. Y la parte de IA dentro de las cámaras crece muy rápido: según la consultora MarketsandMarkets, pasa de unos 4 mil millones de dólares en 2026 a casi 11 mil millones en 2032. Eso es un crecimiento de casi dieciocho por ciento al año.",
-  "words": 61,
-  "dur": 25.5,
-  "start": 452.23
+  "text": "Y la tercera: sí se puede hacer algo. Ciudades que cancelan contratos, jueces que ponen límites, periodistas que publican documentos.",
+  "words": 20,
+  "dur": 8.76,
+  "start": 535.93
  },
  {
   "i": 40,
   "sp": "JOSHUA",
-  "text": "¿Y dónde crece más?",
-  "words": 4,
-  "dur": 2.23,
-  "start": 477.73
+  "text": "Las cámaras se pueden ver. Lo difícil es ver quién está sentado detrás de la pantalla.",
+  "words": 16,
+  "dur": 7.13,
+  "start": 544.69
  },
  {
   "i": 41,
   "sp": "AUREL",
-  "text": "En Asia. China es el mercado más grande: unos mil millones de dólares este año, y se espera que sean más de tres mil millones en 2031. Pero el que más rápido crece es India, con más de veinticinco por ciento al año, por todos sus proyectos de \"ciudades inteligentes\". Estados Unidos, Japón y el Reino Unido también crecen, pero más lento.",
-  "words": 62,
-  "dur": 25.91,
-  "start": 479.96
+  "text": "Así que la próxima vez que tu celular se conecte solo a un wifi… acuérdate de nosotros.",
+  "words": 17,
+  "dur": 7.54,
+  "start": 551.82
  },
  {
   "i": 42,
   "sp": "JOSHUA",
-  "text": "¿Y los países del Golfo?",
-  "words": 5,
-  "dur": 2.64,
-  "start": 505.87
+  "text": "¡Gracias por escuchar! Chao.",
+  "words": 4,
+  "dur": 2.23,
+  "start": 559.36
  },
  {
   "i": 43,
   "sp": "AUREL",
-  "text": "Ahí también se invierte mucho, por ejemplo en los Emiratos Árabes Unidos, donde empresas cercanas al gobierno prueban sistemas para seguir personas en eventos grandes. Y China exporta paquetes completos de \"ciudad segura\" a otros países, muchas veces con financiamiento incluido.",
-  "words": 41,
-  "dur": 17.33,
-  "start": 508.51
- },
- {
-  "i": 44,
-  "sp": "JOSHUA",
-  "text": "O sea, la vigilancia es también un producto de exportación.",
-  "words": 10,
-  "dur": 4.68,
-  "start": 525.84
- },
- {
-  "i": 45,
-  "sp": "AUREL",
-  "text": "Exacto. Y por eso es difícil frenarla: hay mucha plata en juego.",
-  "words": 12,
-  "dur": 5.5,
-  "start": 530.52
- },
- {
-  "i": 46,
-  "sp": "JOSHUA",
-  "text": "Entonces, ¿qué nos llevamos de este episodio?",
-  "words": 7,
-  "dur": 3.46,
-  "start": 536.02
- },
- {
-  "i": 47,
-  "sp": "AUREL",
-  "text": "Para mí, tres cosas. Primero: la tecnología avanza más rápido que las leyes. Segundo: muchas veces no son los gobiernos solos, sino empresas privadas las que construyen y controlan estos sistemas. Y tercero: sí se puede hacer algo, como muestran las ciudades que cancelaron Flock o los tribunales que pusieron límites.",
-  "words": 51,
-  "dur": 21.42,
-  "start": 539.48
- },
- {
-  "i": 48,
-  "sp": "JOSHUA",
-  "text": "Y yo me quedo con una pregunta: ¿cuánta seguridad queremos, y cuánta libertad estamos dispuestos a dar por ella?",
-  "words": 19,
-  "dur": 8.36,
-  "start": 560.9
- },
- {
-  "i": 49,
-  "sp": "AUREL",
-  "text": "Buena pregunta. Cuéntennos qué piensan ustedes.",
-  "words": 6,
-  "dur": 3.05,
-  "start": 569.26
- },
- {
-  "i": 50,
-  "sp": "JOSHUA",
-  "text": "¡Gracias por escuchar! Chao.",
-  "words": 4,
-  "dur": 2.23,
-  "start": 572.31
- },
- {
-  "i": 51,
-  "sp": "AUREL",
   "text": "¡Chao, hasta la próxima!",
   "words": 4,
   "dur": 2.23,
-  "start": 574.54
+  "start": 561.59
  }
 ]

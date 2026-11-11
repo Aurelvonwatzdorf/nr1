@@ -1,137 +1,126 @@
 # Podcast escolar ESBZ – "¿Quién nos está mirando? La IA y la vigilancia en el mundo"
 
-**Duración estimada:** 9–10 minutos (≈ 1.400 palabras habladas)
-**Voces:** **JOSHUA** y **AUREL**, estudiantes de la ESBZ (Evangelische Schule Berlin Zentrum)
-**Estilo:** español latinoamericano (tuteo, sin "vosotros")
-*Estado de los datos: noviembre de 2026.*
+**Duración estimada:** 9–10 minutos (≈ 1.350 palabras habladas)
+**Voces:** **JOSHUA** y **AUREL** (cada uno aprox. la mitad del texto)
+**Estilo:** español latinoamericano (tuteo, sin "vosotros"). Todos los números están escritos como se dicen.
+*Nota: «Cuatro Cero Cuatro Media» es el medio estadounidense 404 Media.*
+*Estado de los datos: 11 de noviembre de 2026. Fuentes con enlace y fecha: `video/quellen.md`.*
 
 ---
 
-**[MÚSICA DE ENTRADA – 5 segundos, baja de volumen]**
+**[MÚSICA DE ENTRADA – 6 segundos, baja de volumen]**
 
 **JOSHUA:** ¡Hola a todos! Bienvenidos a nuestro podcast. Yo soy Joshua…
 
-**AUREL:** …y yo soy Aurel. Somos estudiantes de la ESBZ en Berlín, y hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.
+**AUREL:** …y yo soy Aurel. Hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.
 
-**JOSHUA:** Vamos a ver qué se está investigando, qué son las cámaras Flock, cómo usan la IA los servicios secretos, qué hace la empresa Palantir y cuánta plata se mueve en todo este negocio.
+**JOSHUA:** Que hay cámaras que reconocen caras, eso ya lo sabe todo el mundo. Por eso hoy buscamos lo que casi nadie conoce: la vigilancia que no se ve.
 
-**AUREL:** Ah, y un dato: un poco de esto también está pasando aquí en Alemania. Pero vamos por partes.
+**AUREL:** Y vamos a hablar sobre todo de una empresa: Palantir. Su software lo usan policías, ejércitos… y también la policía aquí en Alemania. Pero vamos por partes.
 
 ---
 
-**[BLOQUE 1 – ¿Qué se investiga?]**
+**[BLOQUE 1 – La vigilancia que no se ve]**
 
-**JOSHUA:** Aurel, empecemos por la investigación. ¿Qué cosas nuevas está desarrollando la IA en el tema de vigilancia?
+**JOSHUA:** Empiezo con algo que me sorprendió mucho: el wifi. Investigadores del Instituto de Tecnología de Karlsruhe, aquí en Alemania, mostraron en dos mil veinticinco que se puede identificar a una persona solo con las señales de wifi.
 
-**AUREL:** Mira, el reconocimiento facial ya lo conoce todo el mundo. Pero la investigación va mucho más allá. Por ejemplo, el reconocimiento por la forma de caminar, o sea, la cámara te identifica aunque no se te vea la cara.
+**AUREL:** Y ojo: no necesitas llevar un celular. Las ondas de wifi chocan con tu cuerpo, y con eso una IA arma una especie de imagen tuya. Lo probaron con ciento noventa y siete personas y acertaron casi el cien por ciento.
 
-**JOSHUA:** ¿En serio? ¿Por cómo camino?
+**JOSHUA:** Y funciona aunque apagues tu propio celular: basta con que haya otros aparatos conectados cerca. Pero hay que decirlo claro: es un estudio, no un sistema que ya use la policía. Los mismos investigadores piden más protección en las nuevas reglas del wifi.
 
-**AUREL:** Sí, cada persona tiene un paso único. Y hay algo todavía más loco: en China, según un reportaje del *South China Morning Post* de junio de este año, hay cámaras que miden los signos vitales de una persona, como el pulso, en unos diez segundos. Y hay empresas que venden modelos de IA que dicen poder adivinar, solo mirando tu cara, si eres emocionalmente estable o si tienes "riesgo de cometer un delito".
+**AUREL:** Lo que sí ya se usa es tu celular. Muchas aplicaciones guardan dónde estás, y esos datos se venden. Según el medio Cuatro Cero Cuatro Media, la agencia de inmigración de Estados Unidos, ICE, compró una herramienta con datos de cientos de millones de teléfonos.
 
-**JOSHUA:** Eso suena a ciencia ficción… y a ciencia muy dudosa.
+**JOSHUA:** Con ella pueden mirar un barrio entero, ver qué teléfonos hay y seguir a uno hasta su casa o su trabajo. Y según un documento interno de ICE, sin la orden de un juez.
 
-**AUREL:** Exacto. Muchos científicos dicen que no se puede leer el carácter de alguien en su cara. Por eso la Unión Europea prohibió, con su ley de IA, el reconocimiento de emociones en escuelas y lugares de trabajo.
-
-**JOSHUA:** Uff, menos mal. Imagínate una cámara en el aula que diga: "Joshua está aburrido".
-
-**AUREL:** [risa] Esa cámara tendría mucho trabajo.
+**AUREL:** O sea, nadie tiene que ponerte una cámara. Tú mismo llevas el rastreador en el bolsillo.
 
 ---
 
 **[BLOQUE 2 – Las cámaras Flock]**
 
-**JOSHUA:** Bueno, pasemos a Estados Unidos. Ahí hay una empresa que se llama Flock Safety. ¿Qué hace exactamente?
+**JOSHUA:** Y si vas en auto, tampoco te salvas. En Estados Unidos, la empresa Flock Safety vende cámaras que leen las patentes. Guardan cada auto que pasa: la patente, el color, el modelo.
 
-**AUREL:** Flock vende cámaras que leen las patentes de los autos. Las ponen en calles, barrios y estacionamientos, y la IA guarda cada auto que pasa: la patente, el color, el modelo, incluso calcomanías. Miles de policías y municipios en Estados Unidos las usan.
+**AUREL:** Lo interesante es quién mira esos datos. La Universidad de Washington revisó los registros de ese estado. Encontró que al menos ocho policías locales compartieron sus datos directamente con la Patrulla Fronteriza.
 
-**JOSHUA:** O sea, si yo manejo por la ciudad, el sistema sabe por dónde pasé.
+**JOSHUA:** Y en al menos diez policías más, la Patrulla Fronteriza buscó en los datos sin que ellas lo hubieran autorizado. Como entrar por la puerta de atrás.
 
-**AUREL:** Así es. Y la policía puede buscar en esa red, también entre distintas ciudades. Y ahí empezó el problema. En 2025 y 2026 salió a la luz que agencias de policía compartían esos datos con ICE, la autoridad de inmigración. Un estudio de la Universidad de Washington encontró que ocho agencias de ese estado compartieron datos con ICE en 2025, y otras diez permitían un acceso "por la puerta de atrás".
+**AUREL:** Flock dice que cada ciudad es dueña de sus datos y decide con quién los comparte. Igual, decenas de ciudades cancelaron sus contratos.
 
-**JOSHUA:** ¿Y Flock qué dice?
-
-**AUREL:** Que no tiene contrato con ICE y que cada ciudad decide con quién comparte. Pero muchas ciudades se asustaron igual. Según un conteo, solo en los primeros cinco meses de 2026 se cancelaron 39 contratos con Flock. Otro conteo habla de casi 150 ciudades y condados que, entre enero y agosto, cancelaron, rechazaron o apagaron las cámaras.
-
-**JOSHUA:** Interesante. Entonces la gente sí puede frenar esto.
-
-**AUREL:** A nivel local, sí. Eso es lo bueno de este caso.
+**JOSHUA:** Eso me parece importante: a nivel local, la gente sí puede frenar estas cosas.
 
 ---
 
-**[BLOQUE 3 – Servicios secretos e IA]**
+**[BLOQUE 3 – Palantir: el que junta todo]**
 
-**JOSHUA:** Ahora vamos a lo más secreto: los servicios de inteligencia. ¿Cómo usan la IA?
+**AUREL:** Bueno, ahora tenemos muchos datos sueltos: teléfonos, autos, registros de la policía. Falta alguien que los junte. Y ahí entra Palantir.
 
-**AUREL:** El problema de los servicios secretos nunca fue conseguir datos. Tienen muchísimos: llamadas, mensajes, imágenes de satélite. El problema era que ninguna persona puede leer todo eso. Y ahí entra la IA: traduce, resume, busca patrones y encuentra conexiones entre personas.
+**JOSHUA:** Palantir es una empresa de Estados Unidos, cofundada por Peter Thiel. No fabrica cámaras. Vende el programa que conecta todo: personas, direcciones, autos, llamadas. Y lo muestra como una red en una pantalla.
 
-**JOSHUA:** ¿Hay ejemplos concretos?
+**AUREL:** Un ejemplo es ICE. En dos mil veinticinco le dio a Palantir un contrato de treinta millones de dólares, sin concurso, para un sistema llamado ImmigrationOS. Sirve para encontrar y seguir a migrantes que el gobierno quiere deportar.
 
-**AUREL:** Varios. La CIA probó unos trescientos proyectos de IA en un año, por ejemplo para traducir y analizar grandes cantidades de datos. La NSA, el servicio de Estados Unidos que escucha las comunicaciones, dijo en agosto de 2026 que quiere acceso a "todos" los modelos avanzados de IA. Y el GCHQ británico está metiendo agentes de IA en su defensa cibernética.
+**JOSHUA:** Y en enero de este año, Cuatro Cero Cuatro Media contó de otra herramienta de Palantir para ICE, llamada ELITE. Según documentos internos, muestra un mapa con posibles personas a detener, arma una ficha de cada una y da un puntaje: qué tan seguro es que viva en esa dirección.
 
-**JOSHUA:** ¿Y el caso de Microsoft que leí?
+**AUREL:** Aquí hay que separar. El gobierno dice que ELITE solo ordena direcciones. Lo que sí está documentado es un acuerdo para que ICE reciba datos de casi ochenta millones de pacientes del seguro médico público, Medicaid.
 
-**AUREL:** Ah, sí. Según una investigación de *The Guardian* de 2025, la Unidad 8200 de la inteligencia israelí guardaba millones de llamadas telefónicas de palestinos en la nube de Microsoft, en servidores en Europa. Se habla de unos ocho mil terabytes. Después de la investigación, Microsoft le cortó a esa unidad el acceso a esos servicios de nube e IA, aunque Microsoft dice que no encontró pruebas de que se usara para atacar a personas.
-
-**JOSHUA:** Lo que me impresiona es que una empresa de tecnología normal, que hace Word y Excel, de repente está en el centro de algo así.
-
-**AUREL:** Justamente. La línea entre empresas de tecnología y servicios secretos es cada vez más delgada.
+**JOSHUA:** O sea, vas al médico, y tu dirección puede terminar en la policía de inmigración. Si ELITE usa justo esos datos, eso está reportado, pero no confirmado.
 
 ---
 
-**[BLOQUE 4 – Palantir]**
+**[BLOQUE 4 – Palantir en la guerra]**
 
-**JOSHUA:** Y eso nos lleva a Palantir. ¿Qué es Palantir?
+**AUREL:** Pero Palantir no trabaja solo con policías. Su producto más serio es para el ejército y se llama Maven.
 
-**AUREL:** Palantir es una empresa estadounidense, cofundada por Peter Thiel. Su software junta datos de muchas fuentes distintas, como registros policiales, datos de vehículos o de teléfonos, y los muestra todos conectados. Así la policía o el ejército pueden ver redes de personas y relaciones.
+**JOSHUA:** Maven junta imágenes de satélite, radares y datos de comunicaciones. La IA marca posibles objetivos, por ejemplo un tanque. Una persona los aprueba o los rechaza, y el sistema puede mandar la orden directo a las armas.
 
-**JOSHUA:** ¿Y quién lo usa?
+**AUREL:** El Pentágono mismo dice que Maven ayudó a elegir objetivos en ataques aéreos en Irak, Siria y Yemen en dos mil veinticuatro. Y según Bloomberg, un oficial contó que con Maven su equipo trabaja ochenta objetivos por hora, en vez de treinta.
 
-**AUREL:** Muchísimos gobiernos. En Estados Unidos, por ejemplo, Palantir firmó un contrato de unos 10 mil millones de dólares con el Ejército. Y en 2025 ICE le dio un contrato de 30 millones para un sistema que se llama "ImmigrationOS", que ayuda a encontrar y seguir a migrantes sin papeles.
+**JOSHUA:** En dos mil veinticinco, el Pentágono subió el límite del contrato a mil trescientos millones de dólares, y la OTAN compró su propia versión.
 
-**JOSHUA:** ¿Y aquí en Alemania?
+**AUREL:** ¿Y qué dice el jefe de Palantir, Alex Karp? No lo esconde. En febrero de dos mil veinticinco dijo ante sus inversionistas, y cito: «Palantir está aquí para romper esquemas y hacer que las instituciones con las que trabajamos sean las mejores del mundo y, cuando sea necesario, para asustar a los enemigos y, en ocasiones, matarlos».
 
-**AUREL:** También. Hessen lo usa desde 2017 con el nombre "HessenData", Baviera con "VeRA" y Renania del Norte-Westfalia con "DAR". Baden-Wurtemberg lo aprobó hace poco. Y el ministro del Interior, Dobrindt, quiere ver si se usa también en la policía federal.
+**JOSHUA:** Y en marzo de este año, durante la guerra en Medio Oriente, dijo según el canal CNBC: «Lo que hace especial a Estados Unidos ahora mismo son nuestras capacidades letales, nuestra capacidad de hacer la guerra».
 
-**JOSHUA:** Pero hubo críticas, ¿no?
+**AUREL:** Para ser justos: Karp también dice que entiende a quienes no quieren estas herramientas dentro del país, y que está a favor de ponerles límites. Pero en la guerra, dice, el ejército debe poder usarlas con mucha libertad.
 
-**AUREL:** Muchas. En 2023 el Tribunal Constitucional Federal dijo que las reglas de Hessen y Hamburgo para este tipo de análisis de datos violaban derechos fundamentales y tenían que cambiar. Y grupos como el Chaos Computer Club critican que la policía alemana dependa de una empresa estadounidense tan cercana al gobierno de Estados Unidos.
-
-**JOSHUA:** ¿Y Palantir gana bien con eso?
-
-**AUREL:** ¡Muy bien! En el último trimestre de 2025 vendió unos 1.400 millones de dólares, un setenta por ciento más que el año anterior. Y para 2026 espera unos 7.200 millones. Su jefe, Alex Karp, defiende el software y dice que incluso protege los derechos de privacidad. Pero empleados, exempleados y políticos lo critican.
+**JOSHUA:** A mí me impresiona eso: la misma empresa que ayuda a elegir objetivos en una guerra ordena también los datos de la policía.
 
 ---
 
-**[BLOQUE 5 – El negocio de la vigilancia]**
+**[BLOQUE 5 – Palantir en Alemania]**
 
-**JOSHUA:** Bueno, hablemos de plata en general. ¿Qué tan grande es este mercado?
+**AUREL:** Y esa policía también es la nuestra. En Alemania, Hesse usa el software de Palantir desde dos mil diecisiete. Según el diario taz, hay unas quince mil consultas al año.
 
-**AUREL:** Es enorme. Solo el mercado mundial de videovigilancia mueve unos 27 mil millones de dólares al año. Y la parte de IA dentro de las cámaras crece muy rápido: según la consultora MarketsandMarkets, pasa de unos 4 mil millones de dólares en 2026 a casi 11 mil millones en 2032. Eso es un crecimiento de casi dieciocho por ciento al año.
+**JOSHUA:** Baviera lo usa desde dos mil veinticuatro. Ahí el programa busca en unos treinta y nueve millones de registros de personas, según la televisión ZDF. Y no solo de sospechosos: también puede haber testigos, víctimas o gente que llamó a emergencias.
 
-**JOSHUA:** ¿Y dónde crece más?
+**AUREL:** Se dijo que era solo para delitos graves. Pero según una consulta del partido de los Verdes, en Baviera solo un poco más de un tercio de los casos fueron delitos graves.
 
-**AUREL:** En Asia. China es el mercado más grande: unos mil millones de dólares este año, y se espera que sean más de tres mil millones en 2031. Pero el que más rápido crece es India, con más de veinticinco por ciento al año, por todos sus proyectos de "ciudades inteligentes". Estados Unidos, Japón y el Reino Unido también crecen, pero más lento.
+**JOSHUA:** Renania del Norte-Westfalia también lo usa, y Baden-Wurtemberg lo compró por veinticinco millones de euros. Pero hay límites: en dos mil veintitrés, el Tribunal Constitucional dijo que las reglas de Hesse y de Hamburgo violaban derechos fundamentales.
 
-**JOSHUA:** ¿Y los países del Golfo?
+**AUREL:** Las policías responden que los servidores no están conectados a internet y que ningún dato sale hacia Estados Unidos. Los críticos contestan que nadie de afuera puede revisar el código, porque es secreto.
 
-**AUREL:** Ahí también se invierte mucho, por ejemplo en los Emiratos Árabes Unidos, donde empresas cercanas al gobierno prueban sistemas para seguir personas en eventos grandes. Y China exporta paquetes completos de "ciudad segura" a otros países, muchas veces con financiamiento incluido.
+**JOSHUA:** ¿Y a nivel nacional? Según taz, en junio el ministro del Interior, Alexander Dobrindt, todavía no descartaba usar Palantir en la policía federal. La ministra de Justicia está en contra, y casi todos los estados prefieren un programa europeo.
 
-**JOSHUA:** O sea, la vigilancia es también un producto de exportación.
+---
 
-**AUREL:** Exacto. Y por eso es difícil frenarla: hay mucha plata en juego.
+**[BLOQUE 6 – La plata]**
+
+**AUREL:** Mientras tanto, el negocio va increíble. Solo entre julio y septiembre de este año, Palantir vendió dos mil trescientos millones de dólares. Casi el doble que un año antes.
+
+**JOSHUA:** Y para todo dos mil veintiséis espera más de ocho mil quinientos millones. Con tanta plata en juego, es difícil que esto pare solo.
 
 ---
 
 **[CIERRE]**
 
-**JOSHUA:** Entonces, ¿qué nos llevamos de este episodio?
+**AUREL:** Para cerrar, nos quedamos con tres ideas. La primera: la vigilancia de hoy casi no se ve. No es solo la cámara en la esquina. Es el wifi, el celular, la patente del auto.
 
-**AUREL:** Para mí, tres cosas. Primero: la tecnología avanza más rápido que las leyes. Segundo: muchas veces no son los gobiernos solos, sino empresas privadas las que construyen y controlan estos sistemas. Y tercero: sí se puede hacer algo, como muestran las ciudades que cancelaron Flock o los tribunales que pusieron límites.
+**JOSHUA:** La segunda: los datos sueltos no son el mayor peligro. El poder lo tiene quien los junta. Y muchas veces no es un gobierno, sino una empresa privada.
 
-**JOSHUA:** Y yo me quedo con una pregunta: ¿cuánta seguridad queremos, y cuánta libertad estamos dispuestos a dar por ella?
+**AUREL:** Y la tercera: sí se puede hacer algo. Ciudades que cancelan contratos, jueces que ponen límites, periodistas que publican documentos.
 
-**AUREL:** Buena pregunta. Cuéntennos qué piensan ustedes.
+**JOSHUA:** Las cámaras se pueden ver. Lo difícil es ver quién está sentado detrás de la pantalla.
+
+**AUREL:** Así que la próxima vez que tu celular se conecte solo a un wifi… acuérdate de nosotros.
 
 **JOSHUA:** ¡Gracias por escuchar! Chao.
 
@@ -143,32 +132,4 @@
 
 ## Fuentes
 
-**Investigación / China**
-- The Monexus (resumen del SCMP, junio 2026): [China: IA policial y estados fisiológicos](https://themonexus.com/articles/2026-06-11-china-ai-policing-physiological-states)
-- Envisioning: [China – vigilancia urbana con IA y exportación de "smart cities"](https://www.envisioning.com/research/substrate/china__ai-powered-urban-surveillance-and-smart-city-export)
-
-**Flock Safety**
-- NPR / WLRN (feb. 2026): [Ciudades abandonan lectores de patentes por privacidad](https://www.wlrn.org/npr-breaking-news/2026-02-17/cities-ditch-license-plate-readers-over-privacy-worries)
-- Jalopnik: [Cada vez más ciudades cancelan contratos con Flock](https://www.jalopnik.com/2276190/number-of-cities-dropped-flock-cameras-quietly-exploding/)
-- TechSpot: [Ciudades de EE. UU. desconectan Flock](https://www.techspot.com/news/111728-number-us-cities-pulling-plug-flock-safety-ai.html)
-- Truthout: [La resistencia contra Flock crece](https://truthout.org/articles/the-nationwide-resistance-against-flock-surveillance-cameras-is-gaining-steam/)
-- Flock Safety (posición de la empresa): [Why are some Flock cameras being removed](https://www.flocksafety.com/blog/why-are-some-flock-cameras-being-removed-by-cities)
-
-**Servicios secretos**
-- Nextgov (ago. 2026): [La NSA quiere acceso a "todos" los modelos de IA](https://www.nextgov.com/artificial-intelligence/2026/08/nsa-wants-access-all-ai-models-top-official-says/415672/)
-- Brennan Center: [IA y vigilancia de inteligencia sin orden judicial](https://www.brennancenter.org/our-work/analysis-opinion/ai-and-warrantless-foreign-intelligence-surveillance)
-- Privacy International: [Peligros del uso de IA por servicios de inteligencia](https://privacyinternational.org/news-analysis/5881/what-are-dangers-intelligence-agencies-using-ai-tools-surveillance)
-- Cointelegraph: [La CIA y sus "colegas" de IA](https://regional-front.cointelegraph.com/news/cia-ai-co-workers-help-intelligence-analysts)
-- Ynet: [Microsoft corta acceso a la nube a la Unidad 8200](https://www.ynetnews.com/business/article/hy8bceq3eg) · Israel Hayom: [Microsoft cuts Unit 8200 off](https://www.israelhayom.com/2025/09/25/microsoft-cuts-unit-8200-off-its-cloud-and-ai-services/)
-
-**Palantir**
-- SCMP (feb. 2026): [Palantir defiende su tecnología de vigilancia](https://www.scmp.com/news/world/united-states-canada/article/3342195/palantir-defends-surveillance-tech-us-government-contracts-boost-sales)
-- Tiger Brokers: [Ingresos de Palantir +70 %](https://www.itiger.com/news/1111865546)
-- ZDFheute: [Dobrindt prüft Einsatz von Palantir](https://www.zdfheute.de/politik/deutschland/dobrindt-polizei-software-palantir-usa-sicherheit-debatte-100.html)
-- IamExpat: [Palantir en la policía alemana](https://www.iamexpat.de/expat-info/germany-news/palantir-what-us-based-ai-surveillance-system-used-german-police)
-- CIO.de: [Der Streit um die Polizeisoftware der Zukunft](https://www.cio.de/article/4094423/der-streit-um-die-polizeisoftware-der-zukunft.html)
-
-**Mercado**
-- PR Newswire / MarketsandMarkets (mayo 2026): [IA en videovigilancia: 10.880 millones USD en 2032](https://tools.prnewswire.com/en-us/live/20813/release/20260513EN58460)
-- MarketsandMarkets: [China](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/China) · [India](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/India) · [EE. UU.](https://www.marketsandmarkets.com/Market-Reports/geography/ai-in-video-surveillance-market/us)
-- Cyprus Mail (ago. 2026): [El mercado mundial de videovigilancia llega a 27 mil millones](https://cyprus-mail.com/2026/08/19/global-video-surveillance-market-reaches-27-billion-as-ai-reshapes-sector)
+Todas las fuentes, con enlace, fecha y nota "comprobado / indirecto / afirmación de una parte", están en `video/quellen.md`.
