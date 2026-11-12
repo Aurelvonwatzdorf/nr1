@@ -1,5 +1,5 @@
 {
- "total": 568.82,
+ "total": 581.0,
  "min_gap_s": 3.0,
  "info": "music = eine Datei über die ganze Länge (tools/musik.py), mit Intro- und Outro-Melodie, ohne Schleife. Effekt-WAVs 48 kHz, Spitze -1 dBFS; gain_db relativ dazu; dur = Länge ab Dateianfang.",
  "music": {
@@ -9,35 +9,35 @@
  },
  "events": [
   {
-   "t": 10.78,
+   "t": 10.86,
    "file": "sfx/daten_glitch.wav",
    "gain_db": -26,
    "dur": 3.02,
    "note": "s03 / Zeile 1: Handy, Kamera, Laptop senden Datenlinien"
   },
   {
-   "t": 21.18,
+   "t": 20.88,
    "file": "sfx/kamera_servo.wav",
    "gain_db": -24,
    "dur": 3.02,
    "note": "s08 / Zeile 2: Gesichtserkennung"
   },
   {
-   "t": 43.83,
+   "t": 43.18,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 4: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 69.19,
+   "t": 69.13,
    "file": "sfx/daten_glitch.wav",
    "gain_db": -26,
    "dur": 3.02,
    "note": "n07 / Zeile 5: KI setzt ein Bild aus WLAN-Wellen zusammen"
   },
   {
-   "t": 102.33,
+   "t": 102.31,
    "file": "sfx/telefonrauschen.wav",
    "gain_db": -26,
    "dur": 4.0,
@@ -45,35 +45,35 @@
    "note": "s39 / Zeile 7: Daten von Millionen Telefonen"
   },
   {
-   "t": 119.81,
+   "t": 120.73,
    "file": "sfx/daten_glitch.wav",
    "gain_db": -26,
    "dur": 3.02,
    "note": "n16 / Zeile 8: ein Punkt wird bis nach Hause verfolgt"
   },
   {
-   "t": 135.59,
+   "t": 136.88,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 10: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 145.7,
+   "t": 146.0,
    "file": "sfx/scanner_piep.wav",
    "gain_db": -24,
    "dur": 2.02,
    "note": "s21 / Zeile 10: Kennzeichen wird gescannt"
   },
   {
-   "t": 159.36,
+   "t": 160.13,
    "file": "sfx/daten_glitch.wav",
    "gain_db": -26,
    "dur": 3.02,
    "note": "n19 / Zeile 11: Daten gehen an die Border Patrol"
   },
   {
-   "t": 182.19,
+   "t": 184.58,
    "file": "sfx/kamera_servo.wav",
    "gain_db": -24,
    "dur": 3.0,
@@ -81,14 +81,14 @@
    "note": "s28 / Zeile 13: Kamera wird abgebaut"
   },
   {
-   "t": 190.83,
+   "t": 194.2,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 15: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 205.69,
+   "t": 209.93,
    "file": "sfx/spannung_riser.wav",
    "gain_db": -26,
    "dur": 4.5,
@@ -96,49 +96,49 @@
    "note": "s45 / Zeile 16: Palantir zieht alle Datenquellen zusammen"
   },
   {
-   "t": 215.07,
+   "t": 219.84,
    "file": "sfx/papier.wav",
    "gain_db": -24,
    "dur": 3.02,
    "note": "n22 / Zeile 17: Vertrag ohne Ausschreibung"
   },
   {
-   "t": 223.12,
+   "t": 228.46,
    "file": "sfx/kamera_servo.wav",
    "gain_db": -24,
    "dur": 3.02,
    "note": "s49 / Zeile 17: Grenzzaun, ImmigrationOS"
   },
   {
-   "t": 231.18,
+   "t": 237.08,
    "file": "sfx/scanner_piep.wav",
    "gain_db": -26,
    "dur": 2.02,
    "note": "n25 / Zeile 18: Tablet mit Karte (ELITE)"
   },
   {
-   "t": 252.19,
+   "t": 258.32,
    "file": "sfx/papier.wav",
    "gain_db": -24,
    "dur": 3.02,
    "note": "n28 / Zeile 19: Adressen sortieren"
   },
   {
-   "t": 259.84,
+   "t": 266.0,
    "file": "sfx/daten_glitch.wav",
    "gain_db": -26,
    "dur": 3.02,
    "note": "n29 / Zeile 19: Datenstrom vom Krankenhaus zur Behörde"
   },
   {
-   "t": 278.1,
+   "t": 285.62,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 21: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 283.28,
+   "t": 291.05,
    "file": "sfx/server_brummen.wav",
    "gain_db": -26,
    "dur": 4.0,
@@ -146,14 +146,14 @@
    "note": "s36 / Zeile 21: Militäranlage"
   },
   {
-   "t": 292.69,
+   "t": 300.78,
    "file": "sfx/scanner_piep.wav",
    "gain_db": -24,
    "dur": 2.02,
    "note": "n34 / Zeile 22: KI markiert ein Ziel"
   },
   {
-   "t": 320.9,
+   "t": 330.3,
    "file": "sfx/muenzen_kasse.wav",
    "gain_db": -24,
    "dur": 2.0,
@@ -161,7 +161,7 @@
    "note": "n39 / Zeile 24: Vertragsgrenze steigt"
   },
   {
-   "t": 331.3,
+   "t": 340.68,
    "file": "sfx/menschenmenge.wav",
    "gain_db": -28,
    "dur": 4.0,
@@ -169,7 +169,7 @@
    "note": "n41 / Zeile 25: Publikum vor der Bühne"
   },
   {
-   "t": 378.52,
+   "t": 389.07,
    "file": "sfx/tastatur.wav",
    "gain_db": -24,
    "dur": 4.0,
@@ -177,14 +177,14 @@
    "note": "n50 / Zeile 27: Soldaten an Laptops"
   },
   {
-   "t": 395.56,
+   "t": 406.8,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 29: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 415.18,
+   "t": 427.33,
    "file": "sfx/server_brummen.wav",
    "gain_db": -26,
    "dur": 4.0,
@@ -192,21 +192,21 @@
    "note": "n54 / Zeile 30: Polizei-Server in Bayern"
   },
   {
-   "t": 433.56,
+   "t": 445.48,
    "file": "sfx/papier.wav",
    "gain_db": -24,
    "dur": 3.02,
    "note": "n58 / Zeile 31: kleine Fälle"
   },
   {
-   "t": 445.62,
+   "t": 458.11,
    "file": "sfx/richterhammer.wav",
    "gain_db": -22,
    "dur": 2.02,
    "note": "s53 / Zeile 32: Bundesverfassungsgericht"
   },
   {
-   "t": 456.09,
+   "t": 469.7,
    "file": "sfx/server_brummen.wav",
    "gain_db": -26,
    "dur": 5.0,
@@ -214,26 +214,33 @@
    "note": "n60 / Zeile 33: Server ohne Internet"
   },
   {
-   "t": 485.68,
+   "t": 499.44,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 35: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 508.52,
+   "t": 522.66,
    "file": "sfx/whoosh.wav",
    "gain_db": -24,
    "dur": 1.02,
    "note": "Zeile 37: Abschnittswechsel, Höhepunkt auf dem Schnitt"
   },
   {
-   "t": 536.03,
+   "t": 547.3,
    "file": "sfx/hebel_strom_aus.wav",
    "gain_db": -22,
    "dur": 1.5,
    "fade_out": 0.5,
    "note": "n71 / Zeile 39: Kamera wird ausgesteckt"
+  },
+  {
+   "t": 552.06,
+   "file": "sfx/papier.wav",
+   "gain_db": -24,
+   "dur": 3.02,
+   "note": "n72 / Zeile 39: Journalisten veröffentlichen Dokumente"
   }
  ]
 }

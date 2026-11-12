@@ -12,134 +12,134 @@
 "line": 0,
 "img": "n01",
 "start": 5.0,
-"dur": 5.68,
+"dur": 5.76,
 "kling": 0
 },
 {
 "k": 2,
 "line": 1,
 "img": "s03",
-"start": 10.68,
-"dur": 5.2,
+"start": 10.76,
+"dur": 5.01,
 "kling": 0
 },
 {
 "k": 3,
 "line": 1,
 "img": "s31",
-"start": 15.88,
-"dur": 5.2,
+"start": 15.77,
+"dur": 5.01,
 "kling": 0
 },
 {
 "k": 4,
 "line": 2,
 "img": "s08",
-"start": 21.08,
-"dur": 6.015,
+"start": 20.78,
+"dur": 5.14,
 "kling": 0
 },
 {
 "k": 5,
 "line": 2,
 "img": "n02",
-"start": 27.095,
-"dur": 6.015,
+"start": 25.92,
+"dur": 5.14,
 "kling": 0
 },
 {
 "k": 6,
 "line": 3,
 "img": "s44",
-"start": 33.11,
-"dur": 3.873,
+"start": 31.06,
+"dur": 4.34,
 "kling": 0
 },
 {
 "k": 7,
 "line": 3,
 "img": "s47",
-"start": 36.983,
-"dur": 3.873,
+"start": 35.4,
+"dur": 4.34,
 "kling": 0
 },
 {
 "k": 8,
 "line": 3,
 "img": "s06",
-"start": 40.857,
-"dur": 3.873,
+"start": 39.74,
+"dur": 4.34,
 "kling": 0
 },
 {
 "k": 9,
 "line": 4,
 "img": "n03",
-"start": 44.73,
-"dur": 7.85,
+"start": 44.08,
+"dur": 8.21,
 "kling": 0
 },
 {
 "k": 10,
 "line": 4,
 "img": "s07",
-"start": 52.58,
-"dur": 7.85,
+"start": 52.29,
+"dur": 8.21,
 "kling": 0
 },
 {
 "k": 11,
 "line": 5,
 "img": "n06",
-"start": 60.43,
-"dur": 8.665,
+"start": 60.5,
+"dur": 8.53,
 "kling": 0
 },
 {
 "k": 12,
 "line": 5,
 "img": "n07",
-"start": 69.095,
-"dur": 8.665,
+"start": 69.03,
+"dur": 8.53,
 "kling": 0
 },
 {
 "k": 13,
 "line": 6,
 "img": "n09",
-"start": 77.76,
-"dur": 6.05,
+"start": 77.56,
+"dur": 5.98,
 "kling": 0
 },
 {
 "k": 14,
 "line": 6,
 "img": "n10",
-"start": 83.81,
-"dur": 6.05,
+"start": 83.54,
+"dur": 5.98,
 "kling": 0
 },
 {
 "k": 15,
 "line": 6,
 "img": "n11",
-"start": 89.86,
-"dur": 6.05,
+"start": 89.52,
+"dur": 5.98,
 "kling": 0
 },
 {
 "k": 16,
 "line": 7,
 "img": "n12",
-"start": 95.91,
-"dur": 6.323,
+"start": 95.5,
+"dur": 6.707,
 "kling": 0
 },
 {
 "k": 17,
 "line": 7,
 "img": "s39",
-"start": 102.233,
+"start": 102.207,
 "dur": 5.0,
 "kling": 1
 },
@@ -147,639 +147,639 @@
 "k": 18,
 "line": 7,
 "img": "n14",
-"start": 107.233,
-"dur": 7.647,
+"start": 107.207,
+"dur": 8.413,
 "kling": 0
 },
 {
 "k": 19,
 "line": 8,
 "img": "n15",
-"start": 114.88,
-"dur": 4.827,
+"start": 115.62,
+"dur": 5.007,
 "kling": 0
 },
 {
 "k": 20,
 "line": 8,
 "img": "n16",
-"start": 119.707,
-"dur": 4.827,
+"start": 120.627,
+"dur": 5.007,
 "kling": 0
 },
 {
 "k": 21,
 "line": 8,
 "img": "n17",
-"start": 124.533,
-"dur": 4.827,
+"start": 125.633,
+"dur": 5.007,
 "kling": 0
 },
 {
 "k": 22,
 "line": 9,
 "img": "n18",
-"start": 129.36,
-"dur": 7.13,
+"start": 130.64,
+"dur": 7.14,
 "kling": 0
 },
 {
 "k": 23,
 "line": 10,
 "img": "s19",
-"start": 136.49,
-"dur": 4.553,
+"start": 137.78,
+"dur": 4.06,
 "kling": 0
 },
 {
 "k": 24,
 "line": 10,
 "img": "s20",
-"start": 141.043,
-"dur": 4.553,
+"start": 141.84,
+"dur": 4.06,
 "kling": 1
 },
 {
 "k": 25,
 "line": 10,
 "img": "s21",
-"start": 145.597,
-"dur": 4.553,
+"start": 145.9,
+"dur": 4.06,
 "kling": 0
 },
 {
 "k": 26,
 "line": 11,
 "img": "s23",
-"start": 150.15,
-"dur": 4.553,
+"start": 149.96,
+"dur": 5.033,
 "kling": 0
 },
 {
 "k": 27,
 "line": 11,
 "img": "s25",
-"start": 154.703,
-"dur": 4.553,
+"start": 154.993,
+"dur": 5.033,
 "kling": 0
 },
 {
 "k": 28,
 "line": 11,
 "img": "n19",
-"start": 159.257,
-"dur": 4.553,
+"start": 160.027,
+"dur": 5.033,
 "kling": 0
 },
 {
 "k": 29,
 "line": 12,
 "img": "s22",
-"start": 163.81,
-"dur": 5.81,
+"start": 165.06,
+"dur": 5.87,
 "kling": 0
 },
 {
 "k": 30,
 "line": 12,
 "img": "n20",
-"start": 169.62,
-"dur": 5.81,
+"start": 170.93,
+"dur": 5.87,
 "kling": 0
 },
 {
 "k": 31,
 "line": 13,
 "img": "s26",
-"start": 175.43,
-"dur": 3.33,
+"start": 176.8,
+"dur": 3.84,
 "kling": 0
 },
 {
 "k": 32,
 "line": 13,
 "img": "s27",
-"start": 178.76,
-"dur": 3.33,
+"start": 180.64,
+"dur": 3.84,
 "kling": 0
 },
 {
 "k": 33,
 "line": 13,
 "img": "s28",
-"start": 182.09,
-"dur": 3.33,
+"start": 184.48,
+"dur": 3.84,
 "kling": 1
 },
 {
 "k": 34,
 "line": 14,
 "img": "s29",
-"start": 185.42,
-"dur": 6.31,
+"start": 188.32,
+"dur": 6.78,
 "kling": 0
 },
 {
 "k": 35,
 "line": 15,
 "img": "s32",
-"start": 191.73,
-"dur": 4.585,
+"start": 195.1,
+"dur": 4.89,
 "kling": 1
 },
 {
 "k": 36,
 "line": 15,
 "img": "s43",
-"start": 196.315,
-"dur": 4.585,
+"start": 199.99,
+"dur": 4.89,
 "kling": 0
 },
 {
 "k": 37,
 "line": 16,
 "img": "n21",
-"start": 200.9,
-"dur": 4.69,
+"start": 204.88,
+"dur": 4.953,
 "kling": 0
 },
 {
 "k": 38,
 "line": 16,
 "img": "s45",
-"start": 205.59,
-"dur": 4.69,
+"start": 209.833,
+"dur": 4.953,
 "kling": 1
 },
 {
 "k": 39,
 "line": 16,
 "img": "s46",
-"start": 210.28,
-"dur": 4.69,
+"start": 214.787,
+"dur": 4.953,
 "kling": 0
 },
 {
 "k": 40,
 "line": 17,
 "img": "n22",
-"start": 214.97,
-"dur": 8.055,
+"start": 219.74,
+"dur": 8.62,
 "kling": 0
 },
 {
 "k": 41,
 "line": 17,
 "img": "s49",
-"start": 223.025,
-"dur": 8.055,
+"start": 228.36,
+"dur": 8.62,
 "kling": 0
 },
 {
 "k": 42,
 "line": 18,
 "img": "n25",
-"start": 231.08,
-"dur": 7.003,
+"start": 236.98,
+"dur": 7.08,
 "kling": 0
 },
 {
 "k": 43,
 "line": 18,
 "img": "n26",
-"start": 238.083,
-"dur": 7.003,
+"start": 244.06,
+"dur": 7.08,
 "kling": 0
 },
 {
 "k": 44,
 "line": 18,
 "img": "n27",
-"start": 245.087,
-"dur": 7.003,
+"start": 251.14,
+"dur": 7.08,
 "kling": 0
 },
 {
 "k": 45,
 "line": 19,
 "img": "n28",
-"start": 252.09,
-"dur": 7.645,
+"start": 258.22,
+"dur": 7.68,
 "kling": 0
 },
 {
 "k": 46,
 "line": 19,
 "img": "n29",
-"start": 259.735,
-"dur": 7.645,
+"start": 265.9,
+"dur": 7.68,
 "kling": 0
 },
 {
 "k": 47,
 "line": 20,
 "img": "n31",
-"start": 267.38,
-"dur": 5.81,
+"start": 273.58,
+"dur": 6.47,
 "kling": 0
 },
 {
 "k": 48,
 "line": 20,
 "img": "n32",
-"start": 273.19,
-"dur": 5.81,
+"start": 280.05,
+"dur": 6.47,
 "kling": 0
 },
 {
 "k": 49,
 "line": 21,
 "img": "s48",
-"start": 279.0,
-"dur": 4.18,
+"start": 286.52,
+"dur": 4.43,
 "kling": 0
 },
 {
 "k": 50,
 "line": 21,
 "img": "s36",
-"start": 283.18,
-"dur": 4.18,
+"start": 290.95,
+"dur": 4.43,
 "kling": 0
 },
 {
 "k": 51,
 "line": 22,
 "img": "n33",
-"start": 287.36,
-"dur": 5.233,
+"start": 295.38,
+"dur": 5.3,
 "kling": 0
 },
 {
 "k": 52,
 "line": 22,
 "img": "n34",
-"start": 292.593,
-"dur": 5.233,
+"start": 300.68,
+"dur": 5.3,
 "kling": 0
 },
 {
 "k": 53,
 "line": 22,
 "img": "n35",
-"start": 297.827,
-"dur": 5.233,
+"start": 305.98,
+"dur": 5.3,
 "kling": 0
 },
 {
 "k": 54,
 "line": 23,
 "img": "n36",
-"start": 303.06,
-"dur": 8.87,
+"start": 311.28,
+"dur": 9.46,
 "kling": 0
 },
 {
 "k": 55,
 "line": 23,
 "img": "n37",
-"start": 311.93,
-"dur": 8.87,
+"start": 320.74,
+"dur": 9.46,
 "kling": 0
 },
 {
 "k": 56,
 "line": 24,
 "img": "n39",
-"start": 320.8,
-"dur": 5.2,
+"start": 330.2,
+"dur": 5.19,
 "kling": 0
 },
 {
 "k": 57,
 "line": 24,
 "img": "n40",
-"start": 326.0,
-"dur": 5.2,
+"start": 335.39,
+"dur": 5.19,
 "kling": 0
 },
 {
 "k": 58,
 "line": 25,
 "img": "n41",
-"start": 331.2,
-"dur": 7.957,
+"start": 340.58,
+"dur": 8.16,
 "kling": 0
 },
 {
 "k": 59,
 "line": 25,
 "img": "n43",
-"start": 339.157,
-"dur": 7.957,
+"start": 348.74,
+"dur": 8.16,
 "kling": 0
 },
 {
 "k": 60,
 "line": 25,
 "img": "n44",
-"start": 347.113,
-"dur": 7.957,
+"start": 356.9,
+"dur": 8.16,
 "kling": 0
 },
 {
 "k": 61,
 "line": 26,
 "img": "n45",
-"start": 355.07,
-"dur": 7.645,
+"start": 365.06,
+"dur": 7.97,
 "kling": 0
 },
 {
 "k": 62,
 "line": 26,
 "img": "n46",
-"start": 362.715,
-"dur": 7.645,
+"start": 373.03,
+"dur": 7.97,
 "kling": 0
 },
 {
 "k": 63,
 "line": 27,
 "img": "s74",
-"start": 370.36,
-"dur": 8.055,
+"start": 381.0,
+"dur": 7.97,
 "kling": 0
 },
 {
 "k": 64,
 "line": 27,
 "img": "n50",
-"start": 378.415,
-"dur": 8.055,
+"start": 388.97,
+"dur": 7.97,
 "kling": 0
 },
 {
 "k": 65,
 "line": 28,
 "img": "s42",
-"start": 386.47,
-"dur": 4.995,
+"start": 396.94,
+"dur": 5.38,
 "kling": 0
 },
 {
 "k": 66,
 "line": 28,
 "img": "n51",
-"start": 391.465,
-"dur": 4.995,
+"start": 402.32,
+"dur": 5.38,
 "kling": 0
 },
 {
 "k": 67,
 "line": 29,
 "img": "s50",
-"start": 396.46,
-"dur": 6.42,
+"start": 407.7,
+"dur": 6.94,
 "kling": 0
 },
 {
 "k": 68,
 "line": 29,
 "img": "n52",
-"start": 402.88,
-"dur": 6.42,
+"start": 414.64,
+"dur": 6.94,
 "kling": 0
 },
 {
 "k": 69,
 "line": 30,
 "img": "s51",
-"start": 409.3,
-"dur": 5.777,
+"start": 421.58,
+"dur": 5.653,
 "kling": 0
 },
 {
 "k": 70,
 "line": 30,
 "img": "n54",
-"start": 415.077,
-"dur": 5.777,
+"start": 427.233,
+"dur": 5.653,
 "kling": 0
 },
 {
 "k": 71,
 "line": 30,
 "img": "n56",
-"start": 420.853,
-"dur": 5.777,
+"start": 432.887,
+"dur": 5.653,
 "kling": 0
 },
 {
 "k": 72,
 "line": 31,
 "img": "n57",
-"start": 426.63,
-"dur": 6.83,
+"start": 438.54,
+"dur": 6.84,
 "kling": 0
 },
 {
 "k": 73,
 "line": 31,
 "img": "n58",
-"start": 433.46,
-"dur": 6.83,
+"start": 445.38,
+"dur": 6.84,
 "kling": 0
 },
 {
 "k": 74,
 "line": 32,
 "img": "n59",
-"start": 440.29,
-"dur": 5.233,
+"start": 452.22,
+"dur": 5.793,
 "kling": 0
 },
 {
 "k": 75,
 "line": 32,
 "img": "s53",
-"start": 445.523,
-"dur": 5.233,
+"start": 458.013,
+"dur": 5.793,
 "kling": 0
 },
 {
 "k": 76,
 "line": 32,
 "img": "s54",
-"start": 450.757,
-"dur": 5.233,
+"start": 463.807,
+"dur": 5.793,
 "kling": 0
 },
 {
 "k": 77,
 "line": 33,
 "img": "n60",
-"start": 455.99,
-"dur": 7.035,
+"start": 469.6,
+"dur": 6.73,
 "kling": 0
 },
 {
 "k": 78,
 "line": 33,
 "img": "s55",
-"start": 463.025,
-"dur": 7.035,
+"start": 476.33,
+"dur": 6.73,
 "kling": 0
 },
 {
 "k": 79,
 "line": 34,
 "img": "n63",
-"start": 470.06,
-"dur": 5.507,
+"start": 483.06,
+"dur": 5.76,
 "kling": 0
 },
 {
 "k": 80,
 "line": 34,
 "img": "n65",
-"start": 475.567,
-"dur": 5.507,
+"start": 488.82,
+"dur": 5.76,
 "kling": 0
 },
 {
 "k": 81,
 "line": 34,
 "img": "n66",
-"start": 481.073,
-"dur": 5.507,
+"start": 494.58,
+"dur": 5.76,
 "kling": 0
 },
 {
 "k": 82,
 "line": 35,
 "img": "s56",
-"start": 486.58,
-"dur": 4.147,
+"start": 500.34,
+"dur": 4.253,
 "kling": 1
 },
 {
 "k": 83,
 "line": 35,
 "img": "s57",
-"start": 490.727,
-"dur": 4.147,
+"start": 504.593,
+"dur": 4.253,
 "kling": 0
 },
 {
 "k": 84,
 "line": 35,
 "img": "s59",
-"start": 494.873,
-"dur": 4.147,
+"start": 508.847,
+"dur": 4.253,
 "kling": 0
 },
 {
 "k": 85,
 "line": 36,
 "img": "s61",
-"start": 499.02,
-"dur": 5.2,
+"start": 513.1,
+"dur": 5.23,
 "kling": 0
 },
 {
 "k": 86,
 "line": 36,
 "img": "s69",
-"start": 504.22,
-"dur": 5.2,
+"start": 518.33,
+"dur": 5.23,
 "kling": 0
 },
 {
 "k": 87,
 "line": 37,
 "img": "n67",
-"start": 509.42,
-"dur": 4.827,
+"start": 523.56,
+"dur": 4.053,
 "kling": 0
 },
 {
 "k": 88,
 "line": 37,
 "img": "s18",
-"start": 514.247,
-"dur": 4.827,
+"start": 527.613,
+"dur": 4.053,
 "kling": 0
 },
 {
 "k": 89,
 "line": 37,
 "img": "n68",
-"start": 519.073,
-"dur": 4.827,
+"start": 531.667,
+"dur": 4.053,
 "kling": 0
 },
 {
 "k": 90,
 "line": 38,
 "img": "s34",
-"start": 523.9,
-"dur": 6.015,
+"start": 535.72,
+"dur": 5.74,
 "kling": 0
 },
 {
 "k": 91,
 "line": 38,
 "img": "n69",
-"start": 529.915,
-"dur": 6.015,
+"start": 541.46,
+"dur": 5.74,
 "kling": 0
 },
 {
 "k": 92,
 "line": 39,
 "img": "n71",
-"start": 535.93,
-"dur": 4.38,
+"start": 547.2,
+"dur": 4.76,
 "kling": 0
 },
 {
 "k": 93,
 "line": 39,
 "img": "n72",
-"start": 540.31,
-"dur": 4.38,
+"start": 551.96,
+"dur": 4.76,
 "kling": 0
 },
 {
 "k": 94,
 "line": 40,
 "img": "n73",
-"start": 544.69,
-"dur": 7.13,
+"start": 556.72,
+"dur": 7.2,
 "kling": 0
 },
 {
 "k": 95,
 "line": 41,
 "img": "n74",
-"start": 551.82,
-"dur": 7.54,
+"start": 563.92,
+"dur": 6.62,
 "kling": 0
 },
 {
 "k": 96,
 "line": 42,
 "img": "s75",
-"start": 559.36,
-"dur": 4.46,
+"start": 570.54,
+"dur": 5.46,
 "kling": 0
 },
 {
 "k": 97,
 "line": -2,
 "img": "n75",
-"start": 563.82,
+"start": 576.0,
 "dur": 5.0,
 "kling": 1
 }

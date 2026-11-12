@@ -1,176 +1,176 @@
 1
-00:00:06,000 --> 00:00:10,680
+00:00:06,000 --> 00:00:10,760
 JOSHUA: ¡Hola a todos! Bienvenidos a nuestro podcast. Yo soy Joshua…
 
 2
-00:00:10,680 --> 00:00:21,080
+00:00:10,760 --> 00:00:20,780
 AUREL: …y yo soy Aurel. Hoy hablamos de un tema que suena a película, pero que es muy real: la inteligencia artificial y la vigilancia.
 
 3
-00:00:21,080 --> 00:00:33,110
+00:00:20,780 --> 00:00:31,060
 JOSHUA: Que hay cámaras que reconocen caras, eso ya lo sabe todo el mundo. Por eso hoy buscamos lo que casi nadie conoce: la vigilancia que no se ve.
 
 4
-00:00:33,110 --> 00:00:44,730
+00:00:31,060 --> 00:00:44,080
 AUREL: Y vamos a hablar sobre todo de una empresa: Palantir. Su software lo usan policías, ejércitos… y también la policía aquí en Alemania. Pero vamos por partes.
 
 5
-00:00:44,730 --> 00:01:00,430
+00:00:44,080 --> 00:01:00,500
 JOSHUA: Empiezo con algo que me sorprendió mucho: el wifi. Investigadores del Instituto de Tecnología de Karlsruhe, aquí en Alemania, mostraron en dos mil veinticinco que se puede identificar a una persona solo con las señales de wifi.
 
 6
-00:01:00,430 --> 00:01:17,760
+00:01:00,500 --> 00:01:17,560
 AUREL: Y ojo: no necesitas llevar un celular. Las ondas de wifi chocan con tu cuerpo, y con eso una IA arma una especie de imagen tuya. Lo probaron con ciento noventa y siete personas y acertaron casi el cien por ciento.
 
 7
-00:01:17,760 --> 00:01:35,910
+00:01:17,560 --> 00:01:35,500
 JOSHUA: Y funciona aunque apagues tu propio celular: basta con que haya otros aparatos conectados cerca. Pero hay que decirlo claro: es un estudio, no un sistema que ya use la policía. Los mismos investigadores piden más protección en las nuevas reglas del wifi.
 
 8
-00:01:35,910 --> 00:01:54,880
+00:01:35,500 --> 00:01:55,620
 AUREL: Lo que sí ya se usa es tu celular. Muchas aplicaciones guardan dónde estás, y esos datos se venden. Según el medio Cuatro Cero Cuatro Media, la agencia de inmigración de Estados Unidos, ICE, compró una herramienta con datos de cientos de millones de teléfonos.
 
 9
-00:01:54,880 --> 00:02:09,360
+00:01:55,620 --> 00:02:10,640
 JOSHUA: Con ella pueden mirar un barrio entero, ver qué teléfonos hay y seguir a uno hasta su casa o su trabajo. Y según un documento interno de ICE, sin la orden de un juez.
 
 10
-00:02:09,360 --> 00:02:16,490
+00:02:10,640 --> 00:02:17,780
 AUREL: O sea, nadie tiene que ponerte una cámara. Tú mismo llevas el rastreador en el bolsillo.
 
 11
-00:02:16,490 --> 00:02:30,150
+00:02:17,780 --> 00:02:29,960
 JOSHUA: Y si vas en auto, tampoco te salvas. En Estados Unidos, la empresa Flock Safety vende cámaras que leen las patentes. Guardan cada auto que pasa: la patente, el color, el modelo.
 
 12
-00:02:30,150 --> 00:02:43,810
+00:02:29,960 --> 00:02:45,060
 AUREL: Lo interesante es quién mira esos datos. La Universidad de Washington revisó los registros de ese estado. Encontró que al menos ocho policías locales compartieron sus datos directamente con la Patrulla Fronteriza.
 
 13
-00:02:43,810 --> 00:02:55,430
+00:02:45,060 --> 00:02:56,800
 JOSHUA: Y en al menos diez policías más, la Patrulla Fronteriza buscó en los datos sin que ellas lo hubieran autorizado. Como entrar por la puerta de atrás.
 
 14
-00:02:55,430 --> 00:03:05,420
+00:02:56,800 --> 00:03:08,320
 AUREL: Flock dice que cada ciudad es dueña de sus datos y decide con quién los comparte. Igual, decenas de ciudades cancelaron sus contratos.
 
 15
-00:03:05,420 --> 00:03:11,730
+00:03:08,320 --> 00:03:15,100
 JOSHUA: Eso me parece importante: a nivel local, la gente sí puede frenar estas cosas.
 
 16
-00:03:11,730 --> 00:03:20,900
+00:03:15,100 --> 00:03:24,880
 AUREL: Bueno, ahora tenemos muchos datos sueltos: teléfonos, autos, registros de la policía. Falta alguien que los junte. Y ahí entra Palantir.
 
 17
-00:03:20,900 --> 00:03:34,970
+00:03:24,880 --> 00:03:39,740
 JOSHUA: Palantir es una empresa de Estados Unidos, cofundada por Peter Thiel. No fabrica cámaras. Vende el programa que conecta todo: personas, direcciones, autos, llamadas. Y lo muestra como una red en una pantalla.
 
 18
-00:03:34,970 --> 00:03:51,080
+00:03:39,740 --> 00:03:56,980
 AUREL: Un ejemplo es ICE. En dos mil veinticinco le dio a Palantir un contrato de treinta millones de dólares, sin concurso, para un sistema llamado ImmigrationOS. Sirve para encontrar y seguir a migrantes que el gobierno quiere deportar.
 
 19
-00:03:51,080 --> 00:04:12,090
+00:03:56,980 --> 00:04:18,220
 JOSHUA: Y en enero de este año, Cuatro Cero Cuatro Media contó de otra herramienta de Palantir para ICE, llamada ELITE. Según documentos internos, muestra un mapa con posibles personas a detener, arma una ficha de cada una y da un puntaje: qué tan seguro es que viva en esa dirección.
 
 20
-00:04:12,090 --> 00:04:27,380
+00:04:18,220 --> 00:04:33,580
 AUREL: Aquí hay que separar. El gobierno dice que ELITE solo ordena direcciones. Lo que sí está documentado es un acuerdo para que ICE reciba datos de casi ochenta millones de pacientes del seguro médico público, Medicaid.
 
 21
-00:04:27,380 --> 00:04:39,000
+00:04:33,580 --> 00:04:46,520
 JOSHUA: O sea, vas al médico, y tu dirección puede terminar en la policía de inmigración. Si ELITE usa justo esos datos, eso está reportado, pero no confirmado.
 
 22
-00:04:39,000 --> 00:04:47,360
+00:04:46,520 --> 00:04:55,380
 AUREL: Pero Palantir no trabaja solo con policías. Su producto más serio es para el ejército y se llama Maven.
 
 23
-00:04:47,360 --> 00:05:03,060
+00:04:55,380 --> 00:05:11,280
 JOSHUA: Maven junta imágenes de satélite, radares y datos de comunicaciones. La IA marca posibles objetivos, por ejemplo un tanque. Una persona los aprueba o los rechaza, y el sistema puede mandar la orden directo a las armas.
 
 24
-00:05:03,060 --> 00:05:20,800
+00:05:11,280 --> 00:05:30,200
 AUREL: El Pentágono mismo dice que Maven ayudó a elegir objetivos en ataques aéreos en Irak, Siria y Yemen en dos mil veinticuatro. Y según Bloomberg, un oficial contó que con Maven su equipo trabaja ochenta objetivos por hora, en vez de treinta.
 
 25
-00:05:20,800 --> 00:05:31,200
+00:05:30,200 --> 00:05:40,580
 JOSHUA: En dos mil veinticinco, el Pentágono subió el límite del contrato a mil trescientos millones de dólares, y la OTAN compró su propia versión.
 
 26
-00:05:31,200 --> 00:05:55,070
+00:05:40,580 --> 00:06:05,060
 AUREL: ¿Y qué dice el jefe de Palantir, Alex Karp? No lo esconde. En febrero de dos mil veinticinco dijo ante sus inversionistas, y cito: «Palantir está aquí para romper esquemas y hacer que las instituciones con las que trabajamos sean las mejores del mundo y, cuando sea necesario, para asustar a los enemigos y, en ocasiones, matarlos».
 
 27
-00:05:55,070 --> 00:06:10,360
+00:06:05,060 --> 00:06:21,000
 JOSHUA: Y en marzo de este año, durante la guerra en Medio Oriente, dijo según el canal CNBC: «Lo que hace especial a Estados Unidos ahora mismo son nuestras capacidades letales, nuestra capacidad de hacer la guerra».
 
 28
-00:06:10,360 --> 00:06:26,470
+00:06:21,000 --> 00:06:36,940
 AUREL: Para ser justos: Karp también dice que entiende a quienes no quieren estas herramientas dentro del país, y que está a favor de ponerles límites. Pero en la guerra, dice, el ejército debe poder usarlas con mucha libertad.
 
 29
-00:06:26,470 --> 00:06:36,460
+00:06:36,940 --> 00:06:47,700
 JOSHUA: A mí me impresiona eso: la misma empresa que ayuda a elegir objetivos en una guerra ordena también los datos de la policía.
 
 30
-00:06:36,460 --> 00:06:49,300
+00:06:47,700 --> 00:07:01,580
 AUREL: Y esa policía también es la nuestra. En Alemania, Hesse usa el software de Palantir desde dos mil diecisiete. Según el diario taz, hay unas quince mil consultas al año.
 
 31
-00:06:49,300 --> 00:07:06,630
+00:07:01,580 --> 00:07:18,540
 JOSHUA: Baviera lo usa desde dos mil veinticuatro. Ahí el programa busca en unos treinta y nueve millones de registros de personas, según la televisión ZDF. Y no solo de sospechosos: también puede haber testigos, víctimas o gente que llamó a emergencias.
 
 32
-00:07:06,630 --> 00:07:20,290
+00:07:18,540 --> 00:07:32,220
 AUREL: Se dijo que era solo para delitos graves. Pero según una consulta del partido de los Verdes, en Baviera solo un poco más de un tercio de los casos fueron delitos graves.
 
 33
-00:07:20,290 --> 00:07:35,990
+00:07:32,220 --> 00:07:49,600
 JOSHUA: Renania del Norte-Westfalia también lo usa, y Baden-Wurtemberg lo compró por veinticinco millones de euros. Pero hay límites: en dos mil veintitrés, el Tribunal Constitucional dijo que las reglas de Hesse y de Hamburgo violaban derechos fundamentales.
 
 34
-00:07:35,990 --> 00:07:50,060
+00:07:49,600 --> 00:08:03,060
 AUREL: Las policías responden que los servidores no están conectados a internet y que ningún dato sale hacia Estados Unidos. Los críticos contestan que nadie de afuera puede revisar el código, porque es secreto.
 
 35
-00:07:50,060 --> 00:08:06,580
+00:08:03,060 --> 00:08:20,340
 JOSHUA: ¿Y a nivel nacional? Según taz, en junio el ministro del Interior, Alexander Dobrindt, todavía no descartaba usar Palantir en la policía federal. La ministra de Justicia está en contra, y casi todos los estados prefieren un programa europeo.
 
 36
-00:08:06,580 --> 00:08:19,020
+00:08:20,340 --> 00:08:33,100
 AUREL: Mientras tanto, el negocio va increíble. Solo entre julio y septiembre de este año, Palantir vendió dos mil trescientos millones de dólares. Casi el doble que un año antes.
 
 37
-00:08:19,020 --> 00:08:29,420
+00:08:33,100 --> 00:08:43,560
 JOSHUA: Y para todo dos mil veintiséis espera más de ocho mil quinientos millones. Con tanta plata en juego, es difícil que esto pare solo.
 
 38
-00:08:29,420 --> 00:08:43,900
+00:08:43,560 --> 00:08:55,720
 AUREL: Para cerrar, nos quedamos con tres ideas. La primera: la vigilancia de hoy casi no se ve. No es solo la cámara en la esquina. Es el wifi, el celular, la patente del auto.
 
 39
-00:08:43,900 --> 00:08:55,930
+00:08:55,720 --> 00:09:07,200
 JOSHUA: La segunda: los datos sueltos no son el mayor peligro. El poder lo tiene quien los junta. Y muchas veces no es un gobierno, sino una empresa privada.
 
 40
-00:08:55,930 --> 00:09:04,690
+00:09:07,200 --> 00:09:16,720
 AUREL: Y la tercera: sí se puede hacer algo. Ciudades que cancelan contratos, jueces que ponen límites, periodistas que publican documentos.
 
 41
-00:09:04,690 --> 00:09:11,820
+00:09:16,720 --> 00:09:23,920
 JOSHUA: Las cámaras se pueden ver. Lo difícil es ver quién está sentado detrás de la pantalla.
 
 42
-00:09:11,820 --> 00:09:19,360
+00:09:23,920 --> 00:09:30,540
 AUREL: Así que la próxima vez que tu celular se conecte solo a un wifi… acuérdate de nosotros.
 
 43
-00:09:19,360 --> 00:09:21,590
+00:09:30,540 --> 00:09:33,400
 JOSHUA: ¡Gracias por escuchar! Chao.
 
 44
-00:09:21,590 --> 00:09:23,820
+00:09:33,400 --> 00:09:36,000
 AUREL: ¡Chao, hasta la próxima!
 
